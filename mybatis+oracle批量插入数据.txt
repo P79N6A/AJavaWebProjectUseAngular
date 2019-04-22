@@ -1,0 +1,17 @@
+<!-- 5.向数据库中写入计划 -->
+<insert id="insertPlan" parameterType="java.util.List">
+insert into sc_keyin_plan(factory,datename,item,qty,owner)
+select aaa.* from (
+	<foreach collection="datas" item="moduleplan" index="index"  separator="union all">
+		(
+		select 
+			#{moduleplan.factory,jdbcType=VARCHAR},
+			#{moduleplan.datename,jdbcType=VARCHAR},
+			#{moduleplan.item,jdbcType=VARCHAR},
+			#{moduleplan.qty,jdbcType=VARCHAR},
+			#{moduleplan.owner,jdbcType=VARCHAR}
+		from dual
+		)
+	</foreach>
+	)aaa
+</insert>

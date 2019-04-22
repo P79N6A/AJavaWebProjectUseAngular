@@ -1,0 +1,40 @@
+1.npm install html2canvas --save
+
+import * as html2canvas from 'html2canvas';
+
+ canvasImg; // 导出的图片
+
+<button pButton type="button" label="另存为PDF" class="ui-button-raised" (click)="exportToPdf()"></button>
+
+  exportToPdf() {
+      html2canvas(document.querySelector("#mypicture"))
+      .then(canvas => {
+        // 修改生成的宽度
+        // canvas.style.width = "1000px";
+        console.log(canvas, "生成的画布文件");
+        this.canvasImg = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        // window.location.href=this.canvasImg;
+        this.downloadFile(this.canvasImg,new Date().getTime()+".jpeg");
+    })
+   
+    // this.downloadFile("导出图片", this.canvasImg);
+    
+    
+  }
+      // downloadFile(content) {
+      //   console.log(content);
+    downloadFile( content,filename) {
+      // window.location.href=content
+      let base64Img = content;
+      let oA = document.createElement('a');
+      console.log(base64Img);
+      oA.href = base64Img;
+      oA.download =filename;
+      console.log(oA);
+      let event = document.createEvent('MouseEvents');
+      event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      oA.dispatchEvent(event);
+      // document.body.appendChild(oA);
+      // oA.click();
+      // document.body.removeChild(oA);
+    }

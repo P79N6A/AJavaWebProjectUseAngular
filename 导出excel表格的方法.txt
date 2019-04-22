@@ -1,0 +1,22 @@
+npm install file-saver --save
+npm install xlsx --save
+
+
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+  exportExcel(){
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('celldate')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    //这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile(excelBuffer, "Cell生产日报");
+
+  }
+ saveAsExcelFile(buffer: any, fileName: string) {
+  const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+  });
+  FileSaver.saveAs(data, fileName + '_export_' + this.getSelecteddayStrSearch(this.selectedDate) + '.xls');
+
+}
