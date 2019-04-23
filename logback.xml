@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- jdbc.sqlonly : Logs only SQL jdbc.sqltiming : Logs the SQL, post-execution, 
+	including timing execution statistics jdbc.audit : Logs ALL JDBC calls except 
+	for ResultSets jdbc.resultset : all calls to ResultSet objects are logged 
+	jdbc.connection : Logs connection open and close events -->
+<configuration>
+
+	<!-- FILE -->
+	<appender name="dailyDebugLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/bak/%d{yyyy-MM,aux}/%d-project-%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>256MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- CONSOLE -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</pattern>
+		</encoder>
+
+	</appender>
+
+	<logger name="jdbc" level="OFF" />
+	
+	<logger name="jdbc.sqlonly" level="WARN" additivity="false">
+		<appender-ref ref="dailyDebugLog" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="jdbc.resultsettable" level="WARN" additivity="false">
+		<appender-ref ref="dailyDebugLog" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="dailyDebugLog" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>
