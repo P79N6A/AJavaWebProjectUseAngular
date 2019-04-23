@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.whc.mapper.B_Rmapper">
+
+	<!-- 1.查询一个对象 public Usera queryOne(@Param("id") int id); -->
+	<select id="queryOne" resultType="com.whc.model.Usera">
+		select id myId,name myName,age myAge,email myEmail
+		from usera
+		where id = #{id}
+	</select>
+	<!-- 2.把表名是用 字符串拼出来的操作
+ 		public Usera queryOne2(@Param("id") int id,@Param("tableName") String tableName);
+  	-->
+  	<select id="queryOne2" resultType="com.whc.model.Usera">
+  		select id myId,name myName,age myAge,email myEmail
+		from ${tableName}a
+		where id = #{id}
+  	</select>
+  	
+  	<!--3.使用resultMap 进行查询一个对象
+		public Usera queryOne3(@Param("id")int id);
+	 -->
+	<!--  <resultMap type="com.mybatis.b_R.Usera" id="queryOne3ResultMap">
+	 	<id column="id" property="myId"/>
+	 	<result column="name" property="myName"/>
+	 	<result column="age" property="myAge"/>
+	 	<result column="email" property="myEmail"/>
+	 </resultMap>
+	 <select id="queryOne3" resultMap="queryOne3ResultMap">
+	 	select id,name,age,email from usera where id = #{id}
+	 </select> -->
+  	
+	
+	<!-- 4.查询一组对象  public List<Usera> queryForList1(@Param("id") int id);
+	where id < #{id} : 这个是不能这样写的，先保留这个疑问，这个疑问已经解决了 使用 特殊的符号来进行标识 &lt;小于号   &gt;大于号
+	-->
+	<!-- <select id="queryForList1" resultType="com.mybatis.b_R.Usera">
+		select id myId,name myName,age myAge,email myEmail
+		from usera where id &gt; #{id}
+	</select> -->
+	
+	<!-- 5.查询一组对象 public List<Usera> queryForList2(@Param("ids") int[] ids); -->
+	<!-- 
+	<select id="queryForList2" resultType="com.mybatis.b_R.Usera">
+		select id myId,name myName,age myAge,email myEmail
+		from usera
+		where id in <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">#{id}</foreach>
+	</select> -->
+ 
+ 	<!--6.使用resultMap查询一族对象
+	public List<Usera> queryForList3(@Param("cid") int cid);
+	 -->
+	<!--  <select id="queryForList3" resultType="com.mybatis.b_R.Usera">
+	 	select id myId,name myName,age myAge,email myEmail from usera where classid = #{cid}
+	 </select> -->
+ 
+ 
+</mapper>
