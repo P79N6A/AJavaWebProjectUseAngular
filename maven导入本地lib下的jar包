@@ -1,0 +1,47 @@
+<dependency>   
+    <groupId>org.apache</groupId>    
+    <artifactId>test</artifactId>   
+    <version>1.0</version>   
+    <scope>system</scope>   
+    <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/test.jar</systemPath>   
+</dependency>   
+
+
+
+
+<build>  
+        <plugins>  
+            <plugin>  
+              <artifactId>maven-compiler-plugin</artifactId>  
+              <configuration>  
+                  <source>1.6</source>  
+                  <target>1.6</target>  
+                  <encoding>UTF-8</encoding>  
+                  <compilerArguments>  
+                   <extdirs>src\main\webapp\WEB-INF\lib</extdirs>  
+                 </compilerArguments>  
+              </configuration>  
+            </plugin>  
+        </plugins>  
+    </build> 
+
+
+<!-- 配置Maven插件将本地Jar打包进War中 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+							<includeScope>system</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
