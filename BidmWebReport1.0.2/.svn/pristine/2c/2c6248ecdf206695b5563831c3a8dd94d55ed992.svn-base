@@ -1,0 +1,38 @@
+package com.boe.idm.project.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.boe.idm.project.mapper.primaryOracle.dev.ProductNameInfoMapper;
+import com.boe.idm.project.model.mybatis.ProductNameInfo;
+import com.boe.idm.project.service.ProductNameInfoService;
+
+@Service
+public class ProductNameInfoServiceImple implements ProductNameInfoService {
+
+	@Autowired
+	private ProductNameInfoMapper productNameInfoMapper;
+	
+	@Override
+	public List<ProductNameInfo> queryAll() {
+		return productNameInfoMapper.queryAll();
+	}
+
+	@Override
+	public List<ProductNameInfo> queryByName(String factoryname) {
+		return productNameInfoMapper.queryByName(factoryname);
+	}
+
+	@Override
+	public int insertOne(ProductNameInfo productNameInfo) {
+		return productNameInfoMapper.insertOne(productNameInfo);
+	}
+
+	@Override
+	public int delteteOne(ProductNameInfo productNameInfo) {
+		return productNameInfoMapper.delteteOne(productNameInfo);
+	}
+
+}

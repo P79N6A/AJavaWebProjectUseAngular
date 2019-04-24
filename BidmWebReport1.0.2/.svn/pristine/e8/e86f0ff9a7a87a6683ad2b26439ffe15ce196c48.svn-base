@@ -1,0 +1,11 @@
+#oeeTimeType, #firstState,#oeeTopTimeType {
+  text-align: center;
+  color: #F2F6FA;
+}
+
+#oeeAedateName, #oeeTopAedateName {
+  color: #F2F6FA;
+  width: 90px; 
+  text-align: center;
+  line-height: 23px;
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primary.Timer.TimingStorageMapper">
+<insert id="insertdefectvalue" parameterType="com.boe.idm.project.model.mybatis.TimingStorage">
+insert into productdefectvaluetrend(productspecname,processflowname,processoperationname,defectname,caculatetime,actvalue)
+ values (#{productspecname},#{processflowname},#{processoperationname},#{defectname},#{caculatetime},#{actvalue})
+</insert>
+</mapper>
+

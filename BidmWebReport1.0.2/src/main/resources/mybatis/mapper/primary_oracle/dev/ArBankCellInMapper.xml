@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArBankCellInMapper">
+
+	<select id="getData" resultType="ArBankCellInVO">
+		select * from SC_ARRAY_REPORT_BANK_VW
+	</select>
+
+</mapper>

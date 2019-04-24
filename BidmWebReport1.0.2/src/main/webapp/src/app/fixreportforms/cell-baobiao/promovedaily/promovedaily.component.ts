@@ -1,0 +1,135 @@
+import { Component, OnInit } from '@angular/core';
+import { CellMoveDailyObject } from './model/objects';
+import { ApiService } from '../../../common/service/api/api.service';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+@Component({
+  selector: 'app-promovedaily',
+  templateUrl: './promovedaily.component.html',
+  styleUrls: ['./promovedaily.component.css']
+})
+export class PromovedailyComponent implements OnInit {
+
+  data : CellMoveDailyObject[] = [];
+  cols : any[] = [
+    
+    {field:'productname',header:'尺寸'},{field:'tftsb',header:'TFT S/B'},{field:'cfsb',header:'CF S/B'},
+    {field:'tftps',header:'TFT P/S'}, {field:'pitft',header:'PI TFT'},{field:'picf',header:'PI CF'},
+    {field:'pirtft',header:'PI R-TFT'}, {field:'pircf',header:'PI R-CF'}, {field:'rubtft',header:'RUB TFT'},
+    {field:'rubcf',header:'RUB CF'}, {field:'assy',header:'Assy'}, {field:'cutsh',header:'Cut(sh)'},
+    {field:'cutpnl',header:'Cut(Panel)'}, {field:'inline',header:'Inline'}, {field:'retest',header:'Retest'},
+    {field:'repair',header:'Repair'},{field:'pinpt',header:'PIN PT'}, {field:'sorter',header:'Sorter'}, {field:'packing',header:'Packing'}
+  ];
+
+
+  selectedDate : Date = new Date();
+
+  todayStr : string = '';
+
+  constructor(private apiService:ApiService) { }
+
+  ngOnInit() {
+    let datename = this.getSearchDateStr(new Date());
+    console.log(datename);
+    this.searchData(datename);
+  }
+
+
+  //1.查询数据的方法
+  searchData(dataname:string){
+    this.data = [];
+    const url = '/celldaily/movement';
+    const option = {
+      params:{
+        datename : dataname
+      }
+    };
+    this.apiService.get(url,option).subscribe(
+      (res)=>{
+        //console.log(res);
+        this.data = <CellMoveDailyObject[]>res;
+        let newObject = new CellMoveDailyObject();
+        newObject.productname = 'Total';
+        for(const object of this.data){
+          for(const prop in object){
+            if(prop != 'productname'){
+              newObject[prop] += object[prop];
+            }
+           
+          }
+        }
+
+        this.data.splice(0,0,newObject);
+        console.log(this.data);
+        //console.log(newObject);
+      }
+    );
+  }
+
+  //2.获取时间的操作
+  getSearchDateStr(date:Date):string{
+
+    let today = new Date();
+    this.todayStr = '';
+
+    let str = '';
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    let hour = date.getHours();
+
+    this.todayStr += ''+year+'/'+month+'/'+day;
+
+    if(date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth()
+        && date.getDay() == today.getDay()){ // 当传入的日期是当天的时候，则查询前一天或者前两天的数据
+      //console.log("是今天");
+      if(hour < 7){
+        str = '-2';
+       }else{
+         str = '-1';
+       }
+    }else{ //当不是当前日期的时候
+      //console.log("不是是今天");
+      str += ''+year;
+      if(month < 10){
+        str += '0'+month;
+      }else{
+        str += ''+month;
+      }
+      if(day < 10){
+        str += '0'+day;
+      }else{
+        str += ''+day;
+      }
+
+    }
+
+  
+
+    return str;
+  }
+
+  //3.点击查询的操作
+  searchDataClick(){
+    this.searchData(this.getSearchDateStr(this.selectedDate));
+  }
+
+  // 10.导出excel
+  exportExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('promovedaily')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    // 这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile(excelBuffer, 'Cell move 日报');
+
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + this.todayStr + '.xls');
+  }
+
+
+}

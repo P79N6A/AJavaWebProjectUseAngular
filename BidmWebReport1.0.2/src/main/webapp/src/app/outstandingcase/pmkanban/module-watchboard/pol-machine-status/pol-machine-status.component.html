@@ -1,0 +1,63 @@
+<div class="content" id="app-pol-machine-status">
+    <div class="legend" style="margin-top:5px">
+        <div class="state-block">
+            <div style="background: #ff0000 none repeat scroll 0% 0%;height: 20px;"></div>
+        </div>
+        <div class="state-block-font">
+            <div style="margin-bottom:5px;">DOWN</div>
+        </div>
+
+        <div class="state-block">
+            <div style="background: #ff9900 none repeat scroll 0% 0%;height: 20px;"></div>
+        </div>
+        <div class="state-block-font">
+            <div style="margin-bottom:5px;">ENG</div>
+        </div>
+
+        <div class="state-block">
+            <div style="background: #c2a9619d none repeat scroll 0% 0%;height: 20px;"></div>
+        </div>
+        <div class="state-block-font">
+            <div style="margin-bottom:5px;">IDLE</div>
+        </div>
+
+        <div class="state-block">
+            <div style="background: #ffff00 none repeat scroll 0% 0%;height: 20px;"></div>
+        </div>
+        <div class="state-block-font">
+            <div style="margin-bottom:5px;">MAINT</div>
+        </div>
+
+        <div class="state-block">
+            <div style="background: #ee9d9da2 none repeat scroll 0% 0%;height: 20px;"></div>
+        </div>
+        <div class="state-block-font">
+            <div style="margin-bottom:5px;">MCHG</div>
+        </div>
+
+        <div class="state-block">
+            <div style="background: #00ff00 none repeat scroll 0% 0%;height: 20px;"></div>
+        </div>
+        <div class="state-block-font">
+            <div style="margin-bottom:5px;">RUN</div>
+        </div>
+    </div>
+    <p-carousel [value]="datas" [numVisible]=1 [autoplayInterval]=6000 [circular]="circular" [firstVisible]=1>
+        <ng-template let-linesGroup pTemplate="linesGroup">
+            <h3 style="text-align:center;color:aliceblue;">{{linesGroup[0]['line']}}线-{{linesGroup[linesGroup.length-1]['line']}}线设备状态</h3>
+            <ng-template ngFor let-line [ngForOf]="linesGroup">
+                <div class="row">
+                        <div class="name" style="color:beige;text-align: center;padding-top:8px;">#{{line['line']}}</div>
+                        <ng-template ngFor let-machine [ngForOf]="line['machines']">
+                            <div [ngClass]="machine['status']" style="width:9%;height:100%;float:left;margin-right:2px;">
+                                <div style="height:50%;width:100%;" class="status"></div>
+                                <div style="height:50%;width:100%;">
+                                    <span style="font-size: 9px;color:beige;">{{machine['process']}}</span>
+                                </div>
+                            </div>
+                        </ng-template>
+                </div>
+            </ng-template>
+        </ng-template>
+    </p-carousel>
+</div>

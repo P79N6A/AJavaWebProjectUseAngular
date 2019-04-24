@@ -1,0 +1,137 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12">
+    <p-header>
+        <div class="ui-helper-clearfix" style="text-align: center;">
+            <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px;"> Monitor by Hour - {{todaystr | date:'yyyy/MM/dd HH时'}}</span>
+        </div>
+    </p-header>
+
+    <div class="ui-panel-content " style="padding:5px 0">
+        <div class="ui-helper-clearfix">
+          <div style="text-align:right;margin-bottom: 3px">
+            <p-calendar [(ngModel)]="searchTime" [showIcon]="true" [showTime]="true" dateFormat="yy/mm/dd"></p-calendar>
+            &nbsp;&nbsp;&nbsp;
+            <button pButton type="button" label="查询" icon="fa fa-search" iconPos="left" (click)="searchClick()"></button>
+            &nbsp;&nbsp;&nbsp;
+            <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>
+          </div>
+        </div>
+    
+  
+    <div class="ui-g"> 
+      <p-table id="cfwipmove">
+        <ng-template pTemplate="header">
+          <!-- 1.第一块的内容 -->
+          <tr>
+            <th rowspan="2" colspan="2" class="header1" >{{todaystr | date:'yyyy.MM.dd'}}</th>
+            <th colspan="3" class="header1">日计划完成情况（生管）</th>
+            <th colspan="3" class="header1">实际计划完成情况（厂内）</th>
+          </tr>
+          <tr>
+            <th class="header1">当前Plan</th>
+            <th class="header1">当前Act</th>
+            <th class="header1">Bal</th>
+
+            <th class="header1">当前Plan</th>
+            <th class="header1">当前Act</th>
+            <th class="header1">Bal</th>
+          </tr>
+          <tr>
+            <th colspan="2" class="header1number">In</th>
+            <th *ngFor="let num of inNumbers;let i = index" [ngClass]="{header1number:i != 2 && i != 5,header1numberbal:i == 2 || i == 5,datared : num &lt; 0}">{{num}}</th>
+          </tr>
+          <tr>
+            <th colspan="2" class="header1number">Out</th>
+            <th *ngFor="let num of outNumbers;let i = index" [ngClass]="{header1number:i != 2 && i != 5,header1numberbal:i == 2 || i == 5,datared : num &lt; 0}">{{num}}</th>
+          </tr>
+
+
+          <!--2.第二块的内容 ：PH1线别的数据信息 -->
+          <tr>
+            <th rowspan="2" class="header1">PH1线别</th>
+            <th rowspan="2" class="header1">产线状态</th>
+            <th rowspan="2" class="header1">总WIP（sh）</th>
+            <th rowspan="2" class="header1">生产WIP（sh）</th>
+            <th rowspan="2" class="header1">当前型号</th>
+            <th rowspan="1" colspan="2" class="header1">Movement（sh）</th>
+            <th rowspan="2" class="header1">Bal</th>
+          </tr>
+
+          <tr>
+            <th class="header1">Plan</th>
+            <th class="header1">Act</th>
+          </tr>
+
+          <tr *ngFor="let obj of PH1Objects">
+            <th class="data2" class="header1number">{{obj.line}}</th>
+            <!-- 下面这个地方是 个单选的下拉框 的操作-->
+            <th class="data2" pEditableColumn [ngClass]="{backgroundred:obj.linestate == 'Down',backgroundgreen:obj.linestate == 'Run'}"> 
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <p-dropdown [options]="linestates" [(ngModel)]="obj.linestate" (onChange)="statechange('ph1',obj.line,obj.linestate)" ></p-dropdown>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{obj.linestate}}
+                </ng-template>
+              </p-cellEditor>
+              
+              <!-- {{obj.linestate}} -->
+            
+            </th>
+            <th class="data2" class="header1number">{{obj.wiptotal}}</th>
+            <th class="data2" class="header1number">{{obj.wip}}</th>
+            <th class="data2" class="header1number">{{obj.productname}}</th>
+            <th class="data2" class="header1number">{{obj.moveplan}}</th>
+            <th class="data2" class="header1number">{{obj.moveact}}</th>
+            <th class="data2" [ngClass]="{datared : obj.movebal &lt; 0,header1number:true}"  >{{obj.movebal}}</th> 
+          </tr>
+
+          <!--3.第三块的内容 ：PH2线别的数据信息 -->
+          <tr>
+              <th rowspan="2" class="header1">PH2线别</th>
+              <th rowspan="2" class="header1">产线状态</th>
+              <th rowspan="2" class="header1">总WIP（sh）</th>
+              <th rowspan="2" class="header1">生产WIP（sh）</th>
+              <th rowspan="2" class="header1">当前型号</th>
+              <th rowspan="1" colspan="2" class="header1">Movement（sh）</th>
+              <th rowspan="2" class="header1">Bal</th>
+            </tr>
+      
+            <tr>
+              <th class="header1">Plan</th>
+              <th class="header1">Act</th>
+            </tr>
+
+          <tr *ngFor="let obj of PH2Objects">
+              <th class="data2" class="header1number">{{obj.line}}</th>
+              <th class="data2" pEditableColumn [ngClass]="{backgroundred:obj.linestate == 'Down',backgroundgreen:obj.linestate == 'Run'}">
+
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <p-dropdown [options]="linestates" [(ngModel)]="obj.linestate" (onChange)="statechange('ph2',obj.line,obj.linestate)" ></p-dropdown>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{obj.linestate}}
+                      </ng-template>
+                    </p-cellEditor>
+                
+                <!-- {{obj.linestate}} -->
+              
+              </th>
+              <th class="data2" class="header1number">{{obj.wiptotal}}</th>
+              <th class="data2" class="header1number">{{obj.wip}}</th>
+              <th class="data2" class="header1number">{{obj.productname}}</th>
+              <th class="data2" class="header1number">{{obj.moveplan}}</th>
+              <th class="data2" class="header1number">{{obj.moveact}}</th>
+              <th class="data2"  [ngClass]="{datared : obj.movebal &lt; 0,header1number:true}" >{{obj.movebal}}</th> 
+            </tr>
+
+        </ng-template>
+
+
+      </p-table>
+    </div>
+  </div>
+
+  </p-panel>
+</div>

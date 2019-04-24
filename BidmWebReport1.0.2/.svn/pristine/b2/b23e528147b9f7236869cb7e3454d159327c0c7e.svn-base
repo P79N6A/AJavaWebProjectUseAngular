@@ -1,0 +1,94 @@
+<div class="ui-g">
+  <p-panel >
+    <p-header>
+        <h3 class="ui-g-12" style="text-align:center;margin:0 0">CF 主工艺 MOVE小时段 报表</h3>
+
+    </p-header>
+    <div class="ui-helper-clearfix" style="text-align: right">
+      <!-- <p-calendar [(ngModel)]="selectedDate" [showIcon]='true' dateFormat="      yy-mm-dd"></p-calendar> -->
+      <p-calendar [(ngModel)]="selectedDate" [showIcon]='true' dateFormat="      yy-mm-dd"></p-calendar>
+      <button pButton type="button" label="查询" icon="fa fa-search" iconPos="left" (click)="searchbytime()"></button>
+      <button pButton type="button" label="刷新" icon="fa fa-refresh" iconPos="left" (click)="refreshdata()"></button>
+      <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>
+    </div>
+    <div class="ui-panel-content">
+      <p-table id="cfmovehourtable" [value]="data"> <!--datareal-->
+        <ng-template pTemplate="header">
+          <!--表头第一行-->
+          <tr>
+           <th rowspan="2" width="100px" class="head">Operation</th>
+           <th rowspan="2" width="130px" class="head">Description</th>
+           <th rowspan="2" width="100px" class="head">Machine</th>
+           <th rowspan="2" width="170px" class="head">Product Spec	</th>
+           <th rowspan="2" class="head">CF</th>
+           <th class="head">Plan</th> <!--10-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--12-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--14-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--16-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--18-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--20-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--22-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--00-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--02-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--04-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--06-->
+           <th class="head">Act</th>
+           <th class="head">Plan</th><!--TTL-->
+           <th class="head">Act</th>
+
+           <th rowspan="2" class="head">Bal</th>
+
+          </tr>
+          <!--2.第二行-->
+          <tr>
+            <th colspan="2" class="head">10:00</th>
+            <th colspan="2" class="head">12:00</th>
+            <th colspan="2" class="head">14:00</th>
+            <th colspan="2" class="head">16:00</th>
+            <th colspan="2" class="head">18:00</th>
+            <th colspan="2" class="head">20:00</th>
+            <th colspan="2" class="head">22:00</th>
+            <th colspan="2" class="head">00:00</th>
+            <th colspan="2" class="head">02:00</th>
+            <th colspan="2" class="head">04:00</th>
+            <th colspan="2" class="head">06:00</th>
+            <th colspan="2" class="head">TTL</th>
+          </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowdata let-rowIndex="rowIndex">
+
+          <tr *ngFor="let obj of rowdata.ereryObjects,let i = index">
+            <!-- <td class="data">{{rowdata.operation}}</td>
+            <td class="data">{{rowdata.description}}</td>
+            <td class="data">{{rowdata.machine}}</td>
+            <td class="data">{{rowdata.productspec}}</td>
+            <td class="data">{{rowdata.cf}}</td>
+            <td *ngFor="let num of rowdata.planactnumb" class="data">{{num}}</td> -->
+            <td  *ngIf="i == 0" [attr.rowspan]="rowdata.ereryObjects.length"  class="data" style="font-weight:bold" [ngClass]="{setGreen:rowIndex%2==0,setYellow:rowIndex%2!=0}">{{rowdata.operation}}</td>
+            <td  *ngIf="i == 0"  [attr.rowspan]="rowdata.ereryObjects.length" class="data" style="font-weight:bold" [ngClass]="{setGreen:rowIndex%2==0,setYellow:rowIndex%2!=0}">{{rowdata.description}}</td>
+
+            <td class="data" [ngClass]="{setGreen:rowIndex%2==0,setYellow:rowIndex%2!=0}">{{obj.machine | kong2null}}</td>
+            <td class="data" [ngClass]="{setGreen:rowIndex%2==0,setYellow:rowIndex%2!=0}">{{obj.productspec}}</td>
+            <td class="data" [ngClass]="{setGreen:rowIndex%2==0,setYellow:rowIndex%2!=0}">{{obj.cf}}</td>
+            <td *ngFor="let num of obj.planactnumb" class="data" [ngClass]="{setGreen:rowIndex%2==0,setYellow:rowIndex%2!=0}">{{num}}</td>
+            
+          </tr>
+
+        </ng-template>
+
+      </p-table>
+    </div>
+  </p-panel>
+</div>

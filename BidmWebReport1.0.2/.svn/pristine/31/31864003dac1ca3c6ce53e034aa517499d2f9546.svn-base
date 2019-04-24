@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.spec.OSpecMapper"> 
+	<select id="specList" parameterType="hashmap" resultType="SpecVO">
+		select * from  sc_t_specTable	
+	</select>
+	
+	<update id="specUpdate" parameterType="SpecVO" >
+		UPDATE  specTable
+		SET (productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2) = (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2})
+		WHERE productid = #{productid}
+		and stepid = #{stepid}
+		and defectname = #{defectname}
+	</update>
+		
+	<delete id="specDelete" parameterType="SpecVO">
+	    Delete  FROM  sc_t_specTable 
+	    WHERE productid = #{productid}
+		and stepid = #{stepid}
+		and defectname = #{defectname}	
+	</delete>
+	<insert id="specInsert" parameterType="SpecVO">
+	    INSERT INTO  sc_t_specTable (productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2) 
+	    VALUES  (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2})
+	
+	</insert>
+	<select id="specAlarm" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	   select caculatetime as CACULATETIME,actvalue as ACTVALUE,specvalue1 as SPECVALUE1,specvalue2 as SPECVALUE2
+		from alarm_info_list A 
+		where A.productspecname=#{productid}
+		AND A.processoperationname=#{stepid}
+		AND A.defectname=#{defectname}
+	</select>
+		
+
+</mapper>

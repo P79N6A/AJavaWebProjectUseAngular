@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.boe.idm.project.mapper.primaryOracle.admin.OUserRoleLinkMapper">
+	<select id="selectAllUser"
+		resultType="UserRoleLink">
+		SELECT
+		useraccount,roleid FROM sc_a_userrolelink order by useraccount
+	</select>
+
+	<select id="selectUserRoleLink" resultType="UserRoleLink">
+		SELECT ul.useraccount,ui.username as userName,ul.roleid,ri.desc_ as roledesc 
+		FROM sc_a_userrolelink ul,sc_a_userinfo ui,sc_a_roleinfo ri
+		where ul.useraccount=ui.useraccount and ul.roleid=ri.roleid
+		<if test="userAccount != null and  userAccount != ''">
+			and ul.useraccount like #{userAccount}
+		</if>
+		<if test="roleId != null and  roleId != ''">
+			and ul.roleId like #{roleId}
+		</if>
+		order by useraccount
+	</select>
+	
+	<select id="selectUserRoleLinkForDelete" resultType="UserRoleLink">
+		SELECT ul.useraccount,ui.username as userName,ul.roleid,ri.desc_ as roledesc 
+		FROM sc_a_userrolelink ul,sc_a_userinfo ui,sc_a_roleinfo ri
+		where ul.useraccount=ui.useraccount and ul.roleid=ri.roleid
+		<if test="userAccount != null and  userAccount != ''">
+			and ul.useraccount = #{userAccount}
+		</if>
+		<if test="roleId != null and  roleId != ''">
+			and ul.roleId = #{roleId}
+		</if>
+		order by useraccount
+	</select>
+
+	<delete id="deleteUserRoleLink" parameterType="UserRoleLink">
+		Delete FROM sc_a_userrolelink where useraccount = #{userAccount} and roleid = #{roleId}
+	</delete>
+
+	<insert id="insertUserRoleLink" parameterType="UserRoleLink">
+		insert into sc_a_userrolelink(userAccount,roleid)
+		values
+		(#{userAccount},#{roleId})
+	</insert>
+</mapper>

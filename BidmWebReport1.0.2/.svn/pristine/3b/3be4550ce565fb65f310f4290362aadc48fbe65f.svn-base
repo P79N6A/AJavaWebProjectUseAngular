@@ -1,0 +1,128 @@
+<div class="ui-g">
+  <!-- <div class="ui-g-12">
+    <h3 class="first">Title MES UI - TYPE3</h3>
+    <hr>
+  </div> -->
+  <!-- tree menu -->
+  <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">INFO</span>
+        </div>
+      </p-header>
+      <div class="ui-panel-content">
+        <h3>Single Selection</h3>
+        <p-tree [value]="treeData" selectionMode="single" [(selection)]="selectedFile" (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"
+          [style]="{'width':'auto'}">
+        </p-tree>
+      </div>
+    </p-panel>
+  </div>
+
+  <!-- data gride area -->
+  <div class="ui-g-12 ui-md-8 ui-lg-8">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">Detail</span>
+        </div>
+      </p-header>
+      <div class="ui-panel-content" >
+        <h3 class="first">{{treeLabel}}</h3>
+        <hr>
+        <!-- if you use selection, you must set datakey -->
+        <p-table [columns]="cols" [value]="data" selectionMode="single" [(selection)]="selectedData" dataKey="itemKey" (onRowSelect)="onRowSelect($event)">
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+              <button type="button" pButton label="ADD" (click)="addData()" style="float:right"></button>
+              <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="" style="float:right"></button> -->
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns;">
+                {{rowData[col.field]}}
+              </td>
+              <td>
+                <button pButton type="button" (click)="deleteData(rowData)" label="Delete"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-panel>
+  </div>
+  <!-- end data gride area -->
+
+
+  <!-- dialog -->
+  <!-- <app-type1-modal [modalData]="modalData" [(modalVisible)]="modalVisible"></app-type1-modal> -->
+  <div class="ui-g-12">
+    <p-dialog header="Dailog" [(visible)]="modalVisible" [modal]="true" [responsive]="true" [width]="560">
+      <div class="ui-dialog-content">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col1</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col1" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col2</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col2" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col3</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col3" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col4</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col4" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col5</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col5" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col6</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col6" />
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <button type="button" pButton (click)="save()" label="save"></button>
+        <button type="button" pButton (click)="modalVisible=false" label="cancel" class="ui-button-secondary"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+  <!-- end dialog -->
+</div>

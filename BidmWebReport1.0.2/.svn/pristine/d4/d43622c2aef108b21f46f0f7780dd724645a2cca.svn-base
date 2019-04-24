@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArrayJiadongMapper">
+	<select id="getPhotoJiadong" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from sc_eqp_jd_ar where datename =
+		to_char(sysdate${dayControl},'yyyymmdd') and eqp_id like '${eqp_id}__'
+	</select>
+
+	<select id="getPhotoJiadongTable" resultType="ArrayJiadongTableVO">
+		select
+		eqp_id,eqp_state,duration,ratio from sc_eqp_jd_ar1 where datename =
+		to_char(sysdate${dayControl},'yyyymmdd') and eqp_id like '${eqp_id}__'
+	</select>
+
+	<select id="queryPhotoJiadong" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from sc_eqp_jd_ar where datename =
+		'${dateValue}' and eqp_id like '${eqp_id}__'
+	</select>
+
+	<select id="queryPhotoJiadongTable" resultType="ArrayJiadongTableVO">
+		select
+		eqp_id,eqp_state,duration,ratio from sc_eqp_jd_ar1 where datename =
+		'${dateValue}' and eqp_id like '${eqp_id}__'
+	</select>
+
+	<select id="getPecvdFGI" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from (select * from SC_EQP_JD_AR where
+		datename = to_char(sysdate${dayControl},'yyyymmdd')) where eqp_id like
+		'8ATPE01-PCVD-PC%' or eqp_id like '8ATPE02-PCVD-PC%' or eqp_id like
+		'8ATPE03-PCVD-PC%' or eqp_id like '8ATPE04-PCVD-PC%' or eqp_id in
+		('8ATPE01','8ATPE02','8ATPE03','8ATPE04')
+	</select>
+
+	<select id="queryPecvdFGI" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from (select * from SC_EQP_JD_AR where
+		datename = '${dateValue}') where eqp_id like '8ATPE01-PCVD-PC%' or
+		eqp_id like '8ATPE02-PCVD-PC%' or eqp_id like '8ATPE03-PCVD-PC%' or
+		eqp_id like '8ATPE04-PCVD-PC%' or eqp_id in
+		('8ATPE01','8ATPE02','8ATPE03','8ATPE04')
+	</select>
+
+	<select id="getPecvdMulti" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from (select * from SC_EQP_JD_AR where
+		datename = to_char(sysdate${dayControl},'yyyymmdd')) where eqp_id like
+		'8ATPE05-PCVD-PC%' or eqp_id like '8ATPE06-PCVD-PC%' or eqp_id like
+		'8ATPE07-PCVD-PC%' or eqp_id like '8ATPE08-PCVD-PC%' or eqp_id in
+		('8ATPE05','8ATPE06','8ATPE07','8ATPE08')
+	</select>
+
+	<select id="queryPecvdMulti" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from (select * from SC_EQP_JD_AR where
+		datename = '${dateValue}') where eqp_id like
+		'8ATPE05-PCVD-PC%' or
+		eqp_id like '8ATPE06-PCVD-PC%' or eqp_id like
+		'8ATPE07-PCVD-PC%' or
+		eqp_id like '8ATPE08-PCVD-PC%' or eqp_id in
+		('8ATPE05','8ATPE06','8ATPE07','8ATPE08')
+	</select>
+
+	<select id="getPecvdPVX" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from (select * from SC_EQP_JD_AR where
+		datename = to_char(sysdate${dayControl},'yyyymmdd')) where eqp_id like
+		'8ATPE09-PCVD-PC%' or eqp_id like '8ATPE1_-PCVD-PC%' or eqp_id =
+		'8ATPE09'
+		or eqp_id like '8ATPE1_'
+	</select>
+
+	<select id="queryPecvdPVX" resultType="ArrayJiadongVO">
+		select
+		eqp_id,eqp_state,duration from (select * from SC_EQP_JD_AR where
+		datename = '${dateValue}') where eqp_id like
+		'8ATPE09-PCVD-PC%' or
+		eqp_id like '8ATPE1_-PCVD-PC%' or eqp_id = '8ATPE09'
+		or eqp_id like
+		'8ATPE1_'
+	</select>
+
+
+	<select id="getPecvdJiadongTable" resultType="ArrayJiadongTableVO">
+		select
+		eqp_id,eqp_state,duration,ratio from SC_EQP_JD_AR1_PECVD where
+		datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+
+	<select id="queryPecvdJiadongTable" resultType="ArrayJiadongTableVO">
+		select
+		eqp_id,eqp_state,duration,ratio from SC_EQP_JD_AR1_PECVD where
+		datename =
+		'${dateValue}'
+	</select>
+
+	<select id="getEtchITO" resultType="ArrayJiadongVO">
+		SELECT
+		eqp_id,eqp_state,duration FROM SC_EQP_JD_AR
+		WHERE datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+		AND (eqp_id
+		LIKE '8AEIT__' OR
+		eqp_id LIKE '8AEGA__')
+	</select>
+	<select id="queryEtchITO" resultType="ArrayJiadongVO">
+		SELECT
+		eqp_id,eqp_state,duration FROM SC_EQP_JD_AR
+		WHERE datename =
+		'${dateValue}'
+		AND (eqp_id LIKE '8AEIT__' OR eqp_id
+		LIKE '8AEGA__')
+	</select>
+	<select id="getEtchITOTable" resultType="ArrayJiadongTableVO">
+		(SELECT eqp_id,
+		eqp_state,
+		duration,
+		ratio
+		FROM sc_eqp_jd_ar1
+		WHERE datename =
+		to_char(sysdate${dayControl},'yyyymmdd') AND eqp_id LIKE '8AEIT__')
+		UNION ALL
+		(SELECT eqp_id,
+		eqp_state,
+		duration,
+		ratio
+		FROM sc_eqp_jd_ar1
+		WHERE datename = to_char(sysdate${dayControl},'yyyymmdd') AND eqp_id
+		LIKE '8AEGA__')
+	</select>
+	<select id="queryEtchITOTable" resultType="ArrayJiadongTableVO">
+		(SELECT eqp_id,
+		eqp_state,
+		duration,
+		ratio
+		FROM sc_eqp_jd_ar1
+		WHERE datename =
+		'${dateValue}' AND eqp_id LIKE '8AEIT__')
+		UNION ALL
+		(SELECT eqp_id,
+		eqp_state,
+		duration,
+		ratio
+		FROM sc_eqp_jd_ar1
+		WHERE datename =
+		'${dateValue}' AND eqp_id LIKE '8AEGA__')
+	</select>
+
+	<select id="getEtchSDVIA" resultType="ArrayJiadongVO">
+		SELECT eqp_id, eqp_state,
+		duration
+		FROM SC_EQP_JD_AR
+		WHERE datename =
+		to_char(sysdate${dayControl},'yyyymmdd') AND eqp_id LIKE '${eqp_id}%'
+	</select>
+	<select id="queryEtchSDVIA" resultType="ArrayJiadongVO">
+		SELECT eqp_id, eqp_state,
+		duration
+		FROM SC_EQP_JD_AR
+		WHERE datename = '${dateValue}' AND eqp_id
+		LIKE '${eqp_id}%'
+	</select>
+	<select id="getEtchSDVIATable" resultType="ArrayJiadongTableVO">
+		SELECT eqp_id,
+		eqp_state,
+		duration,
+		ratio FROM SC_EQP_JD_AR1_PECVD WHERE datename =
+		to_char(sysdate${dayControl},'yyyymmdd') AND eqp_id LIKE '${eqp_id}___'
+	</select>
+	<select id="queryEtchSDVIATable" resultType="ArrayJiadongTableVO">
+		SELECT eqp_id,
+		eqp_state,
+		duration,
+		ratio FROM SC_EQP_JD_AR1_PECVD WHERE datename =
+		'${dateValue}' AND eqp_id LIKE '${eqp_id}___'
+	</select>
+
+</mapper>

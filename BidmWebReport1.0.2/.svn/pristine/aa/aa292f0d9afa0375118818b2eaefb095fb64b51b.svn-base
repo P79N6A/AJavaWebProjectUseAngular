@@ -1,0 +1,337 @@
+<div *ngIf="firstView">
+  <div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat;
+    background-size:100% 100%;-moz-background-size:100% 100%;">
+    <div class="ui-g-12">
+      <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-7" style="color:#F2F6FA; margin-left: 7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">CstPnl 信息管理
+      </div>
+      <div class="ui-float-label ui-g-1" style="margin-top:20px;margin-left: -30px">
+        <input id="float-input-start" type="number" [(ngModel)]="dateStart" pInputText style="color:#F2F6FA;text-align: center;width: 80px">
+        <label for="float-input-start" style="color:#F2F6FA;">&nbsp;&nbsp;开始天数</label>
+      </div>
+      <div class="ui-float-label ui-g-1" style="margin-top:20px ;margin-left:-10px">
+        <input id="float-input-end" type="number" [(ngModel)]="dateEnd" pInputText style="color:#F2F6FA;text-align: center;width: 80px">
+        <label for="float-input-end" style="color:#F2F6FA;">&nbsp;&nbsp;结束天数</label>
+      </div>
+      <p-button class="ui-g-1" label="查询" (click)="queryData()" style="padding:20px 0px 0px 0px;"></p-button>
+      <p-button label="刷新" (click)="refresh()" style="padding-top:20px;margin-left: -40px"></p-button>
+    </div>
+  </div>
+  <div class="ui-g" style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+    background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+    <!-- First Table -->
+    <div class="ui-g-12">
+      <p-table>
+        <ng-template pTemplate="header">
+          <!-- 第一行 -->
+          <tr>
+            <th rowspan="4" class="header1">卡夹类型</th>
+            <th rowspan="4" class="header1">卡夹属性</th>
+            <th rowspan="4" class="header1">总数</th>
+            <th colspan="7" class="header1">Production</th>
+            <th rowspan="4" class="header1" width="15px"></th>
+            <th rowspan="4" class="header1">Engineer</th>
+            <th rowspan="4" class="header1">Develop</th>
+            <th colspan="7" class="header1">Empty</th>
+            <th rowspan="4" class="header1">Others</th>
+          </tr>
+          <!-- 第二行 -->
+          <tr>
+            <th colspan="5" class="header1">CST Qty</th>
+            <th colspan="2" class="header1">Full Ratio</th>
+            <th rowspan="3" class="header1">TTL</th>
+            <th rowspan="3" class="header1">ONEQP</th>
+            <th rowspan="3" class="header1">MOVING</th>
+            <th rowspan="3" class="header1">INSTK</th>
+            <th rowspan="3" class="header1">Dirty</th>
+            <th rowspan="3" class="header1">Empty</th>
+            <th rowspan="3" class="header1">OutStk</th>
+          </tr>
+          <!-- 第三行 -->
+          <tr>
+            <th colspan="3" class="header1">CT</th>
+            <th colspan="2" class="header1">Bank MDLRcv</th>
+            <th rowspan="2" class="header1">CT</th>
+            <th rowspan="2" class="header1">Bank</th>
+          </tr>
+          <!-- 第四行 -->
+          <tr>
+            <th class="header1">Inline</th>
+            <th class="header1">Scrap</th>
+            <th class="header1">Packing</th>
+            <th class="header1">N</th>
+            <th class="header1">Y</th>
+          </tr>
+          <!-- 第五行 -->
+          <tr>
+            <th rowspan="7" class="header2">PCL</th>
+            <th>A-3</th>
+            <th *ngFor="let qty of PclA3Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','A-3',i)">{{qty
+              | zeroConvert: i}}
+            </th>
+            <th rowspan="7" class="header2"></th>
+            <th *ngFor="let qty of PclA3Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','A-3',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第六行 -->
+          <tr>
+            <th>A-4</th>
+            <th *ngFor="let qty of PclA4Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','A-4',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PclA4Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','A-4',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第七行 -->
+          <tr>
+            <th>A-5</th>
+            <th *ngFor="let qty of PclA5Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','A-5',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PclA5Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','A-5',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第八行 -->
+          <tr>
+            <th>A-6</th>
+            <th *ngFor="let qty of PclA6Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','A-6',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PclA6Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','A-6',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第九行 -->
+          <tr>
+            <th>空</th>
+            <th *ngFor="let qty of PclEmptyLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','空',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PclEmptyRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','空',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十行 -->
+          <tr>
+            <th>虚拟</th>
+            <th *ngFor="let qty of PclVirtualLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','虚拟',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PclVirtualRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','虚拟',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十一行 -->
+          <tr>
+            <th>TTL</th>
+            <th *ngFor="let qty of PclTtlLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCL','TTL',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PclTtlRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCL','TTL',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十二行 空 -->
+          <tr>
+            <th colspan="21">&nbsp;</th>
+          </tr>
+          <!-- 第十三行 -->
+          <tr>
+            <th rowspan="7" class="header2">PCS</th>
+            <th>B-1</th>
+            <th *ngFor="let qty of PcsB1Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','B-1',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th rowspan="7" class="header2"></th>
+            <th *ngFor="let qty of PcsB1Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','B-1',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十四行 -->
+          <tr>
+            <th>B-2</th>
+            <th *ngFor="let qty of PcsB2Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','B-2',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PcsB2Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','B-2',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十五行 -->
+          <tr>
+            <th>B-3</th>
+            <th *ngFor="let qty of PcsB3Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','B-3',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PcsB3Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','B-3',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十六行 -->
+          <tr>
+            <th>B-4</th>
+            <th *ngFor="let qty of PcsB4Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','B-4',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PcsB4Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','B-4',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十七行 -->
+          <tr>
+            <th>B-5</th>
+            <th *ngFor="let qty of PcsB5Left;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','B-5',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PcsB5Right;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','B-5',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十八行 -->
+          <tr>
+            <th>虚拟</th>
+            <th *ngFor="let qty of PcsVirtualLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','虚拟',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PcsVirtualRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','虚拟',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第十九行 -->
+          <tr>
+            <th>TTL</th>
+            <th *ngFor="let qty of PcsTtlLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCS','TTL',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PcsTtlRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCS','TTL',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第二十行 空 -->
+          <tr>
+            <th colspan="21">&nbsp;</th>
+          </tr>
+          <!-- 第二十一行 -->
+          <tr>
+            <th rowspan="3" class="header2">PCC</th>
+            <th>实卡</th>
+            <th *ngFor="let qty of PccRealLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCC','实卡',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th rowspan="3" class="header2"></th>
+            <th *ngFor="let qty of PccRealRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCC','实卡',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第二十二行 -->
+          <tr>
+            <th>虚拟</th>
+            <th *ngFor="let qty of PccVirtualLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCC','虚拟',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PccVirtualRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCC','虚拟',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第二十三行 -->
+          <tr>
+            <th>TTL</th>
+            <th *ngFor="let qty of PccTtlLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCC','TTL',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PccTtlRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCC','TTL',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第二十四行 空 -->
+          <tr>
+            <th colspan="21">&nbsp;</th>
+          </tr>
+          <!-- 第二十五行 -->
+          <tr>
+            <th rowspan="3" class="header2">PCE</th>
+            <th>实卡</th>
+            <th *ngFor="let qty of PceRealLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCE','实卡',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th rowspan="3" class="header2"></th>
+            <th *ngFor="let qty of PceRealRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCE','实卡',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第二十六行 -->
+          <tr>
+            <th>虚拟</th>
+            <th *ngFor="let qty of PceVirtualLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCE','虚拟',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PceVirtualRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCE','虚拟',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+          <!-- 第二十七行 -->
+          <tr>
+            <th>TTL</th>
+            <th *ngFor="let qty of PceTtlLeft;let i = index;" [ngClass]="{clickable:(i > 0 && i &lt; 6)}" (click)="toSecondTable($event,'PCE','TTL',i)">{{qty
+              | zeroConvert:i}}
+            </th>
+            <th *ngFor="let qty of PceTtlRight;let i = index" [ngClass]="{clickable:(i !== 2 && i !== 9)}" (click)="toSecondTableRight($event,'PCE','TTL',i)">{{qty
+              | zeroConvert}}
+            </th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>
+</div>
+<!-- 下钻的二级表 -->
+<div *ngIf="secondView">
+  <div class="ui-g" style="padding:20px;height:100%;background-image: url('assets/picture/6.png');background-repeat:no-repeat;
+  background-size:100% 100%;-moz-background-size:100% 100%;">
+    <div class="ui-g-12">
+      <p-button label="return" icon="fa fa-home" style="float: right;" (click)="showFirstTable()"></p-button>
+    </div>
+    <div class="ui-g-12">
+      <p-table [resizableColumns]="true" columnResizeMode="expand">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="header" pResizableColumn width="6%">CST_ID</th>
+            <th class="header" pResizableColumn width="3%">Day</th>
+            <th class="header" pResizableColumn width="5%">Oper</th>
+            <th class="header" pResizableColumn width="5%">EQP ID</th>
+            <th class="header" pResizableColumn width="10%">LOT ID</th>
+            <th class="header" pResizableColumn width="10%">Lot ProSpec</th>
+            <th class="header" pResizableColumn width="5%">Pro Qty</th>
+            <th class="header" pResizableColumn width="3%">Lot Hold State</th>
+            <th class="header" pResizableColumn width="14%">Lot Last Event Comment</th>
+            <th class="header" pResizableColumn width="11%">Lot Last Event Time</th>
+            <th class="header" pResizableColumn>Last Comment</th>
+            <th class="header" pResizableColumn width="11%">Last Event Time</th>
+          </tr>
+          <tr *ngFor="let obj of SecondTableArray">
+            <td>{{obj.cst_id}}</td>
+            <td>{{obj.days}}</td>
+            <td>{{obj.oper}}</td>
+            <td>{{obj.machinename}}</td>
+            <td>{{obj.lotid}}</td>
+            <td>{{obj.productspec}}</td>
+            <td>{{obj.producquantity}}</td>
+            <td>{{obj.lotholdstate}}</td>
+            <td>{{obj.lotlasteventcomment}}</td>
+            <td>{{obj.lotlasteventtime}}</td>
+            <td>{{obj.lastcomment}}</td>
+            <td>{{obj.lasteventtime}}</td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+</div>
+<!-- 下钻的二级表区域结束 -->

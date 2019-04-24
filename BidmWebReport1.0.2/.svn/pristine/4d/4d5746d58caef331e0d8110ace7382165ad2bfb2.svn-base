@@ -1,0 +1,23 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ProductionplanComponent } from './productionplan/productionplan.component';
+
+
+const routes: Routes = [
+
+  {
+    path:'productionplan',
+    component : ProductionplanComponent,
+    data:{
+      tabLabel:'生产计划导入',
+      destroy:false
+    }
+
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class DataimportRoutingModule { }

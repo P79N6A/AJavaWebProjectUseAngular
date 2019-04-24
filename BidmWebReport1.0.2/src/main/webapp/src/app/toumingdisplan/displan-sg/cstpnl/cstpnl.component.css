@@ -1,0 +1,40 @@
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+}
+
+th {
+    font-weight: inherit !important;
+    padding: 0.2em 0em !important;
+    font-size: 12px !important;
+    border: 1px solid #455e9c !important;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    color: #F2F6FA !important;
+}
+
+.header1 {
+    color: whitesmoke !important;
+    font-weight: bold !important;
+}
+.header2 {
+    background-color: #20506F !important;
+}
+
+.header {
+  font-weight: bold !important;
+  padding: 0.625em 0.2em !important;
+}
+
+.clickable:hover {
+    background-color: #314879 !important;
+    cursor: pointer !important;
+}
+
+td {
+  font-weight: inherit !important;
+  padding: 0.625em 0.2em !important;
+  font-size: 12px !important;
+  border: 1px solid #455e9c !important;
+  background-color: rgba(0,0,0,0.1)!important;
+  color: #F2F6FA !important;
+  text-align: center !important;
+}

@@ -1,0 +1,68 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { FabwipComponent } from './fabwip/fabwip.component';
+import { FabmovementComponent } from './fabmovement/fabmovement.component';
+import { M1m2wipComponent } from './m1m2wip/m1m2wip.component';
+import { M1m2workwipComponent } from './m1m2workwip/m1m2workwip.component';
+import { CstglsComponent } from './cstgls/cstgls.component';
+import { CstpnlComponent } from './cstpnl/cstpnl.component';
+
+const routes: Routes = [
+  {
+    path:'fabwip',
+    component:FabwipComponent,
+    data:{
+      tabLabel:'FAB WIP信息',
+      destroy:false
+    }
+  },
+  {
+    path:'fabmovement',
+    component:FabmovementComponent,
+    data:{
+      tabLabel:'FAB Movement信息',
+      destroy:false
+    }
+  },
+  {
+    path:'m1m2wip',
+    component:M1m2wipComponent,
+    data:{
+      tabLabel:'M1&M2 WIP 信息',
+      destroy:false
+    }
+  },
+
+  {
+    path:'m1m2workwip',
+    component:M1m2workwipComponent,
+    data:{
+      tabLabel:'M1&M2 WORK WIP 信息',
+      destroy:false
+    }
+  },
+
+  {
+    path:'cstgls',
+    component:CstglsComponent,
+    data:{
+      tabLabel:'CST GLS 信息',
+      destroy:false
+    }
+  },
+  {
+    path:'cstpnl',
+    component:CstpnlComponent,
+    data:{
+      tabLabel:'CST PNL 信息',
+      destroy:false
+    }
+  },
+
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ToumingdisplanRoutingModule { }

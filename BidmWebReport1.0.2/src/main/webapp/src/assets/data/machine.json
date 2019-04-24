@@ -1,0 +1,972 @@
+{
+    "lines": [
+        {
+            "name": "01",
+            "machines": [
+                {
+                    "machine": "3MMPC011",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA011",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMEC011",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB011",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB011",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC011",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB011",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                },
+                {
+                    "machine": "3MMTF011",
+                    "process": "TFOG",
+                    "tt": 0,
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "name": "02",
+            "machines": [
+                {
+                    "machine": "3MMPC021",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA021",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMEC021",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB021",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB021",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC021",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB021",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                },
+                {
+                    "machine": "3MMTF021",
+                    "process": "TFOG",
+                    "tt": 0,
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "name": "03",
+            "machines": [
+                {
+                    "machine": "3MMPL031",
+                    "process": "Pol Load",
+                    "tt": 0,
+                    "order": 1
+                },
+                {
+                    "machine": "3MMPC031",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA031",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMPU031",
+                    "process": "Pol Unload",
+                    "tt": 0,
+                    "order": 4
+                },
+                {
+                    "machine": "3MMCB031",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB031",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC031",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB031",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                },
+                {
+                    "machine": "3MMTF031",
+                    "process": "TFOG",
+                    "tt": 0,
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "name": "04",
+            "machines": [
+                {
+                    "machine": "3MMPL041",
+                    "process": "Pol Load",
+                    "tt": 0,
+                    "order": 1
+                },
+                {
+                    "machine": "3MMPC041",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA041",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMPU041",
+                    "process": "Pol Unload",
+                    "tt": 0,
+                    "order": 4
+                },
+                {
+                    "machine": "3MMCB041",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB041",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC041",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB041",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                },
+                {
+                    "machine": "3MMTF041",
+                    "process": "TFOG",
+                    "tt": 0,
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "name": "05",
+            "machines": [
+                {
+                    "machine": "3MMPL051",
+                    "process": "Pol Load",
+                    "tt": 0,
+                    "order": 1
+                },
+                {
+                    "machine": "3MMPC051",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPU051",
+                    "process": "Pol Unload",
+                    "tt": 0,
+                    "order": 4
+                },
+                {
+                    "machine": "3MMFB051",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC051",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB051",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "06",
+            "machines": [
+                {
+                    "machine": "3MMPL061",
+                    "process": "Pol Load",
+                    "tt": 0,
+                    "order": 1
+                },
+                {
+                    "machine": "3MMPC061",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPU061",
+                    "process": "Pol Unload",
+                    "tt": 0,
+                    "order": 4
+                },
+                {
+                    "machine": "3MMFB061",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC061",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB061",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                },
+                {
+                    "machine": "3MMTF061",
+                    "process": "TFOG",
+                    "tt": 0,
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "name": "07",
+            "machines": [
+                {
+                    "machine": "3MMPL071",
+                    "process": "Pol Load",
+                    "tt": 0,
+                    "order": 1
+                },
+                {
+                    "machine": "3MMPC071",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA071",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMAC071",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMEC071",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB071",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB071",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC071",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB071",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "08",
+            "machines": [
+                {
+                    "machine": "3MMPL081",
+                    "process": "Pol Load",
+                    "tt": 0,
+                    "order": 1
+                },
+                {
+                    "machine": "3MMPC081",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA081",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMAC081",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMEC081",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB081",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB081",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC081",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB081",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "09",
+            "machines": [
+                {
+                    "machine": "3MMPC091",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA091",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMAC091",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMEC091",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB091",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB091",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC091",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB091",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "10",
+            "machines": [
+                {
+                    "machine": "3MMPC101",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA101",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMPC101",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB101",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB101",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC101",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB101",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "11",
+            "machines": [
+                {
+                    "machine": "3MMPC111",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPA111",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMPC111",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCB111",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFB111",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLC111",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPB111",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "12",
+            "machines": [
+                {
+                    "machine": "3MMPCC1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAC1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACC1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMCBC1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBC1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMFBC2",
+                    "process": "FOG Bonder2",
+                    "tt": 0,
+                    "order": 9
+                }
+            ]
+        },
+        {
+            "name": "13",
+            "machines": [
+                {
+                    "machine": "3MMPCD1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAD1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACD1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMCBD1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBD1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMFBD2",
+                    "process": "FOG Bonder2",
+                    "tt": 0,
+                    "order": 9
+                }
+            ]
+        },
+        {
+            "name": "14",
+            "machines": [
+                {
+                    "machine": "3MMPCE1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAE1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACE1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMCBE1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBE1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMFBE2",
+                    "process": "FOG Bonder2",
+                    "tt": 0,
+                    "order": 9
+                },
+                {
+                    "machine": "3MMPBE1",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "15",
+            "machines": [
+                {
+                    "machine": "3MMPCF1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAF1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACF1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMECF1",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCBF1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBF1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLCF1",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPBF1",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "16",
+            "machines": [
+                {
+                    "machine": "3MMPCG1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAG1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACG1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMECG1",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCBG1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBG1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLCG1",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPBG1",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "17",
+            "machines": [
+                {
+                    "machine": "3MMPCH1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAH1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACH1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMECH1",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCBH1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBH1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLCH1",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPBH1",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "name": "18",
+            "machines": [
+                {
+                    "machine": "3MMPCI1",
+                    "process": "Pol Clean",
+                    "tt": 0,
+                    "order": 2
+                },
+                {
+                    "machine": "3MMPAI1",
+                    "process": "Pol Attach",
+                    "tt": 0,
+                    "order": 3
+                },
+                {
+                    "machine": "3MMACI1",
+                    "process": "Auto Clave",
+                    "tt": 0,
+                    "order": 5
+                },
+                {
+                    "machine": "3MMECI1",
+                    "process": "COG Clean",
+                    "tt": 0,
+                    "order": 6
+                },
+                {
+                    "machine": "3MMCBI1",
+                    "process": "COG Bonder",
+                    "tt": 0,
+                    "order": 7
+                },
+                {
+                    "machine": "3MMFBI1",
+                    "process": "FOG Bonder1",
+                    "tt": 0,
+                    "order": 8
+                },
+                {
+                    "machine": "3MMLCI1",
+                    "process": "AOI",
+                    "tt": 0,
+                    "order": 10
+                },
+                {
+                    "machine": "3MMPBI1",
+                    "process": "PCB Bonder",
+                    "tt": 0,
+                    "order": 11
+                }
+            ]
+        }
+    ],
+    "processes":[
+        {
+            "process":"Pol Load",
+            "order":1
+        },
+        {
+            "process":"Pol Clean",
+            "order":2
+        },
+        {
+            "process":"Pol Attach",
+            "order":3
+        },
+        {
+            "process":"Pol Unload",
+            "order":4
+        },
+        {
+            "process":"Auto Clave",
+            "order":5
+        },
+        {
+            "process":"COG Clean",
+            "order":6
+        },
+        {
+            "process":"COG Bonder",
+            "order":7
+        },
+        {
+            "process":"FOG Bonder1",
+            "order":8
+        },
+        {
+            "process":"FOG Bonder2",
+            "order":9
+        },
+        {
+            "process":"AOI",
+            "order":10
+        },
+        {
+            "process":"PCB Bonder",
+            "order":11
+        },
+        {
+            "process":"TFOG",
+            "order":12
+        }
+    ]
+}

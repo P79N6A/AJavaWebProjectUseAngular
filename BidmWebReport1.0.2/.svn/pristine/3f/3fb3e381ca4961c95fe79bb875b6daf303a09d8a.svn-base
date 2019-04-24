@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.AlarmSpecMapper">
+
+	<select id="getSpec" parameterType="java.util.Map" resultType="AlarmSpec">
+		
+		select * from sc_alarm_spec  where item = #{item} and type =
+		#{type} and 
+		<if test="flag != null">
+			flag = #{flag}
+		</if>
+		<if test="flag == null">
+			flag is null
+		</if>
+	</select>
+
+</mapper>

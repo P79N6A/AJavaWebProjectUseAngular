@@ -1,0 +1,46 @@
+
+/* 第一部分的表头的属性设置 */
+.header1{ 
+    font-size: 15px !important;
+    color: rgb(34, 28, 28) !important;
+    background-color: rgb(197, 185, 207) !important;
+    padding: 0.25em 0.1em !important;
+    border: 1px solid rgb(104, 103, 103) !important;
+}
+
+.header1number{
+    color: rgb(34, 28, 28) !important;
+    background-color: rgb(226, 238, 233) !important;
+    padding: 0.25em 0.1em !important;
+    border: 1px solid rgb(104, 103, 103) !important;
+}
+
+.header1numberbal{
+    
+    color: rgb(247, 49, 49) !important;
+    background-color: rgb(219, 186, 197) !important;
+    padding: 0.35em 0.2em !important;
+    border: 1px solid rgb(104, 103, 103) !important;
+}
+
+/* 数据部分的格子样式 */
+.data2{
+    padding: 0.35em 0.2em !important;
+    border: 1px solid rgb(104, 103, 103) !important;
+    text-align: center !important;
+
+}
+
+.datared{
+    color: rgb(243, 72, 72) !important;
+}
+
+.backgroundred{
+    color: rgb(34, 28, 28) !important;
+    background-color: rgb(255, 56, 56) !important;
+}
+
+.backgroundgreen{
+    color: rgb(34, 28, 28) !important;
+    background-color: rgb(38, 212, 38) !important;
+}

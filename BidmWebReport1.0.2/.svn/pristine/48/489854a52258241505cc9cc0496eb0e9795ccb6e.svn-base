@@ -1,0 +1,132 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12">
+      <p-header>
+        <h3 style="text-align:center;margin:0.4em">B4 Module 生产达成情况</h3>
+      </p-header>
+    
+      <div class="ui-panel-content">
+          <p-table >
+            <ng-template pTemplate="header" >
+              <!--第一行-->
+              <tr>
+                <th rowspan="3" colspan="2" class="head1 bgc" style="border:2px solid black">生产情况</th>
+                <th colspan="4" class="head1 bgc" style="border-top:2px solid black;border-right:2px solid black;border-bottom: 1px solid black;">Plan</th>
+                <th colspan="2" class="head1 bgc" style="border-top:2px solid black;border-right:2px solid black;border-bottom: 1px solid black">Act</th>
+                <th class="head1 bgc" style="border-top:2px solid black;border-right:2px solid black;border-bottom: 1px solid black">Catch up</th>
+                <th colspan="4" class="head1 bgc" style="border-top:2px solid black;border-right:2px solid black;border-bottom: 1px solid black">Bal.</th>
+                <th colspan="4" class="head1 bgc" style="border-top:2px solid black;border-right:2px solid black;border-bottom: 1px solid black">达成率</th>
+              </tr>
+              <!--第二行-->
+              <tr>
+                <th class="head2"  style="border-right:1px solid black;border-bottom: 1px solid black">Monthly</th>						
+
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">M -Cum</th>
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">D-Cum</th>
+                <th class="head2"  style="border-right:2px solid black;border-bottom: 1px solid black">Daily</th>
+
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">Cum</th>
+                <th class="head2"  style="border-right:2px solid black;border-bottom: 1px solid black">Daily</th>
+
+                <th class="head2" style="border-right:2px solid black;border-bottom: 1px solid black">Monthly</th>
+
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">Monthly</th>
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">M-Cum</th>
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">D-Cum</th>
+                <th class="head2" style="border-right:2px solid black;border-bottom: 1px solid black">Daily</th>
+
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">Monthly</th>
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">M-Cum</th>
+                <th class="head2" style="border-right:1px solid black;border-bottom: 1px solid black">D-Cum</th>
+                <th class="head2" style="border-right:2px solid black;border-bottom: 1px solid black">Daily</th>
+              </tr>
+              <!--第三行-->
+              <tr>
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">月计划</th>						
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">月累计</th>
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">日累计</th>
+                  <th class="head2" style="border-right:2px solid black;border-bottom:2px solid black;">日计划</th>
+  
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">日累计</th>
+                  <th class="head2" style="border-right:2px solid black;border-bottom:2px solid black;">日实绩</th>
+  
+                  <th class="head2" style="border-right:2px solid black;border-bottom:2px solid black;">后续每天</th>
+  
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">月计划</th>						
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">月累计</th>
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">日累计</th>
+                  <th class="head2" style="border-right:2px solid black;border-bottom:2px solid black;">日计划</th>
+  
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">月计划</th>						
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">月累计</th>
+                  <th class="head2" style="border-right:1px solid black;border-bottom:2px solid black;">日累计</th>
+                  <th class="head2" style="border-right:2px solid black;border-bottom:2px solid black;">日计划</th>
+                </tr>
+
+                <!--下面就是数据的情况了-->
+                <!--1.panle-->
+                <tr>
+                  <th rowspan="2" class="head1 bgc" style="border-left:2px solid black;border-right:1px solid black;border-bottom:1px solid black">Panel</th>
+                  <th class="head1 bgc" style="border-right:2px solid black;border-bottom:1px solid black">In</th>
+                  <th *ngFor="let num of panelIn;let i = index" class="data" style="border-bottom:1px solid black;border-right: 1px solid black" [ngClass]="{borderright:i == 3 || i == 5 || i == 6 || i == 10 || i == 14}">{{num}}</th>
+                </tr>
+                <tr>
+                  <th class="head1 bgc" style="border-right:2px solid black;border-bottom:1px solid black">Out</th>
+                  <th *ngFor="let num of panelOut;let i = index" class="data" style="border-bottom:1px solid black;border-right: 1px solid black" [ngClass]="{borderright:i == 3 || i == 5 || i == 6 || i == 10 || i == 14}">{{num}}</th>
+                </tr>
+                <!--2.glass-->
+                <tr>
+                    <th rowspan="2" class="head1 bgc" style="border-left:2px solid black;border-right:1px solid black;border-bottom:2px solid black">Glass</th>
+                    <th class="head1 bgc" style="border-right:2px solid black;border-bottom:1px solid black">In</th>
+                    <th *ngFor="let num of glassIn;let i = index" class="data" style="border-bottom:1px solid black;border-right: 1px solid black" [ngClass]="{borderright:i == 3 || i == 5 || i == 6 || i == 10 || i == 14}">{{num}}</th>
+                </tr>
+                <tr>
+                  <th class="head1 bgc" style="border-right:2px solid black;border-bottom:2px solid black">Out</th>
+                  <th *ngFor="let num of glassOut;let i = index" class="data" style="border-bottom:1px solid black;border-right: 1px solid black" [ngClass]="{borderright:i == 3 || i == 5 || i == 6 || i == 10 || i == 14}">{{num}}</th>
+                </tr>
+
+                <!--3.-->
+                <tr>
+                  <th colspan="2" class="head1 bgc" style="border:2px solid black">BareCell <br>packing</th>
+                  <th *ngFor="let num of barecellpacking;let i = index" class="data" style="border-bottom:1px solid black;border-right: 1px solid black" [ngClass]="{borderright:i == 3 || i == 5 || i == 6 || i == 10 || i == 14}">{{num}}</th>
+                </tr>
+
+                <!--4.-->
+                <tr>
+                    <th colspan="2" class="head1 bgc" style="border:2px solid black">Borderless<br> 异常</th>
+                    <th pEditableColumn colspan="15" class="data" style="border:2px solid black;height: 200px;">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <textarea pInputTextArea style="width:100%;height: 100%;" [(ngModel)]="borderlessException" (change)="updateRemark('borderless')"></textArea>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{borderlessException}}
+                          </ng-template>
+                        </p-cellEditor>
+                    </th>
+                </tr>
+
+                <!--5.-->
+                <tr>
+                    <th colspan="2" class="head1 bgc" style="border:2px solid black">BareCell <br>异常</th>
+                    <th pEditableColumn colspan="15" class="data" style="border:2px solid black;height: 100px;">
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                          <textarea pInputTextArea style="width:100%;height:100%" [(ngModel)]="barecellException" (change)="updateRemark('barecell')"></textarea>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{barecellException}}
+                        </ng-template>
+
+                      </p-cellEditor>
+                    </th>
+                </tr>
+            </ng-template>
+
+          </p-table>
+
+        </div>
+  </p-panel>
+
+ 
+
+</div>

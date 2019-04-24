@@ -1,0 +1,111 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      Cell生产数据
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-4" style="padding: 30px 0px">
+      <div echarts style="height: 160px" [options]="cellInOption"></div>
+    </div>
+    <div class="ui-g-4" style="padding: 0px">
+      <div echarts style="height: 220px" [options]="yiBiaoPanOption"></div>
+    </div>
+    <div class="ui-g-4" style="padding: 30px 0px">
+      <div echarts style="height: 160px" [options]="cellOutOption"></div>
+    </div>
+
+    <div class="ui-g-1" style="font-size: 12px;padding-top: 15px; color: whitesmoke; border: solid 1px #5694ce;border-left: none">
+      <div class="ui-g">
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="glswip" name="glswip" value="TFT Bank" label="TFT Bank" (click)="onChange1()" [(ngModel)]="glswipType"
+            inputId="glswip1"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="glswip" name="glswip" value="CF Bank" label="CF Bank" (click)="onChange1()" [(ngModel)]="glswipType"
+            inputId="glswip2"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="glswip" name="glswip" value="Rubbing" label="Rub WIP" (click)="onChange1()" [(ngModel)]="glswipType"
+            inputId="glswip3"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="glswip" name="glswip" value="Assy" label="Assy WIP" (click)="onChange1()" [(ngModel)]="glswipType"
+            inputId="glswip4"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="glswip" name="glswip" value="Cut" label="Cut WIP" (click)="onChange1()" [(ngModel)]="glswipType"
+            inputId="glswip5"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11" style="padding: 0px;border: solid 1px #5694ce; border-left: none;border-right: none">
+      <div echarts style="height: 160px" [options]="glsWipOption"></div>
+    </div>
+
+    <div class="ui-g-1" style="font-size: 12px;padding-top: 15px; color: whitesmoke; border-right: solid 1px #5694ce;">
+      <div class="ui-g">
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip98" name="pnlWip98" value="Inline" label="Inline" (click)="onChange2()" [(ngModel)]="pnlwip98Type"
+            inputId="pnlWip981"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip98" name="pnlWip98" value="Retest" label="Retest" (click)="onChange2()" [(ngModel)]="pnlwip98Type"
+            inputId="pnlWip982"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip98" name="pnlWip98" value="Repair" label="Repair" (click)="onChange2()" [(ngModel)]="pnlwip98Type"
+            inputId="pnlWip983"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip98" name="pnlWip98" value="Sorter" label="Sorter" (click)="onChange2()" [(ngModel)]="pnlwip98Type"
+            inputId="pnlWip984"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip98" name="pnlWip98" value="Packing" label="Packing" (click)="onChange2()"
+            [(ngModel)]="pnlwip98Type" inputId="pnlWip985"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11" style="padding: 0px;">
+      <div echarts style="height: 160px" [options]="k98WipOption"></div>
+    </div>
+
+    <div class="ui-g-1" style="font-size: 12px;padding-top: 15px; color: whitesmoke; border: solid 1px #5694ce;border-left: none">
+      <div class="ui-g">
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip120" name="pnlWip120" value="Inline" label="Inline" (click)="onChange3()"
+            [(ngModel)]="pnlwip120Type" inputId="pnlWip1201"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip120" name="pnlWip120" value="Retest" label="Retest" (click)="onChange3()"
+            [(ngModel)]="pnlwip120Type" inputId="pnlWip1202"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip120" name="pnlWip120" value="Repair" label="Repair" (click)="onChange3()"
+            [(ngModel)]="pnlwip120Type" inputId="pnlWip1203"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip120" name="pnlWip120" value="Sorter" label="Sorter" (click)="onChange3()"
+            [(ngModel)]="pnlwip120Type" inputId="pnlWip1204"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="pnlWip120" name="pnlWip120" value="Packing" label="Packing" (click)="onChange3()"
+            [(ngModel)]="pnlwip120Type" inputId="pnlWip1205"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11" style="padding: 0px;border: solid 1px #5694ce; border-left: none; border-right: none;">
+      <div echarts style="height: 160px" [options]="k120WipOption"></div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

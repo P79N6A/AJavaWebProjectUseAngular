@@ -1,0 +1,216 @@
+<div class="ui-g">
+
+  <!-- title area -->
+  <div class="ui-g-12"
+       style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+      <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+      <div style="width:23%;text-align:center">
+          <h3 style="color: #F2F6FA;margin-top: 30px;">{{title_yiji}}</h3>
+      </div>
+      <!-- <p style="font-size: 8px;position: absolute;top:26%;right:7%;color: #F2F6FA">{{nowTime | date:"yyyy-MM-dd
+        HH:mm:ss"}}</p> -->
+  </div>
+  <!-- end title area -->
+
+  <div class="ui-g-12"
+       style="height:100%;background-image: url('assets/bg3_02.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+
+      <!-- button and echarts area -->
+      <div *ngIf="movementTableIsShow">
+          <div style="position: absolute;top:26%;right:7%;color: #F2F6FA">
+              <button pButton type="button" (click)="changeToArrayMove()" label="AR"></button>
+              <button pButton type="button" (click)="changeToCfMove()" label="CF"></button>
+              <button pButton type="button" (click)="changeToClMove()" label="CL"></button>
+              <button pButton type="button" (click)="showCurrentMove()" label="当前"></button>
+          </div>
+          <div class="ui-g-12">
+              <!-- 普通的 柱状图 array cf cell 的-->
+              <div  *ngIf="title_yiji == 'Array MOVEMENT'" echarts [options]="chartOption_array_cf_MOVEMENT"  [ngStyle]="{'height':'650px'}"(chartClick)="onClickChart($event)" class="ui-g-12"></div>
+              <div  *ngIf="title_yiji == 'CF MOVEMENT'" echarts [options]="chartOption_array_cf_MOVEMENT"  [ngStyle]="{'height':'650px'}" [ngClass]="{setCFOption:isCfPH}"(chartClick)="onClickChart($event)" class="ui-g-6"></div>
+              <div  *ngIf="title_yiji == 'Cell MOVEMENT'" echarts [options]="chartOption_array_cf_MOVEMENT"  [ngStyle]="{'height':'650px'}" [ngClass]="{setCelloption:isCellBoth}"(chartClick)="onClickChart($event)" class="ui-g-5"></div>
+              <div  *ngIf="isCfPH" class="ui-g-6">
+                  <!-- cf 的 ph1 的柱状图-->
+                  <div echarts *ngIf="isCfPH" [options]="chart_cf_PH1_move"  [ngStyle]="{'height':'450px'}" [ngClass]="{setCFPH1Option:isCfPH}" class="ui-g-12"></div>
+                  <!-- cf 的 ph2 的柱状图-->
+                  <div echarts *ngIf="isCfPH" [options]="chart_cf_PH2_move"  [ngStyle]="{'height':'550px'}" [ngClass]="{setCFPH2Option:isCfPH}" class="ui-g-12"></div>
+              </div>
+              <!-- cell 的 第二个柱状图-->
+               <div echarts *ngIf="isCellBoth" [options]="chart_cl_both_move"  [ngStyle]="{'height':'650px'}" [ngClass]="{setCellBothption:isCellBoth}" class="ui-g-7"></div>
+          </div>
+          <!-- 下面是cell move 查询的多选下拉框-->
+          <div *ngIf="isCellBoth" [ngClass]="{setClSearch:true}">
+              <strong>请选择 : &nbsp;&nbsp;</strong>
+              <p-multiSelect [options]="LineName" [(ngModel)]="selectedNames" [panelStyle]="{minWidth:'10em'}"
+                  scrollHeight="200px">
+                  <!-- 上面这个地方是设置被选中的内容-->
+                  <ng-template let-values pTemplate="selectedItems">
+                      <div *ngFor="let val of values" class="ui-multiselected-item-token ui-corner-all">
+                          <span>{{val}}</span>
+                      </div>
+                      <span *ngIf="!value || value.length === 0" class="ui-multiselected-empty-token ui-corner-all">Code</span>
+                  </ng-template>
+                  <!--下面这个地方是现实下拉列表的内容-->
+                  <ng-template let-linename pTemplate="item">
+                      <div style="font-size:14px;float:right;margin-top:4px">{{linename.value}}</div>
+                  </ng-template>
+              </p-multiSelect>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div  id='cellwipSearchB'>
+                <button id='cellwipSearchBtn' pButton icon='fa fa-search' iconPos='left' label=' ' (click)="searchCell()"></button>
+              </div>
+          </div>
+           <!-- cell move 查询的多选下拉框 end-->
+      </div>
+      <!-- end button and echart area -->
+
+      <!-- data gride of current movement array cf 的current table -->
+      <div *ngIf="movementCurrentTableIsShow" #mytable style="margin-bottom: 1%">
+
+          <!-- button area -->
+          <div style="position: absolute;top:26%;right:7%;color: #F2F6FA">
+              <button pButton (click)="closeTable()" label="返回"></button>
+          </div>
+          <!-- end button area -->
+
+          <!-- table of current movement -->
+          <div style="margin-left: 66px;margin-right: 58px;">
+              <p-table [columns]="data_array_current_cols" [value]="data_array_current" [frozenColumns]="fronzecols"
+                       [scrollable]="true" selectionMode="single" frozenWidth="120px" scrollHeight="421px"
+                       [(selection)]="selectedData"
+                       dataKey="Key" #chartGride id="currentwip">
+
+                  <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                          <col *ngFor="let col of columns" style="width:120px">
+                      </colgroup>
+                  </ng-template>
+
+                  <ng-template pTemplate="header" let-columns class="noborder">
+                      <tr>
+                          <th *ngFor="let col of columns" [ngClass]="{setTableHeader : true}" id="operation"
+                              class="touming1"
+                              (click)="toThirdTable($event)">
+                              {{col.header}}
+                          </th>
+                      </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns;" class="touming1">
+                              {{rowData[col.field]}}
+                          </td>
+                      </tr>
+                  </ng-template>
+
+              </p-table>
+          </div>
+      </div>
+      <!-- data gride of current wip end -->
+
+      <!-- 我一定要用汉语写个注释 ： cell 的move 两个当前的表格 视图是在一个页面上的-->
+     
+      <div class="ui-g-12" *ngIf="movementCellIsShow">
+       <!-- button area -->
+       <div style="position: absolute;top:26%;right:7%;color: #F2F6FA">
+          <button pButton (click)="closeTable()" label="返回"></button>
+      </div>
+      <!-- end button area -->
+       <div *ngIf="movementCurrentTableIsShowcell" #mytable style="margin-bottom: 1%" class="ui-g-12">
+          <!-- cell 的第一个表格  -->
+          <div  class="ui-g-5" [ngClass] = "{setCurrentCell:true}">
+              <p-table [columns]="data_array_current_cols_cl" [value]="data_array_current" 
+                       [scrollable]="true" selectionMode="single" scrollHeight="417px"
+                       [(selection)]="selectedData"
+                       dataKey="Key" #chartGride id="currentwip">
+                  <ng-template pTemplate="header" let-columns class="noborder">
+                      <tr>
+                          <th *ngFor="let col of columns" [ngClass]="{setTableHeader : true}"
+                              class="touming1">
+                              {{col.header}}
+                          </th>
+                      </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns;" class="touming1">
+                              {{rowData[col.field]}}
+                          </td>
+                      </tr>
+                  </ng-template>
+              </p-table>
+          </div>
+           <!-- cell 的第一个表格 end  -->
+             <!-- cell 的第二个表格  -->
+          <div class="ui-g-7" [ngClass] = "{setCurrentCellBoth:true}">
+              <p-table [columns]="data_array_current_cols_cl_both" [value]="data_array_current_cl_both" 
+                       [scrollable]="true" selectionMode="single" scrollHeight="420px" frozenWidth="100px" [frozenColumns]="fronzecols"
+                       [(selection)]="selectedData"
+                       dataKey="Key" #chartGride id="currentwip">
+
+                       <ng-template pTemplate="colgroup" let-columns>
+                          <colgroup>
+                              <col *ngFor="let col of columns" style="width:100px">
+                          </colgroup>
+                      </ng-template>
+  
+                  <ng-template pTemplate="header" let-columns class="noborder">
+                      <tr>
+                          <th *ngFor="let col of columns" [ngClass]="{setTableHeader : true}"
+                              class="touming1">
+                              {{col.header}}
+                          </th>
+                      </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns;" class="touming1">
+                              {{rowData[col.field]}}
+                          </td>
+                      </tr>
+                  </ng-template>
+              </p-table>
+          </div>
+          <!-- cell 的第二个表格 end  -->
+       </div>
+      </div>
+      <!-- 我一定要用汉语写个注释 ： cell 的move 两个视图是在一个页面上的end-->
+
+      <!-- data gride area -->
+      <div style="margin-left: 5%;margin-right: 5%;" *ngIf="CurrentMoveStationTableIsShow" #mytable>
+
+          <div style="position: absolute;top:26%;right:7%;color: #F2F6FA">
+              <button pButton type="button" (click)="closeTableSecond()" label="返回"></button>
+          </div>
+
+          <div class="ui-panel-content">
+              <p-table #chartGride id="currentwip">
+                  <ng-template pTemplate="header">
+                      <tr>
+                          <th [attr.colspan]="lengthhead" class="touming title">{{clickName}}</th>
+                      </tr>
+                      <tr>
+                          <th [attr.rowspan]="rowSpan" class="touming font">{{timestrOnSecondTable }}</th>
+                      </tr>
+                      <tr>
+                          <th class="touming font">设备</th>
+                          <th *ngFor="let eqpid of eqp_id" class="touming font2">{{eqpid}}</th>
+                      </tr>
+                      <tr>
+                          <th [attr.rowspan]="modeltypeNumber" class="touming font">型号</th>
+                      </tr>
+                      <tr *ngFor="let modeltypewip of stationWipMessage">
+                          <!-- {{modeltypewip.glassqtys}} -->
+                          <th class="touming font">{{modeltypewip.modeltype}}</th>
+                          <th *ngFor="let wipnumber of modeltypewip.glassqtys" class="touming">{{wipnumber}}</th>
+                      </tr>
+                  </ng-template>
+              </p-table>
+          </div>
+      </div>
+      <!-- end data gride area -->
+  </div>
+  <div class="ui-g-12" style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>
+</div>

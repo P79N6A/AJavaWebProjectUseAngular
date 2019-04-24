@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primary.admin.RoleInfoMapper">
+	<select id="selectAllRole" parameterType="hashmap" resultType="com.boe.idm.project.model.mybatis.RoleInfo">
+		SELECT * FROM roleinfo
+		<if test="roleId != null and  roleId != ''">
+			where roleid like #{roleId}
+		</if>
+		order by roleId
+		LIMIT #{startRow},#{pageRow}
+	</select>
+	
+	<select id="selectRoleInfo" resultType="com.boe.idm.project.model.mybatis.RoleInfo">
+		SELECT * FROM roleinfo order by roleid
+	</select>
+	
+	<select id="selectAvailableRole" resultType="com.boe.idm.project.model.mybatis.RoleInfo">
+		SELECT * FROM roleinfo where state=true order by roleid
+	</select>
+	
+	<update id="updateRoleInfo" parameterType="com.boe.idm.project.model.mybatis.RoleInfo">
+		update roleinfo 
+		set desc=#{desc},updatetime=#{updateTime},updateUser=#{updateUser},state=#{state}	
+		 where roleid = #{roleId}
+	</update>
+	
+	<insert id="saveOrUpdate" parameterType="com.boe.idm.project.model.mybatis.RoleInfo">
+ 		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+			    select count(*) as count  from roleinfo where roleid = #{roleId}
+			  </selectKey>
+			  <if test="count > 0">
+			    update roleinfo 
+				set state=#{state},desc =#{desc},updateuser=#{createUser},updatetime=#{createTime}	 
+				 where roleid = #{roleId};
+			  </if>
+			  <if test="count==0">
+			    insert into roleinfo(state,roleid,desc,createuser,createtime) values (#{state},#{roleId},#{desc},#{createUser},#{createTime})
+			  </if>
+	</insert>
+	
+	<delete id="deleteRoleInfo" parameterType="com.boe.idm.project.model.mybatis.RoleInfo">
+		delete roleinfo where roleid = #{roleId} and roleid != 'admin'
+	</delete>
+	
+	<select id="getAsignedRoleByUserId" resultType="com.boe.idm.project.model.mybatis.RoleInfo">
+		select ri.* from roleinfo ri,userrolelink ur where ri.roleid=ur.roleid and ur.useraccount=#{userAccount} and ri.state=true
+	</select>
+	
+	<select id="getTotCount" resultType="int">
+		select count(*) from roleinfo 
+		<if test="roleId != null and  roleId != ''">
+			where roleid like #{roleId}
+		</if>
+
+	</select> 
+</mapper>

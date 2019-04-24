@@ -1,0 +1,67 @@
+{
+  "_args": [
+    [
+      "ngx-echarts@2.2.0",
+      "C:\\bidwebWorkspace02\\BidmWebReport1.0.2\\src\\main\\webapp"
+    ]
+  ],
+  "_from": "ngx-echarts@2.2.0",
+  "_id": "ngx-echarts@2.2.0",
+  "_inBundle": false,
+  "_integrity": "sha512-y9cXWppKhYNy0tjZ3XF82JqlMoxiRDgDDsFUOf7zHupB5gmebyMZh9tZdzyV41bFIx1cAa3BLnC0rMIEGg0U0g==",
+  "_location": "/ngx-echarts",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "ngx-echarts@2.2.0",
+    "name": "ngx-echarts",
+    "escapedName": "ngx-echarts",
+    "rawSpec": "2.2.0",
+    "saveSpec": null,
+    "fetchSpec": "2.2.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ngx-echarts/-/ngx-echarts-2.2.0.tgz",
+  "_spec": "2.2.0",
+  "_where": "C:\\bidwebWorkspace02\\BidmWebReport1.0.2\\src\\main\\webapp",
+  "author": {
+    "name": "Xie, Ziyu",
+    "email": "ziyu.xie@foxmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/xieziyu/ngx-echarts/issues",
+    "email": "xieziyu@foxmail.com"
+  },
+  "description": "Angular directive for ECharts 3",
+  "es2015": "ngx-echarts.js",
+  "homepage": "https://github.com/xieziyu/ngx-echarts#readme",
+  "keywords": [
+    "angular",
+    "2",
+    "4",
+    "5",
+    "echarts",
+    "ng",
+    "ngx",
+    "ng2"
+  ],
+  "main": "bundles/ngx-echarts.umd.js",
+  "metadata": "ngx-echarts.metadata.json",
+  "module": "ngx-echarts.es5.js",
+  "name": "ngx-echarts",
+  "peerDependencies": {
+    "@angular/common": ">=2.3.0",
+    "@angular/compiler": ">=2.3.0",
+    "@angular/core": ">=2.3.0",
+    "echarts": ">=3.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xieziyu/ngx-echarts.git"
+  },
+  "typings": "ngx-echarts.d.ts",
+  "version": "2.2.0"
+}

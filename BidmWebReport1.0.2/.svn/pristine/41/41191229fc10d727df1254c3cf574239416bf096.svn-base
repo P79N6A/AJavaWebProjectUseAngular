@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.admin.OMenuInfoMapper">
+<resultMap type="com.boe.idm.project.model.mybatis.MenuInfo" id="MenuInfo_">
+         <result property="desc" column="desc_"/>
+    </resultMap>
+
+	<select id="selectAllMenu" resultMap="MenuInfo_">
+		SELECT * FROM sc_a_menuinfo mi
+		<if test="menuId != null and  menuId != ''">
+			where menuid like #{menuId}
+		</if>
+		 order by mi.sort
+	</select>
+	
+	<select id="getAllAvalidMenu" resultMap="MenuInfo_">
+		SELECT * FROM sc_a_menuinfo mi where mi.state='1'  order by mi.sort
+	</select>
+	
+	<select id="getUserMenu" resultMap="MenuInfo_">
+		select distinct mi.* from sc_a_menuinfo mi ,sc_a_userrolelink ul ,
+		sc_a_rolemenulink rl,sc_a_roleinfo ri where 1=1
+		<if test="userAccount != null and  userAccount != ''">
+		  and ul.useraccount= #{userAccount}
+		 </if>
+		and ul.roleid = rl.roleid and ri.roleid = ul.roleid and ri.state='1' 
+		 and rl.menuid = mi.menuid and mi.state='1' order by sort
+	</select>
+	
+	<select id="getMenyByRole" resultMap="MenuInfo_">
+		select distinct mi.* from sc_a_menuinfo mi,
+		sc_a_rolemenulink rl,sc_a_roleinfo ri where 1=1
+		<if test="roleId != null and  roleId != ''">
+		  and rl.roleid= #{roleId}
+		 </if>
+		 and rl.roleid = ri.roleid and ri.state='1'  and rl.menuid = mi.menuid and mi.state='1' order by sort
+	</select>
+	
+	<select id="getMenuInfoListByMenuId" resultMap="MenuInfo_">
+		select * from sc_a_menuinfo mi where mi.state='1'
+		<if test="menuId != null and  menuId != ''">
+			and menuid like #{menuId}
+		</if>
+		 
+		  order by mi.sort
+	</select>
+	
+	<update id="updateMenuInfo" parameterType="MenuInfo">
+		update sc_a_menuinfo 
+		set icon=#{icon},sort=#{sort},routerlink=#{routerlink},parentid=#{parentId},desc_=#{desc,jdbcType=VARCHAR},
+		    isleaf=#{isLeaf},updateuser=#{updateUser},updatetime=#{updateTime},state=#{state} 		
+		 where menuid = #{menuId}
+	</update>
+
+	<insert id="saveOrUpdate" parameterType="MenuInfo">
+		<selectKey keyProperty="count" resultType="int"
+			order="BEFORE">
+			select count(*) as count from sc_a_menuinfo where menuid = #{menuId}
+		</selectKey>
+		<if test="count > 0">
+			update sc_a_menuinfo
+			set icon=#{icon,jdbcType=VARCHAR},sort=#{sort,jdbcType=VARCHAR},routerlink=#{routerlink,jdbcType=VARCHAR},parentid=#{parentId,jdbcType=VARCHAR},desc_=#{desc,jdbcType=VARCHAR}
+			    ,isleaf=#{isLeaf},updateuser=#{createUser},updatetime=#{createTime},state=#{state}
+			where menuId = #{menuId}
+		</if>
+		<if test="count==0">
+			insert into sc_a_menuinfo(menuid,icon,routerlink,parentid,sort,isleaf,desc_,state,createuser,createtime)
+			values
+			(#{menuId},#{icon,jdbcType=VARCHAR},#{routerlink,jdbcType=NULL},#{parentId},#{sort},#{isLeaf,jdbcType=VARCHAR},#{desc,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{createTime,jdbcType=NULL})
+		</if>
+	</insert>
+	
+	<delete id="deleteMenuInfo" parameterType="MenuInfo">
+		delete sc_a_menuinfo 
+		 where menuid = #{menuId}
+	</delete>
+	
+	<select id="pagenate" parameterType="hashmap" resultMap="MenuInfo_">
+		SELECT * from(
+		SELECT row_.*,rownum rownum_
+		FROM(
+		SELECT * FROM sc_a_menuinfo mi
+		<if test="menuId != null and  menuId != ''">
+			where menuid like #{menuId}
+		</if>
+		order by mi.sort) row_
+		where rownum &lt;=(#{pageRow}+#{startRow})
+		)
+		WHERE rownum_ &gt;#{startRow}	 
+	</select>
+	
+	<select id="getTotCount" resultType="int">
+			select count(*) from sc_a_menuinfo mi
+			<if test="menuId != null and  menuId != ''">
+			where menuid like #{menuId}
+			</if>
+	</select>
+	
+	<select id="getSignedMenu" resultMap="MenuInfo_">
+		SELECT mi.* FROM sc_a_rolemenulink rl,sc_a_menuinfo mi
+		where  rl.menuid=mi.menuid
+		<if test="roleId != null and  roleId != ''">
+			and rl.roleId like #{roleId}
+		</if>
+		order by roleid
+	</select>
+</mapper>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.boe.idm.project.mapper.primaryOracle.admin.OUserLogMapper">
+	<resultMap
+		type="com.boe.idm.project.model.mybatis.UserLoginInfo"
+		id="userLoginInfo">
+
+		<result property="userAccount" column="useraccount"
+			javaType="String" />
+		<result property="userName" column="username" javaType="String" />
+		<result property="loginTime" column="logintime" javaType="Date" />
+		<result property="logoutTime" column="logouttime"
+			javaType="Date" />
+		<result property="client" column="client" javaType="String" />
+		<result property="ipAddr" column="ipaddr" javaType="String" />
+		<result property="token" column="token" javaType="String" />
+	</resultMap>
+
+	<resultMap
+		type="com.boe.idm.project.model.mybatis.MenuClickInfo"
+		id="menuClickInfo">
+		<result property="userAccount" column="useraccount"
+			javaType="String" />
+		<result property="userName" column="username" javaType="String" />
+		<result property="menuId" column="menuid" javaType="String" />
+		<result property="clickTime" column="clicktime" javaType="Date" />
+	</resultMap>
+	<resultMap
+		type="com.boe.idm.project.model.mybatis.ReportLoadInfo"
+		id="reportLoadInfo">
+		<result property="userAccount" column="useraccount"
+			javaType="String" />
+		<result property="userName" column="username" javaType="String" />
+		<result property="menuId" column="menuid" javaType="String" />
+		<result property="reportName" column="reportname"
+			javaType="String" />
+		<result property="loadTime" column="loadtime" javaType="Long" />
+		<result property="startTime" column="starttime" javaType="Date" />
+		<result property="endTime" column="endtime" javaType="Date" />
+	</resultMap>
+
+	<insert id="insert"
+		parameterType="com.boe.idm.project.model.mybatis.UserLoginInfo">
+		insert into
+		sc_u_user_login_info(userAccount,username,logintime,logouttime,ipaddr,client,token)
+		values
+		(#{userAccount,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{loginTime,jdbcType=DATE},#{logoutTime,jdbcType=DATE},#{ipAddr,jdbcType=VARCHAR},#{client,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update"
+		parameterType="com.boe.idm.project.model.mybatis.UserLoginInfo">
+		update sc_u_user_login_info
+		set
+		logouttime=#{logoutTime,jdbcType=DATE}
+		where userAccount =
+		#{userAccount,jdbcType=VARCHAR} and logintime =
+		#{loginTime,jdbcType=DATE} and token = #{token,jdbcType=VARCHAR}
+	</update>
+
+	<insert id="insertMenuClick"
+		parameterType="com.boe.idm.project.model.mybatis.MenuClickInfo">
+		insert into
+		sc_u_menu_click_info(userAccount,username,menuid,clicktime)
+		values
+		(#{userAccount,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{menuId,jdbcType=VARCHAR},#{clickTime,jdbcType=DATE})
+	</insert>
+	
+	<insert id="insertReportLoadInfo"
+		parameterType="com.boe.idm.project.model.mybatis.ReportLoadInfo">
+		insert into
+		sc_u_report_load_info(userAccount,username,menuid,reportname,loadtime,starttime,endtime)
+		values
+		(#{userAccount,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{menuId,jdbcType=VARCHAR},#{reportName,jdbcType=VARCHAR}
+		,#{loadTime,jdbcType=INTEGER},#{startTime,jdbcType=DATE},#{endTime,jdbcType=DATE})
+	</insert>
+
+	<select id="userLoginPagenate" parameterType="hashmap"
+		resultMap="userLoginInfo">
+		SELECT * from(
+		SELECT row_.*,rownum rownum_
+		FROM(
+		SELECT uli.USERACCOUNT,UI.USERNAME,ULI.LOGINTIME,ULI.LOGOUTTIME,ULI.IPADDR,ULI.CLIENT,ULI.TOKEN 
+		 FROM sc_u_USER_LOGIN_INFO uli LEFT JOIN sc_a_USERINFO ui ON uli.USERACCOUNT = UI.USERACCOUNT 
+		where UI.STATE='1'
+		<if test="userAccount != null and  userAccount != ''">
+			and uli.userAccount like
+			'%'||#{userAccount,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="userName != null and userName != ''">
+			and ui.username like
+			'%'||#{userName,jdbcType=VARCHAR}||'%'
+		</if>
+		and uli.logintime BETWEEN #{startTime,jdbcType=DATE} AND
+		#{endTime,jdbcType=DATE}
+		order by loginTime desc) row_
+		where rownum
+		&lt;=(#{pageRow}+#{startRow})
+		)
+		WHERE rownum_ &gt;#{startRow}
+	</select>
+
+	<select id="menuClickInfoPagenate" parameterType="hashmap"
+		resultMap="menuClickInfo">
+		SELECT * from(
+		SELECT row_.*,rownum rownum_
+		FROM(
+		SELECT MCI.USERACCOUNT,UI.USERNAME,MCI.MENUID,MCI.CLICKTIME FROM
+		sc_u_menu_click_info mci LEFT JOIN sc_a_USERINFO ui ON mci.USERACCOUNT = UI.USERACCOUNT 
+		where UI.STATE='1'
+		<if test="menuId != null and  menuId != ''">
+			and mci.menuid like #{menuId}
+		</if>
+		<if test="userAccount != null and  userAccount != ''">
+			and mci.userAccount like '%'||#{userAccount,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="userName != null and userName != ''">
+			and ui.username like '%'||#{userName,jdbcType=VARCHAR}||'%'
+		</if>
+		and mci.clicktime BETWEEN #{startTime,jdbcType=DATE} AND
+		#{endTime,jdbcType=DATE}
+		order by clicktime desc) row_
+		where rownum
+		&lt;=(#{pageRow}+#{startRow})
+		)
+		WHERE rownum_ &gt;#{startRow}
+	</select>
+
+	<select id="getUserLoginInfoCount" resultType="int">
+		select count(*) from sc_u_USER_LOGIN_INFO uli LEFT JOIN sc_a_USERINFO ui ON uli.USERACCOUNT = UI.USERACCOUNT 
+		where UI.STATE='1'
+		<if test="userAccount != null and  userAccount != ''">
+			and uli.userAccount like
+			'%'||#{userAccount,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="userName != null and userName != ''">
+			and ui.username like
+			'%'||#{userName,jdbcType=VARCHAR}||'%'
+		</if>
+		and uli.logintime BETWEEN #{startTime,jdbcType=DATE} AND
+		#{endTime,jdbcType=DATE}
+	</select>
+
+	<select id="getMenuClickInfoCount" resultType="int">
+		select count(*) from sc_u_menu_click_info mci LEFT JOIN sc_a_USERINFO ui ON mci.USERACCOUNT = UI.USERACCOUNT 
+		where UI.STATE='1'
+		<if test="menuId != null and  menuId != ''">
+			and mci.menuid like #{menuId}
+		</if>
+		<if test="userAccount != null and  userAccount != ''">
+			and mci.userAccount like '%'||#{userAccount,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="userName != null and userName != ''">
+			and ui.username like '%'||#{userName,jdbcType=VARCHAR}||'%'
+		</if>
+		and mci.clicktime BETWEEN #{startTime,jdbcType=DATE} AND
+		#{endTime,jdbcType=DATE}
+
+	</select>
+
+
+
+	<select id="getReportLoadInfoCount" resultType="int">
+		select count(*) from sc_u_report_load_info rli LEFT JOIN sc_a_USERINFO ui ON rli.USERACCOUNT = UI.USERACCOUNT 
+		where UI.STATE='1'
+		<if test="menuId != null and  menuId != ''">
+			and rli.menuid like #{menuId}
+		</if>
+		<if test="userAccount != null and  userAccount != ''">
+			and rli.userAccount like '%'||#{userAccount,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="userName != null and userName != ''">
+			and rli.username like '%'||#{userName,jdbcType=VARCHAR}||'%'
+		</if>
+		and rli.starttime BETWEEN #{startTime,jdbcType=DATE} AND
+		#{endTime,jdbcType=DATE}
+
+	</select>
+
+	<select id="reportLoadPagenate" parameterType="hashmap"
+		resultMap="reportLoadInfo">
+		SELECT * from(
+		SELECT row_.*,rownum rownum_
+		FROM(
+		SELECT RLI.USERACCOUNT,UI.USERNAME,RLI.MENUID,RLI.REPORTNAME,RLI.LOADTIME,RLI.STARTTIME,RLI.ENDTIME FROM
+		sc_u_report_load_info rli LEFT JOIN sc_a_USERINFO ui ON rli.USERACCOUNT = UI.USERACCOUNT  
+		where UI.STATE='1'
+		<if test="menuId != null and  menuId != ''">
+			and rli.menuid like #{menuId}
+		</if>
+		<if test="userAccount != null and  userAccount != ''">
+			and rli.userAccount like '%'||#{userAccount,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="userName != null and userName != ''">
+			and ui.username like '%'||#{userName,jdbcType=VARCHAR}||'%'
+		</if>
+		and rli.starttime BETWEEN #{startTime,jdbcType=DATE} AND
+		#{endTime,jdbcType=DATE}
+		order by starttime desc) row_
+		where rownum
+		&lt;=(#{pageRow}+#{startRow})
+		)
+		WHERE rownum_ &gt;#{startRow}
+	</select>
+
+	<select id="getUserLogin_Top" resultType="java.util.HashMap">
+		SELECT * from(
+		SELECT
+		row_.*,rownum rownum_
+		FROM(
+		select TMP.*,UI.USERNAME from (select
+		count(ULI.USERACCOUNT) as
+		ctimes,ULI.USERACCOUNT from sc_u_USER_LOGIN_INFO
+		uli
+		where ULI.LOGINTIME BETWEEN ADD_MONTHS(sysdate,-1) AND SYSDATE
+		GROUP BY ULI.USERACCOUNT) tmp LEFT JOIN sc_a_USERINFO ui ON TMP.USERACCOUNT
+		=
+		UI.USERACCOUNT where UI.STATE='1'
+		ORDER BY ctimes desc
+		) row_)
+		where rownum_ &lt;= 5 
+	</select>
+
+
+	<select id="getMenuClick_Top" resultType="java.util.HashMap">
+		SELECT * from(
+		SELECT
+		row_.*,rownum rownum_
+		FROM(
+		select TMP.* from (select count(MCI.MENUID)
+		as ctimes,mci.menuid from
+		sc_u_MENU_CLICK_INFO mci
+		where MCI.CLICKTIME
+		BETWEEN ADD_MONTHS(sysdate,-1) AND SYSDATE
+		GROUP BY mci.MENUID) tmp
+		LEFT JOIN sc_a_MENUINFO mi ON mi.menuid = tmp.menuid
+		where mi.STATE='1'
+		 ORDER BY ctimes desc
+		)
+		row_)
+		where rownum_ &lt;= 5
+	</select>
+</mapper>

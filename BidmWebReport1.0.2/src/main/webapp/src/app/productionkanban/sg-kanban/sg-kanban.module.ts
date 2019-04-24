@@ -1,0 +1,27 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { SgKanbanRoutingModule } from './sg-kanban-routing.module';
+import { GskanbanComponent } from './gskanban/gskanban.component';
+import { FormsModule } from '@angular/forms';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { GrowlModule } from 'primeng/growl';
+import { DropdownModule, CalendarModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    SgKanbanRoutingModule,
+    FormsModule,
+    NgxEchartsModule,
+    GrowlModule,
+    DropdownModule,
+    ButtonModule,
+    CalendarModule,
+    TableModule
+  ],
+  declarations: [GskanbanComponent]
+})
+export class SgKanbanModule { }

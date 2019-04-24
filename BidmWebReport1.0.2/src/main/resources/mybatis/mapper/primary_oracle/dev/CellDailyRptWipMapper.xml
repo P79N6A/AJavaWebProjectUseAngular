@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellDailyRptWipMapper">
+
+	<select id="getData" resultType="CellDailyReportWipVO">
+		select * from SC_CELL_DAILY_REPORT_WIP_VW where hourtimekey = to_char(sysdate${dayControl}, 'yyyymmdd') || '06'
+	</select>
+	
+	<select id="queryData" resultType="CellDailyReportWipVO">
+		select * from SC_CELL_DAILY_REPORT_WIP_VW where hourtimekey = #{dateValue}
+	</select>
+
+</mapper>

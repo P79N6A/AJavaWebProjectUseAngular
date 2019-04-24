@@ -1,0 +1,113 @@
+.pageContent{
+    height:100vh;
+    background-image: url(/assets/picture/watchboard/back.jpg);
+    background-size:100% 100%;
+}
+
+#title{
+    height:7vh;
+}
+
+#title > div{
+    height:100%;
+}
+
+#title > .left{
+    width:40%;
+    background-image:url(/assets/picture/watchboard/left.png);
+    background-size:100% 100%;
+    float:left;
+}
+
+#title > .middle{
+    width:20%;
+    text-align: center;
+    float:left;
+    margin:0;
+    padding:0;
+}
+
+#title p{
+    font-size: 2vw;
+    color:#fff;
+    margin:0;
+    padding:3% 0 0 0;
+}
+
+#title > .right{
+    width:40%;
+    background-image:url(/assets/picture/watchboard/right.png);
+    background-size:100% 100%;
+    float:left;
+}
+
+#top{
+    height:31vh;
+}
+
+#bottom{
+    height:62vh;
+    padding:0;
+}
+
+#top>*{
+    height:100%;
+}
+
+#bottom>*{
+    height:100%;
+}
+
+#chartTop{
+    width:100%;
+    height:49%;
+    background-image:url(/assets/picture/watchboard/border.png);
+    background-size:100% 100%;
+    margin-bottom: 1%;
+}
+
+#chartBottom{
+    width:100%;
+    height:49%;
+    background-image:url(/assets/picture/watchboard/border.png);
+    background-size:100% 100%;
+}
+
+:host ::ng-deep #chartTop .ui-carousel,:host ::ng-deep #chartTop .ui-widget{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+:host ::ng-deep #chartTop .ui-carousel-header,:host ::ng-deep #chartTop .ui-widget-header{
+    height:15%;
+    width:100%;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+:host ::ng-deep #chartTop .ui-carousel-viewport{
+    height:85%;
+    width:100%;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+:host ::ng-deep #chartTop .ui-carousel-items{
+    height:100%;
+    border:none;
+}
+
+:host ::ng-deep #chartTop .ui-carousel-items>*{
+    height:100%;
+    float:left;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+#wip *{
+    height:100%;
+    width:100%;
+    border:none;
+}

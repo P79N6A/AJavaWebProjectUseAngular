@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.SortBankBasicInfoMapper">
+
+	<select id="getData" resultType="SortBankBasicInfoVO">
+		select
+		productname,
+		arrayproductspecname,
+		cfproductspecname, cellproductspecname,
+		arraymodeltype, cfmodeltype, cellmodeltype, cell_cfproductspecname, no, flag
+		from sc_sort_bank_spec order by no
+	</select>
+
+	<delete id="deleteData" parameterType="SortBankBasicInfoVO">
+		delete from
+		sc_sort_bank_spec
+		where cellproductspecname = #{cellproductspecname}
+	</delete>
+
+	<insert id="insertData" parameterType="SortBankBasicInfoVO">
+		INSERT INTO
+		sc_sort_bank_spec
+		VALUES (#{productname,jdbcType = VARCHAR},
+		#{arrayproductspecname,jdbcType = VARCHAR},
+		#{cfproductspecname, jdbcType = VARCHAR},
+		#{cellproductspecname, jdbcType = VARCHAR},
+		#{arraymodeltype, jdbcType = VARCHAR},
+		#{cfmodeltype, jdbcType = VARCHAR},
+		#{cellmodeltype, jdbcType = VARCHAR},
+		#{cell_cfproductspecname, jdbcType = VARCHAR},
+		#{no, jdbcType = INTEGER},
+		#{flag, jdbcType = VARCHAR})
+	</insert>
+
+	<update id="updateData">
+		update sc_sort_bank_spec
+		set
+		productname = #{sortBankVO.productname,jdbcType = VARCHAR},
+		arrayproductspecname = #{sortBankVO.arrayproductspecname,jdbcType = VARCHAR},
+		cfproductspecname = #{sortBankVO.cfproductspecname,jdbcType=VARCHAR},
+		cellproductspecname = #{sortBankVO.cellproductspecname,jdbcType=VARCHAR}, 
+		arraymodeltype = #{sortBankVO.arraymodeltype,jdbcType=VARCHAR},
+		cfmodeltype = #{sortBankVO.cfmodeltype,jdbcType=VARCHAR},
+		cellmodeltype = #{sortBankVO.cellmodeltype,jdbcType=VARCHAR},
+		cell_cfproductspecname = #{sortBankVO.cell_cfproductspecname,jdbcType=VARCHAR},
+		no = #{sortBankVO.no,jdbcType=INTEGER},
+		flag = #{sortBankVO.flag, jdbcType = VARCHAR}
+		where
+		cellproductspecname = #{deleteKey}
+	</update>
+
+</mapper>

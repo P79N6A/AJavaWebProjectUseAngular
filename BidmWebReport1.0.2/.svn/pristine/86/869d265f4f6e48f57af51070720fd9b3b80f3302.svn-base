@@ -1,0 +1,110 @@
+#extenal.config
+#spring.bidm.extenal.config.path=D:/WORK/DES/bidm/config
+#spring.bidm.extenal.config.file.name=config.conf
+
+#default package
+spring.bidm.api.default.package=com.boe.idm.project
+#mybatis.type-aliases-package=com.boe.idm.project.model.mybatis
+#datasource connection
+spring.max.active.connections=20
+spring.idle.connections=5
+
+#init schema \u8fd9\u4e2a\u6587\u4ef6\u662f\u7528\u6765 \u63a7\u5236\u662f\u5426 \u8bfb\u53d6 sql \u6587\u4ef6\u7684 
+spring.datasource.initialize=false
+spring.datasource.continue-on-error=false
+spring.h2.console.enabled=true
+spring.h2.console.path=/db-console
+#spring.h2.console.settings.web-allow-others=true
+
+#primary datasource
+#spring.bidm.second.db.driver=org.h2.Driver
+#spring.bidm.second.db.url=jdbc:h2:mem:article
+#spring.bidm.second.db.username=sa
+#spring.bidm.second.db.password=
+
+#spring.bidm.primary.db.driver=org.h2.Driver
+#spring.bidm.primary.db.url=jdbc:h2:mem:article
+#spring.bidm.primary.db.username=sa
+#spring.bidm.primary.db.password=
+
+spring.bidm.primary.db.driver=org.mariadb.jdbc.Driver
+spring.bidm.primary.db.url=jdbc:mariadb://10.251.65.42:3306/bidm?useUnicode=true&charaterEncoding=utf-8&autoReconnection=true
+spring.bidm.primary.db.username=web
+spring.bidm.primary.db.password=Pa$$W0rD
+
+#second datasource
+#spring.bidm.primary.db.driver=oracle.jdbc.driver.OracleDriver
+#spring.bidm.primary.db.url=jdbc:oracle:thin:@10.251.65.51:1521/mwmsdb
+#spring.bidm.primary.db.username=webappadmin
+#spring.bidm.primary.db.password=admin
+
+spring.bidm.second.db.driver=oracle.jdbc.driver.OracleDriver
+spring.bidm.second.db.url=jdbc:oracle:thin:@10.251.65.51:1521/mwmsdb
+spring.bidm.second.db.username=webappadmin
+spring.bidm.second.db.password=admin
+#spring.bidm.second.db.driver=org.mariadb.jdbc.Driver
+#spring.bidm.second.db.url=jdbc:mariadb://localhost:3306/test
+#spring.bidm.second.db.username=root
+#spring.bidm.second.db.password=jikim
+
+#primary_oracle datasource
+spring.bidm.primary_oracle.db.driver=oracle.jdbc.driver.OracleDriver
+spring.bidm.primary_oracle.db.url=jdbc:oracle:thin:@10.90.248.61:1521/EDBYMS_SRV
+spring.bidm.primary_oracle.db.username=EDBADM
+spring.bidm.primary_oracle.db.password=adm1234
+
+#devmod datasource
+spring.bidm.mod.db.driver=oracle.jdbc.driver.OracleDriver
+spring.bidm.mod.db.url=jdbc:oracle:thin:@10.70.3.11:1521/TDEVSV01
+spring.bidm.mod.db.username=DEVMOD
+spring.bidm.mod.db.password=adm1212
+
+
+# Hibernate
+# H2
+hibernate.dialect=org.hibernate.dialect.H2Dialect
+# mysql
+#hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+hibernate.show_sql=true
+hibernate.naming-strategy=org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+hibernate.current_session_context_class=thread
+hibernate.entitymanager.packages=com.boe.idm.project.model.jpa
+
+#log path
+logging.config= classpath:logback.xml
+
+#logger package level logging
+logging.level.org.springframework.web=INFO
+logging.level.com.boe.idm.project=DEBUG
+
+#change!. Encryption key , must be 16 digits.
+bidm.encryption.key=7061737323313233
+
+#upload file directory \u8fd9\u4e2a\u5730\u65b9\u662f \u6587\u4ef6\u4e0a\u4f20\u7684\u6839\u8def\u5f84
+#bidm.upload.file.directory=D:/WORK/DES/bidm/upload/file
+bidm.upload.file.directory=C:/bidmFiles
+
+#maxfile size
+spring.http.multipart.max-file-size=100MB
+spring.http.multipart.max-request-size=100MB
+
+
+#Actuator
+management.security.enabled=false
+# ex http://{IP}:{PORT}/boe/beans,env,mappings,metrics,trace,health,info
+management.context-path=/boe
+# Enable database health check.
+endpoints.health.sensitive=true
+endpoints.health.enabled=true
+management.health.db.enabled=true
+management.health.defaults.enabled=true
+management.health.diskspace.enabled=true
+endpoints.shutdown.enabled=false
+endpoints.env.enabled=false
+endpoints.mappings.enabled=false
+endpoints.metrics.enabled=true
+endpoints.trace.enabled=false
+
+# Unified auth configure
+unifiedauth.enable=true
+unifiedauth.appid=bidmWeb

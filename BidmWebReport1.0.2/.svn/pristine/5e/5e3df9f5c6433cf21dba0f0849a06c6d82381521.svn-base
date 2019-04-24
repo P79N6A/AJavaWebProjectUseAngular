@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CfMoveMonthRptMapper">
+
+	<select id="getData" resultType="CfMoveMonthRptVO">
+		select * from SC_CF_REPORT_MOVE_MONTH_VIEW where datename = 
+			<if test="date != 1 and date != 2">
+				to_char(sysdate, 'yyyymm')
+			</if>
+			
+			<if test="date == 1 or date == 2">
+			
+				<if test="hour &gt; 6">
+					to_char(sysdate-1, 'yyyymm')
+				</if>
+				
+				<if test="hour &lt;= 6">
+					to_char(sysdate-2, 'yyyymm')
+				</if>
+			
+			</if>
+		
+	</select>
+	
+	<select id="queryData" resultType="CfMoveMonthRptVO">
+		select * from SC_CF_REPORT_MOVE_MONTH_VIEW where datename = #{datename}
+	</select>
+
+</mapper>

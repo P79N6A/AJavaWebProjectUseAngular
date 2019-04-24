@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleS2WorkWipMapper">
+<select id="getList" resultType="ModuleS2WorkWipVO">
+		select lottype ,
+		fgcode,
+		workorder,
+		WO_STATE wostate,
+		ASSIGN1STTIME bangding,
+		DAYTIME runtime,
+		PLAN_QTY planqty,
+		ASSIGN_QTY assigntowo,
+		NOT_STATE notstart,
+		wip,
+		shipped,
+		FGMS_NO_RECEIPT fgmsnoreceipt,
+		scrap,
+		FGMS_NO_RECEIPT reworkqty
+		
+		from (
+		 SELECT part1.CREATETIME,
+          part1.BUTYPE,
+          part1.WO_GROUP,
+          part1.LOTTYPE,
+          part1.FACTORY,
+          part1.FGCODE,
+          part1.WORKORDER,
+          part1.WO_STATE,
+          part1.ASSIGN1STTIME,
+          part1.DAYTIME,
+          part1.PLAN_QTY,
+          part1.ASSIGN_QTY,
+          part1.not_state,
+          part1.wip,
+          part1.shipped,
+          part2.NORECEIPT AS fgms_no_receipt,
+          part1.scrap,
+          part1.rework_qty
+     FROM (SELECT A.CREATETIME,
+                  A.BUTYPE,
+                  B.WO_GROUP,
+                  A.WOTYPE AS LOTTYPE,
+                  A.FACTORY,
+                  A.FGCODE,
+                  A.WORKORDER,
+                  A.WO_STATE,
+                  A.ASSIGN1STTIME,
+                  A.DAYTIME,
+                  A.PLAN_QTY,
+                  A.ASSIGN_QTY,
+                  (SELECT COUNT (lotname)
+                     FROM modadm.lot@mesmod
+                    WHERE     productrequestname = a.WORKORDER
+                          AND productspecname = a.FGCODE
+                          AND processoperationname = 'M000'
+                          AND productrequestname IS NOT NULL)
+                     AS not_state,
+                  (SELECT COUNT (lotname)
+                     FROM modadm.lot@mesmod
+                    WHERE     productrequestname = a.WORKORDER
+                          AND productspecname = a.FGCODE
+                          AND lotstate = 'Released'
+                          AND productrequestname IS NOT NULL
+                          AND (stocktofgms IS NULL OR stocktofgms = 'N')
+                          AND (etcreturnmode IS NULL OR etcreturnmode = 'Y')
+                          AND (   NVL (etcstate, 'N') &lt;&gt; 'OUT'
+                               OR NVL (etcstate, 'N') = 'OUT'))
+                     AS wip,
+                  (SELECT COUNT (lotname)
+                     FROM modadm.lot@mesmod
+                    WHERE     productrequestname = a.WORKORDER
+                          AND productspecname = a.FGCODE
+                          AND lotstate = 'Released'
+                          AND productrequestname IS NOT NULL
+                          AND stocktofgms = 'Y')
+                     AS shipped,
+                  (SELECT COUNT (lotname)
+                     FROM modadm.lot@mesmod
+                    WHERE     productrequestname = a.WORKORDER
+                          AND productspecname = a.FGCODE
+                          AND lotstate = 'Scrapped')
+                     AS scrap,
+                  a.rework_qty
+             FROM SC_MOD_WO_WIP A, SC_WO_TYPE B
+            WHERE     A.FACTORY = B.FACTORY
+                  AND A.WOTYPE = B.WO_TYPE
+                  AND a.createtime >= #{starttime}
+                  AND A.createtime &lt;= #{endtime}) PART1,
+          (  SELECT A.FGCODE, A.workorder, SUM (A.NORECEIPT) NORECEIPT
+               FROM    (  SELECT PNL.workorder, pnl.fgcode, COUNT (*) NORECEIPT
+                            FROM MODADM.ct_fgms_ship_pallet@MESMOD plt,
+                                 MODADM.ct_fgms_ship_panel@MESMOD pnl
+                           WHERE        plt.palletname = pnl.palletname
+                                    AND plt.interfaceflag &lt;&gt; 'Y'
+                                 OR plt.interfaceflag IS NULL
+                        GROUP BY pnl.workorder, pnl.fgcode) A
+                    LEFT JOIN
+                       SC_MOD_WO_WIP pr
+                    ON (A.workorder = pr.workorder)
+              WHERE pr.createtime BETWEEN #{starttime} AND #{endtime}
+           GROUP BY A.FGCODE, A.workorder) part2
+    WHERE     part1.fgcode = part2.fgcode(+)
+          AND part1.WORKORDER = part2.WORKORDER(+)
+		
+		)  AA
+		where AA.BUTYPE in <foreach collection="butypes" item="butype" index="index" open="(" close=")" separator=",">'${butype}'</foreach>
+		and AA.WO_GROUP in <foreach collection="workgroup" item="wog" index="index" open="(" close=")" separator=",">'${wog}'</foreach>
+		and AA.LOTTYPE in <foreach collection="lottypes" item="lottype" index="index" open="(" close=")" separator=",">'${lottype}'</foreach>
+		and AA.WO_STATE in <foreach collection="workstates" item="workstate" index="index" open="(" close=")" separator=",">'${workstate}'</foreach>
+		and AA.factory = #{factoryname}
+	</select>
+
+</mapper>
+		
+

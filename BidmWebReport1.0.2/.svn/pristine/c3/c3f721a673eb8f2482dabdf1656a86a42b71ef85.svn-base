@@ -1,0 +1,50 @@
+.head1{
+    font-size:13px !important;
+    padding: 0.2em 0.05em !important;
+    border :1.5px solid rgb(150, 150, 150) !important;
+    background-color: rgb(207, 226, 248) !important;
+}
+
+.data{
+    font-size: 12px !important;
+    text-align: center !important;
+    padding: 0.4em 0.2em !important;
+    border :1.5px solid rgb(150, 150, 150) !important;
+}
+
+.productSpec{
+    background-color: rgb(251, 252, 223) !important;
+}
+.isproductSpec{
+    background-color: rgb(243, 247, 134) !important;
+}
+
+#tdhover:hover{
+    background-color: rgb(255, 172, 142) !important;
+}
+
+.widthp11{
+    width:150px !important;
+}
+
+
+
+/*二级界面的操作*/
+.head21{
+    font-size: 12px !important;
+    padding: 0.2em 0.05em !important;
+    background-color: rgb(207, 226, 248) !important;
+}
+.data21{
+    font-size: 12px !important;
+    text-align: center !important;
+    padding: 0.3em 0.2em !important;
+    /* border :1.5px solid rgb(150, 150, 150) !important; */
+}
+
+.width1{
+    width: 120px !important;
+}
+.width2{
+    width: 150px !important;
+}

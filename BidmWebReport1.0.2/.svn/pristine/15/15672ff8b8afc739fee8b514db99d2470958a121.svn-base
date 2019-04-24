@@ -1,0 +1,14 @@
+export class spec{
+
+  Key = null; 
+  FACTORY	 = null; 
+  ITEM	 = null; 
+  PRODUCTSPECNAME = null; 	
+  MODELTYPE	 = null; 
+  HOURTIMEKEY	 = null; 
+  LINE	 = null; 
+  Qty = null; 
+  OWNER = null;
+  
+
+}

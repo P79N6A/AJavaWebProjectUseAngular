@@ -1,0 +1,14 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { OeeKanbanRoutingModule } from './oee-kanban-routing.module';
+import { DanAeInfoComponent } from './dan-ae-info/dan-ae-info.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    OeeKanbanRoutingModule
+  ],
+  declarations: [DanAeInfoComponent]
+})
+export class OeeKanbanModule { }

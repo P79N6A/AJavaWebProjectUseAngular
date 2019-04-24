@@ -1,0 +1,45 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../common/service/api/api.service';
+
+@Component({
+  selector: 'app-cf-move-month',
+  templateUrl: './cf-move-month.component.html',
+  styleUrls: ['./cf-move-month.component.css']
+})
+export class CfMoveMonthComponent implements OnInit {
+
+  cols: any[];
+  tableData: any[];
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+
+    this.cols = [
+      { field: 'productspecname', header: 'Product Spec' },
+      { field: 'modeltype', header: 'CF' },
+      { field: 'unpacker', header: 'Unpacker' },
+      { field: 'ito_depo', header: 'ITO Depo' },
+      { field: 'bm_photo', header: 'BM Photo' },
+      { field: 'macro_sorting', header: 'Macro Sorting' },
+      { field: 'bm_repair', header: 'BM Repair' },
+      { field: 'r_photo', header: 'R Photo' },
+      { field: 'g_photo', header: 'G Photo' },
+      { field: 'b_photo', header: 'B Photo' },
+      { field: 'blue_repair', header: 'BLUE Repair' },
+      { field: 'oc_photo', header: 'OC Photo' },
+      { field: 'ps_photo', header: 'PS Photo' },
+      { field: 'ps_repair', header: 'PS Repair' },
+      { field: 'fins', header: 'FINS' },
+      { field: 'shipping', header: 'Shipping' }
+    ];
+
+    this.apiService.getAll('/sc/cfreport/movemonth').subscribe(
+      (res) => {
+        this.tableData = res as any[];
+      }
+    );
+
+  }
+
+}

@@ -1,0 +1,15 @@
+package com.boe.idm.project.mapper.primaryOracle.dev;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.boe.idm.project.model.mybatis.CellDailyReportVO;
+
+@Mapper
+public interface CellDailyReportMapper {
+	
+	//1.根据日期查询所有的当天数据 
+	public List<CellDailyReportVO> queryObjects(@Param("datename") String datename);
+}

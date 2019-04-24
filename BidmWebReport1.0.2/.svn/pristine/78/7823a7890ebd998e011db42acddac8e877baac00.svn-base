@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ProductNameInfoMapper">
+
+<!-- 1.查询所有的数据 -->
+<select id="queryAll" resultType="ProductNameInfo">
+	select factory,product,productname,owner from sc_productname
+</select>
+
+<!-- 2.根据工厂名称查询数据 -->
+<select id="queryByName" resultType="ProductNameInfo">
+	select factory,product,productname,owner from sc_productname
+	where factory = #{factoryname}
+</select>
+
+<!-- 3.插入一个新的对象 -->
+<insert id="insertOne">
+	insert into sc_productname(factory,product,productname,owner)
+	values (#{factory},#{product},#{productName},#{owner})
+</insert>
+
+<!-- 4.删除一个对象 -->
+<delete id="delteteOne">
+	delete from sc_productname
+	where factory = #{factory} and product = #{product}
+		and productname = #{productName} and owner = #{owner}
+</delete>
+</mapper>

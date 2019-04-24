@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArrayMoveScrollMapper">
+	<resultMap id="res" type = "ArrayMoveScrollVO">
+		<result property="factory" column="FACTORY"></result>
+		<result property="month" column="MONTH"></result>
+		<result property="datename" column="DATENAME"></result>
+		<result property="opercode" column="OPER_CODE"></result>
+		<result property="operdesc" column="OPER_DESC"></result>
+		<result property="productiontype" column="PRODUCTIONTYPE"></result>
+		<result property="glsqty" column="GLSQTY"></result>
+		<result property="lotqty" column="LOTQTY"></result>
+	</resultMap>
+	<!-- 1.查询数据 -->
+	<select id="queryAllData" resultMap="res">
+	<!-- 
+		<selectKey keyProperty="nowhour" order="BEFORE" resultType="int">
+			select to_number(to_char(sysdate,'hh24')) from dual
+		</selectKey> -->
+		select factory,
+				month,
+				datename,
+				oper_code,
+				oper_desc,
+				productiontype,
+				glsqty,
+				lotqty
+		from sc_ar_report_move_month_view
+		where 1 = 1
+		 <if test="month != '---' "> 
+		 	and month = #{month}
+		 </if>
+		 <if test="month == '---' ">
+		 	<if test="nowhour &lt; 6">
+		 		and month = to_char(sysdate-2,'yyyymm')
+		 	</if>
+		 	<if test="nowhour &gt;= 6">
+		 		and month = to_char(sysdate-1,'yyyymm')
+		 	</if>
+		 </if>
+		 and productiontype = #{productiontype}
+				
+	</select>
+	
+	<!-- 2.向数据库中写入remark的内容 -->
+	<insert id="insertRemark">
+	
+		<selectKey keyProperty="numbs" order="BEFORE"  resultType="int">
+			select count(*) from sc_keyin_remark
+			where datename = #{month} and report = 'ArrayMoveScroll'
+				and item = #{opercode} 
+				and productspecname = #{productiontype}
+				and line = #{ratiotype}
+		</selectKey>
+		<if test="numbs == 0">
+			insert into sc_keyin_remark(datename,report,item,remark,productspecname,line,interfacetime)
+			values(#{month},'ArrayMoveScroll',#{opercode},#{content},#{productiontype},#{ratiotype},sysdate)
+		</if>
+		<if test="numbs != 0">
+			update sc_keyin_remark set remark = #{content}
+			where datename = #{month} and report = 'ArrayMoveScroll' and item = #{opercode}
+			and productspecname = #{productiontype} and line = #{ratiotype}
+		</if>
+	
+	</insert>
+	
+	<!-- 3.读取remark的内容 -->
+	<select id="readRemark" resultType="KeyInRemarkVO">
+		select * from sc_keyin_remark
+		where datename = #{month} and report = 'ArrayMoveScroll'
+			and  productspecname = #{productiontype} and line = #{ratiotype}
+	</select>
+</mapper>

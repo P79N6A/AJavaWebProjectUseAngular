@@ -1,0 +1,116 @@
+<div class="ui-g">
+  <p-panel  class="ui-g-12">
+    <p-header>
+      <h3 style="margin:5px;text-align:center">Cell Wip Ship To FGMS</h3>
+    </p-header>
+    <div class="ui-helper-clearfix" >
+      <!-- 第一页上面的 功能键-->
+        <div *ngIf="ispage1" style="float:right;padding: 5px">
+            <p-dropdown [options]="productiontypes" [(ngModel)]="selectedType" (onChange)="changeType()"></p-dropdown>
+            &nbsp;
+            <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>
+        </div>
+
+       <!-- 第二页上面的 功能键-->
+       <div *ngIf="ispage2" style="float:right;padding: 5px">
+        <span>当前ProductSpecName : {{productspenname}}</span>
+        &nbsp;
+          <button pButton type="button" label="返回" icon="fa fa-hand-o-left" iconPos="left" (click)="returnPage1()"></button>
+          &nbsp;
+          <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>
+      </div>
+
+    </div>
+
+    <!-- 界面1的表格  [scrollable]="false" scrollHeight="500px"  [paginator]="true" [rows]="22"-->
+    <p-table  *ngIf="ispage1" id="cellwiptofgmstable1" [columns]="cols" [value]="data" [scrollable]="true" scrollHeight="600px">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup >
+          <col *ngFor="let col of columns,let i = index" [ngClass]="{widthp11:i == 0 || i == 1}">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <!-- 1.第一行 -->
+        <tr>
+          <th rowspan="3" class="head1" width="150px">ProductName</th>
+          <th rowspan="3" class="head1" width="150px">ProductSpec</th>
+          <th rowspan="3" class="head1">CellModeType</th>
+          <th colspan="10" class="head1">
+            {{selectedType}}
+          </th>
+        </tr>
+        <!-- 2.第二行 -->
+        <tr>
+          <th colspan="2" class="head1">Panel Qty</th>
+          <th colspan="2" class="head1">待Ship(TTL)</th>
+          <th colspan="2" class="head1">待Ship(>3天)</th>
+          <th colspan="2" class="head1">Ship待入库(TTL)</th>
+          <th colspan="2" class="head1">Ship待入库(>3天)</th>
+        </tr>
+        <!-- 3.第三行 -->
+        <tr>
+          <th class="head1">TTL</th>
+          <th class="head1">>3天</th>
+          <th class="head1">Box Qty</th>
+          <th class="head1">Panel Qty</th>
+          <th class="head1">Box Qty</th>
+          <th class="head1">Panel Qty</th>
+          <th class="head1">Pallet Qty</th>
+          <th class="head1">Panel Qty</th>
+          <th class="head1">Pallet Qty</th>
+          <th class="head1">Panel Qty</th>
+        </tr>
+        <!-- 4.第四行 TTL的这个和-->
+        <tr>
+          <th colspan="3" class="head1">TTL</th>
+          <th  class="head1" *ngFor="let qty of TTLData">{{qty}}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowdata let-columns="columns" let-rowIndex="rowIndex">
+        <tr>
+          <td id="tdhover" *ngFor = "let col of columns,let i = index" class="data" [ngClass]="{productSpec : i == 1 || i == 0}"
+          (click)="clickProductSpec(i,rowdata)" >{{rowdata[col.field]}}</td> <!-- (mouseover)="changeColor(i,rowIndex,rowdata)   isproductSpec:(i == 1 && isproductspec && rowIndex+1 == rowdata.rownum)"-->
+        </tr>
+      </ng-template>
+    </p-table>
+
+      <!-- 界面2的表格 -->
+      <p-table  *ngIf="ispage2" id="cellwiptofgmstable1" [columns]="cols2" [value]="data2" [scrollable]="true" scrollHeight="500px">
+        
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col *ngFor="let col of columns,let i = index" [ngClass]="{width1:i == 1 || i == 0 || i == 10,width2:i == 11}">
+          </colgroup>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <!-- 1.第一行 -->
+            <tr>												
+              <th class="head21" width="120px">Shipping Time</th>
+              <th class="head21" width="120px">Pallet ID</th>
+              <th class="head21">Box Qty</th>
+              <th class="head21">Panel Qty</th>
+              <th class="head21">Lot Type</th>
+              <th class="head21">Material Type</th>
+              <th class="head21">Detail Material Type</th>
+              <th class="head21">Pallet Grade</th>
+              <th class="head21">Event Name</th>
+              <th class="head21">FGMS Received</th>
+              <th class="head21" width="120px">ProductSpec</th>
+              <th class="head21" width="150px">FG Code</th>
+              <th class="head21">Revision Code</th>
+              <th class="head21">CheckIn<br> Code</th>
+              <th class="head21">To Where</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-rowdata let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns" class="data21">{{rowdata[col.field]}}</td>
+            </tr>
+          </ng-template>
+         
+        </p-table>
+
+  </p-panel>
+</div>

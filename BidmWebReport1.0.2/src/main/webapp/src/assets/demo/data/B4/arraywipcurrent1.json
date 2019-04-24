@@ -1,0 +1,9 @@
+[
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"KL","glassqty":240.0},
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"HA","glassqty":38.0}, 
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"X1","glassqty":80.0},
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"G1","glassqty":300.0},
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"HQ","glassqty":160.0},
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"VB","glassqty":299.0},
+{"hourtimekey":"2019021015","operationdesc":"SD Test Full","modeltype":"1L","glassqty":60.0}
+]

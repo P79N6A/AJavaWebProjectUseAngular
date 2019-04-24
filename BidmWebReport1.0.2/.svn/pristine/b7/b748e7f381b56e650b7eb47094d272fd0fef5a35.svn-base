@@ -1,0 +1,802 @@
+webpackJsonp(["log.module"],{
+
+/***/ "./src/app/log/analysispage/analysispage.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/log/analysispage/analysispage.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "  <div class=\"ui-g\">\n  <div class=\"ui-g-6\">\n    <p-panel>\n        <p-header>\n            <div class=\"ui-helper-clearfix\">\n                活跃用户\n            </div>\n        </p-header>\n        <div echarts [options]=\"userLoginOption\" class=\"demo-chart\" theme=\"macarons\"></div>\n\n        <p-footer>\n                <span><span class=\"loadMsg\">加载耗时:</span>{{report1_loadTime}}</span>\n        </p-footer>\n      </p-panel>\n  </div>\n    <div class=\"ui-g-6\">\n        <p-panel>\n            <p-header>\n                <div class=\"ui-helper-clearfix\">\n                    菜单访问\n                </div>\n            </p-header>\n            <div echarts [options]=\"menuClickOption\" class=\"demo-chart\" theme=\"macarons\"></div>\n            <p-footer>\n                <span><span class=\"loadMsg\">加载耗时:</span>{{report2_loadTime}}</span>\n            </p-footer>\n        </p-panel>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/log/analysispage/analysispage.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AnalysispageComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var AnalysispageComponent = /** @class */ (function () {
+    function AnalysispageComponent(apiService) {
+        this.apiService = apiService;
+        this.userName = "";
+        this.report1_loadTime = "";
+        this.report2_loadTime = "";
+    }
+    AnalysispageComponent.prototype.ngOnInit = function () {
+        this.setUserLoginChart();
+        this.setMenuClickChart();
+    };
+    AnalysispageComponent.prototype.setUserLoginChart = function () {
+        var _this = this;
+        var http_startTime = new Date();
+        // user login
+        var options = {
+            headers: this.apiService.getHeaders(),
+            params: {
+                log_reportName: 'UserLogin_Top5',
+                log_menuId: 'analysispage'
+            }
+        };
+        this.apiService.get('/userlog/tbload/userlogintop', options).subscribe(function (res) {
+            _this.createOption_UserLogin(res);
+            var http_endTime = new Date();
+            _this.report1_loadTime = (http_endTime.getTime() - http_startTime.getTime()) / 1000 + "s";
+        });
+    };
+    AnalysispageComponent.prototype.setMenuClickChart = function () {
+        var _this = this;
+        var http_startTime = new Date();
+        // menu click 
+        var options = {
+            headers: this.apiService.getHeaders(),
+            params: {
+                log_reportName: 'MenuClick_Top5',
+                log_menuId: 'analysispage'
+            }
+        };
+        this.apiService.get('/userlog/tbload/menuclicktop', options).subscribe(function (res) {
+            var legend_data = [];
+            var series_data = [];
+            var total = 0;
+            //获取所有点击数之和
+            for (var _i = 0, res_1 = res; _i < res_1.length; _i++) {
+                var obj = res_1[_i];
+                total += obj.CTIMES;
+            }
+            for (var _a = 0, res_2 = res; _a < res_2.length; _a++) {
+                var obj = res_2[_a];
+                legend_data.push(obj.MENUID);
+                series_data.push({ value: (obj.CTIMES / total * 100).toFixed(2), name: obj.MENUID + " " + obj.CTIMES + "次" });
+            }
+            _this.createOption_MenuClick(legend_data, series_data);
+            var http_endTime = new Date();
+            _this.report2_loadTime = (http_endTime.getTime() - http_startTime.getTime()) / 1000 + "s";
+        });
+    };
+    AnalysispageComponent.prototype.createOption_UserLogin = function (obj) {
+        var plantCap = obj;
+        var datalist = [{
+                offset: [56, 48],
+                symbolSize: 120,
+                opacity: .95,
+                color: '#f467ce'
+            }, {
+                offset: [35, 80],
+                symbolSize: 95,
+                opacity: .88,
+                color: '#7aabe2'
+            }, {
+                offset: [20, 43],
+                symbolSize: 90,
+                opacity: .84,
+                color: '#ff7123'
+            }, {
+                offset: [83, 30],
+                symbolSize: 90,
+                opacity: .8,
+                color: '#ffc400'
+            }, {
+                offset: [36, 20],
+                symbolSize: 65,
+                opacity: .75,
+                color: '#5e333f'
+            }, {
+                offset: [64, 10],
+                symbolSize: 70,
+                opacity: .7,
+                color: '#6b3442'
+            }, {
+                offset: [75, 75],
+                symbolSize: 60,
+                opacity: .68,
+                color: '#8a3647'
+            }, {
+                offset: [88, 62],
+                symbolSize: 50,
+                opacity: .6,
+                color: '#68333f'
+            }];
+        var datas = [];
+        for (var i = 0; i < plantCap.length; i++) {
+            var item = plantCap[i];
+            var itemToStyle = datalist[i];
+            datas.push({
+                name: item.value + '\n' + item.name,
+                value: itemToStyle.offset,
+                symbolSize: itemToStyle.symbolSize,
+                label: {
+                    normal: {
+                        textStyle: {
+                            fontSize: 11
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: itemToStyle.color,
+                        opacity: itemToStyle.opacity
+                    }
+                },
+            });
+        }
+        this.userLoginOption = {
+            title: {
+                text: '近1个月活跃用户TOP5',
+                x: 'center'
+            },
+            toolbox: {
+                feature: {
+                    dataView: { readOnly: false },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                show: false,
+                top: 10,
+                bottom: 10
+            },
+            xAxis: [{
+                    gridIndex: 0,
+                    type: 'value',
+                    show: false,
+                    min: 0,
+                    max: 100,
+                    nameLocation: 'middle',
+                    nameGap: 5
+                }],
+            yAxis: [{
+                    gridIndex: 0,
+                    min: 0,
+                    show: false,
+                    max: 100,
+                    nameLocation: 'middle',
+                    nameGap: 30
+                }],
+            series: [{
+                    type: 'scatter',
+                    symbol: 'circle',
+                    symbolSize: 120,
+                    label: {
+                        normal: {
+                            show: true,
+                            formatter: '{b}',
+                            color: '#fff',
+                            textStyle: {
+                                fontSize: '20'
+                            }
+                        },
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#00acea'
+                        }
+                    },
+                    data: datas
+                }],
+            graphic: [{
+                    type: 'text',
+                    left: '10%',
+                    top: '20%',
+                    z: 0,
+                    cursor: 'default',
+                    rotation: Math.PI * 0.125,
+                    style: {
+                        fill: 'rgb(213,84,88)',
+                        text: '机密',
+                        font: 'bold 30px Microsoft YaHei'
+                    }
+                },
+                {
+                    type: 'text',
+                    left: '60%',
+                    top: '20%',
+                    z: 0,
+                    cursor: 'default',
+                    rotation: Math.PI * 0.125,
+                    style: {
+                        fill: 'rgb(188,188,188)',
+                        text: '水印',
+                        font: 'bold 30px Microsoft YaHei'
+                    }
+                },
+            ]
+        };
+    };
+    AnalysispageComponent.prototype.createOption_MenuClick = function (legend_data, series_data) {
+        this.menuClickOption = {
+            title: {
+                text: '近1个月用户关注界面TOP5',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            toolbox: {
+                feature: {
+                    dataView: { readOnly: false },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: legend_data
+            },
+            calculable: true,
+            series: [
+                {
+                    name: '',
+                    type: 'funnel',
+                    top: '15%',
+                    left: '15%',
+                    width: '70%',
+                    height: '85%',
+                    label: {
+                        normal: {
+                            position: 'inside',
+                            textStyle: {
+                                fontSize: 14,
+                                color: '#000000'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        }
+                    },
+                    data: series_data
+                }
+            ]
+        };
+    };
+    AnalysispageComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-analysispage',
+            template: __webpack_require__("./src/app/log/analysispage/analysispage.component.html"),
+            styles: [__webpack_require__("./src/app/log/analysispage/analysispage.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__common_service_api_api_service__["a" /* ApiService */]])
+    ], AnalysispageComponent);
+    return AnalysispageComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/log/log-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LogRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userlogin_userlogin_component__ = __webpack_require__("./src/app/log/userlogin/userlogin.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__menuclick_menuclick_component__ = __webpack_require__("./src/app/log/menuclick/menuclick.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__reportload_reportload_component__ = __webpack_require__("./src/app/log/reportload/reportload.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__analysispage_analysispage_component__ = __webpack_require__("./src/app/log/analysispage/analysispage.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+var routes = [
+    {
+        path: 'userlogin',
+        component: __WEBPACK_IMPORTED_MODULE_2__userlogin_userlogin_component__["a" /* UserloginComponent */],
+        data: {
+            tabLabel: 'userlogin',
+            destroy: true
+        }
+    },
+    {
+        path: 'menuclick',
+        component: __WEBPACK_IMPORTED_MODULE_3__menuclick_menuclick_component__["a" /* MenuclickComponent */],
+        data: {
+            tabLabel: 'menuclick',
+            destroy: true
+        }
+    },
+    {
+        path: 'reportload',
+        component: __WEBPACK_IMPORTED_MODULE_4__reportload_reportload_component__["a" /* ReportloadComponent */],
+        data: {
+            tabLabel: 'reportload',
+            destroy: true
+        }
+    },
+    {
+        path: 'analysispage',
+        component: __WEBPACK_IMPORTED_MODULE_5__analysispage_analysispage_component__["a" /* AnalysispageComponent */],
+        data: {
+            tabLabel: 'analysispage',
+            destroy: true
+        }
+    }
+];
+var LogRoutingModule = /** @class */ (function () {
+    function LogRoutingModule() {
+    }
+    LogRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
+        })
+    ], LogRoutingModule);
+    return LogRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/log/log.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogModule", function() { return LogModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__log_routing_module__ = __webpack_require__("./src/app/log/log-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__userlogin_userlogin_component__ = __webpack_require__("./src/app/log/userlogin/userlogin.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__menuclick_menuclick_component__ = __webpack_require__("./src/app/log/menuclick/menuclick.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_primeng_table__ = __webpack_require__("./node_modules/primeng/table.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_primeng_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_primeng_table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__ = __webpack_require__("./node_modules/primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__ = __webpack_require__("./node_modules/@ngx-translate/core/@ngx-translate/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__reportload_reportload_component__ = __webpack_require__("./src/app/log/reportload/reportload.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__analysispage_analysispage_component__ = __webpack_require__("./src/app/log/analysispage/analysispage.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ngx_echarts__ = __webpack_require__("./node_modules/ngx-echarts/ngx-echarts.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+var LogModule = /** @class */ (function () {
+    function LogModule() {
+    }
+    LogModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_2__log_routing_module__["a" /* LogRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_5_primeng_table__["TableModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["InputTextModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["ButtonModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["PanelModule"],
+                __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__["b" /* TranslateModule */],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["PaginatorModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["CalendarModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["ChartModule"],
+                __WEBPACK_IMPORTED_MODULE_10_ngx_echarts__["a" /* NgxEchartsModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_3__userlogin_userlogin_component__["a" /* UserloginComponent */], __WEBPACK_IMPORTED_MODULE_4__menuclick_menuclick_component__["a" /* MenuclickComponent */], __WEBPACK_IMPORTED_MODULE_8__reportload_reportload_component__["a" /* ReportloadComponent */], __WEBPACK_IMPORTED_MODULE_9__analysispage_analysispage_component__["a" /* AnalysispageComponent */]]
+        })
+    ], LogModule);
+    return LogModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/log/menuclick/menuclick.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/log/menuclick/menuclick.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"ui-g\">\n  <div class=\"ui-g-12 ui-lg-12\" style=\"border:1px solid lightgray; background-color:mintcream;height: 6.5em;\">\n      <div class=\"ui-g-4\">\n          <label>{{'admin.useraccount' | translate}}：</label>\n          <input type=\"text\" [(ngModel)]=\"userAccount\" pInputText>\n      </div>\n      <div class=\"ui-g-4\">\n        <label>{{'admin.username' | translate}}：</label>\n        <input type=\"text\" [(ngModel)]=\"userName\" pInputText>\n      </div>\n      <div class=\"ui-g-4\">\n        <label>{{'admin.menuId' | translate}}：</label>\n        <input type=\"text\" [(ngModel)]=\"menuId\" pInputText>\n     </div>\n      <div class=\"ui-g-4\">\n        <div class=\"ui-g\">\n            <label >{{'log.loginTime' | translate}}：</label>\n            <p-calendar [(ngModel)]=\"startTime\" [showIcon]=\"true\" dateFormat=\"yy.mm.dd\" hourFormat=\"24\"></p-calendar>\n          </div>\n      </div>\n      <div class=\"ui-g-4\">\n        <div class=\"ui-g\">\n            <label >{{'log.logoutTime' | translate}}：</label>\n            <p-calendar [(ngModel)]=\"endTime\" [showIcon]=\"true\" dateFormat=\"yy.mm.dd\" hourFormat=\"24\" maxDateCount=1></p-calendar>\n          </div>\n      </div>\n      <p-button style=\"float: right;\" icon=\"fa fa-search\" label=\"{{'admin.query' | translate}}\" [disabled]=\"false\"\n          (onClick)=\"paginator.changePage(0);\"></p-button>\n  </div>\n\n  <div class=\"ui-g-12 ui-lg-12\">\n      <p-panel>\n          <p-header>\n              <div class=\"ui-helper-clearfix\">\n                  <span class=\"ui-panel-title\">菜单点击信息</span>\n              </div>\n          </p-header>\n          <p-table [value]=\"menuClickInfoList\" selectionMode=\"single\" [(selection)]=\"menuClickInfo\">\n              <ng-template pTemplate=\"header\">\n                  <tr>\n                      <th>工号</th>\n                      <th>姓名</th>\n                      <th>菜单名</th>\n                      <th>点击时间</th>\n                  </tr>\n              </ng-template>\n\n              <ng-template pTemplate=\"body\" let-menuClickInfo>\n                  <tr>\n                      <td pEditableColumn>{{menuClickInfo.userAccount}}</td>\n                      <td pEditableColumn>{{menuClickInfo.userName}}</td>\n                      <td pEditableColumn>{{menuClickInfo.menuId}}</td> \n                      <td pEditableColumn>{{menuClickInfo.clickTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>                  \n                  </tr>\n              </ng-template>\n              <ng-template pTemplate=\"summary\" >\n                  <p-paginator [alwaysShow]=\"true\" [rows]=\"rows\" [totalRecords]=\"totalRecords\" [rowsPerPageOptions]=\"rowsPerPageOptions\"\n                      (onPageChange)=\"paginate($event)\" #p></p-paginator>\n              </ng-template>\n          </p-table>\n      </p-panel>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/log/menuclick/menuclick.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MenuclickComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_primeng_primeng__ = __webpack_require__("./node_modules/primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var MenuclickComponent = /** @class */ (function () {
+    function MenuclickComponent(service) {
+        this.service = service;
+        this.menuId = "";
+        this.userAccount = "";
+        this.userName = "";
+        this.rows = 6;
+        this.totalRecords = 0;
+        this.rowsPerPageOptions = [6, 10, 20];
+        this.pageInfo = { pageRow: this.rows, startRow: 0 };
+        this.endTime = new Date();
+        this.startTime = new Date(this.endTime.getTime() - 60 * 60 * 24 * 1000);
+    }
+    MenuclickComponent.prototype.ngOnInit = function () {
+        this.getMenuClickInfo();
+    };
+    MenuclickComponent.prototype.getMenuClickInfo = function () {
+        var _this = this;
+        this.getPageCount();
+        var options = {
+            params: {
+                menuId: this.menuId,
+                userAccount: this.userAccount,
+                userName: this.userName,
+                startTime: this.startTime.getTime(),
+                endTime: this.endTime.getTime(),
+                pageRow: this.pageInfo['pageRow'],
+                startRow: this.pageInfo['startRow']
+            }
+        };
+        this.service.get('/userlog/menuclick/pagenate', options).subscribe(function (res) {
+            _this.menuClickInfoList = res;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    MenuclickComponent.prototype.getPageCount = function () {
+        var _this = this;
+        var url = '/userlog/menuclick/count';
+        var options = {
+            params: {
+                startTime: this.startTime.getTime(),
+                endTime: this.endTime.getTime(),
+                menuId: this.menuId,
+                userAccount: this.userAccount,
+                userName: this.userName
+            }
+        };
+        this.service.get(url, options).subscribe(function (res) {
+            _this.totalRecords = res;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    MenuclickComponent.prototype.paginate = function (event) {
+        this.pageInfo.pageRow = event['rows'];
+        this.pageInfo.startRow = event['first'];
+        this.search(event.page + 1);
+        this.getMenuClickInfo();
+    };
+    MenuclickComponent.prototype.search = function (page) {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('p'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_primeng_primeng__["Paginator"])
+    ], MenuclickComponent.prototype, "paginator", void 0);
+    MenuclickComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-menuclick',
+            template: __webpack_require__("./src/app/log/menuclick/menuclick.component.html"),
+            styles: [__webpack_require__("./src/app/log/menuclick/menuclick.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__["a" /* ApiService */]])
+    ], MenuclickComponent);
+    return MenuclickComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/log/reportload/reportload.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/log/reportload/reportload.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"ui-g\">\n  <div class=\"ui-g-12 ui-lg-12\" style=\"border:1px solid lightgray; background-color:mintcream;height: 6.5em;\">\n      <div class=\"ui-g-4\">\n          <label>{{'admin.useraccount' | translate}}：</label>\n          <input type=\"text\" [(ngModel)]=\"userAccount\" pInputText>\n      </div>\n      <div class=\"ui-g-4\">\n        <label>{{'admin.username' | translate}}：</label>\n        <input type=\"text\" [(ngModel)]=\"userName\" pInputText>\n      </div>\n      <div class=\"ui-g-4\">\n        <label>{{'admin.menuId' | translate}}：</label>\n        <input type=\"text\" [(ngModel)]=\"menuId\" pInputText>\n     </div>\n      <div class=\"ui-g-4\">\n        <div class=\"ui-g\">\n            <label >{{'log.loginTime' | translate}}：</label>\n            <p-calendar [(ngModel)]=\"startTime\" [showIcon]=\"true\" dateFormat=\"yy.mm.dd\" hourFormat=\"24\"></p-calendar>\n          </div>\n      </div>\n      <div class=\"ui-g-4\">\n        <div class=\"ui-g\">\n            <label >{{'log.logoutTime' | translate}}：</label>\n            <p-calendar [(ngModel)]=\"endTime\" [showIcon]=\"true\" dateFormat=\"yy.mm.dd\" hourFormat=\"24\" maxDateCount=1></p-calendar>\n          </div>\n      </div>\n      <p-button style=\"float: right;\" icon=\"fa fa-search\" label=\"{{'admin.query' | translate}}\" [disabled]=\"false\"\n          (onClick)=\"paginator.changePage(0);\"></p-button>\n  </div>\n\n  <div class=\"ui-g-12 ui-lg-12\">\n      <p-panel>\n          <p-header>\n              <div class=\"ui-helper-clearfix\">\n                  <span class=\"ui-panel-title\">报表加载信息</span>\n              </div>\n          </p-header>\n          <p-table [value]=\"reportLoadInfoList\" selectionMode=\"single\" [(selection)]=\"reportLoadInfo\">\n              <ng-template pTemplate=\"header\">\n                  <tr>\n                      <th>工号</th>\n                      <th>姓名</th>\n                      <th>菜单</th>\n                      <th>报表名称</th>\n                      <th>加载耗时(ms)</th>\n                      <th>请求开始时间</th>\n                      <th>请求结束时间</th>\n                  </tr>\n              </ng-template>\n\n              <ng-template pTemplate=\"body\" let-reportLoadInfo>\n                  <tr>\n                      <td pEditableColumn>{{reportLoadInfo.userAccount}}</td>\n                      <td pEditableColumn>{{reportLoadInfo.userName}}</td>\n                      <td pEditableColumn>{{reportLoadInfo.menuId}}</td>\n                      <td pEditableColumn>{{reportLoadInfo.reportName}}</td>\n                      <td pEditableColumn>{{reportLoadInfo.loadTime}}</td>   \n                      <td pEditableColumn>{{reportLoadInfo.startTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>    \n                      <td pEditableColumn>{{reportLoadInfo.endTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>               \n                  </tr>\n              </ng-template>\n              <ng-template pTemplate=\"summary\" >\n                  <p-paginator [alwaysShow]=\"true\" [rows]=\"rows\" [totalRecords]=\"totalRecords\" [rowsPerPageOptions]=\"rowsPerPageOptions\"\n                      (onPageChange)=\"paginate($event)\" #p></p-paginator>\n              </ng-template>\n          </p-table>\n      </p-panel>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/log/reportload/reportload.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportloadComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__ = __webpack_require__("./node_modules/primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_primeng_primeng__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ReportloadComponent = /** @class */ (function () {
+    function ReportloadComponent(service) {
+        this.service = service;
+        this.menuId = "";
+        this.userAccount = "";
+        this.userName = "";
+        this.rows = 6;
+        this.totalRecords = 0;
+        this.rowsPerPageOptions = [6, 10, 20];
+        this.pageInfo = { pageRow: this.rows, startRow: 0 };
+        this.endTime = new Date();
+        this.startTime = new Date(this.endTime.getTime() - 60 * 60 * 24 * 1000);
+    }
+    ReportloadComponent.prototype.ngOnInit = function () {
+        this.getReportLoadInfo();
+    };
+    ReportloadComponent.prototype.getReportLoadInfo = function () {
+        var _this = this;
+        this.getPageCount();
+        var options = {
+            headers: this.service.getHeaders(),
+            params: {
+                menuId: this.menuId,
+                userAccount: this.userAccount,
+                userName: this.userName,
+                startTime: this.startTime.getTime(),
+                endTime: this.endTime.getTime(),
+                pageRow: this.pageInfo['pageRow'],
+                startRow: this.pageInfo['startRow'],
+                log_reportName: 'reportloadlist',
+                log_menuId: 'reportload'
+            }
+        };
+        this.service.get('/userlog/tbload/reportload/pagenate', options).subscribe(function (res) {
+            _this.reportLoadInfoList = res;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ReportloadComponent.prototype.getPageCount = function () {
+        var _this = this;
+        var url = '/userlog/reportload/count';
+        var options = {
+            params: {
+                startTime: this.startTime.getTime(),
+                endTime: this.endTime.getTime(),
+                menuId: this.menuId,
+                userAccount: this.userAccount,
+                userName: this.userName
+            }
+        };
+        this.service.get(url, options).subscribe(function (res) {
+            _this.totalRecords = res;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ReportloadComponent.prototype.paginate = function (event) {
+        this.pageInfo.pageRow = event['rows'];
+        this.pageInfo.startRow = event['first'];
+        this.search(event.page + 1);
+        this.getReportLoadInfo();
+    };
+    ReportloadComponent.prototype.search = function (page) {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('p'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2_primeng_primeng__["Paginator"])
+    ], ReportloadComponent.prototype, "paginator", void 0);
+    ReportloadComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-reportload',
+            template: __webpack_require__("./src/app/log/reportload/reportload.component.html"),
+            styles: [__webpack_require__("./src/app/log/reportload/reportload.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_common_service_api_api_service__["a" /* ApiService */]])
+    ], ReportloadComponent);
+    return ReportloadComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/log/userlogin/userlogin.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/log/userlogin/userlogin.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ui-g\">\n    <div class=\"ui-g-12 ui-lg-12\" style=\"border:1px solid lightgray; background-color:mintcream;height: 6.5em;\">\n        <div class=\"ui-g-4\">\n            <label>{{'admin.useraccount' | translate}}：</label>\n            <input type=\"text\" [(ngModel)]=\"userAccount\" pInputText>\n        </div>\n        <div class=\"ui-g-8\">\n          <label>{{'admin.username' | translate}}：</label>\n          <input type=\"text\" [(ngModel)]=\"userName\" pInputText>\n        </div>\n        <div class=\"ui-g-4\">\n          <div class=\"ui-g\">\n              <label >{{'log.loginTime' | translate}}：</label>\n              <p-calendar [(ngModel)]=\"startTime\" [showIcon]=\"true\" dateFormat=\"yy.mm.dd\" hourFormat=\"24\"></p-calendar>\n            </div>\n        </div>\n        <div class=\"ui-g-4\">\n          <div class=\"ui-g\">\n              <label >{{'log.logoutTime' | translate}}：</label>\n              <p-calendar [(ngModel)]=\"endTime\" [showIcon]=\"true\" dateFormat=\"yy.mm.dd\" hourFormat=\"24\" maxDateCount=1></p-calendar>\n            </div>\n        </div>\n        <p-button style=\"float: right;\" icon=\"fa fa-search\" label=\"{{'admin.query' | translate}}\" [disabled]=\"false\"\n            (onClick)=\"paginator.changePage(0);\"></p-button>\n    </div>\n  \n    <div class=\"ui-g-12 ui-lg-12\">\n        <p-panel>\n            <p-header>\n                <div class=\"ui-helper-clearfix\">\n                    <span class=\"ui-panel-title\">用户登陆信息</span>\n                </div>\n            </p-header>\n            <p-table [value]=\"userLoginInfoList\" selectionMode=\"single\" [(selection)]=\"userLoginInfo\">\n                <ng-template pTemplate=\"header\">\n                    <tr>\n                        <th>工号</th>\n                        <th>姓名</th>\n                        <th>登陆时间</th>\n                        <th>登出时间</th>\n                        <th>IP地址</th>\n                        <th>浏览器</th>\n                     </tr>\n                </ng-template>\n  \n                <ng-template pTemplate=\"body\" let-userLoginInfo>\n                    <tr>\n                        <td pEditableColumn>{{userLoginInfo.userAccount}}</td>\n                        <td pEditableColumn>{{userLoginInfo.userName}}</td>\n                        <td pEditableColumn>{{userLoginInfo.loginTime | date:'yyyy-MM-dd HH:mm:ss'}}</td> \n                        <td pEditableColumn>{{userLoginInfo.logoutTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>\n                        <td pEditableColumn>{{userLoginInfo.ipAddr}}</td>\n                        <td pEditableColumn>{{userLoginInfo.client}}</td>\n                    </tr>\n                </ng-template>\n                <ng-template pTemplate=\"summary\" >\n                    <p-paginator [alwaysShow]=\"true\" [rows]=\"rows\" [totalRecords]=\"totalRecords\" [rowsPerPageOptions]=\"rowsPerPageOptions\"\n                        (onPageChange)=\"paginate($event)\" #p></p-paginator>\n                </ng-template>\n            </p-table>\n            <p-footer>\n                <span><span class=\"loadMsg\">加载耗时:</span>{{report1_loadTime}}</span>\n            </p-footer>\n        </p-panel>\n    </div>\n  </div>"
+
+/***/ }),
+
+/***/ "./src/app/log/userlogin/userlogin.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserloginComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_primeng_primeng__ = __webpack_require__("./node_modules/primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UserloginComponent = /** @class */ (function () {
+    function UserloginComponent(service) {
+        this.service = service;
+        this.userAccount = "";
+        this.userName = "";
+        this.report1_loadTime = "";
+        this.rows = 6;
+        this.totalRecords = 0;
+        this.rowsPerPageOptions = [6, 10, 20];
+        this.pageInfo = { pageRow: this.rows, startRow: 0 };
+        this.endTime = new Date();
+        this.startTime = new Date(this.endTime.getTime() - 60 * 60 * 24 * 1000);
+    }
+    UserloginComponent.prototype.ngOnInit = function () {
+        this.getUserLoginInfo();
+    };
+    UserloginComponent.prototype.getUserLoginInfo = function () {
+        var _this = this;
+        var http_startTime = new Date();
+        this.getPageCount();
+        var options = {
+            headers: this.service.getHeaders(),
+            params: {
+                userAccount: this.userAccount,
+                userName: this.userName,
+                startTime: this.startTime.getTime(),
+                endTime: this.endTime.getTime(),
+                pageRow: this.pageInfo['pageRow'],
+                startRow: this.pageInfo['startRow'],
+                log_reportName: 'test',
+                log_menuId: 'userlogin'
+            }
+        };
+        this.service.get('/userlog/tbload/userlogin/pagenate', options).subscribe(function (res) {
+            _this.userLoginInfoList = res;
+            var http_endTime = new Date();
+            _this.report1_loadTime = (http_endTime.getTime() - http_startTime.getTime()) / 1000 + "s";
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    UserloginComponent.prototype.getPageCount = function () {
+        var _this = this;
+        var url = '/userlog/userlogin/count';
+        var options = {
+            params: {
+                startTime: this.startTime.getTime(),
+                endTime: this.endTime.getTime(),
+                userAccount: this.userAccount,
+                userName: this.userName
+            }
+        };
+        this.service.get(url, options).subscribe(function (res) {
+            _this.totalRecords = res;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    UserloginComponent.prototype.paginate = function (event) {
+        this.pageInfo.pageRow = event['rows'];
+        this.pageInfo.startRow = event['first'];
+        this.search(event.page + 1);
+        this.getUserLoginInfo();
+    };
+    UserloginComponent.prototype.search = function (page) {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('p'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_primeng_primeng__["Paginator"])
+    ], UserloginComponent.prototype, "paginator", void 0);
+    UserloginComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-userlogin',
+            template: __webpack_require__("./src/app/log/userlogin/userlogin.component.html"),
+            styles: [__webpack_require__("./src/app/log/userlogin/userlogin.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_common_service_api_api_service__["a" /* ApiService */]])
+    ], UserloginComponent);
+    return UserloginComponent;
+}());
+
+
+
+/***/ })
+
+});
+//# sourceMappingURL=log.module.chunk.js.map

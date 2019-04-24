@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.admin.OUserInfoMapper">
+	
+	<select id="selectAllUser" parameterType="hashmap"
+		resultType="com.boe.idm.project.model.mybatis.UserInfo">
+		SELECT * from(
+		SELECT row_.*,rownum rownum_
+		FROM(
+		SELECT * FROM sc_a_userinfo
+		where 1=1
+		<if test="userAccount != null and  userAccount != ''">
+			and useraccount like #{userAccount}
+		</if>
+		<if test="userName != null and  userName != ''">
+			and username like #{userName}
+		</if>
+		order by username) row_
+		where rownum &lt;=(#{pageRow}+#{startRow})
+		)
+		WHERE rownum_ &gt;#{startRow}
+	</select>
+	
+	<select id="selectUserInfo" resultType="UserInfo">
+		SELECT useraccount,username FROM sc_a_userinfo 
+		<if test="userAccount != null and  userAccount != ''">
+			where useraccount = #{userAccount} and state='1'
+		</if>
+ 		order by username
+	</select>
+	
+	<select id="selectAvailableUser" resultType="UserInfo">
+		SELECT useraccount,username FROM sc_a_userinfo where state='1' order by username
+	</select>
+	
+	<update id="updateUserInfo" parameterType="UserInfo">
+		update sc_a_userinfo 
+		set username =#{userName,jdbcType=VARCHAR},updateuser=#{updateUser,jdbcType=VARCHAR},updatetime=#{updateTime}	,state=#{state,jdbcType=VARCHAR} 
+		 where userAccount = #{userAccount}
+	</update>
+ 
+ 
+ 	<delete id="deleteUserInfo" parameterType="UserInfo">
+			Delete FROM sc_a_userinfo where useraccount = #{userAccount} and useraccount != 'admin'
+		</delete>
+		
+		<insert id="saveOrUpdate" parameterType="UserInfo">
+			  <selectKey keyProperty="count" resultType="int" order="BEFORE">
+			    select count(*) as count  from sc_a_userinfo where useraccount = #{userAccount}
+			  </selectKey>
+			  <if test="count > 0">
+			    update sc_a_userinfo 
+				set state=#{state,jdbcType=VARCHAR},username =#{userName,jdbcType=VARCHAR},updateuser=#{createUser,jdbcType=VARCHAR},updatetime=#{createTime,jdbcType=DATE}	 
+				 where userAccount = #{userAccount}
+			  </if>
+			  <if test="count==0">
+			    insert into sc_a_userinfo(state,useraccount,username,createuser,createtime) values (#{state,jdbcType=VARCHAR},#{userAccount},#{userName,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{createTime})
+			  </if>
+		</insert>
+
+	<select id="getTotCount" resultType="int">
+		select count(*) from sc_a_userinfo 
+		where 1=1
+		<if test="userAccount != null and  userAccount != ''">
+			and useraccount like #{userAccount}
+		</if>
+		<if test="userName != null and  userName != ''">
+			and username like #{userName}
+		</if>
+	</select>
+	
+</mapper>

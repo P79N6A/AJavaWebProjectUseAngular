@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellWipShipToFGMSMapper"> 
+	
+	<!-- 一级界面的返回结果resultMap -->
+	<resultMap id="res1" type="CellWipShipToFGMS1VO">
+		<result property="rownum" column="ROWNUM"></result>
+		<result property="lottype" column="LOTTYPE"></result>
+		<result property="productname" column="PRODUCTNAME"></result>
+		<result property="productspec" column="PRODUCTSPECNAME"></result>
+		<result property="modeltype" column="MODEL_TYPE"></result>
+		<result property="panelttl" column="PANEL_TTL"></result>
+		<result property="panelttl3" column="PANEL_TTL3"></result>
+		<result property="shipbox" column="SHIP_BOX"></result>
+		<result property="shippanel" column="SHIP_PANEL"></result>
+		<result property="shipbox3" column="SHIP_BOX3"></result>
+		<result property="shippanel3" column="SHIP_PANEL3"></result>
+		<result property="shiptofgmspallet" column="SHIPTOFGMS_PALLET"></result>
+		<result property="shiptofgmspanel" column="SHIPTOFGMS_PANEL"></result>
+		<result property="shiptofgmspallet3" column="SHIPTOFGMS_PALLET3"></result>
+		<result property="shiptofgmgpanel3" column="SHIPTOFGMS_PANEL3"></result>
+	</resultMap>
+	<!-- 1.查询界面1的数据 -->
+	<select id="queryByType" resultMap="res1">
+		select rownum, 
+			LOTTYPE,
+			PRODUCTNAME,
+			PRODUCTSPECNAME,
+			MODEL_TYPE,
+			PANEL_TTL,
+			PANEL_TTL3,
+			SHIP_BOX,
+			SHIP_PANEL,
+			SHIP_BOX3,
+			SHIP_PANEL3,
+			SHIPTOFGMS_PALLET,
+			SHIPTOFGMS_PANEL,
+			SHIPTOFGMS_PALLET3,
+			SHIPTOFGMS_PANEL3
+		from sc_cell_shiptofgms_wip1_vw
+		where lottype = #{lottype}
+	</select>
+	
+	<!-- 2.二级界面的查询操作 -->
+
+	<resultMap id="res2" type="CellWipShipToFGMS2VO"> 
+		<result property="rownum" column="ROWNUM"></result>
+		<result property="shippingtime" column="lasteventtime"></result>
+		<result property="palletid" column="id"></result>
+		<result property="boxqty" column="boxqty"></result>
+		<result property="panelqty" column="lotqty"></result>
+		<result property="lottype" column="lottype"></result>
+		<result property="materialtype" column="materialtype"></result>
+		<result property="detailmaterialtype" column="detailmaterialtype"></result>
+		<result property="palletgrade" column="grade"></result>
+		<result property="eventname" column="lasteventname"></result>
+		<result property="fgmsreceived" column="fgmsreceived"></result>
+		<result property="productspec" column="productspecname"></result>
+		<result property="fgcode" column="fgcode"></result>
+		<result property="revisioncode" column="revisioncode"></result>
+		<result property="checkincode" column="checkincode"></result>
+		<result property="towhere" column="towhere"></result>
+	</resultMap>
+	
+	<select id="queryByProductspec" resultMap="res2">
+		select rownum, 
+		    to_char(lasteventtime,'YYYYMMDDHH24MISS') lasteventtime, 
+			id,
+			boxqty,
+			lotqty,
+			lottype,
+			materialtype,
+			detailmaterialtype,
+			grade,
+			lasteventname,
+			fgmsreceived,
+			productspecname,
+			fgcode,
+			revisioncode,
+			checkincode,
+			towhere
+		from sc_cell_shiptofgms_wip2_vw
+		where productspecname = #{productspec}
+		order by lasteventtime
+	</select>
+
+</mapper>

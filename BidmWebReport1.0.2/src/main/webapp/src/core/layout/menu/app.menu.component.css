@@ -1,0 +1,6 @@
+.layout-sidebar {
+    opacity: 0.9;
+    filter:alpha(opacity=90);
+    -moz-opacity:0.9;
+}
+  

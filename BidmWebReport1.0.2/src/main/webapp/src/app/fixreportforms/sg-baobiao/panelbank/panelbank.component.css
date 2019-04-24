@@ -1,0 +1,40 @@
+.header1{
+    font-size: 12px !important;
+    background-color: #bdd7ee !important;
+    border: 1px solid rgb(165, 164, 164) !important;
+    padding: 0.2em 0em !important;
+}
+
+.header2{
+    font-size: 12px !important;
+    background-color: #f8e7d6 !important;
+    border: 1px solid rgb(165, 164, 164) !important;
+    padding: 0.2em 0em !important;
+}
+
+.maindata{
+    font-size: 12px !important;
+    padding: 0.15em 0.15em !important;
+    text-align: center !important;
+}
+
+.datared{
+    color: red !important;
+}
+
+/*下面是在设计滑动列的时候的操作*/
+.pcscol{
+    width: 145px !important;
+}
+.pcsnumcol{
+    width: 140px !important;
+}.type{
+    width: 60px !important;
+}
+/**鼠标放上来的时候这一行的背景颜色改变*/
+#table1tr:hover{
+    background-color: rgb(235, 205, 38) !important;
+}
+#table2tr:hover{
+    background-color: rgb(235, 205, 38) !important;
+}

@@ -1,0 +1,16 @@
+#factroyname {
+    text-align: center !important;
+}
+
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+  -webkit-appearance: none !important;
+}
+
+.setFontSize {
+  text-align : center !important;
+  font-size: 12px !important;
+}
+
+td {
+  padding: 0.4em 0.875em !important;
+}

@@ -1,0 +1,36 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+  {
+    path: 'kanban_sg',
+    loadChildren: './sg-kanban/sg-kanban.module#SgKanbanModule'
+  },
+  {
+    path: 'kanban_array',
+    loadChildren: './array-kanban/array-kanban.module#ArrayKanbanModule'
+  },
+  {
+    path: 'kanban_cf',
+    loadChildren: './cf-kanban/cf-kanban.module#CfKanbanModule'
+  },
+  {
+    path: 'kanban_cell',
+    loadChildren: './cell-kanban/cell-kanban.module#CellKanbanModule'
+  },
+  {
+    path: 'kanban_mdl',
+    loadChildren: './mdl-kanban/mdl-kanban.module#MdlKanbanModule'
+  },
+  {
+    path: 'kanban_oee',
+    loadChildren: './oee-kanban/oee-kanban.module#OeeKanbanModule'
+  }
+
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ProductionkanbanRoutingModule { }

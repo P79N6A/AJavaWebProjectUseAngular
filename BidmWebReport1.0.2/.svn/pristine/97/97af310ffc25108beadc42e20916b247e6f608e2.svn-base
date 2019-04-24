@@ -1,0 +1,123 @@
+import { Routes, RouterModule } from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthFalseGuard } from './guards/auth.false.guard.';
+import { LoginComponent } from './login/login.component';
+import { LayoutFullScreenComponent } from 'core/layout/fullscreen/fullscreen.component';
+import { LayoutDefaultComponent } from 'core/layout/default/default.component';
+import { AppComponent } from './app.component';
+
+export const routes: Routes = [
+    { path: '', redirectTo: 'boe', pathMatch: 'full' },
+    {
+        path: 'boe',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component: AppComponent,
+        children: [
+            //1.管理模块
+			{
+                path: 'admin',
+                loadChildren: 'app/admin/admin.module#AdminModule'
+            },
+            //2.基础信息维护模块
+            {
+                path:'basicinfo',
+                loadChildren:'app/basicinfomaintenance/basicinfomaintenance.module#BasicinfomaintenanceModule'
+            },
+
+            //3.数据导入模块
+            {
+                path:'dataimport',
+                loadChildren:'app/dataimport/dataimport.module#DataimportModule'
+            },
+
+             //4.生产看板模块
+             {
+                path:'productionkanban',
+                loadChildren:'app/productionkanban/productionkanban.module#ProductionkanbanModule'
+            },
+
+            //5.透明化展示模块
+            {
+                path:'touming',
+                loadChildren:'app/toumingdisplan/toumingdisplan.module#ToumingdisplanModule'
+            },
+
+            //6.固定报表模块
+            {
+                path:'fixreport',
+                loadChildren:'app/fixreportforms/fixreportforms.module#FixreportformsModule'
+            },
+
+            {
+                path: 'mes-ui',
+                // component : AppComponent,
+                loadChildren: 'app/mes-ui/mes-ui.module#MesUiModule'
+            },
+            {
+                path: 'report-ui',
+                // component : AppComponent,
+                loadChildren: 'app/report-ui/report-ui.module#ReportUiModule'
+            },
+            {
+                path: 'dash-board-ui',
+                // component : AppComponent,
+                loadChildren: 'app/dash-board-ui/dash-board-ui.module#DashBoardUiModule'
+            },
+            {
+                path: 'boe-ui',
+                // component : AppComponent,
+                loadChildren: 'app/boe-ui/boe-ui.module#BoeUiModule'
+            },
+            {
+                path: 'pages',
+                loadChildren: 'app/boe/pages/pages.module#PagesModule'
+            },
+            {
+                path: 'icons',
+
+                loadChildren: 'app/iconsexamples/icons.module#IconsModule'
+            },
+            {
+                path: 'log',
+
+                loadChildren: 'app/log/log.module#LogModule'
+            },
+            {
+                path:'spec',
+                loadChildren:'app/spec/spec.module#SpecModule'
+            },
+            {
+                path:'outstandingcase',
+                loadChildren:'app/outstandingcase/outstandingcase.module#OutstandingcaseModule'
+            }
+            ,
+            {
+                path:'outstandingcase',
+                loadChildren:'app/outstandingcase/outstandingcase.module#OutstandingcaseModule'
+            },
+            {
+                path: 'threed',
+                loadChildren: 'app/three-d/three-d.module#ThreeDModule'
+            }
+
+            // { path: '*', redirectTo: '' }
+        ],
+
+    },
+
+    //记录用户登录的模块
+    {
+        path: 'login',
+        // canActivate: [AuthFalseGuard],
+        component: LayoutFullScreenComponent,
+        children: [
+            { path: '', component: LoginComponent }
+        ],
+    },
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
+];
+
+export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

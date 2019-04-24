@@ -1,0 +1,73 @@
+/* .tooltipa { font:Verdana, Geneva, sans-serif; font-size:12px; font-weight:bold; color:#666; position:relative; }
+body .ui-tabview .ui-tabview-nav > li.ui-state-active a:hover:after{
+ content:attr(id);
+ display:block;
+ padding:10px;
+ color:#FFF;
+ background:#333;
+ position:absolute; top:20px; left:50px;
+ white-space:nowrap;
+}
+body .ui-tabview .ui-tabview-nav > li.ui-state-active a:hover:before{
+ display:block;
+ content:"";
+ position:absolute; top:15px; left:50px;
+ border-right:10px solid transparent; 
+ border-bottom:10px solid #333; 
+ border-left:10px solid transparent;  
+} */
+/*
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+ .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+} */
+
+/* .ui-g-1, .ui-g-12 {
+    padding : 0px;
+} */
+
+body .ui-button.ui-button-icon-only {
+    width: 1.5em;
+    /* height: 1.5em; */
+    /* float: right; 
+    margin-top: 12px; */
+}
+
+.retab-menu-icons {
+    margin-top: 15px;
+}
+

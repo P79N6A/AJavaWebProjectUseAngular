@@ -1,0 +1,24 @@
+export class Celldailydata{
+
+    //尺寸的属性
+    size = null;
+
+    //数组的定义，用来保存
+    numbs : string[] = [];
+
+    //设置属性的方法
+    setSize(s:string){
+        this.size = s;
+    }
+
+   //设置 数组中的数据的方法 ： string 类型的原因是  ： 数据中有 ‘’ 0 123
+   setNumbs(numb:string){
+    this.numbs.push(numb);
+   }
+
+
+
+
+
+
+}

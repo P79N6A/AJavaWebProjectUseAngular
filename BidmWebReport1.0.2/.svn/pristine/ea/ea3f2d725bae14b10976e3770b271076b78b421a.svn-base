@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleWipSearchInfoMapper"> 
+		
+		<select id="getListC"  resultType="ModuleWipCheckInCodeVO"> 
+			SELECT distinct checkincode FROM MODADM.POSDETYPE@MESMOD order by checkincode
+		</select>
+		
+		<select id="getListL"  resultType="ModuleWipLineVO"> 
+			SELECT distinct enumvalue as line FROM MODADM.ENUMDEFVALUE@MESMOD WHERE ENUMNAME = 'LineName'
+		</select>
+		
+		<select id="getlistPM"  resultType="ModuleWipProductSizeVO"> 
+			select productsize from (
+ 				select distinct productsize from SC_MOD_WIP_VW 
+ 				where hourtimekey =#{hourtimekey}  
+ 				order by productsize asc 
+				)
+			where productsize  is not null
+		</select>
+		
+		<select id="getlistPS"  resultType="ModuleWipProductSizeVO"> 
+			select distinct productsize from SC_S2_WIP_VW 
+				where hourtimekey = #{hourtimekey}
+				order by productsize asc
+		</select>
+
+	</mapper>
+		
+

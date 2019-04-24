@@ -1,0 +1,389 @@
+<div *ngIf="firstView">
+  <div style="height:178px;background-color: RGB(1,31,58);background-image: url('assets/picture/background/b4/bg3_01.png');background-repeat:no-repeat; 
+    background-size:100% 100%;-moz-background-size:100% 100%;">
+    <div class="ui-g-12">
+      <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">B4生产看板</h2>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-7" style="color:#F2F6FA; margin: 0 7%;font-size: 1.17em;font-weight: bold;margin-top: -10px">CST信息管理</div>
+      <div class="ui-float-label ui-g-1" style="margin-top:20px;margin-left: -30px">
+        <input id="float-input-start" type="number" [(ngModel)]="dateStart" pInputText style="color:#F2F6FA;text-align: center;width: 80px">
+        <label for="float-input-start" style="color:#F2F6FA;">&nbsp;&nbsp;开始天数</label>
+      </div>
+      <div class="ui-float-label ui-g-1" style="margin-top:20px ;margin-left:-10px">
+        <input id="float-input-end" type="number" [(ngModel)]="dateEnd" pInputText style="color:#F2F6FA;text-align: center;width: 80px">
+        <label for="float-input-end" style="color:#F2F6FA;">&nbsp;&nbsp;结束天数</label>
+      </div>
+      <p-button class="ui-g-1" label="查询" (click)="queryData()" icon="fa fa-search" style="padding:20px 0px 0px 0px; margin-left: -10px"></p-button>
+      <p-button  label="刷新" (click)="refresh()" style="padding-top:20px;margin-left: -30px"></p-button>
+    </div>
+  </div>
+  <div class="ui-g" style="padding:0 3%;height:100%;background-image: url('assets/picture/background/b4/bg3_02.png');
+    background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+    <!-- First Table -->
+    <div class="ui-g-6">
+      <p-table>
+        <ng-template pTemplate="header">
+          <!-- 第一行 -->
+          <tr>
+            <th class="header1" rowspan="2">卡夹类型</th>
+            <th class="header1" rowspan="2">位置</th>
+            <th class="header1" rowspan="2">基板属性</th>
+            <th class="header1" rowspan="2">总数</th>
+            <th class="header1" rowspan="2">Ratio</th>
+            <th class="header1" rowspan="2">Pro</th>
+            <th class="header1" rowspan="2">E/D</th>
+            <th class="header1" rowspan="2">Dum</th>
+            <th class="header1" colspan="7">Empty</th>
+          </tr>
+          <!-- 第二行 -->
+          <tr>
+            <th class="header1">TTL</th>
+            <th class="header1">Oneqp</th>
+            <th class="header1">Move</th>
+            <th class="header1">Istk</th>
+            <th class="header1">Dirty</th>
+            <th class="header1">Ostk</th>
+            <th class="header1">Other</th>
+          </tr>
+          <!-- 第三行 -->
+          <tr>
+            <th class="touming" rowspan="3">ACN</th>
+            <th class="touming">Array</th>
+            <th class="touming">TFT</th>
+            <th class="touming" rowspan="2">1141</th>
+
+            <th class="touming" [ngClass]="{clickable:i > 0,alarm:(i==2 && edACNArraySort && qty !== '-')}" *ngFor="let qty of ACNArrayTFT;let i = index"
+              (click)="toSecondTable($event,'ACN','Array','TFT',i)">{{qty}}</th>
+
+            <th class="touming" *ngFor="let qty of ACNEMPTY;let i = index" [ngClass]="{clickable:((i>0)&&(i<6)), alarm:(i == 4 && qty !== '-')}"
+              (click)="toSecondTableEmpty($event,'ACN',i)">{{qty}}</th>
+          </tr>
+          <!-- 第四行 -->
+          <tr>
+            <th class="touming">Sort</th>
+            <th class="touming">TFT</th>
+            <th class="touming" *ngFor="let qty of ACNSortTFT;let i =index" [ngClass]="{clickable:i > 0,alarm:(i == 1 && qty > 40 ) || (i==2 && edACNArraySort && qty !== '-')}"
+              (click)="toSecondTable($event,'ACN','Sort','TFT',i)">{{qty}}</th>
+            <th class="touming" rowspan="2" colspan="7">占用标准：
+              MP Array≥957，MP Sort≤40，EN/DV ≤50，Dummy≤53，Cell借用≤3；</th>
+          </tr>
+          <!-- 第五行 -->
+          <tr>
+            <th class="touming">Cell</th>
+            <th class="touming">TFT</th>
+            <th class="touming">3</th>
+            <th class="touming" *ngFor="let qty of ACNCellTFT;let i = index" [ngClass]="{clickable:i > 0,alarm:(i == 3 && qty > 3) || ((i >= 1 && i <= 2) && pedACNCell && qty !== '-')}"
+              (click)="toSecondTable($event,'ACN','Cell','TFT',i)">{{qty}}</th>
+          </tr>
+          <!-- 第六行 -->
+          <tr>
+            <th class="touming" colspan="15">&nbsp;</th>
+          </tr>
+          <!-- 第七行 -->
+          <tr>
+            <th class="touming" rowspan="5">FCW</th>
+            <th class="touming">CF</th>
+            <th class="touming">CF</th>
+            <th class="touming" rowspan="5">908</th>
+
+            <th class="touming" *ngFor="let qty of FCWCFCF;let i = index" [ngClass]="{clickable:i > 0,alarm:(i==2 && edFCWCFScfStft && qty !== '-') || (i == 3 && dumFCWCFScfStft && qty !== '-')}"
+              (click)="toSecondTable($event,'FCW','CF','CF',i)">{{qty}}</th>
+
+            <th class="touming" rowspan="2" *ngFor="let qty of FCWEMPTY;let i = index" [ngClass]="{clickable:((i>0)&&(i<6)), alarm:(i == 4 && qty !== '-')}"
+              (click)="toSecondTableEmpty($event,'FCW',i)">{{qty}}</th>
+          </tr>
+          <!-- 第八行 -->
+          <tr>
+            <th class="touming">Sort</th>
+            <th class="touming">CF</th>
+            <th class="touming" *ngFor="let qty of FCWSortCF;let i = index" [ngClass]="{clickable:i > 0,alarm:(i==2 && edFCWCFScfStft && qty !== '-') || (i == 3 && dumFCWCFScfStft && qty !== '-')}"
+              (click)="toSecondTable($event,'FCW','Sort','CF',i)">{{qty}}</th>
+          </tr>
+          <!-- 第九行 -->
+          <tr>
+            <th class="touming">Sort</th>
+            <th class="touming">TFT</th>
+            <th class="touming" *ngFor="let qty of FCWSortTFT;let i = index" [ngClass]="{clickable:i > 0,alarm:(i == 1&& qty > 151) || (i==2 && edFCWCFScfStft && qty !== '-') || (i == 3 && dumFCWCFScfStft && qty !== '-')}"
+              (click)="toSecondTable($event,'FCW','Sort','TFT',i)">{{qty}}</th>
+            <th class="touming" rowspan="3" colspan="7">占用标准：
+              MP CF≥630，EN/DV ≤26，Dummy ≤9；
+              Sort TFT≤151，Cell≤50，Empty≥30；</th>
+          </tr>
+          <!-- 第十行 -->
+          <tr>
+            <th class="touming">Cell</th>
+            <th class="touming">TFT</th>
+            <th class="touming" *ngFor="let qty of FCWCellTFT;let i = index" [ngClass]="{clickable:i > 0,alarm:((i >= 1 && i <=3) && peddFCWCell && qty !== '-')}"
+              (click)="toSecondTable($event,'FCW','Cell','TFT',i)">{{qty}}</th>
+          </tr>
+          <!-- 第十一行 -->
+          <tr>
+            <th class="touming">Cell</th>
+            <th class="touming">CF</th>
+            <th class="touming" *ngFor="let qty of FCWCellCF;let i = index" [ngClass]="{clickable:i > 0,alarm:((i >= 1 && i <=3) && peddFCWCell && qty !== '-')}"
+              (click)="toSecondTable($event,'FCW','Cell','CF',i)">{{qty}}</th>
+          </tr>
+          <!-- 第十二行 -->
+          <tr>
+            <th class="touming" colspan="15">&nbsp;</th>
+          </tr>
+          <!-- 第十三行 -->
+          <tr>
+            <th class="touming" rowspan="4">CCN</th>
+            <th class="touming">Array</th>
+            <th class="touming">-</th>
+            <th class="touming" rowspan="4">410</th>
+
+            <th class="touming" *ngFor="let qty of CCNArray;let i = index" [ngClass]="{clickable:i > 0,alarm:((i >= 1 && i <=3) && peddCCNArraySort && qty !== '-')}"
+              (click)="toSecondTable($event,'CCN','Array','-',i)">{{qty}}</th>
+
+            <th class="touming" rowspan="2" *ngFor="let qty of CCNEMPTY;let i = index" [ngClass]="{clickable:((i>0)&&(i<6)), alarm:(i == 4 && qty !== '-')}"
+              (click)="toSecondTableEmpty($event,'CCN',i)">{{qty}}</th>
+          </tr>
+          <!-- 第十四行 -->
+          <tr>
+            <th class="touming">Sort</th>
+            <th class="touming">-</th>
+            <th class="touming" *ngFor="let qty of CCNSort;let i = index" [ngClass]="{clickable:i > 0,alarm:((i >= 1 && i <=3) && peddCCNArraySort && qty !== '-')}"
+              (click)="toSecondTable($event,'CCN','Sort','-',i)">{{qty}}</th>
+          </tr>
+          <!-- 第十五行 -->
+          <tr>
+            <th class="touming">PI/RW</th>
+            <th class="touming">-</th>
+            <th class="touming" *ngFor="let qty of CCNPIRW;let i = index" [ngClass]="{clickable:i > 0,alarm:(i == 1 && qty > 19) || (i == 2 && edCCNPIOther && qty !== '-') || (i == 3 && dumCCNPIOther && qty !== '-')}"
+              (click)="toSecondTable($event,'CCN','PI/RW','-',i)">{{qty}}</th>
+            <th class="touming" rowspan="2" colspan="7">占用标准：
+              PI Rework ≤19，Dummy≤38；</th>
+          </tr>
+          <!-- 第十六行 -->
+          <tr>
+            <th class="touming">Other</th>
+            <th class="touming">-</th>
+            <th class="touming" *ngFor="let qty of CCNOther;let i = index" [ngClass]="{clickable:i > 0,alarm:(i == 2 && edCCNPIOther && qty !== '-') || (i == 3 && dumCCNPIOther && qty !== '-')}"
+              (click)="toSecondTable($event,'CCN','Other','-',i)">{{qty}}</th>
+          </tr>
+          <!-- 第十七行 -->
+          <tr>
+            <th class="touming" colspan="15">&nbsp;</th>
+          </tr>
+          <!-- 第十八行 -->
+          <tr>
+            <th class="touming">MCW</th>
+            <th class="touming">Cell</th>
+            <th class="touming">-</th>
+            <th class="touming">225</th>
+
+            <th class="touming" *ngFor="let qty of MCWCell;let i = index" [ngClass]="{clickable:i > 0}" (click)="toSecondTable($event,'MCW','Cell','-',i)">{{qty}}</th>
+
+            <th class="touming" rowspan="2" *ngFor="let qty of MCWEMPTY;let i = index" [ngClass]="{clickable:((i>0)&&(i<6)), alarm:(i == 4 && qty !== '-')}"
+              (click)="toSecondTableEmpty($event,'MCW',i)">{{qty}}</th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Second Table -->
+    <div class="ui-g-2">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="header1" colspan="4">Stocker+EQP</th>
+          </tr>
+          <tr>
+            <th class="header1">Stocker</th>
+            <th class="header1">Max</th>
+            <th class="header1">Current</th>
+            <th class="header1">Ratio</th>
+          </tr>
+          <tr>
+            <th class="header3">TFST01</th>
+            <th class="header2" *ngFor="let name of TFST01;let i=index" [ngClass]="{alarm:(i == 2 && tfst01)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST1">
+            <th class="touming">{{obj.cst_spec}}</th>
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+          <tr>
+            <th class="header3">TFST02</th>
+            <th class="header2" *ngFor="let name of TFST02;let i=index" [ngClass]="{alarm:(i == 2 && tfst02)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST2">
+            <th class="touming">{{obj.cst_spec}}</th>
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+          <tr>
+            <th class="header3">TFST03</th>
+            <th class="header2" *ngFor="let name of TFST03;let i=index" [ngClass]="{alarm:(i == 2 && tfst03)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST3">
+            <th class="touming">{{obj.cst_spec}}</th>
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+          <tr>
+            <th class="header3">TFST04</th>
+            <th class="header2" *ngFor="let name of TFST04;let i=index" [ngClass]="{alarm:(i == 2 && tfst04)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST4">
+            <th class="touming">{{obj.cst_spec}}</th>
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Third Table -->
+    <div class="ui-g-2">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="header1" colspan="3">Stocker</th>
+          </tr>
+          <tr>
+            <th class="header1">Max</th>
+            <th class="header1">Current</th>
+            <th class="header1">Ratio</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of TFST01S;let i=index" [ngClass]="{alarm:(i == 2 && tfst01s)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST1S">
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of TFST02S;let i=index" [ngClass]="{alarm:(i == 2 && tfst02s)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST2S">
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of TFST03S;let i=index" [ngClass]="{alarm:(i == 2 && tfst03s)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST3S">
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of TFST04S;let i=index" [ngClass]="{alarm:(i == 2 && tfst04s)}">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of TFST4S">
+            <th class="touming">{{obj.maxqty}}</th>
+            <th class="touming">{{obj.currentqty}}</th>
+            <th class="touming">{{obj.full_ratio}}</th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-2">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="header1" colspan="4">Stocker+EQP CST分布</th>
+          </tr>
+          <tr>
+            <th class="header1">Pro</th>
+            <th class="header1">E/D</th>
+            <th class="header1">Dum</th>
+            <th class="header1">Empty</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of SUM1">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of lastT01">
+            <th class="touming">{{obj.production}}</th>
+            <th class="touming">{{obj.engdev}}</th>
+            <th class="touming">{{obj.dummy}}</th>
+            <th class="touming">{{obj.empty}}</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of SUM2">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of lastT02">
+            <th class="touming">{{obj.production}}</th>
+            <th class="touming">{{obj.engdev}}</th>
+            <th class="touming">{{obj.dummy}}</th>
+            <th class="touming">{{obj.empty}}</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of SUM3">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of lastT03">
+            <th class="touming">{{obj.production}}</th>
+            <th class="touming">{{obj.engdev}}</th>
+            <th class="touming">{{obj.dummy}}</th>
+            <th class="touming">{{obj.empty}}</th>
+          </tr>
+          <tr>
+            <th class="header2" *ngFor="let name of SUM4">{{name}}</th>
+          </tr>
+          <tr *ngFor="let obj of lastT04">
+            <th class="touming">{{obj.production}}</th>
+            <th class="touming">{{obj.engdev}}</th>
+            <th class="touming">{{obj.dummy}}</th>
+            <th class="touming">{{obj.empty}}</th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div style="height:45px;background-image: url('assets/picture/background/b4/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>
+</div>
+<!-- 下钻的二级表 -->
+<div *ngIf="secondView">
+  <div class="ui-g" style="padding:20px;height:100%;background-image: url('assets/picture/background/b4/6.png');background-repeat:no-repeat; 
+  background-size:100% 100%;-moz-background-size:100% 100%;">
+    <div class="ui-g-12">
+      <p-button label="return" icon="fa fa-home" style="float: right;" (click)="showFirstTable()"></p-button>
+    </div>
+    <div class="ui-g-12">
+      <p-table [resizableColumns]="true" columnResizeMode="expand">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="header1" pResizableColumn width="6%">CST_ID</th>
+            <th class="header1" pResizableColumn width="3%">Day</th>
+            <th class="header1" pResizableColumn width="5%">Oper</th>
+            <th class="header1" pResizableColumn width="5%">EQP ID</th>
+            <th class="header1" pResizableColumn width="10%">Lot ID</th>
+            <th class="header1" pResizableColumn width="10%">Lot ProSpec</th>
+            <th class="header1" pResizableColumn width="5%">Pro Qty</th>
+            <th class="header1" pResizableColumn width="3%">Lot Hold State</th>
+            <th class="header1" pResizableColumn width="14%">Lot Last Event Comment</th>
+            <th class="header1" pResizableColumn width="11%">Lot Last Event Time</th>
+            <th class="header1" pResizableColumn>Last Comment</th>
+            <th class="header1" pResizableColumn width="11%">Last Event Time</th>
+          </tr>
+          <tr *ngFor="let obj of SecondTableArray">
+            <td>{{obj.cst_id}}</td>
+            <td>{{obj.days}}</td>
+            <td>{{obj.operation}}</td>
+            <td>{{obj.eqp}}</td>
+            <td>{{obj.lot_id}}</td>
+            <td>{{obj.product}}</td>
+            <td>{{obj.qty}}</td>
+            <td>{{obj.holdstate}}</td>
+            <td>{{obj.lot_comment}}</td>
+            <td>{{obj.lot_time}}</td>
+            <td>{{obj.cst_comment}}</td>
+            <td>{{obj.cst_time}}</td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+</div>
+<!-- 下钻的二级表区域结束 -->

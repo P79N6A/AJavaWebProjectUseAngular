@@ -1,0 +1,15 @@
+.header{
+    font-size: 13px !important;
+    padding: 0.3em 0.3em !important;
+    background-color:#BDD7EE !important;
+    border:solid 1.5px rgb(165, 164, 164) !important;
+}
+
+.data{
+    font-size : 1px  !important; 
+    text-align: center !important; 
+    padding: 0.5em 0em !important;
+    font-size: 12px !important;
+    background-color:rgb(255, 255, 255) !important;
+    /* border:solid 1.5px rgb(165, 164, 164) !important; */
+}

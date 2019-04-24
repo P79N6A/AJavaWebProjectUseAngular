@@ -1,0 +1,93 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../common/service/api/api.service';
+
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+@Component({
+  selector: 'app-prowipdaily',
+  templateUrl: './prowipdaily.component.html',
+  styleUrls: ['./prowipdaily.component.css']
+})
+export class ProwipdailyComponent implements OnInit {
+
+  tableData;
+  dateName: Date;
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+    const nowTime = new Date();
+
+    let option = null;
+
+    if (nowTime.getHours() < 6) {
+      this.dateName = new Date(nowTime.getTime() - 24 * 60 * 60 * 1000);
+      option = {
+        params: {
+          dayControl: '-1'
+        }
+      };
+    } else {
+      this.dateName = nowTime;
+      option = {
+        params: {
+          dayControl: ''
+        }
+      };
+    }
+
+    this.apiService.get('/sc/cellwipdaily', option).subscribe(
+      (res) => {
+        this.tableData = res;
+      }
+    );
+  }
+
+  query() {
+    if (this.dateName != null) {
+      const year = this.dateName.getFullYear().toString();
+      let month: string;
+      let day: string;
+      if (this.dateName.getMonth() < 9) {
+        month = '0' + (this.dateName.getMonth() + 1);
+      } else {
+        month = (this.dateName.getMonth() + 1).toString();
+      }
+      if (this.dateName.getDate() < 10) {
+        day = '0' + this.dateName.getDate();
+      } else {
+        day = this.dateName.getDate().toString();
+      }
+
+      const option = {
+        params: {
+          dateValue: year + month + day + '06'
+        }
+      };
+      this.apiService.get('/sc/cellwipdailyQ', option).subscribe(
+        (res) => {
+          this.tableData = res;
+        }
+      );
+    }
+  }
+
+  refresh() {
+    this.ngOnInit();
+  }
+
+  exportExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('prowipdaily'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'Cell WIP生产日报');
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + '-' + this.dateName.toLocaleDateString() + '.xls');
+  }
+
+}

@@ -1,0 +1,36 @@
+<div class="ui-g">
+  <p-panel>
+    <p-header>
+        <div class="ui-helper-clearfix" style="text-align: center;">
+            <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px;">Array Wip 看板（实时）</span>
+        </div>
+    </p-header>
+       <p-table>
+         <ng-template pTemplate="header">
+           <tr>
+             <th width="90px"></th>
+             <th width="140px"></th>
+             <th></th>
+             <th *ngFor="let productname of productnames"  class="header1">{{productname}}</th>
+           </tr>
+
+           <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th *ngFor="let modeltype of modeltypes" class="header1">{{modeltype}}</th>
+            </tr>
+
+
+            <tr *ngFor="let object of data">
+                <th class="header1">{{object.opercode}}</th>
+                <th class="header1" >{{object.operdesc}}</th>
+                <th></th>
+                <th *ngFor="let numb of  object.qtys" class="header1">{{numb}}</th>
+            </tr>
+
+
+         </ng-template>
+       </p-table>
+</p-panel>
+</div>

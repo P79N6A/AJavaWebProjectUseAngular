@@ -1,0 +1,218 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../common/service/api/api.service';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+@Component({
+  selector: 'app-sortbank',
+  templateUrl: './sortbank.component.html',
+  styleUrls: ['./sortbank.component.css']
+})
+export class SortbankComponent implements OnInit {
+
+  dateName; // 输入框时间
+  sortBankArray = [];
+  option;
+  now;
+
+  sumTFT = 0;
+  sumCF = 0;
+  sumPair = 0;
+  sumPair300 = 0;
+  sumPlan4 = 0;
+  sumPlan24 = 0;
+  pairRatio;
+  sumTFTBankNormal = 0;
+  sumTFTBankHold = 0;
+  sumTFTBankEn = 0;
+  sumCFBankNormal = 0;
+  sumCFBankHold = 0;
+  sumCFBankEn = 0;
+  sumTFTBankNormalN = 0;
+  sumTFTBankNormalY = 0;
+  sumTFTBankHoldN = 0;
+  sumTFTBankHoldY = 0;
+  sumTFTBankEnN = 0;
+  sumTFTBankEnY = 0;
+  sumCFBankNormalN = 0;
+  sumCFBankNormalY = 0;
+  sumCFBankHoldN = 0;
+  sumCFBankHoldY = 0;
+  sumCFBankEnN = 0;
+  sumCFBankEnY = 0;
+
+  constructor(private apiService: ApiService) {
+  }
+
+  ngOnInit() {
+    this.setOption();
+    this.apiService.get('/sc/sortbank', this.option).subscribe(
+      (res) => {
+        this.sortBankArray = res;
+        this.setSum(this.sortBankArray);
+      }
+    );
+    this.apiService.get('/sc/sortbank/sum', this.option).subscribe(
+      (res) => {
+        this.sumTFTBankNormal = res[0].tft_bank_normal;
+        this.sumTFTBankHold = res[0].tft_bank_hold;
+        this.sumTFTBankEn = res[0].tft_bank_en;
+        this.sumCFBankNormal = res[0].cf_bank_normal;
+        this.sumCFBankHold = res[0].cf_bank_hold;
+        this.sumCFBankEn = res[0].cf_bank_en;
+      }
+    );
+  }
+
+  setOption() {
+    const nowTime = new Date();
+    const year = nowTime.getFullYear().toString();
+    let month: string;
+    let day: string;
+    let hour: string;
+    if (nowTime.getMonth() < 9) {
+      month = '0' + (nowTime.getMonth() + 1);
+    } else {
+      month = (nowTime.getMonth() + 1).toString();
+    }
+    if (nowTime.getDate() < 10) {
+      day = '0' + nowTime.getDate();
+    } else {
+      day = nowTime.getDate().toString();
+    }
+    if (nowTime.getHours() < 10) {
+      hour = '0' + nowTime.getHours();
+    } else {
+      hour = nowTime.getHours().toString();
+    }
+
+    this.option = {
+      params: {
+        timekey: year + month + day + hour
+      }
+    };
+    this.now = year + '/' + month + '/' + day + ' ' + hour + '点';
+  }
+
+  query() {
+    if (this.dateName != null) {
+      this.sumTFTBankNormal = 0;
+      this.sumTFTBankHold = 0;
+      this.sumTFTBankEn = 0;
+      this.sumCFBankNormal = 0;
+      this.sumCFBankHold = 0;
+      this.sumCFBankEn = 0;
+      this.option = {
+        params: {
+          timekey: this.dateName.toString()
+        }
+      };
+      this.now = this.dateName.toString().substring(0, 4) + '/' + this.dateName.toString().substring(4, 6) + '/'
+        + this.dateName.toString().substring(6, 8) + ' ' + this.dateName.toString().substring(8) + '点';
+      this.apiService.get('/sc/sortbank', this.option).subscribe(
+        (res) => {
+          this.sortBankArray = res;
+          this.setSum(this.sortBankArray);
+        }
+      );
+      this.apiService.get('/sc/sortbank/sum', this.option).subscribe(
+        (res) => {
+          this.sumTFTBankNormal = res[0].tft_bank_normal;
+          this.sumTFTBankHold = res[0].tft_bank_hold;
+          this.sumTFTBankEn = res[0].tft_bank_en;
+          this.sumCFBankNormal = res[0].cf_bank_normal;
+          this.sumCFBankHold = res[0].cf_bank_hold;
+          this.sumCFBankEn = res[0].cf_bank_en;
+        }
+      );
+    }
+  }
+
+  refresh() {
+    this.dateName = null;
+    this.setOption();
+    this.apiService.get('/sc/sortbank', this.option).subscribe(
+      (res) => {
+        this.sortBankArray = res;
+        this.setSum(this.sortBankArray);
+      }
+    );
+    this.apiService.get('/sc/sortbank/sum', this.option).subscribe(
+      (res) => {
+        this.sumTFTBankNormal = res[0].tft_bank_normal;
+        this.sumTFTBankHold = res[0].tft_bank_hold;
+        this.sumTFTBankEn = res[0].tft_bank_en;
+        this.sumCFBankNormal = res[0].cf_bank_normal;
+        this.sumCFBankHold = res[0].cf_bank_hold;
+        this.sumCFBankEn = res[0].cf_bank_en;
+      }
+    );
+  }
+
+  setSum(array) {
+    this.sumTFT = 0;
+    this.sumCF = 0;
+    this.sumPair = 0;
+    this.sumPair300 = 0;
+    this.sumPlan4 = 0;
+    this.sumPlan24 = 0;
+    this.sumTFTBankNormalN = 0;
+    this.sumTFTBankNormalY = 0;
+    this.sumTFTBankHoldN = 0;
+    this.sumTFTBankHoldY = 0;
+    this.sumTFTBankEnN = 0;
+    this.sumTFTBankEnY = 0;
+    this.sumCFBankNormalN = 0;
+    this.sumCFBankNormalY = 0;
+    this.sumCFBankHoldN = 0;
+    this.sumCFBankHoldY = 0;
+    this.sumCFBankEnN = 0;
+    this.sumCFBankEnY = 0;
+
+    for (const obj of array) {
+      this.sumTFT += obj.tft;
+      this.sumCF += obj.cf;
+      this.sumPair += obj.pair;
+      this.sumPlan4 += obj.planqty_4;
+      this.sumPlan24 += obj.planqty_24;
+      this.sumTFTBankNormalN += obj.tft_bank_normal_n;
+      this.sumTFTBankNormalY += obj.tft_bank_normal_y;
+      this.sumTFTBankHoldN += obj.tft_bank_hold_n;
+      this.sumTFTBankHoldY += obj.tft_bank_hold_y;
+      this.sumTFTBankEnN += obj.tft_bank_en_n;
+      this.sumTFTBankEnY += obj.tft_bank_en_y;
+      this.sumCFBankNormalN += obj.cf_bank_normal_n;
+      this.sumCFBankNormalY += obj.cf_bank_normal_y;
+      this.sumCFBankHoldN += obj.cf_bank_hold_n;
+      this.sumCFBankHoldY += obj.cf_bank_hold_y;
+      this.sumCFBankEnN += obj.cf_bank_en_n;
+      this.sumCFBankEnY += obj.cf_bank_en_y;
+      if (obj.pair >= 300) {
+        this.sumPair300 += obj.pair;
+      }
+    }
+
+    if (isNaN(this.sumPair300 / this.sumTFT)) {
+      this.pairRatio = '-';
+    } else {
+      this.pairRatio = parseFloat(((this.sumPair300 / this.sumTFT) * 100).toFixed(1)) + '%';
+    }
+  }
+
+  exportTable() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('exportableTable')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    // 这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile(excelBuffer, 'SortBank监控');
+
+  }
+ saveAsExcelFile(buffer: any, fileName: string) {
+  const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+  });
+  FileSaver.saveAs(data, fileName + '_export_' + this.option.params.timekey + '.xls');
+
+}
+
+}

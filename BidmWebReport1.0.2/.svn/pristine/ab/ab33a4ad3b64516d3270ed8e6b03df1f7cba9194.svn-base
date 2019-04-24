@@ -1,0 +1,114 @@
+<div class="ui-g">
+
+  <!-- <div class="ui-g-12">
+    <h3 class="first">Title MES UI - TYPE2</h3>
+    <hr>
+  </div> -->
+  <!-- search area -->
+  <div class="ui-g-12">
+    <!-- search option area -->
+    <div class="ui-g-12 ui-lg-12" style="border:1px solid lightgray; background-color:mintcream;">
+      <!-- if you add the other option, change the class source -->
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <label>Condition1</label>
+        <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition2</h3> -->
+        <label>Condition2</label>
+        <p-dropdown [options]="option2" [(ngModel)]="selectedOption2" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition3</h3> -->
+        <label>Condition3</label>
+        <p-dropdown [options]="option3" [(ngModel)]="selectedOption3" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition4</h3> -->
+        <label>Condition4</label>
+        <p-dropdown [options]="option4" [(ngModel)]="selectedOption4" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition4</h3> -->
+        <button pButton type="button" (click)="onSearch()" label="Search"></button>
+      </div>
+    </div>
+  </div>
+  <!-- end search area -->
+
+
+  <!-- data gride area -->
+  <div class="ui-g-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">MES UI - TYPE2</span>
+        </div>
+      </p-header>
+      <div>
+        <!-- if you use selection, you must set datakey -->
+        <p-table [columns]="cols" [value]="data" selectionMode="single" [(selection)]="selectedData" dataKey="gridKey" 
+          (onRowSelect)="onRowSelect($event)">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <ng-container *ngFor="let col of columns">
+                <th *ngIf="col.field != 'gridKey'">
+                  {{col.header}}
+                </th>
+              </ng-container>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData" #dtTr>
+              <ng-container *ngFor="let col of columns">
+                <td *ngIf="col.field != 'gridKey'">
+                  {{rowData[col.field]}}
+                </td>
+              </ng-container>
+
+            </tr>
+          </ng-template>
+        </p-table>
+        <br>
+        <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="paginate($event)"></p-paginator>
+      </div>
+    </p-panel>
+  </div>
+  <!-- end data gride area -->
+
+
+  <!-- data child gride area -->
+  <div class="ui-g-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">HISTORY</span>
+        </div>
+      </p-header>
+      <div>
+        <!-- if you use selection, you must set datakey -->
+        <p-table [columns]="colsChild" [value]="dataChild">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns;">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <br>
+      <!-- <p-paginator [rows]="rowsChild" [totalRecords]="totalRecordsChild" [rowsPerPageOptions]="rowsPerPageOptionsChild" (onPageChange)="paginate($event)"></p-paginator> -->
+    </p-panel>
+  </div>
+  <!-- end data gride area -->
+
+
+</div>

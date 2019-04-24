@@ -1,0 +1,100 @@
+<!--
+<h1  align='center'>
+  PECVD年度稼动率
+</h1>
+<div class="ui-g">
+        <div echarts ></div>
+<div class="ui-g">
+ <div  class="ui-g-11 ui-g-offset-1">
+    <div echarts  id="pecvdyear" [options]="yearOpt" class="demo-echart" style="width:1000px;height:300px ;"></div>
+</div>
+</div>
+
+
+<h1 class='ui-g' align='center'>
+        PECVD设备稼动率-2018
+</h1>
+<div> 
+  <div echarts   id="pecvdmonth" [options]="monthOpt"  (chartClick)="getDayOee($event)"   class="demo-echart" style="width:1000px;height:300px ;"></div>
+</div>
+
+<h1  align='center'>
+        PECVD设备稼动率-2018.08
+</h1>
+
+<div>
+
+    <div echarts  id="pecvdday" [options]="dayOpt" class="demo-echart" style="width:600px;height:300px ;"></div>
+</div>
+
+<h1  align='center'>
+    PECVD设备稼动率-2018.08
+</h1>
+
+<div>
+
+<div echarts  id="pecvd365" [options]="opt365" class="demo-echart" style="width:1000px;height:300px ;"></div>
+</div>
+-->
+
+<!--
+<h1  align='center'>
+    PECVD设备稼动率-2018.08-....2
+</h1>
+<div>
+    <div echarts  id="day2" [options]="day2Opt" class="demo-echart" style="width:1000px;height:300px ;">    </div>
+</div>
+-->
+<div class="ui-g">
+  <div class="ui-g-12" #fullScreenTarget>           
+    <p-panel>                                       
+        <p-header>                                    
+            <div class="ui-helper-clearfix">            
+                <span class="ui-panel-title"> PECVD年度稼动率</span>  
+                    <!--表头 button label calender-->          
+             </div>                                      
+        </p-header>                                   
+<!-- echart--> <div echarts  id="pecvdyear" [options]="yearOpt" class="demo-echart" ></div>                            
+    </p-panel>                                      
+</div>   
+<div class="ui-g-12" #fullScreenTarget>           
+                <p-panel>                                       
+                    <p-header>                                    
+                        <div class="ui-helper-clearfix">            
+                            <span class="ui-panel-title"> PECVD设备稼动率</span>  
+                                <!--表头 button label calender-->          
+                         </div>                                      
+                    </p-header>                                   
+                 <div echarts   id="pecvdmonth" [options]="monthOpt"  (chartClick)="getDayOee($event)"   class="demo-echart" ></div>                          
+                </p-panel>                                      
+            </div>   
+  <div class="ui-g-12" #fullScreenTarget>           
+    <p-panel>                                       
+        <p-header>                                    
+            <div class="ui-helper-clearfix">            
+                <span class="ui-panel-title"> PECVD设备稼动率</span>  
+                    <!--表头 button label calender-->          
+             </div>                                      
+        </p-header>                                   
+<!-- echart-->  <div echarts  id="pecvdday" [options]="dayOpt" class="demo-echart" ></div>                         
+    </p-panel>                                      
+</div>   
+
+
+<div class="ui-g-12" #fullScreenTarget>           
+    <p-panel>                                       
+        <p-header>                                    
+            <div class="ui-helper-clearfix">            
+                <span class="ui-panel-title"> PECVD设备稼动率</span>  
+                    <!--表头 button label calender-->          
+             </div>                                      
+        </p-header>                                   
+<!-- echart--> <div echarts  id="pecvd365" [options]="opt365" class="demo-echart" ></div>                                
+    </p-panel>                                      
+</div>                                            
+      
+
+</div><!--class="ui-g"-->
+
+
+

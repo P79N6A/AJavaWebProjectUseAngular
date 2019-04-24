@@ -1,0 +1,39 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ProcessinfomaintenanceComponent } from './processinfomaintenance/processinfomaintenance.component';
+import { ProductmodelinfomaintenanceComponent } from './productmodelinfomaintenance/productmodelinfomaintenance.component';
+import { ProductmodelrelationinfomaintenanceComponent } from './productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component';
+
+const routes: Routes = [
+
+  {
+    path: 'processinfo',
+    component: ProcessinfomaintenanceComponent,
+    data: {
+      tabLabel: '工序信息维护',
+      destroy:false
+    }
+  },
+  {
+    path: 'productmodel',
+    component: ProductmodelinfomaintenanceComponent,
+    data: {
+      tabLabel: '产品型号维护',
+      destroy:false
+    }
+  },
+  {
+    path: 'productmodelrelation',
+    component: ProductmodelrelationinfomaintenanceComponent,
+    data: {
+      tabLabel: '产品型号对应关系',
+      destroy:false
+    }
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class BasicinfomaintenanceRoutingModule { }

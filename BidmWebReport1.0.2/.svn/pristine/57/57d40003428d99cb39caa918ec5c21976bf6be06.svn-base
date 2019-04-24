@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.PanelBankMapper">
+
+<!-- 1.查询 第一个页面 的 total 数据 ：只有1条-->
+<select id="queryObjects1" resultType="PanelBankVO">
+
+	select  'Total' name,
+   		ttl ttl,
+   		b4bank_ttl pb4ttl,b4bank_p pb4p,b4bank_s pb4s,b4bank_q pb4q,b4bank_f pb4f,b4bank_n pb4n,
+   		s2bank_ttl ps2ttl,s2bank_p ps2p,s2bank_s ps2s,s2bank_q ps2q,s2bank_f ps2f,s2bank_n ps2n,
+   		b4fgms pb4kt,s2fgms ps2kt,
+   		b4bank_endv edbb4,s2bank_endv edbs2,
+   		b4fgmsendv edfb4,s2fgmsendv edfs2
+	from SC_PANEL_BANK_1sum_VIEW
+	where hourtimekey = #{hourtime}
+
+</select>
+
+<!-- 2.查询 中间 4条的数据信息  ： 有4条-->
+<select id="queryObjects2" resultType="PanelBankVO">
+
+	select   bu name,
+   		ttl ttl,
+   		b4bank_ttl pb4ttl,b4bank_p pb4p,b4bank_s pb4s,b4bank_q pb4q,b4bank_f pb4f,b4bank_n pb4n,
+   		s2bank_ttl ps2ttl,s2bank_p ps2p,s2bank_s ps2s,s2bank_q ps2q,s2bank_f ps2f,s2bank_n ps2n,
+   		b4fgms pb4kt,s2fgms ps2kt,
+   		b4bank_endv edbb4,s2bank_endv edbs2,
+   		b4fgmsendv edfb4,s2fgmsendv edfs2
+	from SC_PANEL_BANK_1bu_VIEW
+	where hourtimekey = #{hourtime}
+
+</select>
+
+<!-- 3.查询 第一个页面的数据 ： 主体数据 -->
+<select id="queryObjects3" resultType="PanelBankVO">
+
+	select   productname name, product spec,modeltype type,
+   		ttl ttl,
+   		b4bank_ttl pb4ttl,b4bank_p pb4p,b4bank_s pb4s,b4bank_q pb4q,b4bank_f pb4f,b4bank_n pb4n,
+   		s2bank_ttl ps2ttl,s2bank_p ps2p,s2bank_s ps2s,s2bank_q ps2q,s2bank_f ps2f,s2bank_n ps2n,
+   		b4fgms pb4kt,s2fgms ps2kt,
+   		b4bank_endv edbb4,s2bank_endv edbs2,
+   		b4fgmsendv edfb4,s2fgmsendv edfs2
+	from SC_PANEL_BANK_1main_VIEW
+	where hourtimekey = #{hourtime}
+	order by name,spec,type
+
+</select>
+
+<!-- 4.查询 上面的两个 数据 ：只有2条 -->
+<select id="queryObjects4" resultType="PanelBankVO">
+
+	select   cst name, ttl spec
+	from SC_PANEL_BANK_1cst_VIEW
+	where hourtimekey = #{hourtime}
+	and cst is not null
+
+</select>
+
+<!-- *********************下面是查询二级界面的数据*************************** -->
+<!-- 5.查询 二级界面 库房中的 total 数据 -->
+<select id="queryOjbects5" resultType="PanelBankkfVO">
+
+	select 
+  	 	b4_ttl b4ttl,b4_p b4p,b4_k b4k,b4_g b4g,b4_r b4r,b4_s b4s,
+   		b4_q b4q,b4_f b4f,b4_b b4b,b4_d b4d,b4_t b4t,b4_x b4x,b4_y b4y,b4_l b4l,b4_n b4n,
+   		s2_ttl s2ttl,s2_p s2p,s2_k s2k,s2_g s2g,s2_r s2r,s2_s s2s,
+   		s2_q s2q,s2_f s2f,s2_b s2b,s2_d s2d,s2_t s2t,s2_x s2x,s2_y s2y,s2_l s2l,s2_n s2n
+   from SC_PANEL_BANK_2SUM_VIEW
+   where hourtimekey = #{hourtime}
+ 
+</select>
+
+<!-- 6.查询 4条 -->
+<select id="queryOjbects6" resultType="PanelBankkfVO">
+
+	select bu name,
+  	 	b4_ttl b4ttl,b4_p b4p,b4_k b4k,b4_g b4g,b4_r b4r,b4_s b4s,
+   		b4_q b4q,b4_f b4f,b4_b b4b,b4_d b4d,b4_t b4t,b4_x b4x,b4_y b4y,b4_l b4l,b4_n b4n,
+   		s2_ttl s2ttl,s2_p s2p,s2_k s2k,s2_g s2g,s2_r s2r,s2_s s2s,
+   		s2_q s2q,s2_f s2f,s2_b s2b,s2_d s2d,s2_t s2t,s2_x s2x,s2_y s2y,s2_l s2l,s2_n s2n
+   from SC_PANEL_BANK_2BU_VIEW
+   where hourtimekey = #{hourtime}
+ 
+</select>
+
+<!-- 7.查询 数据主体部分  -->
+<select id="queryOjbects7" resultType="PanelBankkfVO">
+
+	select productname name,product spec,modeltype type,
+  	 	b4_ttl b4ttl,b4_p b4p,b4_k b4k,b4_g b4g,b4_r b4r,b4_s b4s,
+   		b4_q b4q,b4_f b4f,b4_b b4b,b4_d b4d,b4_t b4t,b4_x b4x,b4_y b4y,b4_l b4l,b4_n b4n,
+   		s2_ttl s2ttl,s2_p s2p,s2_k s2k,s2_g s2g,s2_r s2r,s2_s s2s,
+   		s2_q s2q,s2_f s2f,s2_b s2b,s2_d s2d,s2_t s2t,s2_x s2x,s2_y s2y,s2_l s2l,s2_n s2n
+   from SC_PANEL_BANK_2MIAN_VIEW
+   where hourtimekey = #{hourtime}
+   order by name,spec,type
+ 
+</select>
+
+<!-- 8.查询所有的数据 -->
+<select id="queryAllBasicInfo" resultType="PanelBankInfoVO">
+	select  productname ,productspecname ,modeltype,flag ,bu,cst,no 
+	from SC_PANEL_BANK_SPEC
+	order by no
+</select>
+
+<!-- 9.1 查询一个对象  -->
+<select id="queryOneObject" resultType="PanelBankInfoVO">
+	select  productname ,productspecname ,modeltype,flag ,bu,cst,no 
+	from SC_PANEL_BANK_SPEC
+	where productname = #{productname} and productspecname = #{productspecname}
+		and modeltype = #{modeltype} and flag = #{flag}  and bu = #{bu} 
+		<if test="cst.trim() == '' or cst == null ">
+			and cst  is null
+		</if>
+		<if test = "cst.trim() != '' and cst != null" >
+			and cst  = #{cst,jdbcType=VARCHAR}
+		</if>
+		 and no = #{no}
+</select>
+
+<!-- 9.2 插入一个对象  -->
+<insert id="insertOne">
+	insert into SC_PANEL_BANK_SPEC (productname ,productspecname ,modeltype,flag ,bu,cst,no)
+	values (#{productname} ,#{productspecname}, #{modeltype} ,#{flag} ,#{bu} , #{cst,jdbcType=VARCHAR} , #{no})
+</insert>
+
+<!-- 10.更新一个对象 -->
+<update id="updateOne">
+	update SC_PANEL_BANK_SPEC set productname = #{productname},modeltype=#{modeltype},flag = #{flag},
+	bu = #{bu},cst = #{cst,jdbcType=VARCHAR},no = #{no}
+	where productspecname = #{productspecname}
+</update>
+
+<!-- 11.删除一个对象 -->
+<delete id="deleteOne">
+	delete from SC_PANEL_BANK_SPEC
+	where productspecname = #{productspecname}
+</delete>
+ 
+</mapper>

@@ -1,0 +1,22 @@
+<p>
+  device works!
+</p>
+
+<!-- <button (click)="click()">Click</button> -->
+
+<svg viewbox="0,0,400,400" width="1800" height="1800" xmlns="http://www.w3.org/2000/svg">
+	<polygon 
+		points="300.0000,200.0000 
+		250.0000,113.3975 
+		150.0000,113.3975 
+		100.0000,200.0000 
+		150.0000,286.6025 
+    250.0000,286.6025"
+    [ngStyle]="{'fill': outColor}"
+		stroke="purple" stroke-width="2"/>
+  <ellipse cx="200" cy="200" rx="50" ry="50" [ngStyle]="{'fill': inColor}" stroke="purple" stroke-width="2"></ellipse>
+  <rect x="300" y="50" 
+    width="200" height="100" 
+    [ngStyle]="{'fill': outColor}"
+    stroke="purple" stroke-width="2"></rect>
+</svg>

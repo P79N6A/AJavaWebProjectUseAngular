@@ -1,0 +1,81 @@
+<div class="ui-g" style="height:100vh;background-color: RGB(1,31,58); background-image: url('assets/picture/background/b8/screen_bg9_scroll-2.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">
+
+  <!-- <div class="ui-g-12" style="position:relative;width:100%;height: 8vh;background-image: url('assets/picture/background/title.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: #7FFFD4;font-size:25px;"> -->
+<div class="ui-g-12" style="position:relative;width:100%;height: 8vh;color: #7FFFD4;font-size:25px;">
+  <div class="ui-g-12" style="position: relative;text-align: center;top:-1%;"></div>
+  <div style="text-align:right;vertical-align: middle; float:right;position: absolute;z-index: 100; top:1.5vh;right: 0;width: 100px;height: 5vh;font-size: 12px;">
+      <!-- <button pButton type="button" (click)="onFullThis(fullScreenTarget)"  label="aaa" icon="fa fa-window-maximize"><i class="material-icons retab-menu-icons" style="float: right; color: #3D4D66; cursor: pointer; font-size: 15px; margin-top: 17px;">zoom_out_map</i></button> -->
+      <i class="material-icons retab-menu-icons" (click)="onFullThis(fullScreenTarget)" style="float: right; color: #3D4D66; cursor: pointer; font-size: 15px; margin-top: 8px;margin-right: 15px;">zoom_out_map</i>
+  </div>
+</div>
+<div class="ui-g-12" style="height:52vh">
+  <div class="ui-g-3" style="height:52vh;">
+          <div class="ui-g-12" style="position:relative;text-align: center;height: 26vh;color: aliceblue">
+              <div echarts class="ui-g-12" style="height: 100%;position: absolute;left: 0;top: 0" [options]="PmTATOption"></div>
+          </div>
+          <div class="ui-g-12" style="text-align: center;height:26px;color: aliceblue">
+              <div class="ui-g-12" style="height: 26vh;">
+                          <p-table [value]="PmMTTR">
+                                  <ng-template pTemplate="header">
+                                      <tr >
+                                          <th colspan="2" style="background-color:darkseagreen">Array</th>
+                                          <th colspan="2" style="background-color:darkseagreen">Cell</th>
+                                          <th colspan="2" style="background-color:darkseagreen">Cf</th>
+                                      </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-PmMTTR>
+                                      <tr >
+                                          <td style="background-color: 	DarkBlue;width: 70%">{{PmMTTR.ARRAY_EQP_ID}}</td>
+                                          <td style="background-color: 	DarkBlue;width: 70%">{{PmMTTR.ARRAY_MTTR}}</td>
+                                          <td style="background-color: 	DarkBlue;width: 70%">{{PmMTTR.CELL_EQP_ID}}</td>
+                                          <td style="background-color: 	DarkBlue;width: 70%">{{PmMTTR.CELL_MTTR}}</td>
+                                          <td style="background-color: 	DarkBlue;width: 70%">{{PmMTTR.CF_EQP_ID}}</td>
+                                          <td style="background-color: 	DarkBlue;width: 70%">{{PmMTTR.CF_MTTR}}</td>
+                                      </tr>
+                                  </ng-template>
+                  </p-table>
+              </div>
+          </div>
+  </div>
+  <div class="ui-g-6" style="height:52vh">
+          <div class="ui-g-12" style="text-align: center;height: 90%;color: aliceblue">
+              <div class="ui-g-12" style="position:relative;top:2%;height: 10%;font-size: 10px;text-align: center;color: #7FFFD4;">
+                <div class="ui-g-4" style="height:100%;font-size: 10px;text-align: center;color: #7FFFD4;"><br/>总投入：{{total_in}}</div>
+                <div class="ui-g-4" style="height:100%;font-size: 10px;text-align: center;color: #7FFFD4;"><br/>总产出：{{total_out}}</div>
+                <div class="ui-g-4" style="height:100%;font-size: 10px;text-align: center;color: #7FFFD4;"><br/>综合良率：{{Cum_Yiled}}</div>
+              </div>
+              <div class="ui-g-6" style="position:relative;top:20%;height: 80%;" >
+                  <div class="ui-g-12" style="position: absolute;left:0;top:0;width:30%;height: 15%;font-size: 10px;text-align: center;display: inline-block;color: #7FFFD4;">Cum In/Out</div> 
+                  <div echarts class="ui-g-12" style="height: 100%;position: absolute;left: 3%;top: 0"  [options]="PmInOutOption" [theme]="echartstheme"></div>
+              </div>
+              <div class="ui-g-6" style="position:relative;top:20%;height: 80%;"  >
+                <div echarts class="ui-g-12" style="height: 100%;" [options]="PmFactoryYieldOption" [theme]="echartstheme"></div>
+              </div>
+            </div>
+  </div>
+  <div class="ui-g-3" style="height:52vh">
+          <div class="ui-g-12" style="text-align: center;height: 26vh;color: aliceblue">
+              <div class="ui-g-12" style="position:relative;top:10%;height: 10%;">
+                  <p-dropdown [options]="FactoryList" [(ngModel)]="Selectfactory" [style]="{'font-size':'12px'}" (onChange)="onFactoryChange($event)" [placeholder]="SelectaFactory"></p-dropdown>
+                  <p-dropdown [options]="EQPGroupList" [(ngModel)]="Selecteqpgroup" [style]="{'font-size':'12px'}" (onChange)="getPmCapaMonthWeekSearch($event)" [style]="{'width':'10px'}"
+                      [placeholder]="SelectaEQPGroup">
+                      <ng-template let-group pTemplate="group">
+                          <!-- <img src="assets/showcase/images/demo/flag/{{group.value}}" style="width:20px;vertical-align:middle" /> -->
+                          <span style="margin-left:.25em">{{group.label}}</span>
+                      </ng-template>
+                  </p-dropdown>
+              </div>
+              <div echarts class="ui-g-12" style="position:relative;top:10%;height: 78%;" [options]="PmCapaMonthWeekOption"></div>
+          </div>
+          <!-- background-image: url('assets/picture/background/screen_bg6-1.jpg');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%; -->
+          <div class="ui-g-12" style="position:relative;text-align: center;height: 26vh;color: aliceblue">
+              <!-- <div class="ui-g-12" style="position: absolute;left:0;top:0;width:25%;padding:0.3%;height: 12%;font-size: 10px;text-align: center;display: inline-block;color: #7FFFD4;">物流度</div> -->
+                <div echarts class="ui-g-12" style="position:absolute;top:0%;height:100%" [options]="PmMcsOption"></div>
+          </div>
+  </div>
+
+</div>
+<div class="ui-g-12" style="height:40vh">
+      <div echarts class="ui-g-12" style="height: 95%;" [options]="PmWipMoveChartOption"></div>
+</div>
+</div>

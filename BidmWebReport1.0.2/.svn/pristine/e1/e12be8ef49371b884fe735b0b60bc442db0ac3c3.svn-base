@@ -1,0 +1,100 @@
+<div class="ui-g">
+
+  <div class="ui-g dashboard">
+
+    <div class="ui-g-12 ui-lg-3">
+      <div class="task-box task-box-1">
+        <div class="task-box-header">
+          <i class="material-icons">refresh</i>
+        </div>
+        <div class="task-box-content">
+          <h3>Client Meeting</h3>
+          <p>Waiting brief from the client</p>
+        </div>
+        <div class="task-box-footer">
+          <span class="task-status">WAITING</span>
+          <img src="assets/boe/themes/images/avatar1.png">
+          <img src="assets/boe/themes/images/avatar2.png">
+          <img src="assets/boe/themes/images/avatar3.png">
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-lg-3">
+      <div class="task-box task-box-2">
+        <div class="task-box-header">
+          <i class="material-icons">refresh</i>
+        </div>
+        <div class="task-box-content">
+          <h3>Sale Reports</h3>
+          <p>Annual reports per branch</p>
+        </div>
+        <div class="task-box-footer">
+          <span class="task-status">IN PROGRESS</span>
+          <img src="assets/boe/themes/images/avatar2.png">
+          <img src="assets/boe/themes/images/avatar3.png">
+          <img src="assets/boe/themes/images/avatar4.png">
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-lg-3">
+      <div class="task-box task-box-3">
+        <div class="task-box-header">
+            <i class="fa fa-angle-down" style="float: right; padding-right: 10px;" (click)="op1.toggle($event)"></i>
+            <p-overlayPanel #op1 [style]="{'padding':'0'}">
+                <p-listbox [options]="timeOption" [(ngModel)]="selectedTimeOption" [style]="{'padding':'15px;'}" (onChange)="timeChange(op1)"></p-listbox>
+              </p-overlayPanel> 
+        </div>
+        <div class="task-box-content">
+          <h3>Marketing Meeting</h3>
+          <p>{{bodyContent1.dataValue}}</p>
+        </div>
+        <div class="task-box-footer">
+          <span class="task-status">ON HOLD</span>
+          <img src="assets/boe/themes/images/avatar1.png">
+          <img src="assets/boe/themes/images/avatar2.png">
+          <img src="assets/boe/themes/images/avatar3.png">
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-lg-3">
+        <div class="task-box task-box-3">
+          <div class="task-box-header">
+            <i class="material-icons">refresh</i>
+          </div>
+          <div class="task-box-content">
+            <h3>Marketing Meeting</h3>
+            <p>{{bodyContent2.dataValue}}</p>
+          </div>
+          <div class="task-box-footer">
+            <span class="task-status">ON HOLD</span>
+            <img src="assets/boe/themes/images/avatar1.png">
+            <img src="assets/boe/themes/images/avatar2.png">
+            <img src="assets/boe/themes/images/avatar3.png">
+          </div>
+        </div>
+      </div>
+    
+    <div class="ui-g-12 ui-xl-6">
+      <p-panel styleClass="knobs">
+        <p-header>
+          TimeOption
+          <i class="fa fa-angle-down" style="float: right; padding-right: 10px;" (click)="op2.toggle($event)"></i>
+          <p-overlayPanel #op2 [style]="{'padding':'0'}">
+            <p-listbox [options]="timeOption" [(ngModel)]="selectedTimeOption2" [style]="{'padding':'15px;'}" (onChange)="timeChange2(op2)"></p-listbox>
+          </p-overlayPanel>
+        </p-header>
+        <div echarts [options]="chartOption" class="demo-chart"></div>
+      </p-panel>
+    </div>
+    <div class="ui-g-12 ui-xl-6">
+      <p-panel styleClass="knobs">
+        <p-header>
+          RealTime
+        </p-header>
+        <div echarts [options]="chartOption2" class="demo-chart"></div>
+      </p-panel>
+    </div>
+
+  </div>
+</div>

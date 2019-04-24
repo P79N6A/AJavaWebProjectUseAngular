@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellImportPlanMapper">
+
+<!-- 1.删除的操作 -->
+<delete id="delete">
+	    Delete  FROM  SC_KEYIN_PLAN 
+	    WHERE factory = #{factory} and datename = #{datename} and owner = 'CL'
+</delete>
+
+<!-- 2.插入一条数据 -->
+<insert id="insertObject">
+		INSERT INTO  SC_KEYIN_PLAN (FACTORY,ITEM,PRODUCTSPECNAME,Qty,DATENAME,INTERFACETIME,OWNER) 
+	    VALUES  (#{factory,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, #{productspecname,jdbcType=VARCHAR}, #{qty,jdbcType=NULL},#{datename,jdbcType=VARCHAR},sysdate,#{owner,jdbcType=VARCHAR})
+</insert>
+
+<!-- 3.查询结果集合 -->
+<select id="queryObjects" resultType="com.boe.idm.project.model.mybatis.CellImportPlanVO">
+	select factory,item,datename,productspecname,qty
+	from sc_keyin_plan 
+	where factory = 'Cell' and owner = 'CL'
+	and datename between #{startdate} and #{enddate} 
+	order by item,datename,productspecname
+</select>
+</mapper>

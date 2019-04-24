@@ -1,0 +1,97 @@
+.test{
+    color: rgb(151, 149, 18);
+    background-color: red;
+}
+/* 下面是 设置鼠标放到导航条的位置时候的 样式*/
+#MonthPage :hover {
+   font-size: 15px !important;
+   background-color: rgb(58, 59, 59) !important;
+}
+#CurrentPage :hover{
+    font-size: 15px !important;
+    background-color: rgb(58, 59, 59) !important;
+}
+/*下面是一级界面的样式设定 begin*/
+
+.setEchartFirst{
+  width: 96% !important;
+  margin-left: 2% !important;
+  background-color: rgba(14, 70, 116,0) !important;
+  border-radius: 10px !important;
+}
+.setSearchToolFirst1{
+    color:white !important;
+    font-size: 15px !important;
+}
+.setSearchToolFirst2{
+    color:white !important;
+    font-size: 15px !important;
+}
+
+.searchBtnFirst{
+    background-color: rgba(5, 10, 87,0) !important;
+}
+#aBtnFirst :hover{
+    background-color: rgb(63, 63, 65) !important;
+}
+#bBtnFirst :hover{
+    background-color: rgb(63, 63, 65) !important;
+}
+/*上面是一级界面的样式设定 end*/
+
+
+/* 下面是二级界面的 样式设定 begin */
+.setSearchTool{
+    width: 96% !important;
+    height: 60px !important;
+    margin-left: 2% !important;
+    /* border-style: solid !important;
+    border-color: rgb(83, 73, 73) !important;
+    box-shadow: 10px 10px 10px 10px !important; */
+
+    border-radius: 100px !important;
+
+    background-color:  rgba(245, 231, 231,0) !important;
+    color:  rgb(247, 244, 244) !important;
+    font-size: 15px !important;
+    
+    padding-top: 1px !important;
+    padding-left: 1.5% !important;
+
+    margin-top: -0.5% !important;
+}
+
+.setEchart{
+    width: 94% !important;
+    margin-left: 3% !important;
+    margin-right: 3% !important;
+}
+
+.setTable1{
+    width: 98% !important;
+    margin-left: 1% !important;
+    margin-top: 10px !important;
+    background-color: rgba(245, 231, 231,0) !important;
+}
+
+.setTable2{
+    width: 100% !important;
+    height: 300px !important;
+    margin-top: 10px !important;
+    border-style: solid !important;
+    border-color: azure !important;
+
+    background-color: antiquewhite !important;
+}
+
+/* 上面是 二级界面的 样式设定 end */
+
+/* 下面是三界界面的 样式设定 begin */
+.headerBlue {
+    background-color: #BDD7EE!important;
+    color: black!important;
+    border: 1px solid #9c9c9c!important;
+    font-weight: bold!important;
+  }
+
+  /* 上面 是 三级界面 的 样式设定 end*/

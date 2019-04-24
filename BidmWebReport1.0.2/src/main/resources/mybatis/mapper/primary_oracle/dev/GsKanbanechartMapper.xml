@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.boe.idm.project.mapper.primaryOracle.dev.GsKanbanEchartMapper">
+
+	<select id="getEchart" resultType="GsKanbanEchartVO">
+		select * from SC_KANBAN_SG_map_VW
+	</select>
+
+</mapper>

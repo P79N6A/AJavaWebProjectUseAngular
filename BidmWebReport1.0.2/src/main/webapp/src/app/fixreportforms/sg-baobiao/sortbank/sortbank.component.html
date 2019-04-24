@@ -1,0 +1,126 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12" [ngStyle]="{'padding': '0px'}">
+      <p-header>
+          <div class="ui-g-12">
+              <h2 style="text-align:center;margin: 0px 10px">Sort Bank 信息详情</h2>
+          </div>
+      </p-header>
+      <div class="ui-panel-content">
+          <div class="ui-helper-clearfix">
+              <div style="float:right;padding: 5px 20px">
+                  请输入日期：
+                  <input [(ngModel)]="dateName" type="number" id="sortBankInput"
+                         oninput="if(value.length>10)value=value.slice(0,10)" placeholder="2018090210">
+                  <p-button label="查询" (click)="query()"></p-button>
+                  <p-button label="刷新" (click)="refresh()"></p-button>
+                  <p-button label="导出" (click)="exportTable()"></p-button>
+              </div>
+          </div>
+
+          <p-table autoLayout="true"  id="exportableTable">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th colspan="7" rowspan="2" style="border-right: 2px solid #8c8c8c!important;" class="headerBlue">Sort Bank
+                          实时监控—{{now}}
+                      </th>
+                      <th rowspan="2" class="headerBlue">TFT</th>
+                      <th rowspan="2" class="headerBlue">CF</th>
+                      <th rowspan="2" class="headerBlue">Pair</th>
+                      <th colspan="2" class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">投入计划</th>
+                      <th rowspan="5" width="20px" style="border: 1px solid #9c9c9c!important;"></th>
+                      <th colspan="6" class="headerBlue" style="border-right: 2px solid #8c8c8c!important; border-left: 2px solid #8c8c8c!important;">TFT Bank</th>
+                      <th colspan="6" class="headerBlue">CF Bank</th>
+                  </tr>
+                  <tr>
+                      <th class="headerBlue">&nbsp;&nbsp;4H&nbsp;&nbsp;</th>
+                      <th class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">24H</th>
+                      <th colspan="2" class="headerBlue">Normal</th>
+                      <th colspan="2" class="headerBlue">Hold</th>
+                      <th colspan="2" class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">EN</th>
+                      <th colspan="2" class="headerBlue">Normal</th>
+                      <th colspan="2" class="headerBlue">Hold</th>
+                      <th colspan="2" class="headerBlue">EN</th>
+                  </tr>
+                  <tr>
+                      <th rowspan="3" class="headerBlue">Product Name</th>
+                      <th rowspan="3" class="headerBlue">ARRAY</th>
+                      <th rowspan="3" class="headerBlue">CF</th>
+                      <th rowspan="3" class="headerBlue">CELL</th>
+                      <th rowspan="3" class="headerBlue">AR</th>
+                      <th rowspan="3" class="headerBlue">CF</th>
+                      <th rowspan="3" class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">CL</th>
+                      <th rowspan="3" class="headerBlue">{{sumTFT | zeroConvert}}</th>
+                      <th rowspan="3" class="headerBlue">{{sumCF | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumPair | zeroConvert}}</th>
+                      <th rowspan="3" class="headerBlue">{{sumPlan4}}</th>
+                      <th rowspan="3" class="headerBlue">{{sumPlan24}}</th>
+                      <th colspan="2" class="headerBlue">{{sumTFTBankNormal | zeroConvert}}</th>
+                      <th colspan="2" class="headerBlue">{{sumTFTBankHold | zeroConvert}}</th>
+                      <th colspan="2" class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">{{sumTFTBankEn | zeroConvert}}</th>
+                      <th colspan="2" class="headerBlue">{{sumCFBankNormal | zeroConvert}}</th>
+                      <th colspan="2" class="headerBlue">{{sumCFBankHold | zeroConvert}}</th>
+                      <th colspan="2" class="headerBlue">{{sumCFBankEn | zeroConvert}}</th>
+                  </tr>
+                  <tr>
+                      <th class="headerBlue">{{sumPair300 | zeroConvert}}</th>
+                      <th class="headerBlue">未接收</th>
+                      <th class="headerBlue">接收</th>
+                      <th class="headerBlue">未接收</th>
+                      <th class="headerBlue">接收</th>
+                      <th class="headerBlue">未接收</th>
+                      <th class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">接收</th>
+                      <th class="headerBlue">未接收</th>
+                      <th class="headerBlue">接收</th>
+                      <th class="headerBlue">未接收</th>
+                      <th class="headerBlue">接收</th>
+                      <th class="headerBlue">未接收</th>
+                      <th class="headerBlue">接收</th>
+                  </tr>
+                  <tr>
+                      <th class="headerBlue">{{pairRatio}}</th>
+                      <th class="headerBlue">{{sumTFTBankNormalN | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumTFTBankNormalY | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumTFTBankHoldN | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumTFTBankHoldY | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumTFTBankEnN | zeroConvert}}</th>
+                      <th class="headerBlue" style="border-right: 2px solid #8c8c8c!important;">{{sumTFTBankEnY | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumCFBankNormalN | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumCFBankNormalY | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumCFBankHoldN | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumCFBankHoldY | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumCFBankEnN | zeroConvert}}</th>
+                      <th class="headerBlue">{{sumCFBankEnY | zeroConvert}}</th>
+                  </tr>
+                  <tr *ngFor="let obj of sortBankArray;let i = index;">
+                      <th>{{obj.productname}}</th>
+                      <th>{{obj.arrayproductspecname}}</th>
+                      <th>{{obj.cfproductspecname}}</th>
+                      <th>{{obj.cellproductspecname}}</th>
+                      <th>{{obj.arraymodeltype}}</th>
+                      <th>{{obj.cfmodeltype}}</th>
+                      <th style="border-right: 2px solid #8c8c8c">{{obj.cellmodeltype}}</th>
+                      <th>{{obj.tft | zeroConvert}}</th>
+                      <th>{{obj.cf | zeroConvert}}</th>
+                      <th>{{obj.pair | zeroConvert}}</th>
+                      <th [ngClass]="{setAlarm: obj.planqty_4>obj.pair}">{{obj.planqty_4 | zeroConvert}}</th>
+                      <th style="border-right: 2px solid #8c8c8c" [ngClass]="{setAlarm: obj.planqty_24>obj.pair}">{{obj.planqty_24 | zeroConvert}}</th>
+                      <th style="border-top: 0px"
+                          [ngStyle]="{'border-bottom': (i == (sortBankArray.length-1)) ? '1px solid inherit' : '0px'}"></th>
+                      <th style="border-left: 2px solid #8c8c8c!important;" >{{obj.tft_bank_normal_n | zeroConvert}}</th>
+                      <th>{{obj.tft_bank_normal_y | zeroConvert}}</th>
+                      <th>{{obj.tft_bank_hold_n | zeroConvert}}</th>
+                      <th>{{obj.tft_bank_hold_y | zeroConvert}}</th>
+                      <th>{{obj.tft_bank_en_n | zeroConvert}}</th>
+                      <th style="border-right: 2px solid #8c8c8c!important;">{{obj.tft_bank_en_y | zeroConvert}}</th>
+                      <th>{{obj.cf_bank_normal_n | zeroConvert}}</th>
+                      <th>{{obj.cf_bank_normal_y | zeroConvert}}</th>
+                      <th>{{obj.cf_bank_hold_n | zeroConvert}}</th>
+                      <th>{{obj.cf_bank_hold_y | zeroConvert}}</th>
+                      <th>{{obj.cf_bank_en_n | zeroConvert}}</th>
+                      <th>{{obj.cf_bank_en_y | zeroConvert}}</th>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+  </p-panel>
+</div>

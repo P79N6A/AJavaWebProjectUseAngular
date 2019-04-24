@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-cfmovewip',
+  templateUrl: './cfmovewip.component.html',
+  styleUrls: ['./cfmovewip.component.css']
+})
+export class CfmovewipComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

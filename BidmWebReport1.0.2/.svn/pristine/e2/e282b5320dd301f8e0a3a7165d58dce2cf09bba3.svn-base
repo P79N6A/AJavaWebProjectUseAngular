@@ -1,0 +1,97 @@
+<div class="layout-topbar" style="left: 0;background: rgb(1,41,77)">
+
+    <a routerLink="/" *ngIf="app.isHorizontal() && !app.isMobile()" class="topbar-logo" style="padding-top: 15px">
+        <!-- <img alt="logo" src="assets/boe/images/logo2.png" 
+            style="display: inline-block; width: 48px; height: 48px; vertical-align: middle;" /> -->
+        <span class="app-name"
+            style="font-size: 20px; color: #fff; font-weight: bold;">bidmReport</span>
+    </a>
+
+    <!-- <img alt="logo" src="assets/boe/images/logo2.png" class="mobile-logo"/> -->
+    <span class="mobile-logo" style="font-size: 20px; color: #F2F6FA; font-weight: bold;">bidmReport</span>
+
+    <a href="#" class="menu-btn" (click)="app.onMenuButtonClick($event)">
+        <i class="material-icons">&#xE5D2;</i>
+    </a>
+
+    <a href="#" class="topbar-menu-btn" (click)="app.onTopbarMobileMenuButtonClick($event)">
+        <i class="material-icons">&#xE853;</i>
+    </a>
+
+    <div class="layout-topbar-menu-wrapper">
+        <!-- <div class="ui-g-4"></div>
+        <div class="ui-g-4" style="text-align: center">
+            <label style="color: white; font-size: 22px;">{{currentDate | datefmt : 'yyyy-MM-dd hh:mm:ss EEE'}}</label>
+        </div> -->
+        <!-- <div class="ui-g-4" style="padding-top: 0"> -->
+            <ul class="topbar-menu fadeInDown" [ngClass]="{'topbar-menu-active': app.topbarMenuActive}" (click)="app.onTopbarMenuClick($event,settings)">
+                <!-- <li *ngIf="!app.isMobile()" style="padding-top: 15px; margin-left: 5px; cursor: pointer;" #profile [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}" (click)="app.onTopbarRootItemClick($event, profile)">
+                    <i class="material-icons" style="color: #F2F6FA;">keyboard_arrow_down</i>
+                    <ul class="fadeInDown" style="padding-top: 0px;padding-bottom: 0px;border-top:0px;max-height: 700px;overflow-y: auto;">
+                        <li role="menuitem">
+                            <a href="#" (click)="logout()">
+                                <i class="material-icons">lock</i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li> -->
+                <li *ngIf="!app.isMobile()" style="padding-top: 12px; margin-left: 8px;"><label style="color: #F2F6FA;">{{currentUser}}</label></li>
+                <li style="padding-top: 6px" #profile [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}" (click)="app.onTopbarRootItemClick($event, profile)">
+                    <!-- <img style="border-radius: 13px; width: 26px; height: 26px;" src="assets/boe/themes/images/dashboard/bridge.png" /> -->
+                    <a style="cursor:pointer">
+                        <i class="material-icons">&#xE853;</i>
+						<span class="topbar-item-name">{{currentUser}}</span>
+                    </a>
+                    <ul class="fadeInDown" style="padding-top: 0px;padding-bottom: 0px;border-top:0px;max-height: 700px;overflow-y: auto;">
+                        <li role="menuitem">
+                            <a href="#" (click)="logout()">
+                                <i class="material-icons">lock</i>
+                                <span class="topbar-item-name">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li style="padding-top: 6px" #settings [ngClass]="{'active-topmenuitem':app.activeTopbarItem === settings}" (click)="app.onTopbarRootItemClick($event, settings)">
+                    <a style="cursor:pointer">
+                        <i class="topbar-icon material-icons">settings</i>
+                        <span class="topbar-item-name">Settings</span>
+                    </a>
+                    <ul class="fadeInDown" style="padding-top: 0px;padding-bottom: 0px;border-top:0px;max-height: 700px;overflow-y: auto;">
+                        <li role="menuitem">
+                            <p-panelMenu [model]="items" (click)="app.headerSideMenuClick()"></p-panelMenu>
+                        </li>  
+                        <!-- <li role="menuitem">
+                            <a href="#" (click)="logout()">
+                                <i class="material-icons">lock</i>
+                                <span>Logout</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+                <li *ngIf="!app.isMobile()" style="padding-top: 6px" #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}" (click)="app.onTopbarRootItemClick($event, notifications)">
+                    <a style="cursor:pointer">
+                        <i class="topbar-icon material-icons">notifications</i>
+                        <span class="topbar-badge animated rubberBand" *ngIf="unReadNotifyCount>0">{{unReadNotifyCount}}</span>
+                        <span class="topbar-item-name">Notifications</span>
+                    </a>
+                </li>
+                <div style="padding-top: 6px;">
+                    <a *ngIf="!app.isHorizontal() && !app.isMobile()" class="topbar-logo">
+                        <!-- <img alt="logo" src="assets/boe/images/logo2.png"
+                            style="display: inline-block; height: 48px; vertical-align: middle;" /> -->
+                        <span class="app-name" 
+                            style="font-size: 20px; color: #F2F6FA; font-weight: bold;">bidmReport</span>
+                        <!-- <a href="#" class="sidebar-anchor" title="Toggle Menu" (click)="app.onToggleMenuClick($event)"></a> -->
+                    </a>
+                    <a *ngIf="!app.isHorizontal() && !app.isMobile()" style="cursor:pointer; color: #F2F6FA; padding-left: 20px;">
+                        <!-- <span style="padding-top: 8px;"> -->
+                            <i *ngIf="app.layoutMode === 'static'" class="fa fa-dedent" (click)="app.onToggleMenuClick($event)"></i>
+                            <i *ngIf="app.layoutMode === 'overlay'" class="fa fa-indent" (click)="app.onToggleMenuClick($event)"></i>
+                        <!-- </span> -->
+                    </a>
+                </div>
+            </ul>
+        <!-- </div> -->
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:8%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      公司看板
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:500px;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <p-table class="ui-g-12">
+      <ng-template pTemplate="header">
+        <tr>
+          <th rowspan="2">FAC</th>
+          <th rowspan="2">Item</th>
+          <th colspan="2">Monthly</th>
+          <th colspan="3">Cum</th>
+          <th colspan="3">Daily</th>
+          <th rowspan="2">Wip</th>
+          <th rowspan="2">Bank</th>
+          <th rowspan="2" width="50%">Daily Trend</th>
+        </tr>
+        <tr>
+          <th>审批</th>
+          <th>勇追</th>
+          <th>Plan</th>
+          <th>Act</th>
+          <th>Bal</th>
+          <th>Plan</th>
+          <th>Act</th>
+          <th>Bal</th>
+        </tr>
+        <tr>
+          <th rowspan="2">Array</th>
+          <th>In</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th rowspan="2"></th>
+          <th rowspan="2"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th>Out</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

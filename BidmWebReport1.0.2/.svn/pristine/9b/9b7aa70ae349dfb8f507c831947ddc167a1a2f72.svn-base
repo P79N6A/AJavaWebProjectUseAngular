@@ -1,0 +1,654 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../common/service/api/api.service';
+import { RowItem } from './model/ptableItem';
+import { SelectItem } from 'primeng/api';
+import { SeriesItemZaohui } from '../pro-data-zaohui/model/seriesItemZaohui';
+
+@Component({
+  selector: 'app-pro-data-shishi',
+  templateUrl: './pro-data-shishi.component.html',
+  styleUrls: ['./pro-data-shishi.component.css']
+})
+export class ProDataShishiComponent implements OnInit {
+
+  // 四个echarts图绑定的options
+  touruCcOption;
+  stkMonitorOption;
+  photoIdleOption;
+  realTimeOption;
+
+  // 第二个echarts的没有过滤的数据，直接从数据库查出的数据
+  backupRealTime;
+
+  // 下拉框绑定元素
+  productiontype;
+  product;
+
+  // 每次根据产品类型过滤后的数据
+  lastData;
+
+  // 下拉框所有元素
+  department: SelectItem[];
+  departmentXinghao: SelectItem[];
+
+  // 为保证显示四行，默认必须有四个数据
+  tableData: RowItem[] = [
+    { eqp_id: null, start_time: null, dur: null, eqp_id1: null, start_time1: null, dur1: null },
+    { eqp_id: null, start_time: null, dur: null, eqp_id1: null, start_time1: null, dur1: null },
+    { eqp_id: null, start_time: null, dur: null, eqp_id1: null, start_time1: null, dur1: null },
+    { eqp_id: null, start_time: null, dur: null, eqp_id1: null, start_time1: null, dur1: null },
+  ];
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+
+    this.department = [
+      { label: 'Production', value: 'Production' },
+      { label: 'Develop', value: 'Develop' },
+      { label: 'Dummy', value: 'Dummy' },
+      { label: 'Engineer', value: 'Engineer' }
+    ];
+    this.departmentXinghao = [{ label: '全部', value: 'all' }];
+
+    this.apiService.getAll('/sc/arprodata/ss1').subscribe(
+      (res) => {
+        this.setTouruCcOption(res);
+      }
+    );
+
+    this.apiService.getAll('/sc/arprodata/ss2').subscribe(
+      (res) => {
+        this.setStkMonitorOption(res);
+      }
+    );
+
+    this.apiService.getAll('/sc/arprodata/ss3').subscribe(
+      (res) => {
+        this.setTableData(res);
+      }
+    );
+
+    this.apiService.getAll('/sc/arprodata/ss4').subscribe(
+      (res) => {
+        this.setPhotoIdleOption(res);
+      }
+    );
+
+    this.apiService.getAll('/sc/arprodata/ss5').subscribe(
+      (res) => {
+        this.backupRealTime = res;
+        this.lastData = this.filterType(res, 'Production');
+        this.setDepartmentPro(this.lastData);
+        this.setRealTimeOption(this.lastData);
+      }
+    );
+
+  }
+
+  filterType(data, key): Array<any> {
+    return data.filter((obj) => {
+      return (obj.productiontype === key);
+    });
+  }
+
+  filterPro(data, key): Array<any> {
+    if (key !== 'all') {
+      return data.filter((obj) => {
+        return (obj.product === key);
+      });
+    } else {
+      return data;
+    }
+  }
+
+  setTouruCcOption(data) {
+
+    const curSeries = [0, 0, 0];
+    for (const obj of data) {
+      switch (obj.item) {
+        case 'Cell In':
+          curSeries[0] = obj.qty;
+          break;
+        case 'Array Out':
+          curSeries[1] = obj.qty;
+          break;
+        case 'Array In':
+          curSeries[2] = obj.qty;
+          break;
+      }
+    }
+
+    this.touruCcOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '15%',
+        right: '8%',
+        bottom: '13%',
+        top: '3%'
+      },
+      xAxis: {
+        type: 'value',
+        axisLine: {
+          show: false
+        },
+        scale: true,
+        axisLabel: {
+          color: '#F2FAF6',
+          fontSize: 10,
+          margin: 4
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgb(68, 103, 122)'
+          }
+        },
+        axisTick: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: 'category',
+        zlevel: 1,
+        axisLine: {
+          lineStyle: {
+            color: '#F2FAF6'
+          }
+        },
+        axisLabel: {
+          color: '#F2FAF6'
+        },
+        axisTick: {
+          show: false
+        },
+        data: ['Cell In', 'Array Out', 'Array In']
+      },
+      series: [
+        {
+          type: 'bar',
+          barWidth: '35%',
+          label: {
+            show: true,
+            position: 'right',
+            color: '#F2FAF6'
+          },
+          itemStyle: {
+            color: '#00B0F0'
+          },
+          data: curSeries
+        }
+      ]
+    };
+  }
+
+  setStkMonitorOption(data) {
+    const xAxisData = [];
+    const seriesData = [];
+
+    for (const obj of data) {
+      xAxisData.push(obj.machinename);
+      seriesData.push(obj.fullratio);
+    }
+
+    this.stkMonitorOption = {
+
+      title: {
+        text: 'STK Monitor',
+        left: '47%',
+        textStyle: {
+          fontSize: 14,
+          color: '#F2FAF6'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        top: '15%',
+        left: '10%',
+        right: '3%',
+        bottom: '13%'
+      },
+      xAxis: {
+        type: 'category',
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          interval: 0,
+          fontSize: 11,
+          color: '#F2FAF6'
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#F2FAF6'
+          }
+        },
+        data: xAxisData
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          show: false
+        },
+        scale: true,
+        max: 100,
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgb(59, 90, 107)'
+          }
+        },
+        axisLabel: {
+          color: '#F2FAF6',
+          formatter: '{value} %'
+        }
+      },
+      series: [{
+        data: seriesData,
+        barWidth: '35%',
+        itemStyle: {
+          color: '#E57B25'
+        },
+        label: {
+          show: true,
+          rotate: -90,
+          formatter: '{c}%'
+        },
+        type: 'bar'
+      }]
+    };
+  }
+
+  setTableData(data) {
+    if (data.length !== 0) {
+      const down = [];
+      const pm = [];
+      for (const obj of data) {
+        if (obj.eqp_state === 'DOWN') {
+          down.push(obj);
+        } else if (obj.eqp_state === 'PM') {
+          pm.push(obj);
+        }
+      }
+
+      if (down.length === 0) {
+        if (pm.length > 4) {
+          this.tableData = [];
+          for (const obj of pm) {
+            const newData = new RowItem();
+            newData.eqp_id1 = obj.eqp_id;
+            newData.start_time1 = obj.start_time;
+            newData.dur1 = obj.duration;
+            this.tableData.push(newData);
+          }
+        } else {
+          for (let i = 0; i < pm.length; i++) {
+            const newData = new RowItem();
+            newData.eqp_id1 = pm[i].eqp_id;
+            newData.start_time1 = pm[i].start_time;
+            newData.dur1 = pm[i].duration;
+            this.tableData[i] = newData;
+          }
+        }
+      } else if (pm.length === 0) {
+        if (down.length > 4) {
+          this.tableData = [];
+          for (const obj of down) {
+            const newData = new RowItem();
+            newData.eqp_id = obj.eqp_id;
+            newData.start_time = obj.start_time;
+            newData.dur = obj.duration;
+            this.tableData.push(newData);
+          }
+        } else {
+          for (let i = 0; i < down.length; i++) {
+            const newData = new RowItem();
+            newData.eqp_id = down[i].eqp_id;
+            newData.start_time = down[i].start_time;
+            newData.dur = down[i].duration;
+            this.tableData[i] = newData;
+          }
+        }
+      } else {
+        let minLen = 0;
+        let maxLen = 0;
+        if (down.length > pm.length) {
+          minLen = pm.length;
+          maxLen = down.length;
+        } else {
+          minLen = down.length;
+          maxLen = pm.length;
+        }
+
+        if (maxLen > 4) {
+          for (let i = 0; i < minLen; i++) {
+            this.tableData = [];
+            const newData = new RowItem();
+            newData.eqp_id = down[i].eqp_id;
+            newData.start_time = down[i].start_time;
+            newData.dur = down[i].duration;
+            newData.eqp_id1 = pm[i].eqp_id;
+            newData.start_time1 = pm[i].start_time;
+            newData.dur1 = pm[i].duration;
+            this.tableData.push(newData);
+          }
+          if (down.length > pm.length) {
+            for (let i = minLen; i < down.length; i++) {
+              const newData = new RowItem();
+              newData.eqp_id = down[i].eqp_id;
+              newData.start_time = down[i].start_time;
+              newData.dur = down[i].duration;
+              this.tableData.push(newData);
+            }
+          } else if (pm.length > down.length) {
+            for (let i = minLen; i < pm.length; i++) {
+              const newData = new RowItem();
+              newData.eqp_id1 = pm[i].eqp_id;
+              newData.start_time1 = pm[i].start_time;
+              newData.dur1 = pm[i].duration;
+              this.tableData.push(newData);
+            }
+          }
+        } else {
+          for (let i = 0; i < minLen; i++) {
+            const newData = new RowItem();
+            newData.eqp_id = down[i].eqp_id;
+            newData.start_time = down[i].start_time;
+            newData.dur = down[i].duration;
+            newData.eqp_id1 = pm[i].eqp_id;
+            newData.start_time1 = pm[i].start_time;
+            newData.dur1 = pm[i].duration;
+            this.tableData[i] = newData;
+          }
+          if (down.length > pm.length) {
+            for (let i = minLen; i < down.length; i++) {
+              const newData = new RowItem();
+              newData.eqp_id = down[i].eqp_id;
+              newData.start_time = down[i].start_time;
+              newData.dur = down[i].duration;
+              this.tableData[i] = newData;
+            }
+          } else if (pm.length > down.length) {
+            for (let i = minLen; i < pm.length; i++) {
+              const newData = new RowItem();
+              newData.eqp_id1 = pm[i].eqp_id;
+              newData.start_time1 = pm[i].start_time;
+              newData.dur1 = pm[i].duration;
+              this.tableData[i] = newData;
+            }
+          }
+        }
+
+      }
+
+    }
+  }
+
+  setPhotoIdleOption(data) {
+    const seriesData = [];
+    for (const obj of data) {
+      seriesData.push(obj.ratio);
+    }
+    for (let i = seriesData.length; i <= 24; i++) {
+      seriesData[i] = 0;
+    }
+
+    this.photoIdleOption = {
+      title: {
+        text: 'PHOTO IDLE Trend',
+        left: '45%',
+        textStyle: {
+          color: '#F2FAF6',
+          fontSize: 14
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        top: '24%',
+        right: '3%',
+        bottom: '15%',
+        left: '10%'
+      },
+      xAxis: {
+        type: 'category',
+        axisLabel: {
+          interval: 0,
+          rotate: 50,
+          fontSize: 8,
+          color: 'white'
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#F2FAF6'
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        data: ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+          '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
+          '23:00', '0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00']
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: {
+          lineStyle: {
+            color: 'rgb(59, 90, 107)'
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'rgb(59, 90, 107)'
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          color: '#F2FAF6',
+          formatter: '{value} %'
+        }
+      },
+      series: [{
+        data: seriesData,
+        type: 'line',
+        symbol: 'circle',
+        label: {
+          show: true,
+          color: 'white',
+          rotate: -90,
+          fontSize: 10,
+          formatter: '{c}%',
+          offset: [-6, -11]
+        },
+        symbolSize: 7,
+        itemStyle: {
+          color: '#FDFD2A'
+        }
+      }]
+    };
+  }
+
+  setDepartmentPro(data) {
+    const products = [];
+    for (const obj of data) {
+      if (!products.includes(obj.product)) {
+        products.push(obj.product);
+      }
+    }
+    this.departmentXinghao = [{ label: '全部', value: 'all' }];
+    for (const pro of products) {
+      this.departmentXinghao.push({ label: pro, value: pro });
+    }
+  }
+
+  setRealTimeOption(data) {
+    // 获取x轴所有数据,定义一个数组保存x轴坐标
+    const xData = [];
+    for (const obj of data) {
+      if (!xData.includes(obj.oper_desc)) {
+        xData.push(obj.oper_desc);
+      }
+    }
+
+    const lineData = [];  // 定义折线move的data数组
+    const seriesArray = [];
+    // 求y轴最大值所用
+    let maxWip = null;
+    const WipArray = [];
+    if (data.length !== 0) {
+      for (let i = 0; i < xData.length; i++) {
+        let sum = 0;
+        let sum2 = 0;
+        for (const obj of data) {
+          if (obj.oper_desc === xData[i]) {
+            sum += obj.move;
+            sum2 += obj.wip;
+            if (obj.wip !== 0) {
+              seriesArray.push(new SeriesItemZaohui(obj.product, 'bar', 'sum', [[i, obj.wip]]));
+            }
+          }
+        }
+        lineData.push(sum);
+        WipArray.push(sum2);
+      }
+
+      maxWip = this.setYmax(WipArray);
+
+      seriesArray.push({
+        name: 'move',
+        yAxisIndex: 1,
+        type: 'line',
+        label: {
+          color: 'white',
+          fontSize: 9,
+          show: true
+        },
+        itemStyle: {
+          color: '#1FE9BA'
+        },
+        smooth: true,
+        data: lineData
+      });
+    }
+
+    this.realTimeOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '3%',
+        top: '10%'
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: xData,
+          axisLabel: {
+            interval: 0,
+            rotate: 70,
+            fontSize: 8,
+            color: 'white'
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#5694ce'
+            }
+          }
+        }
+      ],
+      yAxis: [
+        {
+          name: 'WIP',
+          nameGap: 3,
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 10
+          },
+          max: maxWip,
+          type: 'value',
+          axisLabel: {
+            fontSize: 8,
+            color: 'white'
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#5694ce'
+            }
+          }
+        },
+        {
+          name: 'MOVE',
+          nameGap: 3,
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 10
+          },
+          type: 'value',
+          axisLabel: {
+            fontSize: 8,
+            color: 'white'
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#5694ce'
+            }
+          }
+        }
+      ],
+      series: seriesArray
+    };
+  }
+
+  setYmax(data: Array<number>): number {
+    if (data.length !== 0) {
+      const max = data.reduce((pre, cur) => {
+        if (pre >= cur) {
+          return pre;
+        } else {
+          return cur;
+        }
+      });
+      return parseInt((max * 1.05).toString(), 10);
+    } else {
+      return 100;
+    }
+  }
+
+  select(value, flag) {
+    if (flag === 1) {
+      this.product = 'all';
+      this.lastData = this.filterType(this.backupRealTime, value);
+      this.setDepartmentPro(this.lastData);
+      this.setRealTimeOption(this.lastData);
+    } else {
+      this.setRealTimeOption(this.filterPro(this.lastData, value));
+    }
+  }
+
+}

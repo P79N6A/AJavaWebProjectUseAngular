@@ -1,0 +1,130 @@
+[
+    {
+        "stocker": "TFST01",
+        "cst_spec": "TFST01",
+        "production": 27.0,
+        "engdev": 15.0,
+        "dummy": 2.0,
+        "empty": 1.0
+    },
+    {
+        "stocker": "TFST01",
+        "cst_spec": "ACN",
+        "production": 18.0,
+        "engdev": 14.0,
+        "dummy": 0.0,
+        "empty": 1.0
+    },
+    {
+        "stocker": "TFST01",
+        "cst_spec": "FCW",
+        "production": 9.0,
+        "engdev": 1.0,
+        "dummy": 0.0,
+        "empty": 0.0
+    },
+    {
+        "stocker": "TFST01",
+        "cst_spec": "CCN",
+        "production": 0.0,
+        "engdev": 0.0,
+        "dummy": 2.0,
+        "empty": 0.0
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "TFST02",
+        "production": 97.0,
+        "engdev": 4.0,
+        "dummy": 1.0,
+        "empty": 4.0
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "ACN",
+        "production": 85.0,
+        "engdev": 4.0,
+        "dummy": 0.0,
+        "empty": 3.0
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "FCW",
+        "production": 12.0,
+        "engdev": 0.0,
+        "dummy": 1.0,
+        "empty": 1.0
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "CCN",
+        "production": 0.0,
+        "engdev": 0.0,
+        "dummy": 0.0,
+        "empty": 0.0
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "TFST03",
+        "production": 52.0,
+        "engdev": 2.0,
+        "dummy": 0.0,
+        "empty": 9.0
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "ACN",
+        "production": 33.0,
+        "engdev": 2.0,
+        "dummy": 0.0,
+        "empty": 4.0
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "FCW",
+        "production": 19.0,
+        "engdev": 0.0,
+        "dummy": 0.0,
+        "empty": 5.0
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "CCN",
+        "production": 0.0,
+        "engdev": 0.0,
+        "dummy": 0.0,
+        "empty": 0.0
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "TFST04",
+        "production": 81.0,
+        "engdev": 0.0,
+        "dummy": 14.0,
+        "empty": 2.0
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "ACN",
+        "production": 1.0,
+        "engdev": 0.0,
+        "dummy": 0.0,
+        "empty": 1.0
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "FCW",
+        "production": 80.0,
+        "engdev": 0.0,
+        "dummy": 13.0,
+        "empty": 1.0
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "CCN",
+        "production": 0.0,
+        "engdev": 0.0,
+        "dummy": 1.0,
+        "empty": 0.0
+    }
+]

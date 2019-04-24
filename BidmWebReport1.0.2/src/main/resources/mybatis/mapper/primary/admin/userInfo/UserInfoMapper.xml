@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primary.admin.UserInfoMapper">
+	<select id="selectAllUser" parameterType="hashmap" resultType="com.boe.idm.project.model.mybatis.UserInfo">
+		SELECT * FROM userinfo
+		where 1=1
+		<if test="userAccount != null and  userAccount != ''">
+			and useraccount like #{userAccount} 
+		</if>
+		<if test="userName != null and  userName != ''">
+			and username like #{userName} 
+		</if>
+		order by username
+		LIMIT #{startRow},#{pageRow}
+	</select>
+	
+	<select id="selectUserInfo" resultType="UserInfo">
+		SELECT useraccount,username FROM userinfo 
+		<if test="userAccount != null and  userAccount != ''">
+			where useraccount = #{userAccount} and state=true
+		</if>
+ 		order by username
+	</select>
+	
+	<select id="selectAvailableUser" resultType="UserInfo">
+		SELECT useraccount,username FROM userinfo where state=true order by username
+	</select>
+	
+	<update id="updateUserInfo" parameterType="UserInfo">
+		update userinfo 
+		set username =#{userName},updateuser=#{updateUser},updatetime=#{updateTime}	,state=#{state} 
+		 where userAccount = #{userAccount}
+	</update>
+ 
+ 
+ 	<delete id="deleteUserInfo" parameterType="UserInfo">
+			Delete FROM userinfo where useraccount = #{userAccount} and useraccount != 'admin'
+		</delete>
+		
+		<insert id="saveOrUpdate" parameterType="UserInfo">
+			  <selectKey keyProperty="count" resultType="int" order="BEFORE">
+			    select count(*) as count  from userinfo where useraccount = #{userAccount}
+			  </selectKey>
+			  <if test="count > 0">
+			    update userinfo 
+				set state=#{state},username =#{userName},updateuser=#{createUser},updatetime=#{createTime}	 
+				 where userAccount = #{userAccount};
+			  </if>
+			  <if test="count==0">
+			    insert into userinfo(state,useraccount,username,createuser,createtime) values (#{state},#{userAccount},#{userName},#{createUser},#{createTime})
+			  </if>
+		</insert>
+
+	<select id="getTotCount" resultType="int">
+		select count(*) from userinfo 
+		where 1=1
+		<if test="userAccount != null and  userAccount != ''">
+			and useraccount like #{userAccount}
+		</if>
+		<if test="userName != null and  userName != ''">
+			and username like #{userName}
+		</if>
+	</select>
+</mapper>

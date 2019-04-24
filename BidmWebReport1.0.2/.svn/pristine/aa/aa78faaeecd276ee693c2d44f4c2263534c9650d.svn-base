@@ -1,0 +1,38 @@
+package com.boe.idm.project.mapper.primaryOracle.dev;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.boe.idm.project.model.mybatis.CfWipMoveBasicinfoVO;
+import com.boe.idm.project.model.mybatis.CfWipMoveMoveVO;
+import com.boe.idm.project.model.mybatis.CfWipMoveVO;
+import com.boe.idm.project.model.mybatis.CfWipMoveWipVO;
+
+@Mapper
+public interface CfWipMoveMapper {
+
+	
+	//1.查询 生管 日计划完成情况的操作
+	public List<CfWipMoveVO> queryNumbers(@Param("timedate") String timedate,@Param("timehour") String timehour);
+	
+	//2.查询 wip 的数据信息
+	public List<CfWipMoveWipVO> queryWipNumbers(@Param("timehour") String timehour);
+	
+	//3.查询 move的数据信息
+	public List<CfWipMoveMoveVO> queryMoveNumbers(@Param("timehour") String timehour);
+	
+	
+	
+	/**********下面是 关于基础信息维护的方法*****************************/
+	//4.查询所有的数据
+	public List<CfWipMoveBasicinfoVO> queryAllBasicinfo();
+	//5.添加一个对象
+	public int insertOne(CfWipMoveBasicinfoVO cfWipMoveBasicinfoVO);
+	//6.更新一个对象 : 直接写参数了
+	public int updateOne(@Param("factorynew") String factorynew,@Param("productspecnew") String productspecnew, @Param("linenew")String linenew,
+						 @Param("factoryold") String factoryold,@Param("productspecold") String productspecold, @Param("lineold")String lineold);
+	//7.删除一个对象
+	public int deleteOne(CfWipMoveBasicinfoVO cfWipMoveBasicinfoVO);
+}

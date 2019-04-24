@@ -1,0 +1,14 @@
+<div class="ui-g">
+  <div class="ui-g-6">
+      <div echarts [options]="chartOption1"></div>
+  </div>
+  <div class="ui-g-6">
+      <div echarts [options]="chartOption2"></div>
+  </div>
+  <div class="ui-g-6">
+      <div echarts [options]="chartOption3"></div>
+  </div>
+  <div class="ui-g-6">
+      <div echarts [options]="chartOption4"></div>
+  </div>
+</div>

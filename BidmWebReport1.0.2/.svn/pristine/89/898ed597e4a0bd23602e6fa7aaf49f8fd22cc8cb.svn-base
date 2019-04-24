@@ -1,0 +1,147 @@
+import { Component, OnInit } from '@angular/core';
+import { Celldailydata } from './model/celldailyproduct';
+import { ApiService } from '../../common/service/api/api.service';
+import { Data } from '@angular/router';
+
+@Component({
+  selector: 'app-cellproductiondaily',
+  templateUrl: './cellproductiondaily.component.html',
+  styleUrls: ['./cellproductiondaily.component.css']
+})
+export class CellproductiondailyComponent implements OnInit {
+
+  //1.保存 当前日期的 变量
+  todayStr : string = '---';
+  //2.保存数据的数组
+  data:Celldailydata[]=[];
+  //3.保存 选择的 日期的 变量
+  selectedDate : Date = new Date(); // 默认的就是今天的
+
+  constructor(private apiService:ApiService) { }
+
+  ngOnInit() {
+    this.todayStr = this.getTodayStrHeader();
+    this.searchData(new Date());
+   }
+
+   //1.获取 当天日期 的 字符串 : 在表头上显示的
+   getTodayStrHeader():string{
+     let str = '';
+     const date = new Date();
+     let year = date.getFullYear()+'';
+     let month = date.getMonth()+1+'';
+     let day = date.getDate()-1+'';
+     str = year+'/'+month+'/'+day;
+     return str;
+   }
+
+   //2.获取 当天日期 的 字符串 : 创建查询参数的
+   getTodayStrSearch(date:Date):string{
+        let str = '';
+       // const date = new Date();
+        let year = date.getFullYear()+'';
+        let month = date.getMonth()+1;
+        let day = date.getDate()-1;
+
+        str = year;
+
+        if(month < 10){
+          str += '0'+month;
+        }else{
+          str += month;
+        }
+
+        if(day < 10){
+          str += '0'+day;
+        }else{
+          str += day;
+        }
+       
+        return str;
+   }
+
+   //3.获取 输入的日期 的字符串 ： 创建查询参数 ，与方法2的区别是，day不会减1
+   getSelecteddayStrSearch(date:Date):string{
+    let str = '';
+   // const date = new Date();
+    let year = date.getFullYear()+'';
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+
+    str = year;
+
+    if(month < 10){
+      str += '0'+month;
+    }else{
+      str += month;
+    }
+
+    if(day < 10){
+      str += '0'+day;
+    }else{
+      str += day;
+    }
+   
+    return str;
+}
+
+   //4.进行查询的方法
+   searchData(date:Date){
+     const url = '/celldaily/report';
+     const datestr = this.getTodayStrSearch(date);
+     console.log(datestr);
+     const option = {
+       params : {
+         datename : datestr
+       }
+     }
+
+     this.apiService.get(url,option).subscribe(
+       (res)=>{
+         this.handleData(res); // 调用方法 4， 处理返回的结果集
+       },
+       (error)=>{console.log(error)}
+     );
+   }
+
+   //5进行查询的方法 : 参数是 选中的 日期
+   searchSelectedDate(date:Date){
+    const url = '/celldaily/report';
+    const datestr = this.getSelecteddayStrSearch(date);
+    console.log(datestr);
+    const option = {
+      params : {
+        datename : datestr
+      }
+    }
+
+    this.apiService.get(url,option).subscribe(
+      (res)=>{
+        this.handleData(res); // 调用方法 4， 处理返回的结果集
+      },
+      (error)=>{console.log(error)}
+    );
+   }
+
+   //5.处理查询到的数据的方法
+   handleData(dataa){
+     this.data = []; // 首先清空保存对象的数组
+     if(Array.isArray(dataa)){ // 实在讲，这个 if 没啥用
+     
+      for(const object of dataa){ // 循环便利每一个 对象
+        let newobject = new Celldailydata(); // 每一个对象都需要创建一下子
+        let productsize = object['productsize'];
+        newobject.setSize(productsize); // 设置 尺寸的属性 
+        for(const property in object){ // 循环对象中的属性进行赋值 操作 
+          newobject.setNumbs(property,object[property]);
+        }
+        this.data.push(newobject);
+      }
+     }
+   }
+
+   //5.点击查询按钮执行的方法 ： 
+   searchDataClick(){
+     this.searchSelectedDate(this.selectedDate);
+   }
+}

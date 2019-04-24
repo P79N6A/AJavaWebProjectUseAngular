@@ -1,0 +1,37 @@
+<div class='ui-g waterMarkHome' style="margin:0px;padding: 0px;background-color: RGB(1,31,58);"[ngStyle]="{height: this.screenHight}" ng-repeat="i in ::waterHomeData">
+    <div style="height:8%; width:100%;margin-top: 0px;padding:0px">
+      <h2 style="text-align: center;height: 100%;line-height: 65px; width:100%;margin-top: 0px;padding:0px;background-image: url('assets/picture/title.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">
+        B6企业数据平台</h2>
+  </div>
+  <div id ="time"style="height:2%;background-color: #0b1c38;width: 100%;color:#fff;font-size:12px;font-weight:bold;font-family:微软雅黑">
+    </div>
+  <div class='ui-g-12'style="height:30%;margin:0px;padding: 0px">
+      <div class="ui-g-4 ui-lg-4" style="padding: 0px;height:100% ;border: 1px solid" echarts [options]="chartOptionInout" ></div>
+      <div class="ui-g-4 ui-lg-4" style="padding: 0px;height:100% ;border: 1px solid" echarts [options]="chartOptionYield" ></div>
+      <div class="ui-g-4 ui-lg-4" style="margin:0px;padding:0px;height:100%">
+        <div class="ui-g" style="border: 1px solid;height: 100%;width: 100%" >
+          <div class="ui-g-12 ui-lg-1" style="background-color: RGB(1,31,58);width: 12%"> 
+              <label style="color:#fff;font-size: 12px ;font-family: 微软雅黑;">TOTAL</label>&nbsp;<br />
+              <label style="color:gold;font-size: 14px;font-family: 微软雅黑;">2193</label> 
+              <br /><br />
+              <label style="color:#fff;font-size: 12px;font-family: 微软雅黑;">FULL</label>&nbsp;<br />
+              <label style="color:gold;font-size: 14px;font-family: 微软雅黑;">1943</label> 
+              <br /><br />
+              <label  style="color:#fff;font-size: 12px;margin-left: -4px;font-family: 微软雅黑;">EMPTY</label>&nbsp;<br />
+              <label style="color:gold;font-size: 14px;font-family: 微软雅黑;">408</label>
+            </div>
+            <div echarts [options]="chartOptionCST"  class="ui-g-12 ui-lg-11" style="height: 100%;padding: 0px;width: 88%">
+                 
+            </div> 
+      </div>
+      </div>
+  </div>
+  <div class="ui-g-12" style="margin:0px;padding: 0px;height:30%;" >
+      <div class="ui-g-4 ui-lg-6" style="padding: 0px;height:100% ;border: 1px solid" echarts [options]="chartOptionPh1Run" ></div>
+      <div class="ui-g-4 ui-lg-6" style="padding: 0px;height:100% ;border: 1px solid" echarts [options]="chartOptionPh2Run" ></div>
+  </div>
+  <div class="ui-g-12" style="margin:0px;padding: 0px;height:30%;" >
+      <div class="ui-g-4 ui-lg-6" style="padding: 0px;height:100% ;border: 1px solid" echarts [options]="chartOptionPh1WIP" ></div>
+      <div class="ui-g-4 ui-lg-6" style="padding: 0px;height:100% ;border: 1px solid" echarts [options]="chartOptionPh2WIP" ></div> 
+  </div>
+</div>

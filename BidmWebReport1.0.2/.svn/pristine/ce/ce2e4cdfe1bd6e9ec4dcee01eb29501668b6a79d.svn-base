@@ -1,0 +1,129 @@
+<div class="ui-g" id="cfwiphour">
+  <p-panel class="ui-g-12">
+      <p-header>
+        <h3 style="text-align:center;margin:0.4em">CF Wip 小时别 - {{timestr}}</h3>
+      </p-header>
+      <div class="ui-helper-clearfix" style="text-align: right">
+          <!-- <p-calendar [(ngModel)]="selectedDate" [showIcon]='true' dateFormat="      yy-mm-dd"></p-calendar> -->
+          <p-dropdown [options]="productiontypes" [(ngModel)]="selectedProductiontype" (onChange)="productiontypeChange()"></p-dropdown>
+          <input type="text" [(ngModel)]="inputtime" placeholder="例如2019011509" width="200px">
+          <button pButton type="button" label="查询" icon="fa fa-search" iconPos="left" (click)="searchbytime()"></button>
+          <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>
+        </div>
+      <div class="ui-panel-content">
+          <p-table *ngIf="false" id="cfwiphourtable" [columns]="scrollableCols" [frozenColumns]="frozenCols" [value]="data" [scrollable]="true" scrollHeight="450px" frozenWidth="420px">
+              <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                      <col *ngFor="let col of columns" style="width:140px">
+                  </colgroup>
+              </ng-template>
+            
+            <ng-template pTemplate="header" >
+              <!--第一行-->
+              <tr>
+                <th rowspan="3" colspan="2" class="head" id="operation">Operation</th>
+                <th rowspan="2" class="head" id="totalsumcell">Total</th>
+                <!--productspecname循环显示-->
+                <th *ngFor="let productspecname of productSepcNames" class="head" id="productspecname">{{productspecname}}</th> <!--body .ui-table .ui-table-tfoot > tr > td-->
+              </tr>
+              <!--第二行-->
+              <tr>
+                <th *ngFor="let modeltype of modelTypes" class="head">{{modeltype}}</th>
+                
+              </tr>
+              <!--第三行-->
+              <tr>
+                <th *ngFor="let sumqty of totalQtys" class="head">{{sumqty}}</th>
+              </tr>
+      
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowdata let-column>
+              <tr>
+                
+                <td class="data" width="500px" >{{rowdata.opercode}}</td>
+                <td class="data" >{{rowdata.operdesc}}</td>
+                <td *ngFor="let qty of rowdata.qtys" class="data">{{qty | toZeroPipe}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+
+          <!--*****************************************8-->
+          <p-table *ngIf="false" id="cfwiphourtable"   [value]="data"  [autoLayout]="true">
+             
+            
+            <ng-template pTemplate="header" >
+              <!--第一行-->
+              <tr>
+                <th rowspan="3" colspan="2" class="head" id="operation" width="500px">Operation</th>
+                <th rowspan="2" class="head" id="totalsumcell">Total</th>
+                <!--productspecname循环显示-->
+                <th *ngFor="let productspecname of productSepcNames" class="head" id="productspecname">{{productspecname}}</th> <!--body .ui-table .ui-table-tfoot > tr > td-->
+              </tr>
+              <!--第二行-->
+              <tr>
+                <th *ngFor="let modeltype of modelTypes" class="head">{{modeltype}}</th>
+                
+              </tr>
+              <!--第三行-->
+              <tr>
+                <th *ngFor="let sumqty of totalQtys" class="head">{{sumqty}}</th>
+              </tr>
+      
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowdata>
+              <tr>
+                
+                <td class="data" width="500px" >{{rowdata.opercode}}</td>
+                <td class="data" >{{rowdata.operdesc}}</td>
+                <td *ngFor="let qty of rowdata.qtys" class="data">{{qty}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+           <!--*****************************************8-->
+           <p-table *ngIf="true"  id="cfwiphourtable" [columns]="scrollableCols"   [value]="data" [scrollable]="true" [style]="{width:'100%'}" scrollHeight="450px" 
+                                  selectionMode="single" [(selection)]="selectedObject" dataKey="opercode">
+              <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                      <col *ngFor="let col of columns" style="width:140px">
+                  </colgroup>
+              </ng-template>
+
+              <ng-template pTemplate="header" >
+                <!--第一行-->
+                <tr>
+                  <th rowspan="3" colspan="2" class="head" id="operation" width="500px">Operation</th>
+                  <th rowspan="2" class="head" id="totalsumcell">Total</th>
+                  <!--productspecname循环显示-->
+                  <th *ngFor="let productspecname of productSepcNames" class="head" id="productspecname">{{productspecname}}</th> <!--body .ui-table .ui-table-tfoot > tr > td-->
+                </tr>
+                <!--第二行-->
+                <tr>
+                  <th *ngFor="let modeltype of modelTypes" class="head">{{modeltype}}</th>
+                  
+                </tr>
+                <!--第三行-->
+                <tr>
+                  <th *ngFor="let sumqty of totalQtys" class="head">{{sumqty}}</th>
+                </tr>
+        
+              </ng-template>
+  
+              <ng-template pTemplate="body" let-rowdata>
+                <tr [pSelectableRow]="rowdata">
+                  
+                  <td class="data" width="500px" >{{rowdata.opercode}}</td>
+                  <td class="data" >{{rowdata.operdesc}}</td>
+                  <td *ngFor="let qty of rowdata.qtys" class="data">{{qty | toZeroPipe}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+        </div>
+  </p-panel>
+
+ 
+
+</div>

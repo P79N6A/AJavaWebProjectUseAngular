@@ -1,0 +1,25 @@
+<div class="ui-g">
+  <div *ngFor="let p of pService.ps" [ngClass]="p.clazz" [style.display]="p.display">
+    <p-panel [header]="p.header" class="echarts-panel">
+      <p-header>
+        <!-- <i class="icon-expand" [ngClass]="p.icon" style="float: right" (click)="expandClick()"></i> -->
+        <i class="material-icons icon-expand" (click)="expandClick(p.id)">{{p.icon}}</i>
+      </p-header>
+      <!-- <div class="echarts" [id]="p.id" [ngStyle]="{'height': getHeight(p.id)}"></div> -->
+      <div *ngIf="p.expand" 
+        style="position: relative; top: 0; background-color: #808080; opacity: 0.8; margin: -9px -14px; padding: 7px;">
+        <label style="color: #F2F6FA">{{p.author_site}} {{p.author}} 制作</label>
+      </div>
+      <div *ngIf="p.expand" echarts [theme]="theme" [id]="p.id" [options]="p.options"></div>
+      <div *ngIf="!p.expand" 
+        style="height: 150px; text-align: center; cursor: pointer;" 
+        (click)="expandClick(p.id)">
+        <img [attr.src]="p.img" style="width: 100%; height: 100%" />
+      </div>
+      <div *ngIf="!p.expand" 
+        style="position: relative; bottom: 0; background-color: #808080; opacity: 0.8; margin: -8.5px -14px; padding: 5px;">
+        <label style="color: #F2F6FA">{{p.author_site}} {{p.author}} 制作</label>
+      </div>
+    </p-panel>
+  </div>
+</div>

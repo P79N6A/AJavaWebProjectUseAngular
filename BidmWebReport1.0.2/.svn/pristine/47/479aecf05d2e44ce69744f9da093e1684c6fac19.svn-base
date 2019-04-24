@@ -1,0 +1,237 @@
+
+<!-- 第一个页面-->
+<div class="ui-g" *ngIf="isFirstPage">
+  <p-panel class="ui-g-12">
+    <p-header>
+      <div class="ui-g-12">
+        <h3 style="text-align:center;margin:0%;padding:0%">Panel Bank</h3>
+      </div>
+    </p-header>
+
+    <div class="ui-panel-content">
+
+        <div class="ui-helper-clearfix">
+            <div style="float:right;padding-bottom: 5px">                          
+                  <p-calendar [(ngModel)]="selectedDate" [showIcon]='true' [showTime]="true"  dateFormat="yy/mm/dd "></p-calendar>
+                  <button pButton type="button" label="查询" icon="fa fa-search" iconPos="left" (click)="searchDataClick()"></button>
+                  <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>  
+                  <button pButton type="button" label="库房" icon="fa fa-hand-o-right" iconPos="left" (click)="changeToSecondPage()"></button>
+            </div>
+        </div>
+
+      <p-table id="panelbanktable" [columns]="cols1" [value]="data1">
+        <ng-template pTemplate="header">
+          <!-- 第一行 -->
+          <tr>
+            <th class="header1" width="145px">PCS</th>
+            <th class="header1" width="140px">{{pcsdata}}</th>
+            <th class="header1"></th>
+            <th colspan="15" class="header1">PRODUCTION</th>
+            <th colspan="4" class="header1">EN/DV</th>
+          </tr>
+
+          <!-- 第二行 -->
+          <tr>
+            <th class="header1">PCL</th>
+            <th class="header1">{{pcldata}}</th>
+            <th class="header1"></th>
+            <th class="header1"></th>
+            <th colspan="6" class="header1">B4 Bank</th>
+            <th colspan="6" class="header1">S2 Bank</th>
+            <th class="header1">B4 库房</th>
+            <th class="header1">S2 库房</th>
+            <th colspan="2" class="header1">Bank</th>
+            <th colspan="2" class="header1">FGMS</th>
+          </tr>
+
+          <!-- 第三行 -->
+          <tr>
+              <th class="header1">NAME</th>
+              <th class="header1">Spec</th>
+              <th class="header1">Type</th>
+              <th class="header1">TTL</th>
+              <th class="header1">TTL</th>
+              <th class="header1">P</th>
+              <th class="header1">S</th>
+              <th class="header1">Q</th>
+              <th class="header1">F</th>
+              <th class="header1">N</th>
+
+              <th class="header1">TTL</th>
+              <th class="header1">P</th>
+              <th class="header1">S</th>
+              <th class="header1">Q</th>
+              <th class="header1">F</th>
+              <th class="header1">N</th>
+
+              <th class="header1">TTL</th>
+              <th class="header1">TTL</th>
+
+              <th class="header1">B4</th>
+              <th class="header1">S2</th>
+              <th class="header1">B4</th>
+              <th class="header1">S2</th>
+          </tr>
+
+          <!-- 第四行 -->
+          <tr>
+            <th colspan="3" class="header1">Total</th>
+            <th class="header1" *ngFor="let numb of totalDatas;let i = index;" [ngClass]="{datared :  this.comparedXiabiaos.includes(i)}">{{numb | myzeropipe}}</th>
+          </tr>
+
+          <!-- 第五行 -->
+          <tr>
+            <th colspan="3" class="header2">TPC</th>
+            <th class="header2" *ngFor="let numb of tcpDatas">{{numb | myzeropipe}}</th>
+          </tr>
+
+          <!-- 第六行 -->
+          <tr>
+            <th colspan="3" class="header2">MNT</th>
+            <th class="header2" *ngFor="let numb of mntDatas">{{numb | myzeropipe}}</th>
+          </tr>
+
+          <!-- 第七行 -->
+          <tr>
+            <th colspan="3" class="header2">BDLS</th>
+            <th class="header2" *ngFor="let numb of bdlsDatas">{{numb | myzeropipe}}</th>
+          </tr>
+          <!-- 第八行 -->
+          <tr>
+              <th colspan="3" class="header2">TV</th>
+              <th class="header2" *ngFor="let numb of tvDatas">{{numb | myzeropipe}}</th>
+          </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="maindata">{{rowData[col.field]  | myzeropipe}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-panel>
+</div>
+
+<!-- 第二个页面-->
+<div class="ui-g" *ngIf="isSecondPage">
+    <p-panel class="ui-g-12">
+        <p-header>
+          <div class="ui-g-12">
+            <h3 style="text-align:center;margin:0%;padding:0%">Panel Bank - 库房</h3>
+          </div>
+        </p-header>
+    
+        <div class="ui-panel-content">
+            <div class="ui-helper-clearfix">
+                <div style="float:right;padding-bottom: 5px">                          
+                      <p-calendar [(ngModel)]="selectedDate2" [showIcon]='true' [showTime]="true"  dateFormat="yy/mm/dd "></p-calendar>
+                      <button pButton type="button" label="查询" icon="fa fa-search" iconPos="left" (click)="searchDataClick2()"></button>
+                      <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel2()"></button>  
+                      <button pButton type="button" label="返回" icon="fa fa-hand-o-left" iconPos="left" (click)="changeToFirstPage()"></button>
+                </div>
+            </div>
+    
+          <p-table id="panelbankkftable" [columns]="cols2" [value]="data2"  autoLayout="true">
+            <ng-template pTemplate="header">
+              <!-- 第一行 -->
+              <tr>
+                <th class="header1" width="145px">PCS</th>
+                <th class="header1" width="140px">{{pcsdata}}</th>
+                <th class="header1"></th>
+                <th colspan="30" class="header1"></th>
+              </tr>
+    
+              <!-- 第二行 -->
+              <tr>
+                <th class="header1">PCL</th>
+                <th class="header1">{{pcldata}}</th>
+                <th class="header1"></th>
+                <th colspan="15" class="header1">B4 库房</th>
+                <th colspan="15" class="header1">S2 库房</th>
+
+              </tr>
+    
+              <!-- 第三行 -->
+              <tr>
+                  <th class="header1">NAME</th>
+                  <th class="header1">Spec</th>
+                  <th class="header1">Type</th>
+
+                  <th class="header1">TTL</th>
+                  <th class="header1">P</th>
+                  <th class="header1">K</th>
+                  <th class="header1">G</th>
+                  <th class="header1">R</th>
+                  <th class="header1">S</th>
+                  <th class="header1">Q</th>
+                  <th class="header1">F</th>
+                  <th class="header1">B</th>
+                  <th class="header1">D</th>
+                  <th class="header1">T</th>
+                  <th class="header1">X</th>
+                  <th class="header1">Y</th>
+                  <th class="header1">L</th>
+                  <th class="header1">N</th>
+
+                  <th class="header1">TTL</th>
+                  <th class="header1">P</th>
+                  <th class="header1">K</th>
+                  <th class="header1">G</th>
+                  <th class="header1">R</th>
+                  <th class="header1">S</th>
+                  <th class="header1">Q</th>
+                  <th class="header1">F</th>
+                  <th class="header1">B</th>
+                  <th class="header1">D</th>
+                  <th class="header1">T</th>
+                  <th class="header1">X</th>
+                  <th class="header1">Y</th>
+                  <th class="header1">L</th>
+                  <th class="header1">N</th>
+
+    
+                 
+              </tr>
+    
+              <!-- 第四行 -->
+              <tr>
+                <th colspan="3" class="header1">Total</th>
+                <th *ngFor="let numb of totalDatas2;let i = index" class="header1" [ngClass]="{datared : this.comparedXiabiaos2.includes(i)}">{{numb | myzeropipe}}</th>
+              </tr>
+    
+              <!-- 第五行 -->
+              <tr>
+                <th colspan="3" class="header2">TPC</th>
+                <th *ngFor="let numb of tcpDatas2" class="header2">{{numb | myzeropipe}}</th>
+              </tr>
+    
+              <!-- 第六行 -->
+              <tr>
+                <th colspan="3" class="header2">MNT</th>
+                <th *ngFor="let numb of mntDatas2" class="header2">{{numb | myzeropipe}}</th>
+              </tr>
+    
+              <!-- 第七行 -->
+              <tr>
+                <th colspan="3" class="header2">BDLS</th>
+                <th *ngFor="let numb of bdlsDatas2" class="header2">{{numb | myzeropipe}}</th>
+              </tr>
+              <!-- 第八行 -->
+              <tr>
+                  <th colspan="3" class="header2">TV</th>
+                  <th *ngFor="let numb of tvDatas2" class="header2">{{numb | myzeropipe}}</th>
+              </tr>
+    
+            </ng-template>
+    
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                  <td *ngFor="let col of columns" class="maindata" (click)="mouseclick($event)">{{rowData[col.field]  | myzeropipe}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-panel>
+</div>

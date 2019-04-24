@@ -1,0 +1,107 @@
+<div class="ui-g">
+  <!-- card area -->
+  <div class="ui-g-12" style="border: 1px solid; padding: 5px;">
+    <!-- card1 -->
+    <div class="ui-g-12 ui-lg-4" style="border: 1px solid silver; ">
+      <p-card>
+        <p-header>
+          Header content here
+        </p-header>
+        Body Content
+        <p-footer>
+          Footer content here
+        </p-footer>
+      </p-card>
+    </div>
+    <!-- card2 -->
+    <div class="ui-g-12 ui-lg-4" style="border: 1px solid silver; ">
+      <p-card>
+        <p-header>
+          Header content here
+        </p-header>
+        Body Content
+        <p-footer>
+          Footer content here
+        </p-footer>
+      </p-card>
+    </div>
+    <!-- card3 -->
+    <div class="ui-g-12 ui-lg-4" style="border: 1px solid silver; ">
+      <p-card>
+        <p-header>
+          Header content here
+        </p-header>
+        Body Content
+        <p-footer>
+          Footer content here
+        </p-footer>
+      </p-card>
+    </div>
+  </div>
+  <!-- end card area -->
+
+  <!-- tap area -->
+  <div class="ui-g-12">
+    <p-tabView>
+      <p-tabPanel header="Header 1">
+        <div echarts [options]="chartOption" class="demo-chart"></div>
+      </p-tabPanel>
+      <p-tabPanel header="Header 2">
+        <!-- echart content -->
+        <ng-template pTemplate="content">
+          <div echarts [options]="chartOption" class="demo-chart"></div>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="Header 3">
+          <ng-template pTemplate="content">
+              <div echarts [options]="chartOption" class="demo-chart"></div>
+          </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  <!-- end tap area -->
+
+  <!-- panel area -->
+  <div class="ui-g-12">
+    <!-- panel 1 -->
+    <div class="ui-g-12 ui-lg-4">
+      <p-panel>
+        <p-header>
+          Header content here
+        </p-header>
+        Body Content
+        <br>
+        <br>
+        <br>
+        
+      </p-panel>
+    </div>
+    <!-- panel 2 -->
+    <div class="ui-g-12 ui-lg-4">
+      <p-panel>
+        <p-header>
+          Header content here
+        </p-header>
+        Body Content
+        <br>
+        <br>
+        <br>
+       
+      </p-panel>
+    </div>
+    <!-- panel 2 -->
+    <div class="ui-g-12 ui-lg-4">
+      <p-panel>
+        <p-header>
+          Header content here
+        </p-header>
+        Body Content
+        <br>
+        <br>
+        <br>
+        
+      </p-panel>
+    </div>
+  </div>
+  <!-- end panel area -->
+</div>

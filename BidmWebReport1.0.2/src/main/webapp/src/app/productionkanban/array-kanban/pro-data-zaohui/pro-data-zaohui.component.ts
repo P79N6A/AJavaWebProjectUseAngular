@@ -1,0 +1,667 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../common/service/api/api.service';
+import { SelectItem } from 'primeng/api';
+import { SeriesItemZaohui, SeriesItemZaohui1 } from './model/seriesItemZaohui';
+import { ItemStyle } from '../arrayjiadongkanban/model/seriesItem';
+
+import * as html2canvas from 'html2canvas';
+
+@Component({
+  selector: 'app-pro-data-zaohui',
+  templateUrl: './pro-data-zaohui.component.html',
+  styleUrls: ['./pro-data-zaohui.component.css']
+})
+export class ProDataZaohuiComponent implements OnInit {
+
+  canvasImg; // 导出的图片
+
+  // 表格中plan列的keyin绑定数据
+  planIn;
+  planOut;
+  planYield;
+
+  // 表格的act的in和out数据数组
+  tableIn = ['', '', ''];
+  tableOut = ['', '', ''];
+
+  // 第二个echarts的没有过滤的数据，直接从数据库查出的数据
+  backupWipByOper;
+
+  // 下拉框绑定元素
+  productiontype;
+
+  // 下拉框所有元素
+  department: SelectItem[];
+
+  eqp: string;
+  touruChanchuOption;
+  wipByOperOption;
+  eqpActOption;
+
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+
+    this.eqp = 'PHOTO';
+
+    this.department = [
+      { label: 'Production', value: 'Production' },
+      { label: 'Develop', value: 'Develop' },
+      { label: 'Dummy', value: 'Dummy' },
+      { label: 'Engineer', value: 'Engineer' }
+    ];
+
+    this.apiService.getAll('/sc/arrayprodata/zaohui1').subscribe(
+      (res) => {
+        this.setTableData(res);
+        this.queryRemark();
+      }
+    );
+
+    this.apiService.getAll('/sc/arrayprodata/zaohui2').subscribe(
+      (res) => {
+        this.setTouruChanchuOpiton(res);
+      }
+    );
+
+    this.apiService.getAll('/sc/arrayprodata/zaohui3').subscribe(
+      (res) => {
+        this.backupWipByOper = res;
+        const lastData = this.filterType(res, 'Production');
+        this.setWipByOperOption(lastData);
+      }
+    );
+
+    const option = {
+      params: {
+        type: this.eqp
+      }
+    };
+
+    this.apiService.get('/sc/arrayprodata/zaohui4', option).subscribe(
+      (res) => {
+        this.setEqpActOption(res);
+      }
+    );
+  }
+
+
+  // 第二个Echarts图根据不同的产品型号，过滤数据
+  filterType(data, key): Array<any> {
+    return data.filter((obj) => {
+      return (obj.productiontype === key);
+    });
+  }
+
+  setTableData(data) {
+    for (const obj of data) {
+      if (obj.item === 'In') {
+        this.tableIn[0] = obj.act_d;
+        this.tableIn[1] = obj.act_m;
+        this.tableIn[2] = obj.bal;
+      } else {
+        this.tableOut[0] = obj.act_d;
+        this.tableOut[1] = obj.act_m;
+        this.tableOut[2] = obj.bal;
+      }
+    }
+  }
+
+  setTouruChanchuOpiton(data) {
+    const dateArray = [];
+    const arrayIn = [];
+    const arrayOut = [];
+    const cellIn = [];
+
+    for (const obj of data) {
+      if (obj.datename === '1平均') {
+        dateArray.push('平均');
+        arrayIn.push(obj.ar_in);
+        arrayOut.push(obj.ar_out);
+        cellIn.push(obj.cl_in);
+      } else {
+        let month = null;
+        if (obj.datename.substr(4, 1) === '0') {
+          month = obj.datename.substr(5, 1) + '月';
+        } else {
+          month = obj.datename.substr(4, 2) + '月';
+        }
+        let day = null;
+        if (obj.datename.substr(6, 1) === '0') {
+          day = obj.datename.substr(7) + '日';
+        } else {
+          day = obj.datename.substr(6) + '日';
+        }
+        dateArray.push(month + day);
+        arrayIn.push(obj.ar_in);
+        arrayOut.push(obj.ar_out);
+        cellIn.push(obj.cl_in);
+      }
+    }
+    this.touruChanchuOption = {
+      title: {
+        text: '近7日投入产出数据',
+        left: '30%',
+        textStyle: {
+          color: '#F2F6FA',
+          fontSize: 12,
+          fontWeight: 'lighter'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {
+        itemHeight: 8,
+        itemWidth: 8,
+        right: '10%',
+        textStyle: {
+          color: '#F2F6FA',
+          fontSize: 10
+        },
+        data: ['Array In', 'Array Out', 'Cell In']
+      },
+      grid: {
+        top: '18%',
+        right: '2%',
+        bottom: '14%'
+      },
+      xAxis: {
+        type: 'category',
+        axisLabel: {
+          fontSize: 10
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#F2F6FA'
+          }
+        },
+        data: dateArray
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: {
+          lineStyle: {
+            color: '#31495E'
+          }
+        },
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          color: '#F2F6FA',
+          fontSize: 10
+        }
+      },
+      series: [{
+        name: 'Array In',
+        barWidth: '15',
+        barGap: '20%',
+        data: arrayIn,
+        type: 'bar',
+        itemStyle: {
+          color: '#00BCD4'
+        },
+        label: {
+          show: true,
+          rotate: -90
+        }
+      },
+      {
+        name: 'Array Out',
+        barWidth: '15',
+        data: arrayOut,
+        type: 'bar',
+        itemStyle: {
+          color: '#8BC34A'
+        },
+        label: {
+          show: true,
+          rotate: -90
+        }
+      },
+      {
+        name: 'Cell In',
+        barWidth: '15',
+        data: cellIn,
+        type: 'bar',
+        itemStyle: {
+          color: '#FF9800'
+        },
+        label: {
+          show: true,
+          rotate: -90
+        }
+      }]
+    };
+  }
+
+  setWipByOperOption(data) {
+    // 获取x轴所有数据,定义一个数组保存x轴坐标
+    const xData = [];
+    for (const obj of data) {
+      if (!xData.includes(obj.oper_desc)) {
+        xData.push(obj.oper_desc);
+      }
+    }
+
+    const lineData = [];  // 定义折线move的data数组
+    const seriesArray = [];
+    // 求y轴最大值所用
+    let maxWip = null;
+    const WipArray = [];
+    if (data.length !== 0) {
+      for (let i = 0; i < xData.length; i++) {
+        let sum = 0;
+        let sum2 = 0;
+        for (const obj of data) {
+          if (obj.oper_desc === xData[i]) {
+            sum += obj.move;
+            sum2 += obj.wip;
+            if (obj.wip !== 0) {
+              seriesArray.push(new SeriesItemZaohui(obj.product, 'bar', 'sum', [[i, obj.wip]]));
+            }
+          }
+        }
+        lineData.push(sum);
+        WipArray.push(sum2);
+      }
+
+      maxWip = this.setYmax(WipArray);
+
+      seriesArray.push({
+        name: 'move',
+        yAxisIndex: 1,
+        type: 'line',
+        label: {
+          color: 'white',
+          fontSize: 9,
+          show: true
+        },
+        itemStyle: {
+          color: '#1FE9BA'
+        },
+        smooth: true,
+        data: lineData
+      });
+    }
+
+    this.wipByOperOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '3%',
+        top: '10%'
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: xData,
+          axisLabel: {
+            interval: 0,
+            rotate: 70,
+            fontSize: 8,
+            color: 'white'
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#5694ce'
+            }
+          }
+        }
+      ],
+      yAxis: [
+        {
+          name: 'WIP',
+          nameGap: 3,
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 10
+          },
+          max: maxWip,
+          type: 'value',
+          axisLabel: {
+            fontSize: 8,
+            color: 'white'
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#5694ce'
+            }
+          }
+        },
+        {
+          name: 'MOVE',
+          nameGap: 3,
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 10
+          },
+          type: 'value',
+          axisLabel: {
+            fontSize: 8,
+            color: 'white'
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#5694ce'
+            }
+          }
+        }
+      ],
+      series: seriesArray
+    };
+  }
+
+  setEqpActOption(data) {
+    if (data.length !== 0) {
+
+      // 根据查出数据的月份计算当月的天数，并计算出x轴label
+      const curDate = data[0].datename;
+      const xDataArray = [];
+      xDataArray.push(curDate);
+      const tempDateNumber = parseInt(curDate + '00', 10);
+      for (let i = 1; i <= this.getCountDays(curDate); i++) {
+        const dateItem = (tempDateNumber + i).toString();
+        xDataArray.push(dateItem);
+      }
+
+      const seriesData = [];
+      // 定义一个保存所有日期的数组
+      const dArray = [];
+      for (const obj of data) {
+        if (obj.eqp_state === 'RUN') {
+          seriesData.push(obj.ratio);
+        }
+        if (!dArray.includes(obj.datename)) {
+          dArray.push(obj.datename);
+        }
+      }
+
+      const seriesArray = [];
+
+      for (let i = 0; i < dArray.length; i++) {
+        for (const obj of data) {
+          if (obj.datename === dArray[i]) {
+            switch (obj.eqp_state) {
+              case 'DOWN':
+                seriesArray.push(new SeriesItemZaohui1('DOWN', 'bar', 'sum', new ItemStyle('#FF0000'), [[i, obj.ratio]]));
+                break;
+              case 'IDLE':
+                seriesArray.push(new SeriesItemZaohui1('IDLE', 'bar', 'sum', new ItemStyle('#FFFF00'), [[i, obj.ratio]]));
+                break;
+              case 'ETIME':
+                seriesArray.push(new SeriesItemZaohui1('ETIME', 'bar', 'sum', new ItemStyle('#FFC000'), [[i, obj.ratio]]));
+                break;
+              case 'PM':
+                seriesArray.push(new SeriesItemZaohui1('PM', 'bar', 'sum', new ItemStyle('rgb(36, 180, 247)'), [[i, obj.ratio]]));
+                break;
+              case 'MAINT':
+                seriesArray.push(new SeriesItemZaohui1('MAINT', 'bar', 'sum', new ItemStyle('#CCC0DA'), [[i, obj.ratio]]));
+                break;
+              case 'ETC':
+                seriesArray.push(new SeriesItemZaohui1('ETC', 'bar', 'sum', new ItemStyle('#FDE9D9'), [[i, obj.ratio]]));
+                break;
+            }
+          }
+        }
+      }
+
+      seriesArray.push({
+        name: 'R_RATE',
+        type: 'line',
+        itemStyle: {
+          color: '#1FE9BA'
+        },
+        label: {
+          show: true,
+          color: 'white',
+          fontSize: 9
+        },
+        smooth: true,
+        data: seriesData
+      });
+
+      this.eqpActOption = {
+        title: {
+          text: 'Array瓶颈设备稼动率',
+          left: '42%',
+          textStyle: {
+            color: 'white',
+            fontSize: 15
+          }
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        grid: {
+          left: '5%',
+          right: '3%',
+          top: '24%',
+          bottom: '20%'
+        },
+        legend: {
+          top: '10%',
+          textStyle: {
+            color: 'white',
+            fontSize: 10
+          },
+          itemHeight: 10,
+          itemWidth: 18,
+          data: ['DOWN', 'ETC', 'ETIME', 'IDLE', 'MAINT', 'PM', 'R_RATE']
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: xDataArray,
+            axisLabel: {
+              interval: 0,
+              rotate: 70,
+              color: 'white',
+              fontSize: 8
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#5694ce'
+              }
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            max: 100,
+            interval: 20,
+            axisLabel: {
+              formatter: '{value} %',
+              color: 'white',
+              fontSize: 9
+            },
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#5694ce'
+              }
+            }
+          }
+        ],
+        series: seriesArray
+      };
+    }
+  }
+
+  select(value) {
+    this.setWipByOperOption(this.filterType(this.backupWipByOper, value));
+  }
+
+  // 设置y轴最大值方法
+  setYmax(data: Array<number>): number {
+    if (data.length !== 0) {
+      const max = data.reduce((pre, cur) => {
+        if (pre >= cur) {
+          return pre;
+        } else {
+          return cur;
+        }
+      });
+      return parseInt((max * 1.05).toString(), 10);
+    } else {
+      return 100;
+    }
+  }
+
+  onChange() {
+    const option = {
+      params: {
+        type: this.eqp
+      }
+    };
+    this.apiService.get('/sc/arrayprodata/zaohui4', option).subscribe(
+      (res) => {
+        this.setEqpActOption(res);
+      }
+    );
+  }
+
+  getCountDays(date: string): number {
+    const curDate = new Date();
+    const year = parseInt(date.substr(0, 4), 10);
+    const month = parseInt(date.substr(4), 10) - 1;
+    curDate.setFullYear(year);
+    curDate.setMonth(month);
+    /* 获取当前月份 */
+    curDate.setDate(1);
+    // 比如3月31日直接取下一个月份取到的是5月1日，再进行后续操作就会出错，所以应该先设置为当前月份第一天 curDate.setDate(1);，再进行取月份、设置月份和设置天的操作。
+    const curMonth = curDate.getMonth();
+    /*  是为了把当前月份日期设置成下一个月份日期 */
+    curDate.setMonth(curMonth + 1);
+    /* 将日期设置为0, 是为了通过下一个月份日期获取当前月份日期的最后一天日期 */
+    curDate.setDate(0);
+    /* 返回当月的天数 */
+    return curDate.getDate();
+  }
+
+  updateRemark(data) {
+    const nowDate = new Date();
+    const dateName = nowDate.getFullYear() + '/' + (nowDate.getMonth() + 1) + '/' + nowDate.getDate();
+    const Report = 'ArrayProDataZaohui';
+
+    let option;
+    switch (data) {
+      case 'planIn':
+        option = {
+          datename: dateName,
+          report: Report,
+          item: 'planIn',
+          remark: this.planIn
+        };
+        break;
+      case 'planOut':
+        option = {
+          datename: dateName,
+          report: Report,
+          item: 'planOut',
+          remark: this.planOut
+        };
+        break;
+      case 'planYield':
+        option = {
+          datename: dateName,
+          report: Report,
+          item: 'planYield',
+          remark: this.planYield
+        };
+        break;
+    }
+
+    this.apiService.post('/sc/keyinremarkProDataZ', option).subscribe(
+      (res) => { },
+      (err) => { alert('写入数据失败，请重试！'); }
+    );
+  }
+
+  queryRemark() {
+
+    const option = {
+      params: {
+        report: 'ArrayProDataZaohui'
+      }
+    };
+
+    this.apiService.get('/sc/keyinArProDataZ', option).subscribe(
+      (res) => {
+        for (const obj of res) {
+          switch (obj.item) {
+            case 'planIn':
+              this.planIn = obj.remark;
+              break;
+            case 'planOut':
+              this.planOut = obj.remark;
+              break;
+            case 'planYield':
+              this.planYield = obj.remark;
+              break;
+          }
+        }
+      }
+    );
+
+  }
+
+  exportToPdf() {
+    html2canvas(document.querySelector("#mypicture"))
+      .then(canvas => {
+        // 修改生成的宽度
+        // canvas.style.width = "1000px";
+        console.log(canvas, "生成的画布文件");
+        this.canvasImg = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        // window.location.href=this.canvasImg;
+        this.downloadFile(this.canvasImg, new Date().getTime() + ".jpeg");
+      })
+
+    // this.downloadFile("导出图片", this.canvasImg);
+
+
+  }
+  // downloadFile(content) {
+  //   console.log(content);
+  downloadFile(content, filename) {
+    // window.location.href=content
+    let base64Img = content;
+    let oA = document.createElement('a');
+    console.log(base64Img);
+    oA.href = base64Img;
+    oA.download = filename;
+    console.log(oA);
+    let event = document.createEvent('MouseEvents');
+    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    oA.dispatchEvent(event);
+    // document.body.appendChild(oA);
+    // oA.click();
+    // document.body.removeChild(oA);
+  }
+
+}

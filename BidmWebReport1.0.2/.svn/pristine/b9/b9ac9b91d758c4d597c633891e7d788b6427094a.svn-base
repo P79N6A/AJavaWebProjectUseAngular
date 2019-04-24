@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleWipPlanMapper">
+
+	<!-- 1.删除数据的方法 -->
+	<delete id="deleteObject">
+		delete from SC_KEYIN_PLAN
+		where factory = #{factory}
+		and item = #{operation}	
+	</delete>
+	
+	<!-- 2.插入一条数据的方法 -->
+	<insert id="insertObject">
+		<selectKey keyProperty="numbs" order="BEFORE" resultType="Integer">
+			select count(*) as numbs from SC_KEYIN_PLAN
+			where factory = #{factory}
+			and item = #{operation}
+		</selectKey>
+		<if test="numbs == 0">
+			insert into SC_KEYIN_PLAN (factory,item,qty,interfacetime) 
+			values(#{factory},#{operation},#{qty},sysdate)
+		</if>
+		<if test="numbs != 0">
+			update SC_KEYIN_PLAN set qty = #{qty},INTERFACETIME = SYSDATE  
+			where factory = #{factory} and item = #{operation}
+		</if>
+		
+	</insert>
+	
+	<!-- 3.查询一个对象的方法 -->
+	<select id="queryObject" resultType="com.boe.idm.project.model.mybatis.ModuleWipPlanVO">
+		select factory,item as operation,qty from SC_KEYIN_PLAN
+		where factory = #{factory}
+		and item = #{operation}
+	</select>
+	
+	<!-- 3.查询 数据的方法 -->
+	<select id="queryObjects" resultType="com.boe.idm.project.model.mybatis.ModuleWipPlanVO">
+		select factory,item as operation,qty from SC_KEYIN_PLAN
+		where factory = #{factory}
+		and HOURTIMEKEY is null
+		and PRODUCTSPECNAME is null
+		and MODELTYPE is null
+		and LINE is null
+		and DATENAME is null
+	</select>
+</mapper>
+		
+

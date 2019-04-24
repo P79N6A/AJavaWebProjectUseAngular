@@ -1,0 +1,46 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { DataimportRoutingModule } from './dataimport-routing.module';
+import { ProductionplanComponent } from './productionplan/productionplan.component';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule, TabViewModule, PaginatorModule, ListboxModule, OverlayPanelModule, FileUploadModule, CalendarModule, DropdownModule } from 'primeng/primeng';
+import { FormsModule } from '@angular/forms';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { ChartModule } from 'primeng/chart';
+import { GrowlModule } from 'primeng/growl';
+import { ApiService } from '../common/service/api/api.service';
+import { PanelService } from '../boe/pages/echarts/panel.service';
+import { FileUploadService } from '../boe-ui/boe-list/service/file-upload.service';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { ProductionplancellComponent } from './productionplancell/productionplancell.component';
+import { CfmoveplanComponent } from './cfmoveplan/cfmoveplan.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    DataimportRoutingModule,
+    DialogModule,    //p-dialog需要使用的ngmodule
+    TableModule,  //p-table需要使用的ngmodule
+    PanelModule,   //p-panel需要使用的ngmodule
+    ButtonModule,  //使button的label信息正常显示
+    InputTextModule,//inputtext使用需要的ngmodule
+    FormsModule,    //显示ngModel不能为input所用时，引用
+    TabViewModule,
+    PaginatorModule,
+    ListboxModule,  //p-listbox
+    OverlayPanelModule,   //overlaypanel    
+    NgxEchartsModule,   //options
+    ChartModule,
+    FileUploadModule,
+    GrowlModule,
+    CalendarModule, // 这个, ProductionplancellComponent是写日期的
+    DropdownModule // 这个是单选下拉框
+  ],
+  declarations: [ProductionplanComponent,ProductionplancellComponent, CfmoveplanComponent],
+  providers: [ApiService,PanelService,FileUploadService,MessageService]
+})
+export class DataimportModule { }

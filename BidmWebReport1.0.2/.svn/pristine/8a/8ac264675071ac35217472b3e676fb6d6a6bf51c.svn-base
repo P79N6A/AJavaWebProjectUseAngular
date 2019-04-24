@@ -1,0 +1,147 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../common/service/api/api.service';
+import { ArrayWipKanbanShishi, ArrayWipKanbanShishi1 } from './model/objects';
+
+@Component({
+  selector: 'app-arraywipkanban-shishi',
+  templateUrl: './arraywipkanban-shishi.component.html',
+  styleUrls: ['./arraywipkanban-shishi.component.css']
+})
+export class ArraywipkanbanShishiComponent implements OnInit {
+
+  //1.表格 具体值得 数组,特殊表格特殊处理
+
+  data : ArrayWipKanbanShishi[] = [];
+
+  //2.保存productname 和 modeltype 的数组 :目的是用来创建 cols 的
+  productnames : string [] = [];
+  modeltypes : string [] = [];
+
+  opercodes : string[] = [];
+  operdescs : string [] = [];
+
+  constructor(private apiService : ApiService) { }
+
+  ngOnInit() {
+
+    let aaa : ArrayWipKanbanShishi1[] = this.searchData('Production');
+
+    //这里有数据异步的问题
+    setTimeout(() => {
+      this.getRealData(aaa);
+    }, 2000);
+   
+
+    // setTimeout(() => {
+    //   console.log(this.productnames);
+    //   console.log(this.modeltypes);
+    //   console.log(this.opercodes);
+    //   console.log(this.operdescs);
+    // }, 2000);
+  
+  }
+
+  //1.查询数据的方法
+  searchData(productiontypeaaa : string,):ArrayWipKanbanShishi1[]{
+    let datas:ArrayWipKanbanShishi1[] = [];
+    const url = '/arraywipkanban/shishi';
+    const option = {
+      params:{
+        productiontype : productiontypeaaa
+      }
+    }
+
+    this.apiService.get(url,option).subscribe(
+      (res)=>{
+
+        if(Array.isArray(res)){
+
+          let aaa : ArrayWipKanbanShishi1[] =<ArrayWipKanbanShishi1[]> res;
+
+          //1.直接在方法中调用这个方法来获取值
+         // this.getRealData(aaa);
+
+          //2.循环得到的数据用来做返回值，便于使用
+          aaa.forEach(element => {
+              datas.push(element);
+          });
+        }
+      },
+      (error)=>{console.log(error)}
+    );
+
+   return datas;
+  }
+
+  //2.根据查询出来的数据：创建 表头 还有 对象呀
+  getRealData(datas:ArrayWipKanbanShishi1[]){
+    console.log(datas);
+    this.productnames = [];
+    this.modeltypes = [];
+    this.opercodes = [];
+    this.operdescs = [];
+
+    //1.这个大循环用来获取 基本的 基准数据值
+    if(Array.isArray(datas)){
+      for(const object of datas){
+
+        //1.获取 productname 和 modeltype
+         let productname = object['productname'];
+         let modeltype = object['modeltype'];
+
+         let opercode = object['opercode'];
+         let operdesc = object['operdesc'];
+        //2.如果  productnames，modeltypes 数组中没有当前的值时，放进去，如果有，则不放进去
+        if(!this.productnames.includes(productname)){
+           this.productnames.push(productname);
+           this.modeltypes.push(modeltype);
+         }
+
+        //3.操作同2
+        if(!this.opercodes.includes(opercode)){
+          this.opercodes.push(opercode);
+          this.operdescs.push(operdesc);
+        }
+     }
+    
+    }
+
+    //2.根据上面的循环 得到的基准的数据值来创建 表格中的实际的数据值的操作
+    for(let i = 0;i < this.opercodes.length;i++){ // 每一个opercode就是一个对象
+      let newObject = new ArrayWipKanbanShishi();
+      let opercode = this.opercodes[i]
+      let operdesc = this.operdescs[i]
+      newObject.opercode = opercode;
+      newObject.operdesc = operdesc;
+
+      //1.先进行一边循环，把当前的 符合 opercode对象的 取出来保存
+      let opercodesObjects : ArrayWipKanbanShishi1 [] = [];
+      datas.forEach(object => {
+        if(object['opercode'] == opercode){ // 当相等的时候，把对象放入到临时的数组中
+          opercodesObjects.push(object);
+        }
+      });
+
+      console.log(opercodesObjects); // 这个地方已经没有错误了
+
+      //然后再循环 所有的 productname 与 上面的 opercodesObjects 临时数组对象 进行对象的取值操作
+      for(let j = 0;j < this.productnames.length;j++){
+        newObject.qtys[j] = 0;
+        let productname = this.productnames[i];
+        //根据上面的两个层次的循环遍历，取出对应的对象的数据值
+         for(const object of opercodesObjects){
+          if(object['opercode'] == opercode && object['productname'] == productname){ // 当 当前对象 满足条件的时候
+            let qty = object['glsqty']; // 这个地方需要动态的获取是 lot的值还是glass的值
+            newObject.qtys[j] = qty; // 给当前 位置 赋值，这么写的好处是：当前位置有值则有值，如果没有值则为空的
+          }
+        };
+
+      }
+      //当循环完成一个 opercode的时候，则把对象放入到数组中去
+      this.data.push(newObject);
+      
+      
+    }
+  }
+
+}

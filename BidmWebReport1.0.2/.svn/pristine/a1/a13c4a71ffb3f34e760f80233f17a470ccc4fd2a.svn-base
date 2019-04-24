@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CfWipMoveMapper"> 
+
+	<!-- 1.自己定义的一个 返回值结果集的类型   to_char(sysdate,'yyyymmdd')  to_char(sysdate,'yyyymmddhh24')-->
+	<select id="queryNumbers" resultType="CfWipMoveVO">
+		select item,act,plan,bal,'sg' factoryname from SC_CF_REPORT_MONITOR_H_1_VIEW
+		where datename=#{timedate}
+		union all
+		select item,qty,plan,bal,'cn' factoryname from SC_CF_REPORT_MONITOR_H_2_VIEW
+		where hour=#{timehour}
+		and line is null 
+	</select>
+	
+	<!-- 2.查询wip的数据信息 -->
+	<select id="queryWipNumbers" resultType="CfWipMoveWipVO">
+	
+		SELECT INFO.HOURTIMEKEY,INFO.LINE,INFO.OPER_DESC operdesc,INFO.NO,B.PRODUCTNAME,SUM(INFO.WIP)WIP,SUM(wip_ttl)wiptotal
+		FROM(
+			select wip.hourtimekey,wip.line,wip.productspecname,wip.oper_desc,wip.no,wip.wip,ttl.wip as wip_ttl
+			from(
+				SELECT INFO.HOURTIMEKEY,X.LINE,INFO.PRODUCTSPECNAME,X.OPER_dESC,X.NO,INFO.WIP 
+				FROM(
+					SELECT A.HOURTIMEKEY,B.LINE,A.PRODUCTSPECNAME,A.OPER_DESC,SUM(A.WIP) WIP 
+					FROM SC_CF_REPORT_MONITOR_H1_VIEW A,SC_CF_LINEBYPRODUCT B
+					WHERE A.PRODUCTSPECNAME=B.PRODUCT
+							and a.HOURTIMEKEY=#{timehour}
+					GROUP BY A.HOURTIMEKEY,B.LINE,A.PRODUCTSPECNAME,A.OPER_DESC) INFO,SC_OPER_CF X
+				WHERE INFO.OPER_DESC(+)=X.OPER_DESC
+						AND INFO.LINE(+)=X.LINE
+				) wip,
+		(
+		SELECT HOURTIMEKEY,LINE,OPER_DESC,SUM(WIP) WIP 
+		FROM(
+			SELECT A.HOURTIMEKEY,B.LINE,A.PRODUCTSPECNAME,A.OPER_DESC,SUM(A.WIP) WIP 
+			FROM SC_CF_REPORT_MONITOR_H2_VIEW A,SC_CF_LINEBYPRODUCT B
+			WHERE A.PRODUCTSPECNAME=B.PRODUCT
+				and  a.wip>10
+				and a.hourtimekey=#{timehour}
+			GROUP BY A.HOURTIMEKEY,B.LINE,A.PRODUCTSPECNAME,A.OPER_DESC)
+		group by HOURTIMEKEY,LINE,OPER_DESC) ttl
+		
+		where wip.oper_desc=ttl.oper_desc
+		and wip.line=ttl.line) INFO,SC_SORT_BANK_SPEC B
+		WHERE INFO.productspecname=B.CFPRODUCTSPECNAME
+		GROUP BY INFO.HOURTIMEKEY,INFO.LINE,INFO.OPER_DESC,INFO.NO,B.PRODUCTNAME
+		ORDER BY INFO.NO,INFO.OPER_DESC
+	</select>
+	
+	<!-- 3.查询 move的数据 -->
+	<select id="queryMoveNumbers" resultType="CfWipMoveMoveVO">
+		select line,item,qty,plan,bal from SC_CF_REPORT_MONITOR_H_2_VIEW
+		where hour=#{timehour}
+			and line is not null
+	</select>
+	
+	<!-- 4.查询 所有的基础信息的数据 -->
+	<select id="queryAllBasicinfo" resultType="CfWipMoveBasicinfoVO">
+	
+	select rownum,factory,productspecname,line 
+	from(
+		SELECT 'CF' factory,A.PRODUCTSPECNAME,B.LINE
+		FROM
+			(select DISTINCT PRODUCTSPECNAME from sc_fab_wip
+				where datename=CASE
+							WHEN TO_NUMBER (
+									TO_CHAR (SYSDATE, 'hh24')) > 7
+							THEN
+									TO_CHAR (SYSDATE , 'yyyymmdd')
+							ELSE
+									TO_CHAR (SYSDATE - 1, 'yyyymmdd')
+							END
+					and productiontype='Production'
+						and factory='CF')A ,SC_CF_LINEBYPRODUCT B
+		WHERE A.PRODUCTSPECNAME=B.PRODUCT(+)
+		order by line,productspecname
+		)
+	</select>
+	
+	<!-- 5.添加一个对象 -->
+	<insert id="insertOne">
+		insert into SC_CF_LINEBYPRODUCT (factory,product,line)
+		values (#{factory},#{productspecname},#{line})
+	</insert>
+	
+	<!-- 6.直接使用参数更新一个对象 -->
+	<update id="updateOne">
+		update SC_CF_LINEBYPRODUCT
+		set factory = #{factorynew},product = #{productspecnew},line = #{linenew}
+		where factory = #{factoryold} and product = #{productspecold} and line = #{lineold}
+	</update>
+	
+	<!-- 7.删除一个对象 -->
+	<delete id="deleteOne">
+		delete from SC_CF_LINEBYPRODUCT
+		where factory = #{factory} and product = #{productspecname} and line = #{line}
+	</delete>
+	
+	<!-- 8.导入计划的一个对象 -->
+	<insert id="insertPlanOne">
+		<selectKey keyProperty="nums" resultType="int" order="BEFORE">
+			select count(*) nums from SC_KEYIN_PLAN
+			where factory = #{factory} and hourtimekey = #{hourtimekey} and item = #{opercode}
+				and line = #{line} and owner = 'CF-H'
+		</selectKey>
+		<if test="nums == 0">
+			insert into SC_KEYIN_PLAN(factory,hourtimekey,item,line,qty,interfacetime,owner)
+			values (#{factory},#{hourtimekey},#{opercode},#{line},#{qty},sysdate,#{owner})
+		</if>
+		<if test="nums != 0">
+			update SC_KEYIN_PLAN set qty = #{qty},interfacetime = sysdate
+			where factory = #{factory} and hourtimekey = #{hourtimekey} and item = #{opercode}
+				and line = #{line} and owner = 'CF-H'
+		</if>
+		
+	</insert>
+	
+	
+	<!-- 9.查询计划 -->
+	<select id="queryPlanByHourtimekey" resultType="CfWipMovePlanVO">
+		select factory,hourtimekey,item opercode,line,qty,owner
+		from SC_KEYIN_PLAN
+		where factory = 'CF' and hourtimekey = #{hourtimekey}
+			and owner = 'CF-H'
+	</select>
+</mapper>

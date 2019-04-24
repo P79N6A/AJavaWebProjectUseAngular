@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArMoveRptSsMapper">
+
+	<select id="getData" resultType="ArMoveRptSsVO">
+		select productiontype,
+		oper_code,
+		oper_desc,
+		no,
+		wip,
+		ttl,
+		hour07,
+		hour08,
+		hour09,
+		hour10,
+		hour11,
+		hour12,
+		hour13,
+		hour14,
+		hour15,
+		hour16,
+		hour17,
+		hour18,
+		hour19,
+		hour20,
+		hour21,
+		hour22,
+		hour23,
+		hour00,
+		hour01,
+		hour02,
+		hour03,
+		hour04,
+		hour05,
+		hour06,
+		round(forecast) forecast
+		 from SC_array_report_movess_VW
+	</select>
+
+	<insert id="keyinComment" parameterType="KeyinArMoveSsVO">
+
+		<selectKey keyProperty="numbs" order="BEFORE" resultType="Integer">
+			select count(*) as numbs from SC_KEYIN_REMARK where
+			report='Array Move 报表(实时)' and item = #{keyinArMoveSsVO.item} 
+			and productspecname = #{keyinArMoveSsVO.productspecname}
+		</selectKey>
+
+		<if test="numbs != 0">
+			update SC_KEYIN_REMARK
+			set datename = to_char(sysdate, 'yyyy/mm/dd'),
+			remark = #{keyinArMoveSsVO.remark,jdbcType=VARCHAR},
+			interfacetime = sysdate where
+			report='Array Move 报表(实时)' and item = #{keyinArMoveSsVO.item} 
+			and productspecname = #{keyinArMoveSsVO.productspecname}
+		</if>
+		<!-- 3.如果 没有存在记录，则直接执行插入操作 : 注意执行插入操作的时候，最后两个的属性 如果没有值，需要赋值一个空串的操作 -->
+		<if test="numbs == 0">
+			INSERT INTO sc_keyin_remark
+			(datename, report, item,
+			remark,interfacetime,productspecname)
+			VALUES (
+			to_char(sysdate, 'yyyy/mm/dd'),
+			'Array Move 报表(实时)',
+			#{keyinArMoveSsVO.item,jdbcType=VARCHAR},
+			#{keyinArMoveSsVO.remark,jdbcType=VARCHAR},
+			sysdate,
+			#{keyinArMoveSsVO.productspecname,jdbcType=VARCHAR})
+		</if>
+
+	</insert>
+	
+	<select id="getComment" resultType="KeyInRemarkVO">
+		select * from sc_keyin_remark where report = 'Array Move 报表(实时)'
+	</select>
+
+</mapper>
+
+     

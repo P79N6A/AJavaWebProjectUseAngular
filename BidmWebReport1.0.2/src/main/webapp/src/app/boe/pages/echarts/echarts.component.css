@@ -1,0 +1,9 @@
+.icon-expand {
+    border-radius: 50%;
+    float: right;
+    cursor: pointer;
+}
+
+.icon-expand:hover {
+    background-color: #239AFF;
+}

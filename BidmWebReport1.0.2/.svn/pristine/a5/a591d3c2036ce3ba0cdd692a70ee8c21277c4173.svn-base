@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BasicinfoCellRoutingModule } from './basicinfo-cell-routing.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    BasicinfoCellRoutingModule
+  ],
+  declarations: []
+})
+export class BasicinfoCellModule { }

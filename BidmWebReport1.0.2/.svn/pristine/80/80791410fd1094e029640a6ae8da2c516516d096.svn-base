@@ -1,0 +1,802 @@
+[
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 87.7,
+    "pro": 969.0,
+    "eng": 0.0,
+    "dev": 9.0,
+    "dum": 8.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 79.2,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 7.0,
+    "dum": 2.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 81.7,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 2.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 87.5,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 78.3,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 7.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 97.5,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 3.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 100.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 4.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 78.8,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 2.0,
+    "dum": 2.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 100.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Array",
+    "type": "TFT",
+    "full_ratio": 100.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 100.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 45.0,
+    "pro": 20.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 57.5,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 56.7,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 3.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 90.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 100.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 95.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 72.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "ACN",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 100.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 56.0,
+    "pro": 223.0,
+    "eng": 0.0,
+    "dev": 6.0,
+    "dum": 24.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 81.7,
+    "pro": 3.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 45.0,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 4.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 15.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 60.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 80.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "Other",
+    "type": "-",
+    "full_ratio": 97.5,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 3.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "PI/RW",
+    "type": "-",
+    "full_ratio": 61.4,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 6.0
+  },
+  {
+    "cst_spec": "CCN",
+    "factory": "PI/RW",
+    "type": "-",
+    "full_ratio": 56.0,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 5.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 60.0,
+    "pro": 319.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 45.2,
+    "pro": 45.0,
+    "eng": 0.0,
+    "dev": 4.0,
+    "dum": 3.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 63.4,
+    "pro": 11.0,
+    "eng": 0.0,
+    "dev": 2.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 38.8,
+    "pro": 6.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 57.5,
+    "pro": 5.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 32.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 89.2,
+    "pro": 10.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 71.3,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 2.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 11.3,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 28.3,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 3.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "CF",
+    "type": "CF",
+    "full_ratio": 75.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "CF",
+    "full_ratio": 26.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 5.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "CF",
+    "full_ratio": 68.1,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 4.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "CF",
+    "full_ratio": 91.7,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 3.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "CF",
+    "full_ratio": 51.3,
+    "pro": 3.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "CF",
+    "full_ratio": 2.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "CF",
+    "full_ratio": 100.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 61.7,
+    "pro": 3.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 70.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 50.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 3.8,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 55.0,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 5.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 2.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Cell",
+    "type": "TFT",
+    "full_ratio": 7.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 74.4,
+    "pro": 29.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 40.4,
+    "pro": 16.0,
+    "eng": 0.0,
+    "dev": 2.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 60.8,
+    "pro": 8.0,
+    "eng": 0.0,
+    "dev": 2.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 17.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 33.8,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 57.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 34.4,
+    "pro": 3.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 50.0,
+    "pro": 0.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 38.8,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "CF",
+    "full_ratio": 49.2,
+    "pro": 3.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 68.8,
+    "pro": 113.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 64.2,
+    "pro": 20.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 75.0,
+    "pro": 7.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 57.0,
+    "pro": 4.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 66.3,
+    "pro": 5.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 25.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 45.0,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 1.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 62.5,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "FCW",
+    "factory": "Sort",
+    "type": "TFT",
+    "full_ratio": 51.3,
+    "pro": 3.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 73.0,
+    "eng": 0.0,
+    "dev": 2.0,
+    "dum": 1.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 44.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 13.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 11.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 4.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 2.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  },
+  {
+    "cst_spec": "MCW",
+    "factory": "Cell",
+    "type": "-",
+    "full_ratio": 0.0,
+    "pro": 1.0,
+    "eng": 0.0,
+    "dev": 0.0,
+    "dum": 0.0
+  }
+]

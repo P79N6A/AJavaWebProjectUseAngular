@@ -1,0 +1,72 @@
+<h1 align="center">B1-OEM-AGING生产日报</h1>
+<br>
+<div class="ui-g" id='toolbar'>
+    <div class="ui-g-9">
+   <div class="ui-g-1"><strong>日期 :</strong></div>
+    <div class="ui-g-2">
+        <p-calendar (onSelect)='onAgingSelect($event)' dateFormat="yy-mm-dd"  hourFormat="24" [(ngModel)]="agingDate">日期 :</p-calendar>
+    </div>
+    <div class="ui-g-1">
+        <p-button label="查 询" (onClick)="getAgingData()"></p-button> 
+    </div>
+</div>
+<div class="ui-g-3">
+    
+        <p-button class="fa fa-cloud-upload ui-button-success" label="提交" (onClick)="submit()"></p-button>
+        <button type="button" pButton   label="excel下载" (click)="xls()"></button>
+    
+</div>
+</div>
+<br>
+<br>
+
+
+<div  *ngIf='reslength>0'  class="ui-g" id="main1">
+    <div class="ui-g-2">
+        <app-boe-multigrid id="table1" [values]="agingValues1"></app-boe-multigrid>
+    </div>
+    <div class="ui-g-10">
+        <div class="ui-g-4" >
+            <app-boe-multigrid id="t1" [values]="agingValues[0]"></app-boe-multigrid>
+        </div>
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table3" [values]="agingValues[1]"></app-boe-multigrid>
+        </div>
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table3" [values]="agingValues[2]"></app-boe-multigrid>
+        </div>
+    </div>
+</div>
+<div   *ngIf='reslength>3'  class="ui-g" id="main2">
+    <div class="ui-g-2">
+        <app-boe-multigrid id="table1" [values]="agingValues1"></app-boe-multigrid>
+    </div>
+    <div class="ui-g-10">
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table2" [values]="agingValues[3]"></app-boe-multigrid>
+        </div>
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table3" [values]="agingValues[4]"></app-boe-multigrid>
+        </div>
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table3" [values]="agingValues[5]"></app-boe-multigrid>
+        </div>
+        
+    </div>
+</div>
+<div  *ngIf='reslength>6' class="ui-g" id="main2" >
+    <div class="ui-g-2">
+        <app-boe-multigrid id="table1" [values]="agingValues1"></app-boe-multigrid>
+    </div>
+    <div class="ui-g-10">
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table2" [values]="agingValues[6]"></app-boe-multigrid>
+        </div>
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table3" [values]="agingValues[7]"></app-boe-multigrid>
+        </div>
+        <div class="ui-g-4" id="test2">
+            <app-boe-multigrid id="table3" [values]="agingValues[8]"></app-boe-multigrid>
+        </div>
+    </div>
+</div>

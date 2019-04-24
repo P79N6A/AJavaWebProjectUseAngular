@@ -1,0 +1,34 @@
+
+<div class="ui-g" >
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+      <label>chartKey</label>
+      <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" (onChange) = "onChangeDropBox()"></p-dropdown>
+    </div>
+<div class="ui-g-12" >
+  <div class="ui-g-12 ui-lg-6">
+    <p-panel>
+      <p-header style="position: relative;left: 40%">
+        <span class="ui-panel-title" >H2导入数据</span>
+      </p-header>
+      <!-- chart content -->
+      <div echarts [options]="chartOption" class="demo-chart" (click)="echartClick(chartOption)"></div>
+    </p-panel>
+  </div>
+  <div class="ui-g-12 ui-lg-6">
+      <p-panel>
+        <p-header style="position: relative;left: 45%">
+          <span class="ui-panel-title" >CF WIP</span>
+        </p-header>
+        <!-- chart content -->
+        <div echarts [options]="chartOption2" class="demo-chart" (click)="echartClick(chartOption)"></div>
+      </p-panel>
+    </div>
+</div>
+<div class="ui-g-12"  >
+  <p-panel header="changeTheme" >
+    <div echarts [options]="option" class="demo-chart" >
+    </div>
+  </p-panel>
+</div>
+</div>
+

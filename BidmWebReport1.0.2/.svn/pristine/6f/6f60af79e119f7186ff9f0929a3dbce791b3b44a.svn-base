@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellDailyReportMapper">
+
+	<!-- 1.直接查询 当天数据 -->
+	<select id="queryObjects" resultType="com.boe.idm.project.model.mybatis.CellDailyReportVO">
+		select  productsize,
+			sum(inplan) inplan,sum( inact) inact,sum(inbal) inbal,
+			sum(cutpcsplan)cutpcsplan,sum(cutplan)cutplan,
+			sum( cutpcsact)cutpcsact,sum( cutact)cutact,
+			sum( cutpcsbal)cutpcsbal,sum( cutbal)cutbal,
+			sum( outpcsplan)outpcsplan,sum( outplan)outplan,
+			sum(outpcsact)outpcsact,sum(outact)outact,
+			sum(outpcsbal)outpcsbal,sum( outbal)outbal,
+			
+			sum(monthin)monthin,sum( monthourpcs)monthourpcs,
+			sum(monthout)monthout,
+			
+			sum(inplan_m)inplan_m,sum(inact_m)inact_m,sum( inbal_m)inbal_m,
+			sum(outpcsplan_m)outpcsplan_m,sum(outplan_m)outplan_m,
+			sum(outpcsact_m)outpcsact_m,sum( outact_m)outact_m,
+			sum(outpcsbal_m)outpcsbal_m,sum(outbal_m)outbal_m
+		from(
+
+			select productname productsize,
+				inplan,inact,inbal,
+				cutpcsplan,cutplan,
+				cutpcsact,cutact,
+				cutpcsbal,cutbal,
+				outpcsplan,outplan,
+				outpcsact,outact,
+				outpcsbal,outbal,
+				null monthin,null monthourpcs,null monthout,
+				null inplan_m,null inact_m,null inbal_m,
+				null outpcsplan_m,null outplan_m,
+				null outpcsact_m,null outact_m,
+				null outpcsbal_m,null outbal_m
+			from sc_cell_daily_report_vw
+			where datename=to_char(sysdate-1,'yyyymmdd')
+			union all
+			select productname productsize,
+				null inplan,null inact,null inbal,
+				null cutpcsplan,null cutplan,
+				null cutpcsact,null cutact,
+				null cutpcsbal,null cutbal,
+				null outpcsplan,null outplan,
+				null outpcsact,null outact,
+				null outpcsbal,null outbal,
+				monthin,monthoutpcs,monthout,
+				null inplan_m,null inact_m,null inbal_m,
+				null outpcsplan_m,null outplan_m,
+				null outpcsact_m,null outact_m,
+				null outpcsbal_m,null outbal_m 
+			from sc_cell_month_plan_report_vw
+			where month=to_char(sysdate-1,'yyyymm')
+			union all
+			select productname productsize,
+				null inplan,null inact,null inbal,
+				null cutpcsplan,null cutplan,
+				null cutpcsact,null cutact,
+				null cutpcsbal,null cutbal,
+				null outpcsplan,null outplan,
+				null outpcsact,null outact,
+				null outpcsbal,null outbal,
+				null monthin,null monthoutpcs,null monthout,
+				inplan inplan_m,inact inact_m,inbal inbal_m,
+				outpcsplan outpcsplan_m,outplan outplan_m,
+				outpcsact outpcsact_m,outact outact_m,
+				outpcsbal outpcsbal_m,outbal outbal_m
+			from sc_cell_month_report_vw
+			where datename between to_char(sysdate-1,'yyyymm')||'01' and to_char(sysdate-1,'yyyymmdd'))
+		group by productsize
+		order by productsize
+	</select>
+	
+	<!-- 2.根据日期查询所有的 当天数据 -->
+	<select id="queryObjects02" resultType="com.boe.idm.project.model.mybatis.CellDailyReportVO">
+		select  productsize,
+			sum(inplan) inplan,sum( inact) inact,sum(inbal) inbal,
+			sum(cutpcsplan)cutpcsplan,sum(cutplan)cutplan,
+			sum( cutpcsact)cutpcsact,sum( cutact)cutact,
+			sum( cutpcsbal)cutpcsbal,sum( cutbal)cutbal,
+			sum( outpcsplan)outpcsplan,sum( outplan)outplan,
+			sum(outpcsact)outpcsact,sum(outact)outact,
+			sum(outpcsbal)outpcsbal,sum( outbal)outbal,
+			
+			sum(monthin)monthin,sum( monthourpcs)monthourpcs,
+			sum(monthout)monthout,
+			
+			sum(inplan_m)inplan_m,sum(inact_m)inact_m,sum( inbal_m)inbal_m,
+			sum(outpcsplan_m)outpcsplan_m,sum(outplan_m)outplan_m,
+			sum(outpcsact_m)outpcsact_m,sum( outact_m)outact_m,
+			sum(outpcsbal_m)outpcsbal_m,sum(outbal_m)outbal_m
+		from(
+
+			select productname productsize,
+				inplan,inact,inbal,
+				cutpcsplan,cutplan,
+				cutpcsact,cutact,
+				cutpcsbal,cutbal,
+				outpcsplan,outplan,
+				outpcsact,outact,
+				outpcsbal,outbal,
+				null monthin,null monthourpcs,null monthout,
+				null inplan_m,null inact_m,null inbal_m,
+				null outpcsplan_m,null outplan_m,
+				null outpcsact_m,null outact_m,
+				null outpcsbal_m,null outbal_m
+			from sc_cell_daily_report_vw
+			where datename=#{enddatename}
+			union all
+			select productname productsize,
+				null inplan,null inact,null inbal,
+				null cutpcsplan,null cutplan,
+				null cutpcsact,null cutact,
+				null cutpcsbal,null cutbal,
+				null outpcsplan,null outplan,
+				null outpcsact,null outact,
+				null outpcsbal,null outbal,
+				monthin,monthoutpcs,monthout,
+				null inplan_m,null inact_m,null inbal_m,
+				null outpcsplan_m,null outplan_m,
+				null outpcsact_m,null outact_m,
+				null outpcsbal_m,null outbal_m 
+			from sc_cell_month_plan_report_vw
+			where month=#{month}
+			union all
+			select productname productsize,
+				null inplan,null inact,null inbal,
+				null cutpcsplan,null cutplan,
+				null cutpcsact,null cutact,
+				null cutpcsbal,null cutbal,
+				null outpcsplan,null outplan,
+				null outpcsact,null outact,
+				null outpcsbal,null outbal,
+				null monthin,null monthoutpcs,null monthout,
+				inplan inplan_m,inact inact_m,inbal inbal_m,
+				outpcsplan outpcsplan_m,outplan outplan_m,
+				outpcsact outpcsact_m,outact outact_m,
+				outpcsbal outpcsbal_m,outbal outbal_m
+			from sc_cell_month_report_vw
+			where datename between #{startdatename} and #{enddatename})
+		group by productsize
+		order by productsize
+	</select>
+	
+	
+	<!-- 3.刷新当前天 的totalAct的数据 -->
+	<select id="queryTotalAct" resultType="com.boe.idm.project.model.mybatis.CellDailyReportVO">
+		select sum(inplan)inplan,sum(inact)inact,sum(inbal) inbal,
+			sum(cutpcsplan) cutpcsplan,sum(cutplan) cutplan,
+			sum(cutpcsact) cutpcsact,sum(cutact) cutact,
+			sum(cutpcsbal) cutpcsbal,sum(cutbal) cutbal,
+			sum(outpcsplan) outpcsplan,sum(outplan) outplan,
+			sum(outpcsact) outpcsact,sum(outact) outact,
+			sum(outpcsbal) outpcsbal,sum(outbal) outbal,
+			sum(monthin) monthin,sum(monthoutpcs) monthourpcs,sum(monthout) monthout,
+			sum(inplan_m) inplan_m,sum(inact_m) inact_m,sum(inbal_m) inbal_m,
+			sum(outpcsplan_m) outpcsplan_m,sum( outplan_m) outplan_m,
+			sum( outpcsact_m) outpcsact_m,sum( outact_m) outact_m,
+			sum( outpcsbal_m) outpcsbal_m,sum( outbal_m) outbal_m
+		from (
+	
+			select inplan,inact,inbal,
+				cutpcsplan,cutplan,
+				cutpcsact,cutact,
+				cutpcsbal,cutbal,
+				outpcsplan,outplan,
+				outpcsact,outact,
+				outpcsbal,outbal,
+				0 monthin,0 monthoutpcs,0 monthout,
+				0 inplan_m,0 inact_m,0inbal_m,
+				0 outpcsplan_m,0 outplan_m,
+				0 outpcsact_m,0 outact_m,
+				0 outpcsbal_m,0 outbal_m
+			from sc_cell_daily_report_sum_vw
+			where datename = to_char(sysdate-1,'yyyymmdd')
+			union all
+			select 0 inplan,0 inact,0 inbal,
+				0 cutpcsplan,0 cutplan,
+				0 cutpcsact,0 cutact,
+				0 cutpcsbal,0 cutbal,
+				0 outpcsplan,0 outplan,
+				0 outpcsact,0 outact,
+				0 outpcsbal,0 outbal,
+				monthin,monthoutpcs,monthout,
+				0 inplan_m,0 inact_m,0inbal_m,
+				0 outpcsplan_m,0 outplan_m,
+				0 outpcsact_m,0 outact_m,
+				0 outpcsbal_m,0 outbal_m
+			from sc_cell_month_plan_reportsum
+			where month = to_char(sysdate-1,'yyyymm')
+			union all
+			select 0 inplan,0 inact,0 inbal,
+				0 cutpcsplan,0 cutplan,
+				0 cutpcsact,0 cutact,
+				0 cutpcsbal,0 cutbal,
+				0 outpcsplan,0 outplan,
+				0 outpcsact,0 outact,
+				0 outpcsbal,0 outbal,
+				0 monthin,0 monthoutpcs,0 monthout,
+				inplan inplan_m,inact inact_m,inbal inbal_m,
+				outpcsplan outpcsplan_m,outplan outplan_m,
+				outpcsact outpcsact_m,outact outact_m,
+				outpcsbal outpcsbal_m,outbal outbal_m
+			from sc_cell_month_report_sum_vw
+			where datename between to_char(sysdate-1,'yyyymm')||'01' and to_char(sysdate-1,'yyyymmdd')
+		)
+	</select>
+	
+	<!-- 4.刷新查询 天 的totalAct的数据 -->
+	<select id="queryTotalAct02" resultType="com.boe.idm.project.model.mybatis.CellDailyReportVO">
+		select sum(inplan)inplan,sum(inact)inact,sum(inbal) inbal,
+			sum(cutpcsplan) cutpcsplan,sum(cutplan) cutplan,
+			sum(cutpcsact) cutpcsact,sum(cutact) cutact,
+			sum(cutpcsbal) cutpcsbal,sum(cutbal) cutbal,
+			sum(outpcsplan) outpcsplan,sum(outplan) outplan,
+			sum(outpcsact) outpcsact,sum(outact) outact,
+			sum(outpcsbal) outpcsbal,sum(outbal) outbal,
+			sum(monthin) monthin,sum(monthoutpcs) monthourpcs,sum(monthout) monthout,
+			sum(inplan_m) inplan_m,sum(inact_m) inact_m,sum(inbal_m) inbal_m,
+			sum(outpcsplan_m) outpcsplan_m,sum( outplan_m) outplan_m,
+			sum( outpcsact_m) outpcsact_m,sum( outact_m) outact_m,
+			sum( outpcsbal_m) outpcsbal_m,sum( outbal_m) outbal_m
+		from (
+	
+			select inplan,inact,inbal,
+				cutpcsplan,cutplan,
+				cutpcsact,cutact,
+				cutpcsbal,cutbal,
+				outpcsplan,outplan,
+				outpcsact,outact,
+				outpcsbal,outbal,
+				0 monthin,0 monthoutpcs,0 monthout,
+				0 inplan_m,0 inact_m,0inbal_m,
+				0 outpcsplan_m,0 outplan_m,
+				0 outpcsact_m,0 outact_m,
+				0 outpcsbal_m,0 outbal_m
+			from sc_cell_daily_report_sum_vw
+			where datename = #{enddatename}
+			union all
+			select 0 inplan,0 inact,0 inbal,
+				0 cutpcsplan,0 cutplan,
+				0 cutpcsact,0 cutact,
+				0 cutpcsbal,0 cutbal,
+				0 outpcsplan,0 outplan,
+				0 outpcsact,0 outact,
+				0 outpcsbal,0 outbal,
+				monthin,monthoutpcs,monthout,
+				0 inplan_m,0 inact_m,0inbal_m,
+				0 outpcsplan_m,0 outplan_m,
+				0 outpcsact_m,0 outact_m,
+				0 outpcsbal_m,0 outbal_m
+			from sc_cell_month_plan_reportsum
+			where month = #{month}
+			union all
+			select 0 inplan,0 inact,0 inbal,
+				0 cutpcsplan,0 cutplan,
+				0 cutpcsact,0 cutact,
+				0 cutpcsbal,0 cutbal,
+				0 outpcsplan,0 outplan,
+				0 outpcsact,0 outact,
+				0 outpcsbal,0 outbal,
+				0 monthin,0 monthoutpcs,0 monthout,
+				inplan inplan_m,inact inact_m,inbal inbal_m,
+				outpcsplan outpcsplan_m,outplan outplan_m,
+				outpcsact outpcsact_m,outact outact_m,
+				outpcsbal outpcsbal_m,outbal outbal_m
+			from sc_cell_month_report_sum_vw
+			where datename between #{startdatename} and #{enddatename}
+		)
+	</select>
+	
+</mapper>

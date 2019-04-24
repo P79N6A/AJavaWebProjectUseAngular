@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { CfKanbanRoutingModule } from './cf-kanban-routing.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    CfKanbanRoutingModule
+  ],
+  declarations: []
+})
+export class CfKanbanModule { }

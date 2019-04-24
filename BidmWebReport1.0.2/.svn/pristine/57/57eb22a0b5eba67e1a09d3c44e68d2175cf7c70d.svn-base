@@ -1,0 +1,133 @@
+<div class="ui-g"> 
+    <p-growl [(value)]="msgs"></p-growl>
+  <div class="ui-g-12">     
+      <!-- <h3>Excel文件上传</h3>
+      <p-fileUpload mode="basic" name="myfile[]" url="./api/file/upload" maxFileSize="1000000" (onUpload)="onBasicUpload($event)"></p-fileUpload>       -->
+      <p-tabView>
+        <p-tabPanel header="Excel导入" leftIcon="pi pi-calendar">
+                
+         <p-fileUpload mode="basic" chooseLabel="选择文件" name="myfile[]" url="./api/file/upload" accept=".xls,.xlsx" maxFileSize="1000000" (onUpload)="onBasicUpload($event);"></p-fileUpload>      
+         <div class="ui-g">
+                <div class="ui-g-12">
+
+                  <p-panel>
+                      <p-header>
+                          <div class="ui-helper-clearfix">
+                              <span class="ui-panel-title">Excel数据展示</span>
+                              <span style="float: right;" *ngIf="showFlag">是否保存到数据库？
+                                  <p-button   icon="fa fa-plus" label="保存" [disabled]="false"
+                                  (onClick)="saveExcelImportInfo()"></p-button>
+                                <p-button  icon="fa fa-plus" label="取消" [disabled]="false"
+                                    (onClick)="cancel()"></p-button>
+                                </span>
+                              
+                          </div>
+                      </p-header>
+
+                        
+                        <p-table #dt [columns]="cols" [value]="pageData" selectionMode="single" [(selection)]="selectedData"  >
+                                <ng-template pTemplate="header" let-columns>
+                                  <tr>
+                                    <!-- <th rowspan="2" style="width: 3.25em">
+                                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th> -->
+                                    <!-- 注意这个 表头的设定，通过rowspan 和 colspan 这两个属性的设置来实现 不同样式表头的设定，不过这种方式好像只能用静态的表头，不能使用动态的表头-->
+                                    <th rowspan="2" style="width: 11%;">Product ID</th>
+                                    <th rowspan="2" style="width: 7%;">Step ID</th>
+                                    <th rowspan="2" style="width: 6%;">Defect Name</th>
+                                    <th rowspan="2" style="width: 6%;">Control Line1</th>
+                                    <th rowspan="2" style="width: 7%;">报警方式1</th>
+                                    <th colspan="2" style="width: 16%;">知会人1</th>
+                                    <th rowspan="2" style="width: 6%;">Control Line2</th>
+                                    <th rowspan="2" style="width: 6%;">报警方式2</th>
+                                    <th colspan="2" style="width: 30%;">知会人2</th>
+                                    <th rowspan="2" style="width: 7%;">刷新频率(min)</th>
+                                  </tr>
+                                  <tr>
+                                    <th>姓名</th>
+                                    <th>工号</th>
+                                    <th>姓名</th>
+                                    <th>邮箱</th>
+                                    
+                                  </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" >
+                                    <tr>   
+                                      <td *ngFor="let col of columns">
+                                        {{rowData[col.field]}}
+                                      </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary">
+                                    <p-paginator [rows]="rows" [totalRecords]="totalRecords" 
+                                    (onPageChange)="paginate($event)" #p [rowsPerPageOptions]="rowsPerPageOptions"  pageLinkSize="5"></p-paginator>
+                                </ng-template>
+                              </p-table>                       
+ </p-panel>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="导入模版下载" leftIcon="pi pi-inbox">
+          <button pButton type="button" (click)="onFileDownload()" label="Spec导入模版下载" icon="fa fa-download icon-download"></button>
+        
+          <div class="ui-g">
+            <div class="ui-g-12">
+        
+              <p-panel>
+                <p-header>
+                  <div class="ui-helper-clearfix">
+                    <span class="ui-panel-title">Excel数据展示</span>
+                    <button pButton type="button" (click)="dtaa.exportCSV()" label="Spec导出当前模板" icon="fa fa-download icon-download" style="float:right"></button>
+                  </div>
+                </p-header>
+        
+        
+                <p-table #dtaa [columns]="cols"  selectionMode="single" [(selection)]="selectedData">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <!-- <th rowspan="2" style="width: 3.25em">
+                                              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                            </th> -->
+                      <!-- 注意这个 表头的设定，通过rowspan 和 colspan 这两个属性的设置来实现 不同样式表头的设定，不过这种方式好像只能用静态的表头，不能使用动态的表头-->
+                      <th rowspan="2" style="width: 11%;">Product ID</th>
+                      <th rowspan="2" style="width: 7%;">Step ID</th>
+                      <th rowspan="2" style="width: 6%;">Defect Name</th>
+                      <th rowspan="2" style="width: 6%;">Control Line1</th>
+                      <th rowspan="2" style="width: 7%;">报警方式1</th>
+                      <th colspan="2" style="width: 16%;">知会人1</th>
+                      <th rowspan="2" style="width: 6%;">Control Line2</th>
+                      <th rowspan="2" style="width: 6%;">报警方式2</th>
+                      <th colspan="2" style="width: 30%;">知会人2</th>
+                      <th rowspan="2" style="width: 7%;">刷新频率(min)</th>
+                    </tr>
+                    <tr>
+                      <th>姓名</th>
+                      <th>工号</th>
+                      <th>姓名</th>
+                      <th>邮箱</th>
+        
+                    </tr>
+                  </ng-template>
+                  <!-- <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                      </td>
+                    </tr>
+                  </ng-template> -->
+                  <!-- <ng-template pTemplate="summary">
+                    <p-paginator [rows]="rows" [totalRecords]="totalRecords" (onPageChange)="paginate($event)" #p
+                      [rowsPerPageOptions]="rowsPerPageOptions" pageLinkSize="5"></p-paginator>
+                  </ng-template> -->
+                </p-table>
+              </p-panel>
+            </div>
+          </div>
+        
+        </p-tabPanel>
+    </p-tabView>
+  </div>
+ 
+
+
+</div>

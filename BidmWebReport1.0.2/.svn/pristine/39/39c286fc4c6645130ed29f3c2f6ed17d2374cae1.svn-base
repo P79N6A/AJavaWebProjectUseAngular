@@ -1,0 +1,126 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12">
+    <p-header>
+      <div class="ui-g-12" style="text-align: center ;padding:0%;margin:0%;height: 40px;">
+        <h3>Cell 生产日报 - {{todayStr}}</h3> 
+      </div>
+    </p-header>
+   
+    <div class="ui-panel-content">
+
+      <div class="ui-helper-clearfix">
+          <div style="float:right;padding-bottom: 5px">                          
+                <p-calendar [(ngModel)]="selectedDate" [showIcon]='true' dateFormat="      yy-mm-dd"></p-calendar>
+                <button pButton type="button" label="查询" icon="fa fa-search" iconPos="left" (click)="searchDataClick()"></button>
+                <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>  
+          </div>
+      </div>
+     
+      <p-table id="celldate"  ><!--autoLayout="false"-->
+        <ng-template pTemplate="header">
+          <!-- 第一行 -->
+          <tr >
+            <th rowspan="4" class="sizestyle ">尺寸</th>
+            <th colspan="11" class="header1 header2">Daily</th>
+            <th colspan="12" class="header1 header2">Month</th>
+          </tr>
+
+          <!-- 第二行 -->
+          <tr>
+            <th colspan="3" class="header1 header2">Cell In (Sheet)</th>
+            <th colspan="3" class="header1 header2">Cut Out (pcs)</th>
+            <th colspan="5" class="header1 header2">Cell Out (pcs)</th>
+
+            <th colspan="4" class="header1 header2">Plan In (Sheet)</th>
+            <th colspan="8" class="header1 header2">Cell Out (pcs)</th>
+
+
+          </tr>
+
+          <!-- 第三行 -->
+          <tr>
+            <th rowspan="2" class="header1 header2">Plan</th>
+            <th rowspan="2" class="header1 header2">Act</th>
+            <th rowspan="2" class="header1 header2">Bal</th>
+
+            <th colspan="1" class="header1 header2">Plan</th>
+            <th colspan="1" class="header1 header2">Act</th>
+            <th colspan="1" class="header1 header2">Bal</th>
+
+            <th colspan="2" class="header1 header2">Plan</th>
+            <th colspan="2" class="header1 header2">Act</th>
+            <th colspan="1" class="header1 header2">Bal</th>
+
+            <th rowspan="2" class="header1 header2">Plan全月</th>
+            <th rowspan="2" class="header1 header2">Plan累计</th>
+            <th rowspan="2" class="header1 header2">Act</th>
+            <th rowspan="2" class="header1 header2">Bal</th>
+
+            <th colspan="2" class="header1 header2">Plan全月</th>
+            <th colspan="2" class="header1 header2">Plan累计</th>
+            <th colspan="2" class="header1 header2">Action</th>
+            <th colspan="2" class="header1 header2">Balance</th>
+          </tr>
+
+          <!-- 第四行 -->
+          <tr>
+            <th class="header1 header2">pcs</th>
+            <!-- <th class="header2">Sheet</th> -->
+            <th class="header1 header2">pcs</th>
+            <!-- <th class="header2">Sheet</th> -->
+            <th class="header1 header2">pcs</th>
+            <!-- <th class="header2">Sheet</th> -->
+
+            <th class="header1 header2">pcs</th>
+            <th class="header2">Sheet</th>
+            <th class="header1 header2">pcs</th>
+            <th class="header2">Sheet</th>
+            <th class="header1 header2">pcs</th>
+            <!-- <th class="header2">Sheet</th> 这一行是 自己加上去的 -->
+           
+            <th class="header1 header2">pcs</th>
+            <th class="header2">Sheet</th>
+            <th class="header1 header2">pcs</th>
+            <th class="header2">Sheet</th>
+            <th class="header1 header2">pcs</th>
+            <th class="header2">Sheet</th>
+            <th class="header1 header2">pcs</th>
+            <th class="header2">Sheet</th>
+          </tr>
+
+          <!-- 下面的内容是正儿八经的数据展示了   -->
+          <tr *ngFor="let object of data">
+            <td class="header3">{{object.size}}</td>
+            <td *ngFor="let numb of object.numbs2" class="header3">{{numb}}</td>
+          </tr>
+
+            <!-- 最后的第一行 1.1 -->
+            <tr>
+              <th class="header4" rowspan="2" style="font-weight: bold;" >Total</th>   
+              <td *ngFor="let num of Total2;let i = index" class="header4" [attr.rowspan]="(i!=4 && i!= 6 && i!=8) ? 2:1">{{num}}</td>                  
+            </tr>
+            <!--最后的第一行 1.2-->
+            <tr>
+              <td class="header4">{{Total[4]}}</td>
+              <td class="header4">{{Total[6]}}</td>
+              <td class="header4">{{Total[8]}}</td>
+            </tr>
+  
+            <!-- 最后的第二行 2.1 -->
+            <tr>
+              <th class="header4" style="font-weight: bold;" rowspan="2">Total ACT</th>  
+              <td *ngFor="let num of TotalAct2;let i = index" class="header4" [attr.rowspan]="(i!=4 && i!= 6 && i!=8) ? 2:1">{{num}}</td>
+            </tr>
+             <!--最后的第二行 2.2-->
+             <tr>
+              <td class="header4">{{TotalActShtte[0]}}</td>
+              <td class="header4">{{TotalActShtte[1]}}</td>
+              <td class="header4">{{TotalActShtte[2]}}</td>
+            </tr>
+            
+        </ng-template>
+      </p-table>
+    </div>
+  </p-panel>
+
+</div>

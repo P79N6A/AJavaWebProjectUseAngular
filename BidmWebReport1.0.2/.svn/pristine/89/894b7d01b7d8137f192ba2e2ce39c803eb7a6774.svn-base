@@ -1,0 +1,9 @@
+export class celldaily{
+    size = null;
+    DPP = null;
+    DPA = null;
+    DPB = null;
+
+    DCUTPp = null;
+    DCUTA = null;
+}

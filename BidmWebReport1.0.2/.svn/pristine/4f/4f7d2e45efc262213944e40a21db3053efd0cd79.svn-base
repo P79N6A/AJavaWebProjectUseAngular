@@ -1,0 +1,9 @@
+<!-- <img src="assets/boe/images/bt_normal.png"> -->
+<!-- <div style="background: url('assets/boe/images/bt_normal.png') no-repeat; width: 120px; height: 32px; text-align: center;"
+  (mouseover)="mouseover()" (mouseout)="mouseout()" (mousedown)="mousedown" (click)="click"> -->
+<div [style.background-image]="bksrc" [style.width]="width" [style.height]="height"
+   style="background-repeat: no-repeat; text-align: center; cursor: pointer;"
+   (mouseover)="mouseover()" (mouseout)="mouseout()" (mousedown)="mousedown()" (mouseup)="mouseup()" (click)="click()">
+  <label style="color: white; position: relative; top: 25%; cursor: pointer;">BUTTON</label>
+</div>
+

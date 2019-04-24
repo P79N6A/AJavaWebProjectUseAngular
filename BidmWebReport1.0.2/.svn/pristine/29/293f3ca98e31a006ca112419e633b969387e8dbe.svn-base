@@ -1,0 +1,108 @@
+<div class="ui-g"> 
+    <p-growl [(value)]="msgs"></p-growl>
+  <div class="ui-g-12">     
+      <p-tabView>
+        <p-tabPanel header="Excel导入" leftIcon="pi pi-calendar">
+          
+          <div class="ui-g">
+            <!-- 上面的大标题 -->
+            <div class="ui-g-12" style="text-align:center;font-size: 1.2em;font-weight: bold;width: 100%;height: 5%;background-color: rgb(224, 221, 221)">生产计划导入界面 - Cf Move</div>
+            <!-- 选择文件的按钮-->
+            <div class="ui-g-2" style="margin-top:0%;margin-bottom:-1%"><p-fileUpload mode="basic" chooseLabel="选择文件" name="myfile[]" url="./api/file/upload" accept=".xls,.xlsx" maxFileSize="1000000" (onUpload)="onBasicUpload($event);"></p-fileUpload></div>   
+            <!-- 查询数据的 [style]="{'width':'130px'}"-->
+            <!-- <div class="ui-g-4"></div> -->
+            <!-- <div class="ui-g-6"style="margin-top:0%;margin-bottom:-1%">
+              <div class="ui-g-4"></div>
+              <div class="ui-g-3"><p-calendar [(ngModel)]="selectedDate1" [showIcon]="true" dateFormat="yy-mm-dd" placeholder="选择开始日期"></p-calendar></div>
+              <div class="ui-g-3"><p-calendar [(ngModel)]="selectedDate2" [showIcon]="true" dateFormat="yy-mm-dd" placeholder="选择结束日期"></p-calendar></div>
+              <div class="ui-g-2" style="float: right;"> <p-button label='查询' icon='fa fa-search' iconPos="left" (click)="searchData()"></p-button></div>
+            </div> -->
+          </div>
+         <div class="ui-g">
+                <div class="ui-g-12">
+  
+                  <p-panel>
+                      <p-header>
+                          <div class="ui-helper-clearfix">
+                              <span class="ui-panel-title">Excel数据展示</span>
+                              <span style="float: right;" *ngIf="showFlag">是否保存到数据库？
+                                  <p-button   icon="fa fa-plus" label="保存" [disabled]="false"
+                                  (onClick)="saveExcelImportInfo()"></p-button>
+                                <p-button  icon="fa fa-plus" label="取消" [disabled]="false"
+                                    (onClick)="cancel()"></p-button>
+                                </span>
+                              
+                          </div>
+                      </p-header>
+  
+                        
+                        <p-table #dt [columns]="cols" [value]="pageData" selectionMode="single" [(selection)]="selectedData"  >
+                                <ng-template pTemplate="header" let-columns>
+                                  <tr>
+                                    <th class="headerBlue">Factory</th>
+                                    <th class="headerBlue">Hourtimekey</th>
+                                    <th class="headerBlue">OperCode</th>
+                                    <th class="headerBlue">Line</th>
+                                    <th class="headerBlue">Qty</th>
+                                    <th class="headerBlue">Owner</th>
+                                  </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" >
+                                    <tr style="text-align:center">   
+                                      <td *ngFor="let col of columns">
+                                        {{rowData[col.field]}}
+                                      </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary">
+                                    <p-paginator [rows]="rows" [totalRecords]="totalRecords" 
+                                    (onPageChange)="paginate($event)" #p [rowsPerPageOptions]="rowsPerPageOptions"  pageLinkSize="5"></p-paginator>
+                                </ng-template>
+                              </p-table>                       
+                          </p-panel>
+                </div>
+         </div>
+        </p-tabPanel>
+  
+        <p-tabPanel header="Excel模板下载" leftIcon="pi pi-calendar">
+         <div class="ui-g">
+                <div class="ui-g-12">
+  
+                  <p-panel>
+                      <p-header>
+                          <div class="ui-helper-clearfix">
+                              <span class="ui-panel-title">Excel数据表模板</span>  
+                              <button type="button" pButton icon="fa fa-file" iconPos="left" label="下载模板" (click)="exportExcel()" style="float:right"></button>
+                          </div>
+                      </p-header>
+
+                      <div style="margin:5px 5px">
+                        提示 ： 如果下载模板无法直接使用， 则可以自己新建一个excel，表头格式固定即可！
+                      </div>
+  
+                        
+                        <p-table id="cfmove" [columns]="cols" selectionMode="single" [(selection)]="selectedData"  >
+                                <ng-template pTemplate="header" let-columns>
+                                  <tr>
+                                    <th class="headerBlue">Factory</th>
+                                    <th class="headerBlue">Hourtimekey</th>
+                                    <th class="headerBlue">OperCode</th>
+                                    <th class="headerBlue">Line</th>
+                                    <th class="headerBlue">Qty</th>
+                                    <th class="headerBlue">Owner</th>
+                                  </tr>
+                                </ng-template>
+  
+                              </p-table>                       
+                          </p-panel>
+                </div>
+            </div>
+        </p-tabPanel>
+       
+    </p-tabView>
+  </div>
+  
+  
+  
+  </div>
+  

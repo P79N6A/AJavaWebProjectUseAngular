@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArrayProDataZaohuiMapper">
+
+	<select id="getData1" resultType="ArrayProDataZaohui1">
+		select * from SC_KANBAN_AR_ZH1_VW
+	</select>
+	
+	<select id="getData2" resultType="ArrayProDataZaohui2">
+		select * from SC_KANBAN_AR_ZH2_VW
+	</select>
+	
+	<select id="getData3" resultType="ArrayProDataZaohui3">
+		select productiontype, product, oper_desc, move, wip from SC_KANBAN_AR_ZH3_VW
+	</select>
+	
+	<select id="getData4" resultType="ArrayProDataZaohui4">
+		select datename, eqp_state, ratio from SC_KANBAN_AR_ZH4_VW where type = #{type}
+	</select>
+	
+
+</mapper>

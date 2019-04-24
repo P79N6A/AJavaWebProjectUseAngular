@@ -1,0 +1,22 @@
+<!-- <app-boe-combo [url]="urlSite" [placeholder]="placeholderSite" 
+    [label]="labelSite" (selectItem)="siteSelected($event)"></app-boe-combo>
+<app-boe-combo [url]="urlFac" [placeholder]="placeholderFac" [label]="labelFac"></app-boe-combo> -->
+
+<h3>{{ 'search bar' | translate }}</h3>
+<app-search-bar #searchBar [conditions]="conditions"></app-search-bar>
+<br />
+<p-panel header="告警示例">
+<input pInputText type="text" style="width: 200px;" [(ngModel)]="valParam" placeholder="超过20有警告，超过30有错误">
+<button pButton type="button" (click)="setParam()" label="SET"></button>
+</p-panel>
+
+<!-- <img id="buttontest" src="assets/layout/images/button.png" 
+    (mouseover)="mouseover()" (mouseout)="mouseout()"
+    (mousedown)="click()" (mouseup)="mouseout()"
+    style="width: 45px; height: 45px;"> -->
+
+<!-- <app-boe-button></app-boe-button> -->
+<br />
+<!-- <app-boe-tabview></app-boe-tabview> -->
+<h3>报表示例</h3>
+<app-boe-multigrid [values]="gridValues"></app-boe-multigrid>

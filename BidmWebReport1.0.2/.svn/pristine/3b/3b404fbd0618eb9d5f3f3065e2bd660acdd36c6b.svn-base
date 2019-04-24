@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArrayMoveMapper"> 
+		
+		<select id="getList" resultType="ArrayMoveVO"> 
+			select oper_desc,date_before_3,date_before_2,date_before_1,date_current from sc_ar_move1_vw
+		</select>
+
+	</mapper>

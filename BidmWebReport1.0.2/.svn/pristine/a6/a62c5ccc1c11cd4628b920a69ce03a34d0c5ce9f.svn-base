@@ -1,0 +1,122 @@
+<div class="ui-g">
+  <p-panel>
+    <p-header>
+      <div class="ui-g-12">
+        <h3 style="text-align:center;padding: 0;margin: 0%">产品名称信息维护界面</h3>
+      </div>
+    </p-header>
+
+    <div class="ui-panel-content">
+       
+      <div style="margin-bottom:2px;text-align: right">
+       请选择工厂:
+       <p-dropdown [options]="factorys" id="factroyname" placeholder="所有工厂" (onChange)="queryByFactory($event.value)"></p-dropdown>
+      </div>
+      <!-- 下面是整个的表格-->
+      <p-table [columns]="cols" [value]="datas" [paginator]="true" [rows]="12" 
+               selectionMode="single" [(selection)]="selectedObject" dataKey="product" (onRowSelect)="onRowSelected($event)" (onRowUnselect)="onRowUnselect($event)">
+        <ng-template pTemplate="header" let-columnsa>
+          <tr>
+            <th *ngFor="let col of columnsa">{{col.header}}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td style="text-align: center" *ngFor="let col of columns">{{rowData[col.field]}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-button type="button" label="Add" icon="fa fa-plus" iconPos="left" (click)="addOne()"></p-button>
+    </div>
+  </p-panel>
+</div>
+
+<!-- 1.下面是 添加弹出来的对话框-->
+<p-dialog header="Info Details" [(visible)] = "isAdd" [width]="400">
+
+  <div class="ui-g ui-fluid">
+
+    <div class="ui-g-12">
+      <div class="ui-g-4"> <label>Factory :</label></div>
+      <div class="ui-g-8">
+          <input type="text" pInputText [(ngModel)]="newObject.factory" placeholder="必填">
+      </div>     
+    </div>
+
+    <div class="ui-g-12">
+        <div class="ui-g-4"> <label>Product :</label></div>
+        <div class="ui-g-8">
+            <input type="text" pInputText [(ngModel)]="newObject.product" placeholder="必填">
+        </div>     
+    </div>
+
+    <div class="ui-g-12">
+        <div class="ui-g-4"> <label>ProductName :</label></div>
+        <div class="ui-g-8">
+            <input type="text" pInputText [(ngModel)]="newObject.productName" placeholder="必填">
+        </div>     
+    </div>
+
+    <div class="ui-g-12">
+        <div class="ui-g-4"> <label>Owner :</label></div>
+        <div class="ui-g-8">
+            <input type="text" pInputText [(ngModel)]="newObject.owner" placeholder="必填">
+        </div>     
+    </div>
+     
+
+  </div>
+  
+  <p-footer>
+    <p-button type="button" label="Save" icon="fa fa-check" (click)="confirm()"></p-button> <!-- 确定添加的方法-->
+    <p-button type="button" label="Cancel" icon="fa fa-close" (click)="cancel()"></p-button> <!-- 取消添加的方法-->
+  </p-footer>
+</p-dialog>
+
+
+<!-- 2.下面是 弹出来的对话框 : 用来修改或者删除的-->
+<p-dialog header="Info Details" [(visible)] = "isdeleteOrupdate" [width]="400">
+
+  <div class="ui-g ui-fluid">
+
+    <div class="ui-g-12">
+      <div class="ui-g-4"> <label>Factory :</label></div>
+      <div class="ui-g-8">
+          <input type="text" pInputText [disabled]="true" style="color:black" [(ngModel)]="selectedObject.factory" placeholder="必填">
+      </div>     
+    </div>
+
+    <div class="ui-g-12">
+        <div class="ui-g-4"> <label>Product :</label></div>
+        <div class="ui-g-8">
+            <input type="text" pInputText [disabled]="true" style="color:black" [(ngModel)]="selectedObject.product" placeholder="必填">
+        </div>     
+    </div>
+
+    <div class="ui-g-12">
+        <div class="ui-g-4"> <label>ProductName :</label></div>
+        <div class="ui-g-8">
+            <input type="text" pInputText [disabled]="isdelete" style="color:black" [(ngModel)]="selectedObject.productName" placeholder="必填">
+        </div>     
+    </div>
+
+    <div class="ui-g-12">
+        <div class="ui-g-4"> <label>Owner :</label></div>
+        <div class="ui-g-8">
+            <input type="text" pInputText [disabled]="isdelete" style="color:black" [(ngModel)]="selectedObject.owner" placeholder="必填">
+        </div>     
+    </div>
+     
+
+  </div>
+  
+  <p-footer>
+    <p-button type="button" label="Update" icon="fa fa-check" (click)="updateObject()"></p-button> <!-- 更新的的方法-->
+    <p-button type="button" label="Delete" icon="fa fa-close" (click)="delteObject()"></p-button> <!--  删除的方法-->
+  </p-footer>
+</p-dialog>
+
+<!-- 下面是删除弹出来的对话框 -->
+<p-confirmDialog></p-confirmDialog>

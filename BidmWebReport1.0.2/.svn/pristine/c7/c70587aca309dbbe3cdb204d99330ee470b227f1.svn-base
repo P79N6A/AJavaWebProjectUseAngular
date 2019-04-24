@@ -1,0 +1,13 @@
+package com.boe.idm.project.service;
+
+import java.util.List;
+
+
+import com.boe.idm.project.model.mybatis.CellDailyReportVO;
+
+public interface CellDailyReportService {
+	
+	//1.查询所有的数据
+	public List<CellDailyReportVO> queryObjects(String datename);
+
+}

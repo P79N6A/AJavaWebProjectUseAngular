@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CfMoveCurrentMapper"> 
+		
+		<select id="getList" parameterType="String" resultType="CfMoveCurrentVO"> 
+			select hourtimekey,oper_desc as operationdesc,modeltype,glassqty from sc_cf_move1_1_vw 
+			where hourtimekey between ${starttime} and ${endtime}
+		</select>
+	
+
+	</mapper>

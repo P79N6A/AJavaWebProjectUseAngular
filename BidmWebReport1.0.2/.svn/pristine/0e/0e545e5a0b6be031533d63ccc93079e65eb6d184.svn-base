@@ -1,0 +1,88 @@
+.setTableHeader{
+    width: 60px !important;
+    height: 100px !important;
+    padding-left: 0% !important;
+    text-align: center !important;
+    font-size: 1px !important;
+   
+}
+.touming {
+    background-color:rgba(0,0,0,0.1)!important;
+    color: #F2F6FA!important;
+}
+
+.touming1 {
+    background-color:#121e38!important;
+    color: #F2F6FA!important;
+}
+
+th {
+    font-size: 1px !important;
+    border: 1px solid #455e9c !important;
+    font-weight: initial !important;
+    padding: .625em .175em !important;
+}
+#operation:hover {
+    background-color: #314879 !important; 
+    cursor: pointer;
+}
+.font {
+    font-weight: bold!important;
+    color: rgb(182, 182, 252)!important;
+}
+.title {
+    font-size:16px!important;
+    font-weight: bold!important;
+    color: rgb(182, 182, 252)!important;
+}
+.font2 {
+    color: rgb(182, 182, 252)!important;
+}
+
+td {
+    font-size: 1px !important;
+    border: 1px solid #455e9c !important;
+    font-weight: initial !important;
+    padding: .625em .175em !important;
+    width:2.75%!important;
+    text-align:center!important;
+}
+.noborder {
+    border: 0px !important;
+}
+
+.setCFOption{
+    width: 56% !important;
+    height: 800px !important;
+    padding-left: 2% !important;
+   
+}
+.setCFPH1Option{
+    width: 36% !important;
+    padding-left: 60% !important;
+    margin-top: -55% !important;
+
+}
+.setCFPH2Option{
+    width: 36% !important;
+    padding-left: 60% !important;
+  margin-top: -1% !important;
+}
+
+.setCellOption{
+    width: 43% !important;
+    height: 440px !important;
+    padding-left: 2% !important;
+}
+.setCellBothOption{
+    width: 50% !important;
+    height: 440px !important;
+    padding-left: 45% !important;
+    margin-top: -30% !important;
+}
+.setClSearch{
+    position: absolute !important;
+    padding-left: 60% !important;
+   margin-top: -12% !important;
+    color: white !important;
+}

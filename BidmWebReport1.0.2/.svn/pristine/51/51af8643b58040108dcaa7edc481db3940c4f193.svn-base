@@ -1,0 +1,23 @@
+package com.boe.idm.project.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.boe.idm.project.mapper.primaryOracle.dev.CellDailyReportMapper;
+import com.boe.idm.project.model.mybatis.CellDailyReportVO;
+import com.boe.idm.project.service.CellDailyReportService;
+
+@Service
+public class CellDailyReportServiceImple implements CellDailyReportService {
+	
+	@Autowired
+	private CellDailyReportMapper cellDailyReportMapper;
+
+	@Override
+	public List<CellDailyReportVO> queryObjects(String datename) {
+		return cellDailyReportMapper.queryObjects(datename);
+	}
+
+}

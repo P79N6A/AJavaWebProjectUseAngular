@@ -1,0 +1,51 @@
+.test{
+    text-align: center;
+    border-style: solid;
+}
+
+/* 设置 表头的样式 一般的样式 */
+.header1{
+    background-color:#BDD7EE !important;
+    border:solid 1.5px rgb(165, 164, 164) !important;
+}
+/* 设置 表头的 第四行的样式  */
+.header2{
+    font-size : 8px  !important;
+    text-align: center !important;
+    padding-left: 5px !important;
+    background-color:#BDD7EE !important;
+    border:solid 1.5px rgb(165, 164, 164) !important;
+}
+
+/* 设置 报表中的 数据的样式   */
+.header3{
+    font-size : 1px  !important; 
+    text-align: center !important; 
+    padding-left: 5px !important;
+    background-color:rgb(255, 255, 255) !important;
+    border:solid 1.5px rgb(165, 164, 164) !important;
+}
+
+/* 设置 报表中的 数据的样式   */
+.header4{
+    font-size : 12px  !important; 
+    /* color: rgb(39, 32, 32) !important; */
+    background-color:rgb(255, 255, 255) !important;
+    text-align: center !important;
+    border:solid 1.5px rgb(165, 164, 164) !important;
+}
+/* 设置 尺寸这一个单元格的样式的 单独的*/
+.sizestyle{
+    width: 80px !important;
+    font-size : 15px  !important;
+    text-align: center !important;
+    padding-left: 5px !important;
+    background-color:#BDD7EE !important;
+    border:solid 1.5px rgb(165, 164, 164) !important;
+}
+
+/* 设置 最后的 total 的四行的样式*/
+.setfooter{
+    font-size: 8px !important;
+    padding-left: 3px !important;
+}

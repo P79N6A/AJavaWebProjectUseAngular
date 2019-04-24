@@ -1,0 +1,188 @@
+<div class="ui-g" >
+
+  <!-- <div class="ui-g-12">
+    <h3 class="first">Title MES UI - TYPE1</h3>
+    <hr>
+  </div> -->
+  <!-- search area -->
+  <div class="ui-g-12">
+    <!-- search option area -->
+    <div class="ui-g-12 ui-lg-12" style="display: flex; align-items: center; border:1px solid lightgray; background-color:mintcream;">
+      <!-- if you add the other option, change the class source -->
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <label style="font-weight: bold;">Condition1</label>
+        <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <!-- <h3 class="first">Condition2</h3> -->
+        <label style="font-weight: bold;">Condition2</label>
+        <p-dropdown [options]="option2" [(ngModel)]="selectedOption2" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <!-- <h3 class="first">Condition3</h3> -->
+        <label style="font-weight: bold;">Condition3</label>
+        <p-dropdown [options]="option3" [(ngModel)]="selectedOption3" placeholder="not connect"></p-dropdown>
+      </div>
+      <!-- <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <label style="font-weight: bold;">Condition4</label>
+        <p-dropdown [options]="option4" [(ngModel)]="selectedOption4" placeholder="not connect"></p-dropdown>
+      </div> -->
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <!-- <h3 class="first">Condition4</h3> -->
+        <button pButton type="button" (click)="onSearch()" label="Search"></button>
+        
+      </div>
+    </div>
+  </div>
+  <!-- end search area -->
+ 
+  <!-- data gride area -->
+  <div class="ui-g-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">MES UI - TYPE1 - Checkbox Selection</span>
+          <span style="float: right;">
+            <button pButton type="button" (click)="addData()" label="Add"></button>
+            <button pButton type="button" (click)="deleteSelectedData()" label="Delete"></button>
+          </span>
+        </div>
+      </p-header>
+      <div>
+        <!-- <h3>Checkbox Selection</h3> -->
+        <!-- if you use selection, you must set datakey -->
+        <p-table [columns]="cols" [value]="data" [(selection)]="selectedData" dataKey="col1">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3.25em">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td *ngFor="let col of columns;">
+                <ng-container *ngIf="col.field === 'col1' ">
+                  <a href="#" (click)="openDetail(rowData)">{{rowData[col.field]}}</a>
+                </ng-container>
+                <ng-container *ngIf="col.field != 'col1' ">
+                  {{rowData[col.field]}}
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary">
+            <!-- <ul>
+              <li *ngFor="let car of selectedCars3" style="text-align: left">
+                {{car.vin + ' - ' + car.brand + ' - ' + car.year + ' - ' + car.color}}
+              </li>
+            </ul> -->
+            <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="paginate($event)"></p-paginator>
+          </ng-template>
+        </p-table>
+        <br>
+        <!-- <app-pagenate (pageEvent)="pageEvent($event)"></app-pagenate> -->
+        <!-- <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="paginate($event)"></p-paginator> -->
+      </div>
+
+    </p-panel>
+  </div>
+  <!-- end data gride area -->
+
+  <!-- dialog -->
+  <!-- <app-type1-modal [modalData]="modalData" [(modalVisible)]="modalVisible"></app-type1-modal> -->
+  <div class="ui-g-12">
+
+    <p-dialog header="Dailog" [(visible)]="modalVisible" [modal]="true" [responsive]="true" [width]="560">
+      <div class="ui-dialog-content">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col1</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col1" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col2</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col2" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col3</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col3" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col4</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col4" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col5</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col5" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col6</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col6" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col7</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col7" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col8</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col8" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col9</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="text" pInputText [(ngModel)]="modalData.col9" />
+          </div>
+        </div>
+
+      </div>
+
+
+      <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="save()" label="save"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="modalVisible=false" label="cancel" class="ui-button-secondary"></button>
+      </p-footer>
+    </p-dialog>
+
+
+  </div>
+</div>

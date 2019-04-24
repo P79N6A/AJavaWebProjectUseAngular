@@ -1,0 +1,26 @@
+.head1{
+    font-size: 12px !important;
+    color: black !important;
+}
+.bgc{ /* 表头的颜色*/
+    background-color: #e2eed1 !important;
+}
+
+.borderright{
+    border-right: 2px solid black !important;
+}
+
+.head2{
+    font-size: 12px !important;
+    font-weight: normal !important;
+    color: rgb(17, 17, 17) !important;
+    padding: 0.4em 0.3em !important;
+}
+.data{
+    font-size: 12px !important;
+    font-weight: normal !important;
+    color: rgb(17, 17, 17) !important;
+    text-align: center !important;
+    padding: 0.4em 0.3em !important;
+}
+

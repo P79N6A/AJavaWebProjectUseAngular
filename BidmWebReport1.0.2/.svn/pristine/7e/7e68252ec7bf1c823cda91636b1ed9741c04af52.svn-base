@@ -1,0 +1,1552 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="ui-g">
+  <p-panel class="ui-g-12">
+    <p-header>
+      <div class="ui-g-12">
+        <h2 style="text-align:center;margin: 0px 10px">固定报表</h2>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+      <div class="ui-helper-clearfix">
+        <div style="float:right;padding: 5px 20px">
+          <ng-container *ngIf="showM1M2">
+            <label for="dropdown">Line:</label>
+            <p-dropdown id="dropdown1" [options]="departmentLine" [(ngModel)] = "line" placeholder="请选择" showClear="true" (onChange)="dtFilter()"></p-dropdown>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="dropdown">Cell:</label>
+            <p-dropdown id="dropdown2" [options]="departmentCell" [(ngModel)] = "cell" placeholder="请选择" showClear="true" (onChange)="dtFilter()"></p-dropdown>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+          </ng-container>
+          <label for="dropdown">工厂:</label>
+          <p-dropdown id="dropdown" [options]="department" [(ngModel)]="factory" (onChange)="select($event.value)"></p-dropdown>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="hourMonitorCalendar">日期:</label>
+          <p-calendar [(ngModel)]="dateName" dateFormat="yy/mm/dd" id="hourMonitorCalendar" placeholder="年/月/日"></p-calendar>
+          <p-button label="查询" (click)="query()"></p-button>
+          <p-button label="刷新" (click)="refresh()"></p-button>
+          <p-button label="导出" (click)="exportExcel()"></p-button>
+        </div>
+      </div>
+
+      <p-table autoLayout="true" *ngIf="showArrayCF"  id="gsproducttable">
+        <ng-template pTemplate="header">
+          <tr>
+            <th colspan="4" class="setHeader">{{factory1}} In</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">{{factory1}} No.</th>
+            <th class="setHeader">{{factory1}}</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="3" rowspan="3" class="setGreen">TTL</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of arrayInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of arrayInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of arrayInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataArrayIn; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.arrayproductspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.modeltype}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="4" class="setHeader">{{factory1}} Out</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">{{factory1}} No.</th>
+            <th class="setHeader">{{factory1}}</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="3" rowspan="3" class="setGreen">TTL</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of arrayOutTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of arrayOutTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of arrayOutTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataArrayOut; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.arrayproductspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.modeltype}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+
+      <p-table autoLayout="true" *ngIf="showCell" id="gsproducttable">
+        <ng-template pTemplate="header">
+          <tr>
+            <th colspan="6" class="setHeader">Cell In</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">Line</th>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCellInChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cellInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cellInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cellInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataCellIn; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.line}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.model_type}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">Assy In</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">Line</th>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCellAssyChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cellAssyInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cellAssyInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cellAssyInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataCellAssyIn; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.line}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.model_type}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">Cut Out</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th colspan="2" class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCellCutInChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cellCutInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cellCutInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cellCutInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataCutIn; let i = index">
+            <tr>
+              <th [attr.rowspan]="obj.acts.length + 2" colspan="2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productspecname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.model_type}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan["7"]}}</th>
+              <th class="setGreen">{{obj.plan["8"]}}</th>
+              <th class="setGreen">{{obj.plan["9"]}}</th>
+              <th class="setGreen">{{obj.plan["10"]}}</th>
+              <th class="setGreen">{{obj.plan["11"]}}</th>
+              <th class="setGreen">{{obj.plan["12"]}}</th>
+              <th class="setGreen">{{obj.plan["13"]}}</th>
+              <th class="setGreen">{{obj.plan["14"]}}</th>
+              <th class="setGreen">{{obj.plan["15"]}}</th>
+              <th class="setGreen">{{obj.plan["16"]}}</th>
+              <th class="setGreen">{{obj.plan["17"]}}</th>
+              <th class="setGreen">{{obj.plan["18"]}}</th>
+              <th class="setGreen">{{obj.plan["19"]}}</th>
+              <th class="setGreen">{{obj.plan["20"]}}</th>
+              <th class="setGreen">{{obj.plan["21"]}}</th>
+              <th class="setGreen">{{obj.plan["22"]}}</th>
+              <th class="setGreen">{{obj.plan["23"]}}</th>
+              <th class="setGreen">{{obj.plan["0"]}}</th>
+              <th class="setGreen">{{obj.plan["1"]}}</th>
+              <th class="setGreen">{{obj.plan["2"]}}</th>
+              <th class="setGreen">{{obj.plan["3"]}}</th>
+              <th class="setGreen">{{obj.plan["4"]}}</th>
+              <th class="setGreen">{{obj.plan["5"]}}</th>
+              <th class="setGreen">{{obj.plan["6"]}}</th>
+              <th class="setGreen">{{obj.plan.ttl | zeroConvert}}</th>
+              <th [attr.rowspan]="obj.acts.length + 2">{{obj.remark}}</th>
+            </tr>
+            <tr *ngFor="let act of obj.acts">
+              <th class="setYellow">{{act.oper}}</th>
+              <th class="setYellow">{{act["7"]}}</th>
+              <th class="setYellow">{{act["8"]}}</th>
+              <th class="setYellow">{{act["9"]}}</th>
+              <th class="setYellow">{{act["10"]}}</th>
+              <th class="setYellow">{{act["11"]}}</th>
+              <th class="setYellow">{{act["12"]}}</th>
+              <th class="setYellow">{{act["13"]}}</th>
+              <th class="setYellow">{{act["14"]}}</th>
+              <th class="setYellow">{{act["15"]}}</th>
+              <th class="setYellow">{{act["16"]}}</th>
+              <th class="setYellow">{{act["17"]}}</th>
+              <th class="setYellow">{{act["18"]}}</th>
+              <th class="setYellow">{{act["19"]}}</th>
+              <th class="setYellow">{{act["20"]}}</th>
+              <th class="setYellow">{{act["21"]}}</th>
+              <th class="setYellow">{{act["22"]}}</th>
+              <th class="setYellow">{{act["23"]}}</th>
+              <th class="setYellow">{{act["0"]}}</th>
+              <th class="setYellow">{{act["1"]}}</th>
+              <th class="setYellow">{{act["2"]}}</th>
+              <th class="setYellow">{{act["3"]}}</th>
+              <th class="setYellow">{{act["4"]}}</th>
+              <th class="setYellow">{{act["5"]}}</th>
+              <th class="setYellow">{{act["6"]}}</th>
+              <th class="setYellow">{{act.ttl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal["7"]}}</th>
+              <th>{{obj.bal["8"]}}</th>
+              <th>{{obj.bal["9"]}}</th>
+              <th>{{obj.bal["10"]}}</th>
+              <th>{{obj.bal["11"]}}</th>
+              <th>{{obj.bal["12"]}}</th>
+              <th>{{obj.bal["13"]}}</th>
+              <th>{{obj.bal["14"]}}</th>
+              <th>{{obj.bal["15"]}}</th>
+              <th>{{obj.bal["16"]}}</th>
+              <th>{{obj.bal["17"]}}</th>
+              <th>{{obj.bal["18"]}}</th>
+              <th>{{obj.bal["19"]}}</th>
+              <th>{{obj.bal["20"]}}</th>
+              <th>{{obj.bal["21"]}}</th>
+              <th>{{obj.bal["22"]}}</th>
+              <th>{{obj.bal["23"]}}</th>
+              <th>{{obj.bal["0"]}}</th>
+              <th>{{obj.bal["1"]}}</th>
+              <th>{{obj.bal["2"]}}</th>
+              <th>{{obj.bal["3"]}}</th>
+              <th>{{obj.bal["4"]}}</th>
+              <th>{{obj.bal["5"]}}</th>
+              <th>{{obj.bal["6"]}}</th>
+              <th>{{obj.bal.ttl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">Cell Out</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th colspan="2" class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCellOutChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cellOutTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cellOutTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cellOutTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataCellOut; let i = index">
+            <tr>
+              <th [attr.rowspan]="obj.acts.length + 2" colspan="2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productspecname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.model_type}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan["7"]}}</th>
+              <th class="setGreen">{{obj.plan["8"]}}</th>
+              <th class="setGreen">{{obj.plan["9"]}}</th>
+              <th class="setGreen">{{obj.plan["10"]}}</th>
+              <th class="setGreen">{{obj.plan["11"]}}</th>
+              <th class="setGreen">{{obj.plan["12"]}}</th>
+              <th class="setGreen">{{obj.plan["13"]}}</th>
+              <th class="setGreen">{{obj.plan["14"]}}</th>
+              <th class="setGreen">{{obj.plan["15"]}}</th>
+              <th class="setGreen">{{obj.plan["16"]}}</th>
+              <th class="setGreen">{{obj.plan["17"]}}</th>
+              <th class="setGreen">{{obj.plan["18"]}}</th>
+              <th class="setGreen">{{obj.plan["19"]}}</th>
+              <th class="setGreen">{{obj.plan["20"]}}</th>
+              <th class="setGreen">{{obj.plan["21"]}}</th>
+              <th class="setGreen">{{obj.plan["22"]}}</th>
+              <th class="setGreen">{{obj.plan["23"]}}</th>
+              <th class="setGreen">{{obj.plan["0"]}}</th>
+              <th class="setGreen">{{obj.plan["1"]}}</th>
+              <th class="setGreen">{{obj.plan["2"]}}</th>
+              <th class="setGreen">{{obj.plan["3"]}}</th>
+              <th class="setGreen">{{obj.plan["4"]}}</th>
+              <th class="setGreen">{{obj.plan["5"]}}</th>
+              <th class="setGreen">{{obj.plan["6"]}}</th>
+              <th class="setGreen">{{obj.plan.ttl | zeroConvert}}</th>
+              <th [attr.rowspan]="obj.acts.length + 2">{{obj.remark}}</th>
+            </tr>
+            <tr *ngFor="let act of obj.acts">
+              <th class="setYellow">{{act.oper}}</th>
+              <th class="setYellow">{{act["7"]}}</th>
+              <th class="setYellow">{{act["8"]}}</th>
+              <th class="setYellow">{{act["9"]}}</th>
+              <th class="setYellow">{{act["10"]}}</th>
+              <th class="setYellow">{{act["11"]}}</th>
+              <th class="setYellow">{{act["12"]}}</th>
+              <th class="setYellow">{{act["13"]}}</th>
+              <th class="setYellow">{{act["14"]}}</th>
+              <th class="setYellow">{{act["15"]}}</th>
+              <th class="setYellow">{{act["16"]}}</th>
+              <th class="setYellow">{{act["17"]}}</th>
+              <th class="setYellow">{{act["18"]}}</th>
+              <th class="setYellow">{{act["19"]}}</th>
+              <th class="setYellow">{{act["20"]}}</th>
+              <th class="setYellow">{{act["21"]}}</th>
+              <th class="setYellow">{{act["22"]}}</th>
+              <th class="setYellow">{{act["23"]}}</th>
+              <th class="setYellow">{{act["0"]}}</th>
+              <th class="setYellow">{{act["1"]}}</th>
+              <th class="setYellow">{{act["2"]}}</th>
+              <th class="setYellow">{{act["3"]}}</th>
+              <th class="setYellow">{{act["4"]}}</th>
+              <th class="setYellow">{{act["5"]}}</th>
+              <th class="setYellow">{{act["6"]}}</th>
+              <th class="setYellow">{{act.ttl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal["7"]}}</th>
+              <th>{{obj.bal["8"]}}</th>
+              <th>{{obj.bal["9"]}}</th>
+              <th>{{obj.bal["10"]}}</th>
+              <th>{{obj.bal["11"]}}</th>
+              <th>{{obj.bal["12"]}}</th>
+              <th>{{obj.bal["13"]}}</th>
+              <th>{{obj.bal["14"]}}</th>
+              <th>{{obj.bal["15"]}}</th>
+              <th>{{obj.bal["16"]}}</th>
+              <th>{{obj.bal["17"]}}</th>
+              <th>{{obj.bal["18"]}}</th>
+              <th>{{obj.bal["19"]}}</th>
+              <th>{{obj.bal["20"]}}</th>
+              <th>{{obj.bal["21"]}}</th>
+              <th>{{obj.bal["22"]}}</th>
+              <th>{{obj.bal["23"]}}</th>
+              <th>{{obj.bal["0"]}}</th>
+              <th>{{obj.bal["1"]}}</th>
+              <th>{{obj.bal["2"]}}</th>
+              <th>{{obj.bal["3"]}}</th>
+              <th>{{obj.bal["4"]}}</th>
+              <th>{{obj.bal["5"]}}</th>
+              <th>{{obj.bal["6"]}}</th>
+              <th>{{obj.bal.ttl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">120K</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">Line</th>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCell120KChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cell120KTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cell120KTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cell120KTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataCell120K; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.line}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productspecname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.model_type}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">2Cut In</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th colspan="2" class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCell2CutInChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cell2CutInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cell2CutInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cell2CutInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of data2CutIn; let i = index">
+            <tr>
+              <th [attr.rowspan]="obj.acts.length + 2" colspan="2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productspecname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.model_type}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan["7"]}}</th>
+              <th class="setGreen">{{obj.plan["8"]}}</th>
+              <th class="setGreen">{{obj.plan["9"]}}</th>
+              <th class="setGreen">{{obj.plan["10"]}}</th>
+              <th class="setGreen">{{obj.plan["11"]}}</th>
+              <th class="setGreen">{{obj.plan["12"]}}</th>
+              <th class="setGreen">{{obj.plan["13"]}}</th>
+              <th class="setGreen">{{obj.plan["14"]}}</th>
+              <th class="setGreen">{{obj.plan["15"]}}</th>
+              <th class="setGreen">{{obj.plan["16"]}}</th>
+              <th class="setGreen">{{obj.plan["17"]}}</th>
+              <th class="setGreen">{{obj.plan["18"]}}</th>
+              <th class="setGreen">{{obj.plan["19"]}}</th>
+              <th class="setGreen">{{obj.plan["20"]}}</th>
+              <th class="setGreen">{{obj.plan["21"]}}</th>
+              <th class="setGreen">{{obj.plan["22"]}}</th>
+              <th class="setGreen">{{obj.plan["23"]}}</th>
+              <th class="setGreen">{{obj.plan["0"]}}</th>
+              <th class="setGreen">{{obj.plan["1"]}}</th>
+              <th class="setGreen">{{obj.plan["2"]}}</th>
+              <th class="setGreen">{{obj.plan["3"]}}</th>
+              <th class="setGreen">{{obj.plan["4"]}}</th>
+              <th class="setGreen">{{obj.plan["5"]}}</th>
+              <th class="setGreen">{{obj.plan["6"]}}</th>
+              <th class="setGreen">{{obj.plan.ttl | zeroConvert}}</th>
+              <th [attr.rowspan]="obj.acts.length + 2">{{obj.remark}}</th>
+            </tr>
+            <tr *ngFor="let act of obj.acts">
+              <th class="setYellow">{{act.oper}}</th>
+              <th class="setYellow">{{act["7"]}}</th>
+              <th class="setYellow">{{act["8"]}}</th>
+              <th class="setYellow">{{act["9"]}}</th>
+              <th class="setYellow">{{act["10"]}}</th>
+              <th class="setYellow">{{act["11"]}}</th>
+              <th class="setYellow">{{act["12"]}}</th>
+              <th class="setYellow">{{act["13"]}}</th>
+              <th class="setYellow">{{act["14"]}}</th>
+              <th class="setYellow">{{act["15"]}}</th>
+              <th class="setYellow">{{act["16"]}}</th>
+              <th class="setYellow">{{act["17"]}}</th>
+              <th class="setYellow">{{act["18"]}}</th>
+              <th class="setYellow">{{act["19"]}}</th>
+              <th class="setYellow">{{act["20"]}}</th>
+              <th class="setYellow">{{act["21"]}}</th>
+              <th class="setYellow">{{act["22"]}}</th>
+              <th class="setYellow">{{act["23"]}}</th>
+              <th class="setYellow">{{act["0"]}}</th>
+              <th class="setYellow">{{act["1"]}}</th>
+              <th class="setYellow">{{act["2"]}}</th>
+              <th class="setYellow">{{act["3"]}}</th>
+              <th class="setYellow">{{act["4"]}}</th>
+              <th class="setYellow">{{act["5"]}}</th>
+              <th class="setYellow">{{act["6"]}}</th>
+              <th class="setYellow">{{act.ttl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal["7"]}}</th>
+              <th>{{obj.bal["8"]}}</th>
+              <th>{{obj.bal["9"]}}</th>
+              <th>{{obj.bal["10"]}}</th>
+              <th>{{obj.bal["11"]}}</th>
+              <th>{{obj.bal["12"]}}</th>
+              <th>{{obj.bal["13"]}}</th>
+              <th>{{obj.bal["14"]}}</th>
+              <th>{{obj.bal["15"]}}</th>
+              <th>{{obj.bal["16"]}}</th>
+              <th>{{obj.bal["17"]}}</th>
+              <th>{{obj.bal["18"]}}</th>
+              <th>{{obj.bal["19"]}}</th>
+              <th>{{obj.bal["20"]}}</th>
+              <th>{{obj.bal["21"]}}</th>
+              <th>{{obj.bal["22"]}}</th>
+              <th>{{obj.bal["23"]}}</th>
+              <th>{{obj.bal["0"]}}</th>
+              <th>{{obj.bal["1"]}}</th>
+              <th>{{obj.bal["2"]}}</th>
+              <th>{{obj.bal["3"]}}</th>
+              <th>{{obj.bal["4"]}}</th>
+              <th>{{obj.bal["5"]}}</th>
+              <th>{{obj.bal["6"]}}</th>
+              <th>{{obj.bal.ttl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">2Cut Out</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th colspan="2" class="setHeader">ProName</th>
+            <th class="setHeader">Cell NO.</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlCell2CutOutChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of cell2CutOutTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of cell2CutOutTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of cell2CutOutTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of data2CutOut; let i = index">
+            <tr>
+              <th [attr.rowspan]="obj.acts.length + 2" colspan="2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.productspecname}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.model_type}}
+              </th>
+              <th [attr.rowspan]="obj.acts.length + 2" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan["7"]}}</th>
+              <th class="setGreen">{{obj.plan["8"]}}</th>
+              <th class="setGreen">{{obj.plan["9"]}}</th>
+              <th class="setGreen">{{obj.plan["10"]}}</th>
+              <th class="setGreen">{{obj.plan["11"]}}</th>
+              <th class="setGreen">{{obj.plan["12"]}}</th>
+              <th class="setGreen">{{obj.plan["13"]}}</th>
+              <th class="setGreen">{{obj.plan["14"]}}</th>
+              <th class="setGreen">{{obj.plan["15"]}}</th>
+              <th class="setGreen">{{obj.plan["16"]}}</th>
+              <th class="setGreen">{{obj.plan["17"]}}</th>
+              <th class="setGreen">{{obj.plan["18"]}}</th>
+              <th class="setGreen">{{obj.plan["19"]}}</th>
+              <th class="setGreen">{{obj.plan["20"]}}</th>
+              <th class="setGreen">{{obj.plan["21"]}}</th>
+              <th class="setGreen">{{obj.plan["22"]}}</th>
+              <th class="setGreen">{{obj.plan["23"]}}</th>
+              <th class="setGreen">{{obj.plan["0"]}}</th>
+              <th class="setGreen">{{obj.plan["1"]}}</th>
+              <th class="setGreen">{{obj.plan["2"]}}</th>
+              <th class="setGreen">{{obj.plan["3"]}}</th>
+              <th class="setGreen">{{obj.plan["4"]}}</th>
+              <th class="setGreen">{{obj.plan["5"]}}</th>
+              <th class="setGreen">{{obj.plan["6"]}}</th>
+              <th class="setGreen">{{obj.plan.ttl | zeroConvert}}</th>
+              <th [attr.rowspan]="obj.acts.length + 2">{{obj.remark}}</th>
+            </tr>
+            <tr *ngFor="let act of obj.acts">
+              <th class="setYellow">{{act.oper}}</th>
+              <th class="setYellow">{{act["7"]}}</th>
+              <th class="setYellow">{{act["8"]}}</th>
+              <th class="setYellow">{{act["9"]}}</th>
+              <th class="setYellow">{{act["10"]}}</th>
+              <th class="setYellow">{{act["11"]}}</th>
+              <th class="setYellow">{{act["12"]}}</th>
+              <th class="setYellow">{{act["13"]}}</th>
+              <th class="setYellow">{{act["14"]}}</th>
+              <th class="setYellow">{{act["15"]}}</th>
+              <th class="setYellow">{{act["16"]}}</th>
+              <th class="setYellow">{{act["17"]}}</th>
+              <th class="setYellow">{{act["18"]}}</th>
+              <th class="setYellow">{{act["19"]}}</th>
+              <th class="setYellow">{{act["20"]}}</th>
+              <th class="setYellow">{{act["21"]}}</th>
+              <th class="setYellow">{{act["22"]}}</th>
+              <th class="setYellow">{{act["23"]}}</th>
+              <th class="setYellow">{{act["0"]}}</th>
+              <th class="setYellow">{{act["1"]}}</th>
+              <th class="setYellow">{{act["2"]}}</th>
+              <th class="setYellow">{{act["3"]}}</th>
+              <th class="setYellow">{{act["4"]}}</th>
+              <th class="setYellow">{{act["5"]}}</th>
+              <th class="setYellow">{{act["6"]}}</th>
+              <th class="setYellow">{{act.ttl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal["7"]}}</th>
+              <th>{{obj.bal["8"]}}</th>
+              <th>{{obj.bal["9"]}}</th>
+              <th>{{obj.bal["10"]}}</th>
+              <th>{{obj.bal["11"]}}</th>
+              <th>{{obj.bal["12"]}}</th>
+              <th>{{obj.bal["13"]}}</th>
+              <th>{{obj.bal["14"]}}</th>
+              <th>{{obj.bal["15"]}}</th>
+              <th>{{obj.bal["16"]}}</th>
+              <th>{{obj.bal["17"]}}</th>
+              <th>{{obj.bal["18"]}}</th>
+              <th>{{obj.bal["19"]}}</th>
+              <th>{{obj.bal["20"]}}</th>
+              <th>{{obj.bal["21"]}}</th>
+              <th>{{obj.bal["22"]}}</th>
+              <th>{{obj.bal["23"]}}</th>
+              <th>{{obj.bal["0"]}}</th>
+              <th>{{obj.bal["1"]}}</th>
+              <th>{{obj.bal["2"]}}</th>
+              <th>{{obj.bal["3"]}}</th>
+              <th>{{obj.bal["4"]}}</th>
+              <th>{{obj.bal["5"]}}</th>
+              <th>{{obj.bal["6"]}}</th>
+              <th>{{obj.bal.ttl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+
+      <p-table autoLayout="true" *ngIf="showM1M2" id="gsproducttable">
+        <ng-template pTemplate="header">
+          <tr>
+            <th colspan="6" class="setHeader">{{module_factory1}} In</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">Line</th>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">FGCode</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlMdlChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of mdlInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of mdlInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of mdlInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataMdlIn; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.line}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.fgcode}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.model_type}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <tr>
+            <th colspan="6" class="setHeader">{{module_factory2}} In</th>
+            <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+          </tr>
+          <tr>
+            <th class="setHeader">Line</th>
+            <th class="setHeader">ProName</th>
+            <th class="setHeader">FGCode</th>
+            <th class="setHeader">Cell</th>
+            <th class="setHeader">线体产能</th>
+            <th class="setHeader">Oper</th>
+            <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+          </tr>
+          <tr>
+            <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+            <th rowspan="3" class="setGreen">{{ttlAssyChanNeng}}</th>
+            <th class="setGreen">Plan</th>
+            <th *ngFor="let qty of assyInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+            <th rowspan="3"></th>
+          </tr>
+          <tr>
+            <th class="setYellow">Act</th>
+            <th *ngFor="let qty of assyInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+          </tr>
+          <tr>
+            <th>Bal</th>
+            <th *ngFor="let qty of assyInTtlBal">{{qty | zeroConvert}}</th>
+          </tr>
+          <ng-container *ngFor="let obj of dataAssyIn; let i = index">
+            <tr>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.line}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.productname}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">{{obj.fgcode}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.model_type}}
+              </th>
+              <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                {{obj.channeng}}
+              </th>
+              <th class="setGreen">Plan</th>
+              <th class="setGreen">{{obj.plan7}}</th>
+              <th class="setGreen">{{obj.plan8}}</th>
+              <th class="setGreen">{{obj.plan9}}</th>
+              <th class="setGreen">{{obj.plan10}}</th>
+              <th class="setGreen">{{obj.plan11}}</th>
+              <th class="setGreen">{{obj.plan12}}</th>
+              <th class="setGreen">{{obj.plan13}}</th>
+              <th class="setGreen">{{obj.plan14}}</th>
+              <th class="setGreen">{{obj.plan15}}</th>
+              <th class="setGreen">{{obj.plan16}}</th>
+              <th class="setGreen">{{obj.plan17}}</th>
+              <th class="setGreen">{{obj.plan18}}</th>
+              <th class="setGreen">{{obj.plan19}}</th>
+              <th class="setGreen">{{obj.plan20}}</th>
+              <th class="setGreen">{{obj.plan21}}</th>
+              <th class="setGreen">{{obj.plan22}}</th>
+              <th class="setGreen">{{obj.plan23}}</th>
+              <th class="setGreen">{{obj.plan0}}</th>
+              <th class="setGreen">{{obj.plan1}}</th>
+              <th class="setGreen">{{obj.plan2}}</th>
+              <th class="setGreen">{{obj.plan3}}</th>
+              <th class="setGreen">{{obj.plan4}}</th>
+              <th class="setGreen">{{obj.plan5}}</th>
+              <th class="setGreen">{{obj.plan6}}</th>
+              <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+              <th rowspan="3">{{obj.remark}}</th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th class="setYellow">{{obj.act7}}</th>
+              <th class="setYellow">{{obj.act8}}</th>
+              <th class="setYellow">{{obj.act9}}</th>
+              <th class="setYellow">{{obj.act10}}</th>
+              <th class="setYellow">{{obj.act11}}</th>
+              <th class="setYellow">{{obj.act12}}</th>
+              <th class="setYellow">{{obj.act13}}</th>
+              <th class="setYellow">{{obj.act14}}</th>
+              <th class="setYellow">{{obj.act15}}</th>
+              <th class="setYellow">{{obj.act16}}</th>
+              <th class="setYellow">{{obj.act17}}</th>
+              <th class="setYellow">{{obj.act18}}</th>
+              <th class="setYellow">{{obj.act19}}</th>
+              <th class="setYellow">{{obj.act20}}</th>
+              <th class="setYellow">{{obj.act21}}</th>
+              <th class="setYellow">{{obj.act22}}</th>
+              <th class="setYellow">{{obj.act23}}</th>
+              <th class="setYellow">{{obj.act0}}</th>
+              <th class="setYellow">{{obj.act1}}</th>
+              <th class="setYellow">{{obj.act2}}</th>
+              <th class="setYellow">{{obj.act3}}</th>
+              <th class="setYellow">{{obj.act4}}</th>
+              <th class="setYellow">{{obj.act5}}</th>
+              <th class="setYellow">{{obj.act6}}</th>
+              <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th>{{obj.bal7}}</th>
+              <th>{{obj.bal8}}</th>
+              <th>{{obj.bal9}}</th>
+              <th>{{obj.bal10}}</th>
+              <th>{{obj.bal11}}</th>
+              <th>{{obj.bal12}}</th>
+              <th>{{obj.bal13}}</th>
+              <th>{{obj.bal14}}</th>
+              <th>{{obj.bal15}}</th>
+              <th>{{obj.bal16}}</th>
+              <th>{{obj.bal17}}</th>
+              <th>{{obj.bal18}}</th>
+              <th>{{obj.bal19}}</th>
+              <th>{{obj.bal20}}</th>
+              <th>{{obj.bal21}}</th>
+              <th>{{obj.bal22}}</th>
+              <th>{{obj.bal23}}</th>
+              <th>{{obj.bal0}}</th>
+              <th>{{obj.bal1}}</th>
+              <th>{{obj.bal2}}</th>
+              <th>{{obj.bal3}}</th>
+              <th>{{obj.bal4}}</th>
+              <th>{{obj.bal5}}</th>
+              <th>{{obj.bal6}}</th>
+              <th>{{obj.balTtl | zeroConvert}}</th>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="showPacking">
+            <tr>
+              <th colspan="6" class="setHeader">Packing</th>
+              <th colspan="26" class="setHeader">Monitor By Hour-{{nowDay}}</th>
+            </tr>
+            <tr>
+              <th class="setHeader">Line</th>
+              <th class="setHeader">ProName</th>
+              <th class="setHeader">FGCode</th>
+              <th class="setHeader">Cell</th>
+              <th class="setHeader">线体产能</th>
+              <th class="setHeader">Oper</th>
+              <th *ngFor="let hour of timeArray" class="setHeader">{{hour}}</th>
+            </tr>
+            <tr>
+              <th colspan="4" rowspan="3" class="setGreen">TTL</th>
+              <th rowspan="3" class="setGreen">{{ttlPackingChanNeng}}</th>
+              <th class="setGreen">Plan</th>
+              <th *ngFor="let qty of PackingInTtlPlan" class="setGreen">{{qty | zeroConvert}}</th>
+              <th rowspan="3"></th>
+            </tr>
+            <tr>
+              <th class="setYellow">Act</th>
+              <th *ngFor="let qty of PackingInTtlAct" class="setYellow">{{qty | zeroConvert}}</th>
+            </tr>
+            <tr>
+              <th>Bal</th>
+              <th *ngFor="let qty of PackingInTtlBal">{{qty | zeroConvert}}</th>
+            </tr>
+            <ng-container *ngFor="let obj of dataPacking; let i = index">
+              <tr>
+                <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                  {{obj.line}}
+                </th>
+                <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                  {{obj.productname}}
+                </th>
+                <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                  {{obj.fgcode}}
+                </th>
+                <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                  {{obj.model_type}}
+                </th>
+                <th rowspan="3" [ngClass]="{setGreen: (i % 2) == 1,setYellow:(i % 2) == 0}">
+                  {{obj.channeng}}
+                </th>
+                <th class="setGreen">Plan</th>
+                <th class="setGreen">{{obj.plan7}}</th>
+                <th class="setGreen">{{obj.plan8}}</th>
+                <th class="setGreen">{{obj.plan9}}</th>
+                <th class="setGreen">{{obj.plan10}}</th>
+                <th class="setGreen">{{obj.plan11}}</th>
+                <th class="setGreen">{{obj.plan12}}</th>
+                <th class="setGreen">{{obj.plan13}}</th>
+                <th class="setGreen">{{obj.plan14}}</th>
+                <th class="setGreen">{{obj.plan15}}</th>
+                <th class="setGreen">{{obj.plan16}}</th>
+                <th class="setGreen">{{obj.plan17}}</th>
+                <th class="setGreen">{{obj.plan18}}</th>
+                <th class="setGreen">{{obj.plan19}}</th>
+                <th class="setGreen">{{obj.plan20}}</th>
+                <th class="setGreen">{{obj.plan21}}</th>
+                <th class="setGreen">{{obj.plan22}}</th>
+                <th class="setGreen">{{obj.plan23}}</th>
+                <th class="setGreen">{{obj.plan0}}</th>
+                <th class="setGreen">{{obj.plan1}}</th>
+                <th class="setGreen">{{obj.plan2}}</th>
+                <th class="setGreen">{{obj.plan3}}</th>
+                <th class="setGreen">{{obj.plan4}}</th>
+                <th class="setGreen">{{obj.plan5}}</th>
+                <th class="setGreen">{{obj.plan6}}</th>
+                <th class="setGreen">{{obj.planTtl | zeroConvert}}</th>
+                <th rowspan="3">{{obj.remark}}</th>
+              </tr>
+              <tr>
+                <th class="setYellow">Act</th>
+                <th class="setYellow">{{obj.act7}}</th>
+                <th class="setYellow">{{obj.act8}}</th>
+                <th class="setYellow">{{obj.act9}}</th>
+                <th class="setYellow">{{obj.act10}}</th>
+                <th class="setYellow">{{obj.act11}}</th>
+                <th class="setYellow">{{obj.act12}}</th>
+                <th class="setYellow">{{obj.act13}}</th>
+                <th class="setYellow">{{obj.act14}}</th>
+                <th class="setYellow">{{obj.act15}}</th>
+                <th class="setYellow">{{obj.act16}}</th>
+                <th class="setYellow">{{obj.act17}}</th>
+                <th class="setYellow">{{obj.act18}}</th>
+                <th class="setYellow">{{obj.act19}}</th>
+                <th class="setYellow">{{obj.act20}}</th>
+                <th class="setYellow">{{obj.act21}}</th>
+                <th class="setYellow">{{obj.act22}}</th>
+                <th class="setYellow">{{obj.act23}}</th>
+                <th class="setYellow">{{obj.act0}}</th>
+                <th class="setYellow">{{obj.act1}}</th>
+                <th class="setYellow">{{obj.act2}}</th>
+                <th class="setYellow">{{obj.act3}}</th>
+                <th class="setYellow">{{obj.act4}}</th>
+                <th class="setYellow">{{obj.act5}}</th>
+                <th class="setYellow">{{obj.act6}}</th>
+                <th class="setYellow">{{obj.actTtl | zeroConvert}}</th>
+              </tr>
+              <tr>
+                <th>Bal</th>
+                <th>{{obj.bal7}}</th>
+                <th>{{obj.bal8}}</th>
+                <th>{{obj.bal9}}</th>
+                <th>{{obj.bal10}}</th>
+                <th>{{obj.bal11}}</th>
+                <th>{{obj.bal12}}</th>
+                <th>{{obj.bal13}}</th>
+                <th>{{obj.bal14}}</th>
+                <th>{{obj.bal15}}</th>
+                <th>{{obj.bal16}}</th>
+                <th>{{obj.bal17}}</th>
+                <th>{{obj.bal18}}</th>
+                <th>{{obj.bal19}}</th>
+                <th>{{obj.bal20}}</th>
+                <th>{{obj.bal21}}</th>
+                <th>{{obj.bal22}}</th>
+                <th>{{obj.bal23}}</th>
+                <th>{{obj.bal0}}</th>
+                <th>{{obj.bal1}}</th>
+                <th>{{obj.bal2}}</th>
+                <th>{{obj.bal3}}</th>
+                <th>{{obj.bal4}}</th>
+                <th>{{obj.bal5}}</th>
+                <th>{{obj.bal6}}</th>
+                <th>{{obj.balTtl | zeroConvert}}</th>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-panel>
+</div>

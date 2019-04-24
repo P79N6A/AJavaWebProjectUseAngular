@@ -1,0 +1,14 @@
+<div class="ui-g-12">
+  <button (click) = "test()">
+    클릭
+  </button>
+  <p-dialog header="Godfather I" [(visible)]="visible" [modal]="true" [responsive]="true">
+    
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="closeModal()" label="Yes"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="visible=false" label="No" class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+
+
+</div>

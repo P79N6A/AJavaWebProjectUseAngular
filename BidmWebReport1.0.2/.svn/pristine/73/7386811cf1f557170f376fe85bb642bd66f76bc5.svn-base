@@ -1,0 +1,113 @@
+.setTableHeader{
+    width: 60px !important;
+    height: 100px !important;
+    padding-left: 0% !important;
+    text-align: center !important;
+    font-size: 12px !important;
+   
+}
+.setTableCell{
+    margin-top: -10px !important;
+    padding-left: 30px !important;
+}
+.setTableCellBoth{
+    margin-top: -10px !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+.setTableHeaderCell{
+    width: 35px !important;
+    height: 50px !important;
+    padding-left: 0% !important;
+    text-align: center !important;
+    font-size: 12px !important;
+   
+}
+.setTableHeaderCellBoth{
+    width: 55px !important;
+    height: 50px !important;
+    padding-left: 0% !important;
+    text-align: center !important;
+    font-size: 12px !important;
+   
+}
+.touming {
+    background-color:rgba(0,0,0,0.1)!important;
+    color: #F2F6FA!important;
+}
+
+.touming1 {
+    background-color:#121e38!important;
+    color: rgb(204, 213, 221) !important;
+}
+
+th {
+    font-size: 12px !important;
+    border: 1px solid #455e9c !important;
+    font-weight: initial !important;
+    padding: .625em .175em !important;
+}
+#operation:hover {
+    background-color: #314879 !important; 
+    cursor: pointer;
+}
+.font {
+    font-weight: bold!important;
+    color: rgb(182, 182, 252)!important;
+}
+.title {
+    font-size:16px!important;
+    font-weight: bold!important;
+    color: rgb(182, 182, 252)!important;
+}
+.font2 {
+    color: rgb(182, 182, 252)!important;
+}
+
+td {
+    font-size: 12px !important;
+    border: 1px solid #455e9c !important;
+    font-weight: initial !important;
+    padding: .625em .175em !important;
+    width:2.75%!important;
+    text-align:center!important;
+}
+.noborder {
+    border: 0px !important;
+}
+
+.setCFOption{
+    height: 600px !important;
+    padding-left: 2% !important;
+   
+}
+.setCFPH1Option{
+    margin-top: -10% !important;
+}
+.setCFPH2Option{
+color: white;
+}
+
+.setCellOption{
+    width: 45% !important;
+    height: 540px !important;
+    padding-left: 3% !important;
+}
+.setCellBothOption{
+    height: 540px !important;
+    margin-top: -1% !important;
+}
+.setClSearch{
+    position: absolute !important;
+    padding-left: 60% !important;
+   margin-top: -1% !important;
+    color: white !important;
+}
+
+#cellwipSearchB{
+   margin-left: 95% !important;
+   margin-top: -15% !important;
+}
+#cellwipSearchBtn{
+    background-color: rgba(228, 230, 236, 0) !important;
+}

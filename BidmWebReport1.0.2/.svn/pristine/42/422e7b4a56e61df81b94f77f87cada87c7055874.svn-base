@@ -1,0 +1,34 @@
+<div class="ui-g">
+  <h3>生管日报</h3>
+  <div class="ui-g-12">
+      <div class="ui-helper-clearfix">
+          <div class="ui-g-12 ui-lg-12 layui-container" style="border:1px solid lightgray; background-color:mintcream;height:41%;width:100%">
+              <div class="ui-g-12 ui-md-4 ui-lg-2 ui-g-nopad">
+                  <label>Date :</label>
+                  <p-calendar [(ngModel)]="date" [style]="{'width':'95%'}" [inputStyle]="{'width':'100%'}" [showIcon]="true" showButtonBar="true"
+                      dateFormat="yy-mm-dd" dataType="string"> </p-calendar>
+              </div>
+              <div class="ui-g-12 ui-md-4 ui-lg-2 ui-g-nopad">
+                  <label>Factory :</label>
+                  <p-multiSelect defaultLabel="AR01" [style]="{'width':'95%'}" [options]="Fabs" [(ngModel)]="selectedFabs" id="pmfactory">
+                  </p-multiSelect>
+              </div>
+              <div class="ui-g-12 ui-md-4 ui-lg-8 ui-g-nopad" style="text-align:right;position: relative; min-height: 40px;">
+                  <div style="position:absolute;bottom: -2px;right: 14px;">
+                          <button type="button" pButton label="Query" (click)="dataQuery()" (onClick)="showDialog()"></button>
+                          <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="ExcelDown" (click)="exportTable()"></button>
+                  </div>
+              </div>
+          </div>
+          <!-- <div class="ui-g-12 ui-g-nopad" style="text-align: right;margin-bottom: 10px;">
+          <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="ExcelDown" (click)="exportTable()"></button>
+      </div> -->
+          <p-dialog [(visible)]="modalVisible" [modal]="true" [responsive]="true" [width]="460">
+              <label>请选择要查询的日期与工厂！</label>
+          </p-dialog>
+          <div class="ui-g-12 ui-g-nopad" id="exportableTable">
+                <app-boe-multigrid [values]="gridValues"></app-boe-multigrid>  
+          </div>
+      </div>
+  </div>
+</div>

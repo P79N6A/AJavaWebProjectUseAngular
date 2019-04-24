@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellDailyReportMapper">
+
+	<!-- 1.根据日期查询所有的 当天数据 -->
+	<select id="queryObjects" resultType="com.boe.idm.project.model.mybatis.CellDailyReportVO">
+		select productname productsize,
+				inplan,inact,inbal,
+			   cutpcsplan,cutplan,
+			   cutpcsact,cutact,
+			   cutpcsbal,cutbal,
+			   outpcsplan,outplan,
+			   outpcsact,outact,
+			   outpcsbal,outbal
+		from SC_CELL_DAILY_REPORT_VW
+		where datename = #{datename}
+	</select>
+</mapper>

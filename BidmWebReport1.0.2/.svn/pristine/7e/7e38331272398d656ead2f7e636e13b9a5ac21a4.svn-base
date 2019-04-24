@@ -1,0 +1,51 @@
+<div class="ui-g" style="background-color: RGB(1,41,77)">
+  <h2 style="text-align: center;height: 45px;background-image: url('assets/picture/title.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">企业数据平台</h2>
+<div class="ui-g-12" >
+  <div class="ui-g-12 ui-lg-4" style="float: left;padding:0;height: 350px;background-image: url('assets/picture/2.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">
+      <h4 style="text-align: center">稼动汇总</h4>
+    <div class="ui-g-12" >
+      <div class="ui-g-12" style="margin: 0px;padding: 0px;"> 
+        <div class="ui-g-12 ui-lg-6 " style="margin: 0px;padding: 0px;">
+          <div style="height: 140px;" echarts [options]="chartOption" class="demo-chart" ></div>
+        </div>
+        <div class="ui-g-12 ui-lg-6 " style="margin: 0px;padding: 0px;">
+          <div style="height: 140px;" echarts [options]="chartOption" class="demo-chart"></div>
+        </div>
+      </div>
+      <div class="ui-g-12" style="margin: 0px;padding: 0px;">
+        <div class="ui-g-12 ui-lg-6" style="margin: 0px;padding: 0px;">
+          <div style="height: 140px;" echarts [options]="chartOption" class="demo-chart" ></div>
+        </div>
+        <div class="ui-g-12 ui-lg-6 " style="margin: 0px;padding: 0px;">
+          <div style="height: 140px;" echarts [options]="chartOption" class="demo-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-lg-4" style="position: relative;float: left;">
+    <div style="text-align: center;height: 100px;line-height: 20px;width: 200px;background-image: url('assets/picture/3.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:80% 80%;color: aliceblue;position: relative;left: 23%;">
+      <b><p style="position: absolute;top: 10%;left: 20%;">总投入：109.2k<br/>总产出：104.2k<br/>综合良率：97.0%</p></b>
+    </div>
+    <div  style="height: 200px;position: relative;top:30px;left: 10%" echarts [options]="chartOption" class="demo-chart"></div>
+  </div>
+  <div class="ui-g-12 ui-lg-4" style="float: left;padding:0;height: 350px;background-image: url('assets/picture/4.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">
+      <h4 style="text-align: center">良率汇总</h4>
+    <div style="height: 300px;position: relative;left: 10%;top: 15px" echarts [options]="chartOption" class="demo-chart"></div>
+  </div>
+</div>
+<div class="ui-g-12" style="float: left;padding:0;height: 280px;background-image: url('assets/picture/5.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">
+  <h4 style="text-align: center">WIP&Bank</h4>
+  <div class="ui-g-12 ui-lg-3" style="float: left;padding:0;margin-left: 0px;margin-right: 0px;">
+    <div  style="height: 210px;position: relative;left: 70px;top: -8px;margin-left: 0px;margin-right: 0px;" echarts [options]="chartOption1" class="demo-chart"></div>
+  </div>
+  <div class="ui-g-12 ui-lg-4" style="float: left;padding:0;margin-left: 0px;margin-right: 0px;">
+      <div  style="height: 210px;position: relative;left: 9px;top: -9px;margin-left: 0px;margin-right: 0px;" echarts [options]="chartOption2" class="demo-chart"></div>
+  </div>
+  <div class="ui-g-12 ui-lg-3" style="float: left;padding:0;margin-left: 0px;margin-right: 0px;">
+    <div  style="height: 210px;position: relative;left: -52px;top: -14px;margin-left: 0px;margin-right: 0px;" echarts [options]="chartOption3" class="demo-chart"></div>
+  </div>
+  <div class="ui-g-12 ui-lg-2" style="float: left;padding:0;margin-left: 0px;margin-right: 0px;">
+      <div  style="height: 210px;position: relative;left: -106px;top: -15px;margin-left: 0px;margin-right: 0px;" echarts [options]="chartOption4" class="demo-chart"></div>
+    </div>
+</div>
+</div>

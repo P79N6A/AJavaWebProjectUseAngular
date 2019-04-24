@@ -1,0 +1,45 @@
+<div class="ui-g" class="pageContent">
+    <div id="title">
+        <div class="left"></div>
+        <div class="middle">
+            <p>B3 Array分厂看板</p>
+        </div>
+        <div class="right"></div>
+    </div>
+    <div class="ui-g-12 vertical" id="top">
+        <div class="chartDiv">
+            <div id="input" style="height:50%;width:100%;" echarts theme="edark" [options]="inputOption"></div>
+            <div id="output" style="height:50%;width:100%;" echarts theme="edark" [options]="outputOption"></div>
+        </div>
+    </div>
+    <div class="ui-g-12 vertical" id="middle">
+        <div class="ui-g-4" id="mleft">
+            <div class="chartDiv" id="yield" echarts theme="edark" [options]="yieldOption"></div>
+        </div>
+        <div class="ui-g-4" id="mcenter">
+            <div class="chartDiv">
+                <!-- <div class="ui-g-12" style="height:10%;">
+                    <p-dropdown [options]="taktEqpGroups" [(ngModel)]="taktEqpGroup" (onChange)="refreshTaktEqpName()"></p-dropdown>
+                    <p-dropdown [options]="taktEqpNames" [(ngModel)]="taktEqpName" (onChange)="refreshTaktUnit()"></p-dropdown>
+                    <p-dropdown [options]="taktUnits" [(ngModel)]="taktUnit" (onChange)="refreshTaktData()"></p-dropdown>
+                </div> -->
+                <div class="ui-g-12" style="height:100%;">
+                    <div id="takt" echarts theme="edark" [options]="taktOption" [merge]="updateTaktOption"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g-4" id="mright">
+            <div class="chartDiv">
+                <!-- <div class="ui-g-12" style="height:10%;text-align:center;">
+                    <p-dropdown [options]="machineGroups" [(ngModel)]="machineGroup" (onChange)="setMachineOptions()"></p-dropdown>
+                </div> -->
+                <div class="ui-g-12" style="height:100%;">
+                    <div id="machine" echarts theme="edark" [options]="machineOption"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui-g-12 vertical" id="bottom">
+        <div class="chartDiv" id="wip-move" echarts theme="edark" [options]="wipMoveOption"></div>
+    </div>
+  </div>

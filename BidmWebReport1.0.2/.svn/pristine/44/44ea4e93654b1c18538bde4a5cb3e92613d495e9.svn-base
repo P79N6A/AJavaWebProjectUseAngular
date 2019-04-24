@@ -1,0 +1,17 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ProductionkanbanRoutingModule } from './productionkanban-routing.module';
+import { ApiService } from '../common/service/api/api.service';
+import { ReportUiCommonService } from '../report-ui/service/report-ui-common.service';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    ProductionkanbanRoutingModule
+
+  ],
+  declarations: [],
+  providers: [ApiService, ReportUiCommonService]
+})
+export class ProductionkanbanModule { }

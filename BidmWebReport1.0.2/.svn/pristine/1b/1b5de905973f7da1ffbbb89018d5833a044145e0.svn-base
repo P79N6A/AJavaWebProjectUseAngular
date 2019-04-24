@@ -1,0 +1,35 @@
+package com.boe.idm.project.mapper.primaryOracle.dev;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.boe.idm.project.model.mybatis.PanelBankVO;
+import com.boe.idm.project.model.mybatis.PanelBankkfVO;
+
+@Mapper
+public interface PanelBankMapper {
+	
+	//1.查询 1条  表格数据的上面的   total 的数据
+	public List<PanelBankVO> queryObjects1(String hourtime);
+	
+	//2.查询 4条  表格数据的上面的 
+	public List<PanelBankVO> queryObjects2(String hourtime);
+	
+	//3.按照时间来进行查询 ：第一个页面的数据 :数据主体部分
+	public List<PanelBankVO> queryObjects3(String hourtime);
+	
+	//4.查询 上面的两个数据
+	public List<PanelBankVO> queryObjects4(String hourtime);
+/******************************************************************/	
+	
+	//5.查询 二级界面 库房中的 total 数据
+	public List<PanelBankkfVO> queryOjbects5(String hourtime);
+	
+	//6.查询4条
+	public List<PanelBankkfVO> queryOjbects6(String hourtime);
+	
+	//7.查询二级界面的数据主体部分
+	public List<PanelBankkfVO> queryOjbects7(String hourtime);
+
+}

@@ -1,0 +1,80 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      Array生产数据
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-5" style="padding: 0px">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr height="31px" style="border-top:1px solid #2c5ea8;border-bottom: 1px solid #2c5ea8">
+            <th style="font-size: 13px !important;font-weight:bold !important">Array投入产出</th>
+          </tr>
+          <tr style="border-bottom: 1px solid #2c5ea8;background-color: #113354">
+            <th style="height: 140px;"><div echarts [options]="touruCcOption" style="height: 100%"></div></th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-7" style="padding: 0px">
+      <div style="height: 172px" echarts [options]="stkMonitorOption"></div>
+    </div>
+    <div class="ui-g-5" style="padding: 20px 0 0 0">
+      <h4 style="text-align: center;color: #F2FAF6;margin-bottom: 5px;margin-top: 5px">Main EQP State Board</h4>
+      <p-table [value]="tableData" [scrollable]="true" scrollHeight="100px" id="arProDataSs">
+        <ng-template pTemplate="header">
+          <tr height="25px">
+            <th colspan="3" style="color: red !important; font-weight: bold !important;">DOWN</th>
+            <th colspan="3" style="color: rgb(173, 3, 173) !important;  font-weight: bold !important">PM</th>
+          </tr>
+          <tr height="25px" style="background-color: #153e66;">
+            <th>EQP ID</th>
+            <th>Start Time</th>
+            <th>Dur.</th>
+            <th>EQP ID</th>
+            <th>Start Time</th>
+            <th>Dur.</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+          <tr height="25px">
+            <td [ngClass]="{setTdStyle1: (rowIndex % 2 == 0), setTdStyle2: (rowIndex % 2 == 1)}">{{rowData.eqp_id}}</td>
+            <td [ngClass]="{setTdStyle1: (rowIndex % 2 == 0), setTdStyle2: (rowIndex % 2 == 1)}">{{rowData.start_time}}</td>
+            <td [ngClass]="{setTdStyle1: (rowIndex % 2 == 0), setTdStyle2: (rowIndex % 2 == 1)}">{{rowData.dur}}</td>
+            <td [ngClass]="{setTdStyle1: (rowIndex % 2 == 0), setTdStyle2: (rowIndex % 2 == 1)}">{{rowData.eqp_id1}}</td>
+            <td [ngClass]="{setTdStyle1: (rowIndex % 2 == 0), setTdStyle2: (rowIndex % 2 == 1)}">{{rowData.start_time1}}</td>
+            <td [ngClass]="{setTdStyle1: (rowIndex % 2 == 0), setTdStyle2: (rowIndex % 2 == 1)}">{{rowData.dur1}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-7" style="padding: 20px 0 0 0">
+      <div echarts style="height: 185px" [options]="photoIdleOption"></div>
+    </div>
+    <div class="ui-g-12" style="padding: 0px; margin-top: 15px">
+      <div class="ui-g">
+        <div class="ui-g-7" style="font-weight: bold;color: #F2F6FA;text-align: end; padding-right: 3%">Array WIP by
+          Oper</div>
+        <div class="ui-g-2" style="text-align:end;margin-top: 10px">
+          <label for="arrayProDataZ" style="color: #F2F6FA">产品类型:</label>
+          <p-dropdown [options]="department" id="arrayProDataZ" [(ngModel)]="productiontype" (onChange)="select($event.value, 1)"></p-dropdown>
+        </div>
+        <div class="ui-g-2" style="text-align:end;margin-top: 10px">
+          <label for="arrayProDataZ1" style="color: #F2F6FA">型号:</label>
+          <p-dropdown [options]="departmentXinghao" id="arrayProDataZ1" [(ngModel)]="product" (onChange)="select($event.value, 2)"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;" [options]="realTimeOption"></div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

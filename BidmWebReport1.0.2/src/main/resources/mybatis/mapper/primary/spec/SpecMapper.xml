@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.boe.idm.project.mapper.primary.spec.SpecMapper"> 
+	<select id="specList" parameterType="hashmap" resultType="SpecVO">
+		select * from specTable		
+	</select>
+	
+	<update id="specUpdate" parameterType="SpecVO" >
+		UPDATE specTable
+		SET (productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2,freshtime) = (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2},#{freshtime})
+		WHERE productid = #{productid}
+		and stepid = #{stepid}
+		and defectname = #{defectname}
+	</update>
+		
+	<delete id="specDelete" parameterType="SpecVO">
+	    Delete  FROM specTable 
+		WHERE productid = #{productid}
+		and stepid = #{stepid}
+		and defectname = #{defectname}
+		
+	</delete>
+	<insert id="specInsert" parameterType="SpecVO">
+	    INSERT INTO specTable(productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2,freshtime) 
+	    VALUES  (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2},#{freshtime})
+	
+	</insert>
+	
+		<select id="specAlarm" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	   select caculatetime as CACULATETIME,actvalue as ACTVALUE,specvalue1 as SPECVALUE1,specvalue2 as SPECVALUE2
+		from alarm_info_list A 
+		where A.productspecname=#{productid}
+		AND A.processoperationname=#{stepid}
+		AND A.defectname=#{defectname}
+	</select>
+		
+		<select id="specFreshAlarm" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	   select A.caculatetime as CACULATETIME,A.actvalue as ACTVALUE,B.specvalue1 as SPECVALUE1,B.specvalue2 as SPECVALUE2
+		from productdefectvaluetrend A ,alarm_info_list B
+		where A.productspecname=#{productid}
+		AND A.processoperationname=#{stepid}
+		AND A.defectname=#{defectname}
+		AND  B.productspecname=A.productspecname
+		AND B.processoperationname= A.processoperationname
+		AND B.defectname=A.defectname
+		limit 1
+	</select>
+	<insert id="saveOrUpdate" parameterType="SpecVO">
+		<selectKey keyProperty="count" resultType="int"
+			order="BEFORE">
+			select count(*) as count from specTable where productid = #{productid} and stepid = #{stepid} and defectname = #{defectname}
+		</selectKey>
+		<if test="count > 0">
+			UPDATE specTable
+			SET (productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2,freshtime) = (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2},#{freshtime})
+			WHERE productid = #{productid}
+			and stepid = #{stepid}
+			and defectname = #{defectname}
+		</if>
+		<if test="count==0">
+			INSERT INTO specTable(productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2,freshtime) 
+	    VALUES  (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2},#{freshtime})
+		</if>
+	</insert>
+</mapper>

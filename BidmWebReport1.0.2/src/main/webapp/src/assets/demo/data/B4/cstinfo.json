@@ -1,0 +1,112 @@
+[
+    {
+        "cst_spec": "ACN",
+        "factory": "Array",
+        "type": "TFT",
+        "full_ratio": "99.7%",
+        "pro": 955.0,
+        "eng": 0.0,
+        "dev": 42.0,
+        "dum": 48.0
+    },
+    {
+        "cst_spec": "ACN",
+        "factory": "Cell",
+        "type": "TFT",
+        "full_ratio": "%",
+        "pro": 0.0,
+        "eng": 0.0,
+        "dev": 0.0,
+        "dum": 3.0
+    },
+    {
+        "cst_spec": "ACN",
+        "factory": "Sort",
+        "type": "TFT",
+        "full_ratio": "89.9%",
+        "pro": 45.0,
+        "eng": 0.0,
+        "dev": 11.0,
+        "dum": 0.0
+    },
+    {
+        "cst_spec": "CCN",
+        "factory": "Other",
+        "type": "-",
+        "full_ratio": "98.9%",
+        "pro": 296.0,
+        "eng": 0.0,
+        "dev": 0.0,
+        "dum": 44.0
+    },
+    {
+        "cst_spec": "CCN",
+        "factory": "PI/RW",
+        "type": "-",
+        "full_ratio": "%",
+        "pro": 0.0,
+        "eng": 0.0,
+        "dev": 0.0,
+        "dum": 7.0
+    },
+    {
+        "cst_spec": "FCW",
+        "factory": "CF",
+        "type": "CF",
+        "full_ratio": "93.3%",
+        "pro": 422.0,
+        "eng": 0.0,
+        "dev": 24.0,
+        "dum": 14.0
+    },
+    {
+        "cst_spec": "FCW",
+        "factory": "Cell",
+        "type": "CF",
+        "full_ratio": "48.8%",
+        "pro": 17.0,
+        "eng": 0.0,
+        "dev": 0.0,
+        "dum": 20.0
+    },
+    {
+        "cst_spec": "FCW",
+        "factory": "Cell",
+        "type": "TFT",
+        "full_ratio": "56.8%",
+        "pro": 27.0,
+        "eng": 0.0,
+        "dev": 0.0,
+        "dum": 0.0
+    },
+    {
+        "cst_spec": "FCW",
+        "factory": "Sort",
+        "type": "CF",
+        "full_ratio": "80.5%",
+        "pro": 90.0,
+        "eng": 0.0,
+        "dev": 14.0,
+        "dum": 0.0
+    },
+    {
+        "cst_spec": "FCW",
+        "factory": "Sort",
+        "type": "TFT",
+        "full_ratio": "88.7%",
+        "pro": 191.0,
+        "eng": 0.0,
+        "dev": 6.0,
+        "dum": 0.0
+    },
+    {
+        "cst_spec": "MCW",
+        "factory": "Cell",
+        "type": "-",
+        "full_ratio": "-",
+        "pro": 120.0,
+        "eng": 0.0,
+        "dev": 12.0,
+        "dum": 0.0
+    }
+]

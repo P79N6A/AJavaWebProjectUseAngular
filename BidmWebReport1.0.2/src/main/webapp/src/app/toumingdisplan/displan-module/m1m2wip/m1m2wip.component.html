@@ -1,0 +1,371 @@
+<!-- 查询 时候的 提示 信息 -->
+<p-growl [(value)]="msgs" life="10000"></p-growl>
+
+<div class="ui-g">
+    <!-- 1. 标题部分-->
+    <div class="ui-g-12" style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+        <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+        <div class="ui-g-2" style="margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: 0px;color: #F2F6FA">
+            {{factoryNameFirst}} WIP
+        </div>
+        <!-- 一级界面控制按钮 -->
+        <div *ngIf="isFirst" class="ui-g">
+             <!-- 2.2.0 当前月份的名字-->
+          <div class="ui-g-2" style="margin-top:3%;margin-left:0%;font-size: 16px;color: #F2F6FA;padding-top: 1%;padding-left: 2%"><strong>{{currentMonthNameFirst}}</strong></div>
+            <div class="ui-g-7"></div>
+          <!-- 2.1.1下面是右上角的切换的按钮 -->
+          <div class="ui-g-3" style="margin-top:3%;margin-left:0%;color: #F2F6FA;padding-top: 0%">
+            <button pButton label='Module' (click)="changeToModuleFirst()"></button>
+            <button pButton label='S2' (click)="changeToS2First()"></button>
+            <button pButton label='当前' (click)="changePage(2)"></button>
+          </div>
+        </div>
+         <!-- 二级界面控制按钮 -->
+        <div *ngIf="isSecond" class="ui-g">
+            <div class="ui-g-8"></div>
+              <!-- 2.2.1下面是右上角的切换的按钮 -->
+              <div class="ui-g-4" style="margin-top:3%;margin-left:0%;color: #F2F6FA;padding-top: 0%">
+                <button pButton label='Module' (click)="changeToModule()"></button>
+                <button pButton label='S2' (click)="changeToS2()"></button>
+                <button pButton label='返回' (click)="changePage(1)"></button>
+                <button pButton label='计划' (click)="changePageFrom2to3()"></button>
+            </div>
+        </div>
+
+         <!-- 三级界面控制按钮  ： 添加了返回到 二级界面的按钮-->
+         <div *ngIf="isUpload" class="ui-g">
+            <div class="ui-g-10"></div>
+              <!-- 2.2.1下面是右上角的切换的按钮 -->
+              <div class="ui-g-2" style="margin-top:3%;margin-left:0%;color: #F2F6FA;padding-top: 0%">
+                <button pButton label='返回' icon="fa fa-home" iconPos="left" (click)="changePageFrom3to2()"></button>
+            </div>
+        </div>
+    </div>
+    <!-- 2. 中间主体部分-->
+    <div class="ui-g-12" style="height:100%;background-image: url('assets/bg3_02.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+        <!--2.1 一级界面 isFirst-->
+        <div *ngIf="isFirst" class="ui-g-12">
+         
+          <!-- 2.1.2下面是两个柱状图-->
+           <!-- 第一个柱状图 -->
+         <div class="ui-g-12" [ngClass]="{setEchartFirst:true}">
+            <!-- 筛选条-->
+            <div class="ui-g-12" [ngClass]="{setSearchToolFirst1:true}" style="margin-top:-3%;">
+                <div class="ui-g-2" ><strong>ProductSize : &nbsp;&nbsp;</strong></div>
+                <div class="ui-g-2" style="margin-left:-7%"><p-multiSelect [options]='productSizeFirst1' [(ngModel)]='selectedSizesFirst1' [panelStyle]="{minWidth:'12em'}"  scrollHeight='300px'></p-multiSelect></div>
+                <div class="ui-g-2" style="margin-left:-3%"><strong>CheckIncode : &nbsp;&nbsp;</strong></div>
+                <div class="ui-g-2" style="margin-left:-7%"><p-multiSelect [options]='checkInCodeFirst1' [(ngModel)]='selectedCodeFirst1' [panelStyle]="{minWidth:'12em'}"  scrollHeight='300px'></p-multiSelect></div>
+                <div class="ui-g-2" style="margin-left:-3%"><strong>LOTTYPE : &nbsp;&nbsp;</strong></div>
+                <div class="ui-g-2" style="margin-left:-7%"><p-multiSelect [options]='lottypeFirst1' [(ngModel)]='selectedlottypeFirst1' [panelStyle]="{minWidth:'8em'}"  scrollHeight='300px'></p-multiSelect></div>
+                <div class="ui-g-1" id="aBtnFirst" style="margin-left:-8%;">
+                    <button  class="searchBtnFirst" pButton icon='fa fa-search' iconPos='left' label=' ' (click)='searchDataFirst(1)'></button>
+                </div>
+            </div>
+            <!-- 柱状图-->
+            <div class="ui-g-12"><div  echarts [options]="wip_chart1_first" style="height:350px"></div></div>
+         </div>
+         <div class="ui-g-1"></div>
+           <!-- 第二个柱状图 -->
+         <div class="ui-g-12"  [ngClass]="{setEchartFirst:true}" *ngIf="true">
+             <!-- 筛选条-->
+            <div class="ui-g-12" [ngClass]="{setSearchToolFirst2:true}" style="margin-top:-1%;">
+                <div class="ui-g-2"><strong>ProductSize : &nbsp;&nbsp;</strong></div>
+                <div class="ui-g-2" style="margin-left:-7%"><p-multiSelect [options]='productSizeFirst2' [(ngModel)]='selectedSizesFirst2' [panelStyle]="{minWidth:'12em'}"  scrollHeight='300px'></p-multiSelect></div>
+                <div class="ui-g-2" style="margin-left:-3%"><strong>CheckIncode : &nbsp;&nbsp;</strong></div>
+                <div class="ui-g-2" style="margin-left:-7%"><p-multiSelect [options]='checkInCodeFirst2' [(ngModel)]='selectedCodeFirst2' [panelStyle]="{minWidth:'12em'}"  scrollHeight='300px'></p-multiSelect></div>
+                <div class="ui-g-2" style="margin-left:-3%"><strong>LOTTYPE : &nbsp;&nbsp;</strong></div>
+                <div class="ui-g-2" style="margin-left:-7%"><p-multiSelect [options]='lottypeFirst2' [(ngModel)]='selectedlottypeFirst2' [panelStyle]="{minWidth:'8em'}"  scrollHeight='300px'></p-multiSelect></div>
+                <div class="ui-g-1" id="bBtnFirst" style="margin-left:-8%;">
+                    <button  class="searchBtnFirst"  pButton icon='fa fa-search' iconPos='left' label=' ' (click)='searchDataFirst(2)'></button>
+                </div>
+            </div>
+            <!-- 柱状图-->
+            <div class="ui-g-12"><div echarts [options]="wip_chart2_first" style="height:350px"></div></div>
+         </div>
+         <div class="ui-g-1"></div>
+        </div>
+        <!-- 2.2 二级界面isSecond-->
+        <div *ngIf="isSecond" class="ui-g-12">
+           
+           
+        <!-- 2.2.2下面是二级界面的主体部分-->
+            
+        <!-- 1.1  上面的筛选查询的条Module  -->
+        <div class="ui-g" *ngIf="!isS2">
+        <div [ngClass]="{setSearchTool:true}" class="ui-g-10">
+        
+            <!-- 多选下拉框 checkincode -->
+            <div class="ui-g-3">
+                <strong>CheckIncode :&nbsp;&nbsp;</strong>
+                <p-multiSelect class="modMultiSelect" [options]="checkInCode" [(ngModel)]="selectedCodes" [panelStyle]="{minWidth:'12em'}"
+                    scrollHeight="300px">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 checkincode end -->
+            &nbsp;&nbsp;&nbsp;
+            <!-- 多选下拉框 line -->
+            <div class="ui-g-3" style="margin-left:-2%;">
+                <strong>线体 :&nbsp;&nbsp;</strong>
+                <p-multiSelect [options]="Lines" [(ngModel)]="selectedLines" [panelStyle]="{minWidth:'12em'}" scrollHeight="300px">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 line end -->
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+            <!--多选下拉框 productsize -->
+            <div class="ui-g-3" style="margin-left:-7%">
+                <strong>尺寸 :&nbsp;&nbsp;</strong>
+                <p-multiSelect [options]="productSize" [(ngModel)]="selectedSizes" [panelStyle]="{minWidth:'12em'}" scrollHeight="300px">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 productsize end-->
+            &nbsp;&nbsp;&nbsp;
+            <!-- 时间选择框 -->
+            <div class="ui-g-3" style="margin-left:-7%">
+                <strong>时间点 :&nbsp;&nbsp;</strong>
+                <p-calendar id="modCalendar" [(ngModel)]="searchTime" [showTime]="true" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2009:2099" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 时间选择框end -->
+            &nbsp;&nbsp;&nbsp;
+            <div class="ui-g-1" id="aBtnFirst"  style="margin-left : -4%;">
+                    <button  class="searchBtnFirst"  pButton icon='fa fa-search' iconPos='left' label=' ' (click)='search()'></button>
+            </div>
+            <!-- <div class="ui-g-4">
+                <button pButton type="button" icon="fa fa-search" iconPos="left" label="Search" (click)="search()" class="ui-g-3"></button>
+            </div> -->
+        </div>
+        </div>
+        <!-- 1.1 上面的筛选查询的条 end-->
+    
+        <!-- 1.2  上面的筛选查询的条 S2 -->
+        <div class="ui-g" *ngIf="isS2">
+        <div class="ui-g-1"></div>
+        <div [ngClass]="{setSearchTool:true}" class="ui-g-10">
+    
+            <!-- 多选下拉框 checkincode -->
+            <div class="ui-g-3">
+                <strong>CheckIncode :&nbsp;&nbsp;</strong>
+                <p-multiSelect [options]="checkInCode" [(ngModel)]="selectedCodes" [panelStyle]="{minWidth:'12em'}" scrollHeight="300px">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 checkincode end -->
+    
+            <!-- 多选下拉框 line -->
+            <div class="ui-g-3" style="margin-left:-2%;">
+                <strong>线体 :&nbsp;&nbsp;</strong>
+                <p-multiSelect [options]="Lines" [(ngModel)]="selectedLines" [panelStyle]="{minWidth:'12em'}" scrollHeight="300px">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 line end -->
+    
+            <!--多选下拉框 productsize -->
+            <div class="ui-g-3" style="margin-left:-7%">
+                <strong>尺寸 ： &nbsp;&nbsp;</strong>
+                <p-multiSelect [options]="productSize" [(ngModel)]="selectedSizes" [panelStyle]="{minWidth:'12em'}" scrollHeight="300px">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 productsize end-->
+    
+            <!--多选下拉框 producttype -->
+            <div class="ui-g-2"  style="margin-left:-7%">
+                <strong *ngIf="isS2">型号 ： &nbsp;&nbsp;</strong>
+                <p-multiSelect *ngIf="isS2" [options]="productType" [(ngModel)]="selectedTypes" [panelStyle]="{minWidth:'12em'}">
+                </p-multiSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 多选下拉框 productsize end-->
+    
+    
+            <!-- 时间选择框 -->
+            <div class="ui-g-3" style="margin-left:-2%">
+                <strong>时间点 ：&nbsp;&nbsp;</strong>
+                <p-calendar id="s2Calendar" [(ngModel)]="searchTime" [showTime]="true" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2009:2099" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <!-- 时间选择框end -->
+    
+            <div class="ui-g-1" id="aBtnFirst" style="margin-left: 95%;margin-top: -3%;">
+                    <button  class="searchBtnFirst"  pButton icon='fa fa-search' iconPos='left' label=' ' (click)='search()'></button>
+            </div>
+            <!-- <div class="ui-g-2">
+                <button pButton type="button" icon="fa fa-search" iconPos="left" label="Search" (click)="search()"></button>
+            </div> -->
+        </div>
+        </div>
+        <!-- 1..2 上面的筛选查询的条 end-->
+    
+    
+        <!-- 2 中间的wip柱状图 -->
+        <!-- <div class="ui-g-1"></div> -->
+        <div [ngClass]="{setEchart:true}" class="ui-g-12" >
+            <div echarts [options]="wip_chart_seconde" class="demo-chart" style="height:600px;margin-top:-2%;"></div>
+        </div>
+    
+    
+         <!--3.1 下面的表格 : 这一部分是已经不需要的代码-->
+        <!-- data gride area -->
+        <div class="ui-g-12" *ngIf="false">
+            <div class="ui-g-1"></div>
+            <div [ngClass]="{setTable1:true}" class="ui-g-10">
+                <div style="margin-top:-4%;">
+                    <p-table [columns]="tableCols">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">Plan</th>
+                                <th *ngFor="let sumnum of tableDataSum" style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">{{sumnum}}</th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">ACT</th>
+                                <th *ngFor="let sumnum of tableDataSum" style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">{{sumnum}}</th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">差值</th>
+                                <th *ngFor="let sumnum of tableDataSum" style="font-size:12px;background-color: rgba(0,0,0,0.1);color: aliceblue">{{sumnum}}</th>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>                                                                                                                                                                                                                                             
+        </div>
+        <!-- end data gride area -->
+    
+        <!--3.2 下面的表格 这一部分已经是不需要的代码了-->
+        <!-- data gride area -->
+        <div class="ui-g-1"></div>
+        <div *ngIf="false" [ngClass]="{setTable2:false}" class="ui-g-10">
+        <p-panel>
+            <p-header>
+                <div class="ui-helper-clearfix">
+                    <span class="ui-panel-title">WIP二级视图{{factoryName}}</span>
+                </div>
+            </p-header>
+            <div class="ui-panel-content">
+                <!-- if you use selection, you must set datakey -->
+                <p-table [columns]="tableCols" #chartGride>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                        <tr *ngFor="let obj of tableData">
+                            <th>{{obj.fgCode}}</th>
+                            <th *ngFor="let data of obj.pnlqty">{{data}}</th>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-panel>
+        </div>
+         <!-- end data gride area -->
+        </div>
+        <!--2.3 三级界面  ： 导入生产计划 -->
+        <div *ngIf="isUpload" class="ui-g-12">
+            <div class="ui-g"> 
+                <p-growl [(value)]="msgs"></p-growl>
+              <div class="ui-g-11" style="margin-left:5%">     
+                  <p-tabView>
+                    <p-tabPanel header="Excel导入" leftIcon="pi pi-calendar">
+                      
+                      <div class="ui-g">
+                        
+                        <div class="ui-g-12" style="text-align:center;font-size: 1.2em;font-weight: bold;width: 100%;height: 5%;background-color: rgb(224, 221, 221)">生产计划导入界面 - {{factoryNameFirst}} WIP</div>
+                        <!-- 选择文件的按钮-->
+                        <div class="ui-g-2" style="margin-top:0%;margin-bottom:-1%"><p-fileUpload mode="basic" chooseLabel="选择文件" name="myfile[]" url="./api/file/upload" accept=".xls,.xlsx" maxFileSize="1000000" (onUpload)="onBasicUpload($event);"></p-fileUpload></div> 
+                      </div>
+                     <div class="ui-g">
+                            <div class="ui-g-12">
+              
+                              <p-panel>
+                                  <p-header>
+                                      <div class="ui-helper-clearfix">
+                                          <span class="ui-panel-title">Excel数据展示</span>
+                                          <span style="float: right;" *ngIf="showFlag">是否保存到数据库？
+                                              <p-button   icon="fa fa-plus" label="保存" [disabled]="false"
+                                              (onClick)="saveExcelImportInfo()"></p-button>
+                                            <p-button  icon="fa fa-plus" label="取消" [disabled]="false"
+                                                (onClick)="cancel()"></p-button>
+                                            </span>
+                                          
+                                      </div>
+                                  </p-header>
+              
+                                    
+                                    <p-table #dt [columns]="cols" [value]="pageData" selectionMode="single" [(selection)]="selectedData"  >
+                                            <ng-template pTemplate="header" let-columns>
+                                              <tr>
+                                                <th class="headerBlue">Factory</th>
+                                                <th class="headerBlue">Operation</th>
+                                                <th class="headerBlue">Qty</th>
+                                              </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-rowData let-columns="columns" >
+                                                <tr style="text-align:center">   
+                                                  <td *ngFor="let col of columns">
+                                                    {{rowData[col.field]}}
+                                                  </td>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="summary">
+                                                <p-paginator [rows]="rows" [totalRecords]="totalRecords" 
+                                                (onPageChange)="paginate($event)" #p [rowsPerPageOptions]="rowsPerPageOptions"  pageLinkSize="5"></p-paginator>
+                                            </ng-template>
+                                          </p-table>                       
+                                 </p-panel>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+              
+                    <p-tabPanel header="Excel模板下载" leftIcon="pi pi-calendar">
+                     <div class="ui-g">
+                            <div class="ui-g-12">
+              
+                              <p-panel>
+                                  <p-header>
+                                      <div class="ui-helper-clearfix">
+                                          <span class="ui-panel-title">Excel数据表模板</span>  
+                                          <button type="button" pButton icon="fa fa-file" iconPos="left" label="下载模板" (click)="dt.exportCSV()" style="float:right"></button>
+                                      </div>
+                                  </p-header>
+              
+                                    
+                                    <p-table #dt [columns]="cols" selectionMode="single" [(selection)]="selectedData"  >
+                                            <ng-template pTemplate="header" let-columns>
+                                              <tr>
+                                                <th class="headerBlue">Factory</th>
+                                                <th class="headerBlue">Operation</th>
+                                                <th class="headerBlue">Qty</th>
+                                              </tr>
+                                            </ng-template>
+              
+                                          </p-table>                       
+              </p-panel>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                   
+                </p-tabView>
+              </div>
+              
+              
+              
+              </div>
+        </div>
+    </div>
+    <!-- 3. 最后的背景图片-->
+    <div class="ui-g-12" style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+    </div>
+</div>

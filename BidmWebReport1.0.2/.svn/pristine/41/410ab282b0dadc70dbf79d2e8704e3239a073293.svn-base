@@ -1,0 +1,182 @@
+.test{
+    color: rgb(6, 13, 17);
+}
+
+
+.setBackground{
+   
+    background-image: url('assets/picture/bgimg/bgimg_gs6.png');
+    background-repeat: round !important;
+    width: 1500px !important;
+    height: 850px !important;
+    /* position: absolute !important;
+    margin-left: 0% !important;
+    margin-top: 0% !important; */
+
+    
+}
+.setTitle{
+    text-align: center !important;
+    color: antiquewhite !important;
+    font-size: 20px !important;
+    /* padding-left: 650px !important; */
+   margin-top: 0.5% !important;
+}
+.setTime{
+    /* position: absolute !important; */
+    text-align: center !important;
+    width: 100px !important;
+    height: 50px !important;
+    margin-left: 24% !important;
+    margin-top: -10% !important;
+    /* padding-left: 23% !important;
+    padding-top: -0.5% !important; */
+    color: aliceblue !important;
+}
+.setEchartAr{
+    /* width: 50% !important; */
+    height: 230px !important; 
+    margin-top: -27% !important;
+    /* position:absolute !important; */
+    /* padding-left: 4% !important;
+   margin-top: 5% !important; */
+}
+
+.setEchartCf{
+    /* width: 50% !important; */
+    height: 300px !important; 
+    margin-top: -26% !important;
+    /* position:absolute !important; */
+    /* padding-left: 50% !important;
+    margin-top:-19.5% !important; */
+}
+
+.setEchartCl{
+    /* width: 50% !important; */
+    height: 230px !important; 
+    /* position:absolute !important; */
+    /* padding-left: 4% !important;
+    margin-top: -1.5% !important; */
+}
+.setEchartMdl{
+    /* width: 50% !important; */
+    height: 230px !important; 
+    /* position:absolute !important; */
+    /* padding-left: 50% !important;
+    margin-top: -15.5% !important; */
+}
+
+
+.WipTitleAr{
+    /* position: absolute !important; */
+    font-size: 17px !important;
+    color: aliceblue !important;
+    padding-top: 0.5% !important;
+    padding-left: 9% !important;
+}
+.WipTitleCf{
+    /* position: absolute !important; */
+    font-size: 17px !important;
+    color: aliceblue !important;
+    margin-top: -2.5% !important;
+    padding-left: 35.5% !important;
+}
+.WipTitleCl{
+    /* position: absolute !important; */
+    font-size: 17px !important;
+    color: aliceblue !important;
+    margin-top: -3% !important;
+    padding-left: 59.5% !important;
+}
+.WipTitleMdl{
+    /* position: absolute !important; */
+    font-size: 17px !important;
+    color: aliceblue !important;
+    margin-top: -3.5% !important;
+    padding-left: 82% !important;
+}
+
+
+.setChartWipAr{
+
+    width: 20%;
+    height: 250px !important;
+    /* position: absolute !important; */
+    margin-top: -4% !important;
+    padding-left: 2% !important;
+
+}
+
+.setChartWipCf{
+
+    width: 20%;
+    height: 250px !important;
+    /* position: absolute !important; */
+    margin-top: -16.5% !important;
+    padding-left: 27% !important;
+
+}
+
+.setChartWipCl{
+
+    width: 20%;
+    height: 250px !important;
+    /* position: absolute !important; */
+    margin-top: -17% !important;
+    padding-left: 52% !important;
+
+}
+
+.setChartWipMdl{
+
+    width: 20%;
+    height: 250px !important;
+    /* position: absolute !important; */
+    margin-top: -16.5% !important;
+    padding-left: 76% !important;
+
+}
+
+.setInOutBorderAr{
+    position: absolute !important;
+    width: 150px !important;
+    height: 50px !important;
+    margin-left: 43% !important;
+    transform: translateX(-100%) !important;
+    margin-top: 5% !important;
+}
+
+.setInOutBorderCf{
+    position: absolute !important;
+    width: 150px !important;
+    height: 50px !important;
+    margin-left: 86% !important;
+    transform: translateX(-100%) !important;
+    margin-top: 4.5% !important;
+}
+.setInOutBorderCl{
+    position: absolute !important;
+    width: 150px !important;
+    height: 50px !important;
+
+    margin-left: 43% !important;
+    transform: translateX(-100%) !important;
+    margin-top: 18.5% !important;
+}
+.setInOutBorderMdl{
+    position: absolute !important;
+    width: 150px !important;
+    height: 50px !important;
+
+    margin-left: 86% !important;
+    transform: translateX(-100%) !important;
+    margin-top: 18.5% !important;
+}
+.setText{
+    color: aliceblue !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-size: 11px !important;
+    text-align: center !important;
+    padding-top: 1% !important;
+}
+

@@ -1,0 +1,79 @@
+.head1{
+    font-size: 12px !important;
+    padding : 0.1em 0em !important;
+    text-align: center !important;
+    background-color: rgb(216, 231, 231) !important;
+    border : 1.5px solid rgb(153, 151, 151) !important;
+    border-bottom: none !important;
+}
+.head2avgsum{
+    font-size: 12px !important;
+    padding : 0.1em 0em !important;
+    text-align: center !important;
+    border : 1.5px solid rgb(153, 151, 151) !important;
+    background-color: rgb(240, 231, 208) !important;
+}
+
+.data1{
+    font-size: 12px !important;
+    padding : 0.1em 0em !important;
+    text-align: center !important;
+    border : 1.5px solid rgb(153, 151, 151) !important;
+}
+
+.comments{
+    font-size: 12px !important;
+    padding : 0.1em 0em !important;
+    text-align: center !important;
+    border : 1.5px solid rgb(153, 151, 151) !important;
+}
+
+
+#mytr:hover{
+    color: black !important;
+    font-weight: bold !important;
+    
+}
+#mytd:hover{
+    background-color: rgb(216, 205, 167) !important;
+}
+
+.a023{
+    width : 90px !important;
+}
+.a1{
+    width: 170px !important;
+}
+.a4546{
+    width: 60px !important;
+}
+.alast{
+    width: 170px !important;
+}
+
+#standnum{
+    width: 50px !important;
+}
+.dataglasslt4800{
+    background-color: rgb(248, 60, 60) !important;
+}
+.dtalotlt240{
+    background-color: rgb(248, 60, 60) !important;
+}
+
+
+.widthaaa{
+    width : 90px !important;
+}
+.widthbbb{
+    width : 170px !important;
+}
+.widthccc{
+    width : 80px !important;
+}
+.widthddd{
+    width: 60px !important;
+}
+.widtheee{
+    width:210px !important;
+}

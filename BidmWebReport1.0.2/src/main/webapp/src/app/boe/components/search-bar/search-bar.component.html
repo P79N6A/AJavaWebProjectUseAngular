@@ -1,0 +1,35 @@
+<p-toolbar>
+  <div class="ui-g">
+    <div class="ui-g-10">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6 ui-lg-3" *ngFor="let item of conditions">
+          <label style="color: #3D4D66">{{ item.label | translate }}：</label>
+          <!-- <input type="text" pInputText *ngIf="item.type=='text'"/>
+          <p-dropdown [options]="item.options" *ngIf="item.type=='dropdown'"></p-dropdown>
+          <p-calendar readonlyInput="true" [locale]="calendarLang" *ngIf="item.type=='calendar'"></p-calendar>
+          <p-selectButton [options]="item.options" *ngIf="item.type=='select'"></p-selectButton> -->
+          <p *ngIf="item.type=='text'">
+            <input type="text" pInputText style="padding-bottom: 5px;" [placeholder]="item.placeholder" />
+          </p>
+          <p *ngIf="item.type=='dropdown'">
+            <p-dropdown class="boe-dropdown" [options]="item.options" [placeholder]="item.placeholder" [showClear]="true"></p-dropdown>
+          </p>
+          <p *ngIf="item.type=='boe-dropdown'">
+            <app-boe-combo class="boe-dropdown" [url]="item.url" [placeholder]="item.placeholder" [label]="item.labelTag" (selectItem)="item.selectItem($event)"></app-boe-combo>
+          </p>
+          <p *ngIf="item.type=='calendar'">
+            <p-calendar readonlyInput="true" [placeholder]="item.placeholder" 
+              [locale]="calendarLang" dateFormat="yy-mm-dd" [showIcon]="true"
+              (onFocus)="calendarFocus($event)"></p-calendar>
+          </p>
+          <p *ngIf="item.type=='select'">
+            <p-selectButton [options]="item.options"></p-selectButton>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-2" style="display: table;">
+      <button pButton style="display: table-cell; vertical-align: middle;" type="button" icon="fa fa-search" label="搜索"></button>
+    </div>
+  </div>
+</p-toolbar>

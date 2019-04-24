@@ -1,0 +1,139 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12" [ngStyle]="{'padding': '0px'}">
+    <p-header>
+      <div class="ui-g-12">
+        <h3 style="text-align:center;margin: 0px 10px">Array Move看板(实时)</h3>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+      <div class="ui-helper-clearfix">
+        <div style="float:right;padding-bottom: 5px">
+          当前标准值: <input style="text-align: center; width: 50px" type="text" [(ngModel)]="standard">
+          &nbsp;
+          产品类型:
+          <p-dropdown id="shishiarraymove" [ngStyle]="{'text-align': 'center'}" [options]="proTypes" [(ngModel)]="proType"
+            (onChange)="select()"></p-dropdown>&nbsp;
+          <p-button label="导出" (click)="exportExcel()" icon="fa fa-download" iconPos="left"></p-button>
+        </div>
+      </div>
+
+      <p-table id="armovess" [frozenColumns]="frozenCols" [value]="tableData" [scrollable]="true" scrollHeight="500px" frozenWidth="260px">
+        <ng-template pTemplate="colgroup">
+          <colgroup>
+            <col [ngStyle]="{'width':'180px'}">
+            <col style="width:80px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:45px">
+            <col style="width:70px">
+            <col style="width:300px">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" colspan="2" rowspan="2">
+              {{col.header}}
+            </th>
+            <th rowspan="2">Wip</th>
+            <th colspan="25">Monitor By Hour-2019/3/19</th>
+            <th rowspan="2">Forecast</th>
+            <th rowspan="2">Comment</th>
+          </tr>
+          <tr>
+            <th *ngFor="let h of hours">{{h}}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
+          <tr>
+            <ng-container *ngFor="let col of columns">
+              <td>{{rowData[col.field[0]]}}</td>
+              <td>{{rowData[col.field[1]]}}</td>
+            </ng-container>
+            <td>{{rowData.wip | zeroToKong}}</td>
+            <td>{{rowData.ttl | zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour07 < standard && rowData.hour07 != 0}">{{rowData.hour07 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour08 < standard && rowData.hour08 != 0}">{{rowData.hour08 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour09 < standard && rowData.hour09 != 0}">{{rowData.hour09 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour10 < standard && rowData.hour10 != 0}">{{rowData.hour10 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour11 < standard && rowData.hour11 != 0}">{{rowData.hour11 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour12 < standard && rowData.hour12 != 0}">{{rowData.hour12 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour13 < standard && rowData.hour13 != 0}">{{rowData.hour13 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour14 < standard && rowData.hour14 != 0}">{{rowData.hour14 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour15 < standard && rowData.hour15 != 0}">{{rowData.hour15 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour16 < standard && rowData.hour16 != 0}">{{rowData.hour16 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour17 < standard && rowData.hour17 != 0}">{{rowData.hour17 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour18 < standard && rowData.hour18 != 0}">{{rowData.hour18 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour19 < standard && rowData.hour19 != 0}">{{rowData.hour19 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour20 < standard && rowData.hour20 != 0}">{{rowData.hour20 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour21 < standard && rowData.hour21 != 0}">{{rowData.hour21 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour22 < standard && rowData.hour22 != 0}">{{rowData.hour22 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour23 < standard && rowData.hour23 != 0}">{{rowData.hour23 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour00 < standard && rowData.hour00 != 0}">{{rowData.hour00 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour01 < standard && rowData.hour01 != 0}">{{rowData.hour01 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour02 < standard && rowData.hour02 != 0}">{{rowData.hour02 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour03 < standard && rowData.hour03 != 0}">{{rowData.hour03 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour04 < standard && rowData.hour04 != 0}">{{rowData.hour04 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour05 < standard && rowData.hour05 != 0}">{{rowData.hour05 |
+              zeroToKong}}</td>
+            <td [ngClass]="{setYellow: rowData.hour06 < standard && rowData.hour06 != 0}">{{rowData.hour06 |
+              zeroToKong}}</td>
+            <td>{{rowData.forecast | zeroToKong}}</td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input [(ngModel)]="comments[rowIndex]" style="width:100%" (keydown)="$event.keyCode === 13 ?saveComment(rowData.productiontype, rowData.oper_code, rowIndex) :0">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{comments[rowIndex]}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-panel>
+</div>

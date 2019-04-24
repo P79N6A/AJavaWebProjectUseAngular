@@ -1,0 +1,30 @@
+<!-- search area -->
+<div class="ui-g-12">
+  <!-- search option area -->
+  <div class="ui-g-12 ui-lg-12" style="border:1px solid lightgray; background-color:mintcream; box-shadow: 5px 5px 5px grey;">
+    <!-- if you add the other option, change the class source -->
+    <div class="ui-g-12 ui-md-6 ui-lg-2">
+      <label>Condition1</label>
+      <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" placeholder="not connect"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-2">
+      <!-- <h3 class="first">Condition2</h3> -->
+      <label>Condition2</label>
+      <p-dropdown [options]="option2" [(ngModel)]="selectedOption2" placeholder="not connect"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-2">
+      <!-- <h3 class="first">Condition3</h3> -->
+      <label>Condition3</label>
+      <p-dropdown [options]="option3" [(ngModel)]="selectedOption3" placeholder="not connect"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-2">
+      <!-- <h3 class="first">Condition4</h3> -->
+      <label>Condition4</label>
+      <p-dropdown [options]="option4" [(ngModel)]="selectedOption4" placeholder="not connect"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-2">
+      <!-- <h3 class="first">Condition4</h3> -->
+      <button pButton type="button" (click)="setkeyword()" label="Search"></button>
+    </div>
+  </div>
+</div>

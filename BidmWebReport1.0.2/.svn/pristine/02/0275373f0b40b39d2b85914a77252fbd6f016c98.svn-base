@@ -1,0 +1,204 @@
+<div>
+    <div class="ui-g-12" style="align-content: center;text-align: center;">
+      <div>
+        <p-panel>
+          <p-header>
+            <div class="ui-helper-clearfix">
+                <!-- <span style="float: left;">
+                    <button pButton type="button" (click)="deleteSelectedData()" label="Delete"></button>
+                </span> -->
+              <span class="ui-panel-title">用户Spec设置</span>
+              <span style="float: right;">
+                  <button pButton type="button" (click)="addData()" label="新增Spec信息"></button>
+                <!-- <button pButton type="button" (click)="addData()" label="新增Spec信息"></button>
+                <button pButton type="button" (click)="addList()" label="批量导入Spec信息"></button> -->
+              </span>
+            </div>
+          </p-header>
+          <div>
+            <p-table #dt [columns]="cols" [value]="data" selectionMode="single" [(selection)]="selectedData"  (onRowSelect)="onRowSelect($event)">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <!-- <th rowspan="2" style="width: 3.25em">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th> -->
+                  <th rowspan="2" style="width: 11%;">Product ID</th>
+                  <th rowspan="2" style="width: 7%;">Step ID</th>
+                  <th rowspan="2" style="width: 6%;">Defect Name</th>
+                  <th rowspan="2" style="width: 6%;">Control Line1</th>
+                  <th rowspan="2" style="width: 7%;">报警方式1</th>
+                  <th colspan="2" style="width: 16%;">知会人1</th>
+                  <th rowspan="2" style="width: 6%;">Control Line2</th>
+                  <th rowspan="2" style="width: 6%;">报警方式2</th>
+                  <th colspan="2" style="width: 30%;">知会人2</th>
+                  <th rowspan="2" style="width: 7%;">刷新频率(min)</th>
+                  <th rowspan="2" style="width: 7%;"></th>
+                  <th rowspan="2" style="width: 7%;"></th>
+                </tr>
+                <tr>
+                  <th>姓名</th>
+                  <th>工号</th>
+                  <th>姓名</th>
+                  <th>邮箱</th>
+                  
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns" >
+                  <tr [pSelectableRow]="rowData">   
+                    <!-- #dtTr ondblclick="ondblclick()" -->
+                    <!-- <td>
+                      <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    </td> -->
+                    <td *ngFor="let col of columns">
+                      {{rowData[col.field]}}
+                    </td>
+                    <!-- <ng-container *ngFor="let col of columns; let len = count " [ngSwitch]="col.field"> -->
+                        <!-- <ng-container *ngSwitchCase="'productid'">
+                          <td title="{{rowData[col.field]}}">
+                            <a href="#" (click)="openDetail(rowData)">{{rowData[col.field]}}</a>
+                          </td>
+                        </ng-container> -->
+                        <!-- <ng-container *ngSwitchDefault> -->
+                            <!-- <td title="{{rowData[col.field]}}">
+                                <a href="#" (click)="openDetail(rowData)">{{rowData[col.field]}}</a>
+                            </td> -->
+                          <!-- <td>
+                            {{rowData[col.field]}}
+                          </td> -->
+                        <!-- </ng-container> -->
+                    <!-- </ng-container> -->
+                    <td>
+                      <button pButton type="button" (click)="openDetail(rowData)" label="修改"></button>
+                    </td>
+                    <td>
+                      <button pButton type="button" (click)="deleteSelectedData(rowData)" label="删除"></button>
+                    </td>
+                  </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div>
+        <div class="ui-g-12 ui-xl-6">
+            <p-panel>
+              <p-header>
+                {{etitle}}
+              </p-header>
+              <div echarts [options]="chartOption"></div>
+            </p-panel>
+          </div>
+        </div>
+    </div>
+
+  
+    <div class="ui-g-12">
+      <p-dialog header="Dailog" [(visible)]="modalVisible" [modal]="true" [responsive]="true" [width]="560">
+        <div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>Product ID</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.productid" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>Step ID</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.stepid" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>Defect Name</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.defectname" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>Control Line1</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.control1" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>报警方式1</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.alarmtype1" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>知会人 姓名</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.alarmreceivername1" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>知会人 工号</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.alarmreceiverid1" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>Control Line2</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.control2" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>报警方式2</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.alarmtype2" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>知会人 姓名</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.alarmreceivername2" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>知会人 邮件</label>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                  <input type="text" pInputText [(ngModel)]="addspec.alarmreceiverid2" />
+              </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <label>刷新频率</label>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <input type="text" pInputText [(ngModel)]="addspec.freshtime" />
+            </div>
+        </div>
+        </div>
+        <p-footer>
+            <button type="button" pButton (click)="save()" label="save"></button>
+            <button type="button" pButton (click)="modalVisible=false" label="cancel" class="ui-button-secondary"></button>
+          </p-footer>
+      </p-dialog>
+  </div>
+  </div>
+  

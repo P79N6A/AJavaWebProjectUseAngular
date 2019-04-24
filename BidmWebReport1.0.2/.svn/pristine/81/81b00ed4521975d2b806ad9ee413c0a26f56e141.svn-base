@@ -1,0 +1,29 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ArraywipkanbanShishiComponent } from './arraywipkanban-shishi/arraywipkanban-shishi.component';
+import { BankcellinComponent } from './bankcellin/bankcellin.component';
+
+const routes: Routes = [
+  {
+    path: 'arwipkbss',
+    component: ArraywipkanbanShishiComponent,
+    data: {
+      tabLabel: 'ArrayWip看板(实时)',
+      destroy: false
+    }
+  },
+  {
+    path: 'bankclin',
+    component: BankcellinComponent,
+    data: {
+      tabLabel: 'Array Bank&Cell In',
+      destroy: false
+    }
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ArrayBaobiaoRoutingModule { }

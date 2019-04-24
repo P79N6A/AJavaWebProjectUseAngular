@@ -1,0 +1,283 @@
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ApiService } from '../../common/service/api/api.service';
+
+@Component({
+  selector: 'app-gskanban',
+  templateUrl: './gskanban.component.html',
+  styleUrls: ['./gskanban.component.css']
+})
+export class GskanbanComponent implements OnInit {
+
+  arrayInOption;
+  arrayOutOpton;
+  cfInOption;
+  cfOutOption;
+  cellInOption;
+  cellOutOption;
+  mdlInOption;
+  showEchart;
+
+  // 表格数据数组
+  arrayIn = ['-', '-', '-', '-', '-', '-', '-'];
+  arrayOut = ['-', '-', '-', '-', '-', '-', '-'];
+  arrayWip = '-';
+  arrayBank = '-';
+  cfIn = ['-', '-', '-', '-', '-', '-', '-'];
+  cfOut = ['-', '-', '-', '-', '-', '-', '-'];
+  cfWip = '-';
+  cfBank = '-';
+  cellIn = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+  cellOut = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+  mdlIn = ['-', '-', '-', '-', '-', '-', '-'];
+  mdlOut = ['-', '-', '-', '-', '-', '-', '-'];
+  mdlWip = '-';
+  mdlBank = '-';
+  tpc_q = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+  m1 = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+  m2_1 = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+  m2_2 = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+  oem = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+
+  constructor(
+    private apiService: ApiService
+  ) { }
+
+  ngOnInit() {
+
+    this.apiService.getAll('/sc/gskanbantable').subscribe(
+      (res) => {
+        this.setArrayData(res);
+      }
+    );
+
+    this.apiService.get('/sc/gskanbanechart').subscribe(
+      (res) => {
+        this.setEcharts(res);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        setTimeout(() => {
+          this.showEchart = true;
+        }, 500);
+      }
+    );
+  }
+
+  setEcharts(data) {
+    const dateArray = this.setdateArray();
+    const arrayInAct = [];
+    const arrayInPlan = [];
+    const arrayOutAct = [];
+    const arrayOutPlan = [];
+    const cfInAct = [];
+    const cfInPlan = [];
+    const cfOutAct = [];
+    const cfOutPlan = [];
+    const cellInAct = [];
+    const cellInPlan = [];
+    const cellOutAct = [];
+    const cellOutPlan = [];
+    const mdlInAct = [];
+    const mdlInPlan = [];
+    for (const obj of data) {
+      switch (obj.factory) {
+        case 'ARRAY':
+          if (obj.item === 'In') {
+            arrayInAct.push(obj.act);
+            arrayInPlan.push(obj.plan);
+          } else {
+            arrayOutAct.push(obj.act);
+            arrayOutPlan.push(obj.plan);
+          }
+          break;
+        case 'CF':
+          if (obj.item === 'In') {
+            cfInAct.push(obj.act);
+            cfInPlan.push(obj.plan);
+          } else {
+            cfOutAct.push(obj.act);
+            cfOutPlan.push(obj.plan);
+          }
+          break;
+        case 'CELL':
+          if (obj.item === 'In') {
+            cellInAct.push(obj.act);
+            cellInPlan.push(obj.plan);
+          } else {
+            cellOutAct.push(obj.act);
+            cellOutPlan.push(obj.plan);
+          }
+          break;
+        case 'MDL':
+          mdlInAct.push(obj.act);
+          mdlInPlan.push(obj.plan);
+          break;
+      }
+    }
+
+    this.arrayInOption = this.setOption(dateArray, arrayInAct, arrayInPlan, '#FFC000');
+    this.arrayOutOpton = this.setOption(dateArray, arrayOutAct, arrayOutPlan, '#03aaf7');
+    this.cfInOption = this.setOption(dateArray, cfInAct, cfInPlan, '#FFC000');
+    this.cfOutOption = this.setOption(dateArray, cfOutAct, cfOutPlan, '#03aaf7');
+    this.cellInOption = this.setOption(dateArray, cellInAct, cellInPlan, '#FFC000');
+    this.cellOutOption = this.setOption(dateArray, cellOutAct, cellOutPlan, '#03aaf7');
+    this.mdlInOption = this.setOption(dateArray, mdlInAct, mdlInPlan, '#FFC000');
+  }
+
+  // 当月有几天就生成几个x轴类目日期
+  setdateArray(): Array<string> {
+    const array = [];
+    for (let i = 1; i <= this.getCountDays(); i++) {
+      array.push(i.toString());
+    }
+    return array;
+  }
+
+  // 返回一个echart图绑定的option
+  setOption(dateArray, actArray, planArray, setColor) {
+    const option = {
+      tooltip: {
+        show: true,
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        top: '0%',
+        right: '0%',
+        bottom: '20%',
+        left: '0%',
+      },
+      xAxis: {
+        type: 'category',
+        data: dateArray,
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          interval: 0,
+          color: 'white',
+          fontSize: 8,
+          margin: 0,
+        },
+        axisLine: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: 'value',
+        min: 2000,
+        show: false,
+        splitLine: {
+          show: false
+        }
+      },
+      series: [{
+        data: actArray,
+        type: 'bar',
+        itemStyle: {
+          color: setColor
+        }
+      }, {
+        data: planArray,
+        type: 'line',
+        itemStyle: {
+          color: 'rgb(21, 255, 0)'
+        }
+      }]
+    };
+    return option;
+  }
+
+  setArrayData(data) {
+    for (const obj of data) {
+      switch (obj.factory) {
+        case 'ARRAY':
+          if (obj.item === 'In') {
+            this.setIndexData(this.arrayIn, obj);
+            this.arrayWip = obj.wip;
+            this.arrayBank = obj.bank;
+          } else {
+            this.setIndexData(this.arrayOut, obj);
+          }
+          break;
+        case 'CF':
+          if (obj.item === 'In') {
+            this.setIndexData(this.cfIn, obj);
+            this.cfWip = obj.wip;
+            this.cfBank = obj.bank;
+          } else {
+            this.setIndexData(this.cfOut, obj);
+          }
+          break;
+        case 'CELL':
+          if (obj.item === 'In') {
+            this.setIndexDataOthers(this.cellIn, obj);
+          } else {
+            this.setIndexDataOthers(this.cellOut, obj);
+          }
+          break;
+        case 'MDL':
+          if (obj.item === 'In') {
+            this.setIndexData(this.mdlIn, obj);
+            this.mdlWip = obj.wip;
+            this.mdlBank = obj.bank;
+          } else {
+            this.setIndexData(this.mdlOut, obj);
+          }
+          break;
+        case 'TPC-Q':
+          this.setIndexDataOthers(this.tpc_q, obj);
+          break;
+        case 'M1':
+          this.setIndexDataOthers(this.m1, obj);
+          break;
+        case 'M2-1':
+          this.setIndexDataOthers(this.m2_1, obj);
+          break;
+      }
+    }
+  }
+
+  setIndexData(array, obj) {
+    array[0] = obj.plan_ttl;
+    array[1] = obj.plan_mon;
+    array[2] = obj.act_mon;
+    array[3] = obj.bal_mon;
+    array[4] = obj.plan_day;
+    array[5] = obj.act_day;
+    array[6] = obj.bal_day;
+  }
+
+  setIndexDataOthers(array, obj) {
+    array[0] = obj.plan_ttl;
+    array[1] = obj.plan_mon;
+    array[2] = obj.act_mon;
+    array[3] = obj.bal_mon;
+    array[4] = obj.plan_day;
+    array[5] = obj.act_day;
+    array[6] = obj.bal_day;
+    array[7] = obj.wip;
+    array[8] = obj.bank;
+  }
+
+  // 获取当月的天数
+  getCountDays(): number {
+    const curDate = new Date();
+    /* 获取当前月份 */
+    curDate.setDate(1);
+    // 比如3月31日直接取下一个月份取到的是5月1日，再进行后续操作就会出错，所以应该先设置为当前月份第一天 curDate.setDate(1);，再进行取月份、设置月份和设置天的操作。
+    const curMonth = curDate.getMonth();
+    /*  是为了把当前月份日期设置成下一个月份日期 */
+    curDate.setMonth(curMonth + 1);
+    /* 将日期设置为0, 是为了通过下一个月份日期获取当前月份日期的最后一天日期 */
+    curDate.setDate(0);
+    /* 返回当月的天数 */
+    return curDate.getDate();
+  }
+
+}

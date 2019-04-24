@@ -1,0 +1,377 @@
+import { Component, OnInit } from '@angular/core';
+import { CfWipMoveObject } from './model/objects';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import { ApiService } from 'app/common/service/api/api.service';
+
+
+
+@Component({
+  selector: 'app-cfmovewip',
+  templateUrl: './cfmovewip.component.html',
+  styleUrls: ['./cfmovewip.component.css']
+})
+export class CfmovewipComponent implements OnInit {
+
+  // 1.第一部分的数据信息
+  todaystr: Date = new Date();
+
+  inNumbers: number[] = new Array(6); // in的数据 ,创建一个长度为 6 的 数组
+  outNumbers: number[] = new Array(6); // out的数据
+
+  // 2.第二部分的数据信息 ： 两个数组来保存 两条产线的信息
+
+  PH1LINES: string[] = ['ITO', 'BM', 'MS', 'BRP', 'Red', 'Green', 'Blue', 'CRP', 'OC', 'ITO Sputter', 'PS', 'PRP', 'Macro', 'Shipping'];
+  PH1Objects: CfWipMoveObject[] = [];
+  // '3F Unpack'  'ITO(TN)'
+  PH2LINES = ['3F', 'ITO', 'ITO3', 'BM', 'MS', 'BRP', 'Red', 'Green', 'Blue', 'CRP', 'OC',
+    'ITO Sputter', 'PS', 'BM3', 'PRP', 'Macro', 'Shipping'];
+  PH2Objects: CfWipMoveObject[] = [];
+
+  // 3.可以key in 的产线状态：
+  linestates: any[] = [
+    { label: 'other', value: '' },
+    { label: 'Down', value: 'Down' },
+    { label: 'Run', value: 'Run' }
+  ];
+
+  // 4.可以查询 历史数据的信息
+  searchTime: Date = new Date();
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+
+    this.todaystr = new Date();
+    // console.log(this.getTimeAttribute(new Date()));
+    this.searchAllData(new Date());
+
+  }
+
+  // 7.  导出excel表格的功能方法
+  exportExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('cfwipmove')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    // 这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile(excelBuffer, 'CF_Wip_Move');
+
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + '.xls');
+  }
+
+
+  searchAllData(searchdata: Date) {
+
+    const attrs = this.getTimeAttribute(searchdata);
+
+    // 1.获取第一部分的数据
+    const url1 = '/cfwipmove/firstpart';
+    const option1 = {
+      params: {
+        timedate: attrs[0],
+        timehour: attrs[1]
+      }
+    };
+    this.apiService.get(url1, option1).subscribe(
+      (res) => {
+        if (Array.isArray(res)) {
+          for (const object of res) {
+            if (object['factoryname'] === 'sg' && object['item'] === 'IN') {
+              this.inNumbers[0] = object['plan'];
+              this.inNumbers[1] = object['act'];
+              this.inNumbers[2] = object['bal'];
+            } else if (object['factoryname'] === 'sg' && object['item'] === 'OUT') {
+              this.outNumbers[0] = object['plan'];
+              this.outNumbers[1] = object['act'];
+              this.outNumbers[2] = object['bal'];
+            } else if (object['factoryname'] === 'cn' && object['item'] === 'IN') {
+              this.inNumbers[3] = object['plan'];
+              this.inNumbers[4] = object['act'];
+              this.inNumbers[5] = object['bal'];
+            } else if (object['factoryname'] === 'cn' && object['item'] === 'OUT') {
+              this.outNumbers[3] = object['plan'];
+              this.outNumbers[4] = object['act'];
+              this.outNumbers[5] = object['bal'];
+            }
+          }
+        }
+      },
+      (error) => { console.log(error); },
+    );
+
+    // 2.获取第二部分的数据 ： wip的数据
+    this.PH1Objects = [];
+    this.PH2Objects = [];
+    const url2 = '/cfwipmove/wippart';
+    const option2 = {
+      params: {
+        timehour: attrs[1]
+      }
+    };
+    this.apiService.get(url2, option2).subscribe(
+      (res) => {
+        //  console.log(res);
+
+        const tempPh1line: any[] = [];
+        const tempPh2line: any[] = [];
+        if (Array.isArray(res)) {
+          // 1.根据线别分成两组
+          for (const object of res) {
+            if (object['line'] === 'PH1') {
+              tempPh1line.push(object);
+            } else if (object['line'] === 'PH2') {
+              tempPh2line.push(object);
+            }
+          }
+
+          // console.log(tempPh1line);
+          // console.log(tempPh2line);
+
+          // 2.ph1 线别的 对象的处理 ： 根据ph1线中的名字进行 对象的创建
+          for (const oper of this.PH1LINES) {
+            // 循环 ph1 的对象，只要是 满足 当前 oper的就创建一个对象满足，就创建，如果没有满足的 则直接 创建一个空的对象
+            const objects: CfWipMoveObject[] = []; // 用于存放创建的对象的数组，后面根据这个数组的长度来判断是否有对应的对象
+            for (const obj of tempPh1line) {
+              if (obj['operdesc'] === oper) {
+                const newobject = new CfWipMoveObject(oper, '', obj['wiptotal'], obj['wip'], obj['productname'], 0, 0, 0);
+                objects.push(newobject);
+              }
+            }
+            // 当上面的循环完成之后，就把创建的对象放入到数据显示的数组中去
+            if (objects.length === 0) { // 如果长度为0，则没有对应的数据，但是我们需要写一个空的
+              const newobject = new CfWipMoveObject(oper, '', 0, 0, '', 0, 0, 0);
+              this.PH1Objects.push(newobject);
+            } else {
+              this.PH1Objects.push(...objects); // 这个地方是数组解构 ，尝试用一下
+            }
+
+          }
+
+          // 3..ph2 线别的 对象的处理 ： 根据ph2线中的名字进行 对象的创建
+          for (const oper of this.PH2LINES) {
+            // 循环 ph1 的对象，只要是 满足 当前 oper的就创建一个对象满足，就创建，如果没有满足的 则直接 创建一个空的对象
+            const objects: CfWipMoveObject[] = []; // 用于存放创建的对象的数组，后面根据这个数组的长度来判断是否有对应的对象
+            for (const obj of tempPh2line) {
+              if (obj['operdesc'] === oper) {
+                const newobject = new CfWipMoveObject(oper, '', obj['wiptotal'], obj['wip'], obj['productname'], 0, 0, 0);
+                objects.push(newobject);
+              }
+            }
+            // 当上面的循环完成之后，就把创建的对象放入到数据显示的数组中去
+            if (objects.length === 0) { // 如果长度为0，则没有对应的数据，但是我们需要写一个空的
+              const newobject = new CfWipMoveObject(oper, '', 0, 0, '', 0, 0, 0);
+              this.PH2Objects.push(newobject);
+            } else {
+              this.PH2Objects.push(...objects); // 这个地方是数组解构 ，尝试用一下
+            }
+
+          }
+        }
+      },
+      (error) => { console.log(error); },
+      () => {
+        // 3.第三部分的数据
+        const url3 = '/cfwipmove/movepart';
+        const option3 = {
+          params: {
+            timehour: attrs[1]
+          }
+        };
+        this.apiService.get(url3, option3).subscribe(
+          (res) => {
+            // console.log(res);
+            if (Array.isArray(res)) {
+              // 1.同理：分成两组 ph1 和 ph2
+              const tempPh1Objects: any[] = [];
+              const tempPh2Objects: any[] = [];
+
+              for (const object of res) {
+                if (object['line'] === 'PH1') {
+                  tempPh1Objects.push(object);
+                } else if (object['line'] === 'PH2') {
+                  tempPh2Objects.push(object);
+                }
+              }
+
+              // console.log(tempPh1Objects);
+              // console.log(tempPh2Objects);
+
+              // 2.把ph1Objects数组中的对象的move部分的数据补充完整
+              for (const object of tempPh1Objects) {
+                const item = object['item'];
+                if (this.PH1LINES.includes(item)) { // 当item,也就是 operdesc 是否在 ph1中的数组中，如果在，则寻找符合条件的第一个对象，把move中的数据 更新掉，
+                  for (const obj of this.PH1Objects) {
+                    if (item === obj['line']) { // 当符合条件的时候，赋值
+                      obj.moveplan = object['plan'];
+                      obj.moveact = object['qty'];
+                      obj.movebal = object['bal'];
+                      break;
+                    }
+                  }
+                }
+                // 都是以wip那边的线别为准，不会增加
+                // else{ // 当在数组中没有的时候，需要重新创建一个对象 ，wip的数据为空，move的数据显示
+                //   const newobject : CfWipMoveObject = new CfWipMoveObject(item,'',0,0,'',object['plan'],object['qty'],object['bal']);
+                //   this.PH1Objects.push(newobject);
+
+                // }
+              }
+
+              // 3..把ph2Objects数组中的对象的move部分的数据补充完整
+              for (const object of tempPh2Objects) {
+                const item = object['item'];
+                if (this.PH2LINES.includes(item)) { // 当item,也就是 operdesc 是否在 ph1中的数组中，如果在，则寻找符合条件的第一个对象，把move中的数据 更新掉，
+                  for (const obj of this.PH2Objects) {
+                    if (item === obj['line']) { // 当符合条件的时候，赋值
+                      obj.moveplan = object['plan'];
+                      obj.moveact = object['qty'];
+                      obj.movebal = object['bal'];
+                      break;
+                    }
+                  }
+                }
+                // else{ // 当在数组中没有的时候，需要重新创建一个对象 ，wip的数据为空，move的数据显示
+                //   const newobject : CfWipMoveObject = new CfWipMoveObject(item,'',0,0,'',object['plan'],object['qty'],object['bal']);
+                //   this.PH2Objects.push(newobject);
+
+                // }
+              }
+
+
+
+            }
+          },
+          (error) => { console.log(error); },
+          () => {
+            // 4.第四部分，在上面的所有数据都准备好了之后，最后把 state 的数据读出来
+            this.getstate();
+          }
+        );
+      }
+    );
+
+    // 3.获取第三部分的数据：查询 对应的move的数据 ，这个应该在第2步中进行完成之后的操作
+  }
+
+
+  // 改变了状态的操作 : 写入到数据库中
+  statechange(linebie, linename, linestate) {
+    console.log(linebie + ' : ' + linename + ' : ' + linestate);
+    // 需要写入到数据库中去 ： 只保留一条的数据
+    const url = '/keyinremartk';
+    const option = {
+      params: {
+        datename: this.getDatename(),
+        report: 'CF WIP MOVE',
+        item: linename,
+        remark: linestate,
+        linebie: linebie // ‘PH1’ OR ‘PH2’
+      }
+    };
+
+    this.apiService.get(url, option).subscribe(
+      (res) => { },
+      (error) => { console.log(error); alert('状态更新失败！'); }
+    );
+
+  }
+
+  // 从数据库中读取状态的操作
+  getstate() {
+    const url = '/queryRemark';
+    const option = {
+      params: {
+        datename: this.getDatename(),
+        report: 'CF WIP MOVE'
+      }
+    };
+
+    this.apiService.get(url, option).subscribe(
+      (res) => {
+        // console.log(res);
+        if (Array.isArray(res)) {
+          for (const object of res) {
+            const line = object['line'];
+            const item = object['item'];
+            const state = object['remark'];
+            if (line === 'ph1') {
+              for (const obj of this.PH1Objects) { // 遍历ph1数组中的数据，寻找 到item的匹配的对象
+                if (obj.line === item) {
+                  obj.linestate = state;
+                  // break;
+                }
+              }
+            } else if (line === 'ph2') {
+              for (const obj of this.PH2Objects) {
+                if (obj.line === item) {
+                  obj.linestate = state;
+                  // break;
+                }
+              }
+
+            }
+          }
+
+        }
+      },
+      (error) => { console.log(error); }
+    );
+  }
+
+  // 这个是改变 line 状态的时候 写入的一个 日期的名字
+  getDatename(): string {
+    let datename = '';
+    const today = new Date();
+    datename += today.getFullYear() + '/';
+    datename += today.getMonth() + 1 + '/';
+    datename += today.getDate();
+    return datename;
+  }
+
+  // 查询数据时候需要使用的时间 参数 ：返回一个数组：第一个元素是 20190402 第二个元素是 2019040213
+  getTimeAttribute(date: Date): string[] {
+    const attrs: string[] = [];
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+
+    let aa = year + '';
+    if (month < 10) {
+      aa += '0' + month;
+    } else {
+      aa += month;
+    }
+
+
+    if (day < 10) {
+      aa += '0' + day;
+    } else {
+      aa += day;
+    }
+
+    attrs[0] = aa;
+
+    if (hour < 10) {
+      aa += '0' + hour;
+    } else {
+      aa += hour;
+    }
+
+    attrs[1] = aa;
+    return attrs;
+  }
+
+  // 点击查询按钮触发的事件
+  searchClick() {
+    console.log(this.searchTime);
+    this.todaystr = this.searchTime;
+    this.searchAllData(this.searchTime);
+  }
+
+}

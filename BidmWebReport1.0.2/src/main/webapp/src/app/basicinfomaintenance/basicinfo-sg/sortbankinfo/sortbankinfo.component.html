@@ -1,0 +1,130 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12">
+    <p-header>
+      <div class="ui-g-12">
+        <h3 style="text-align:center;margin: 0px 10px">Sort Bank型号对应关系表</h3>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+
+      <p-table #dt [columns]="cols" [value]="infos" selectionMode="single" [(selection)]="selectedInfo" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="18" [autoLayout] = "true">
+
+        <ng-template pTemplate="header" let-columns>
+          <tr class="setFontSize">
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData" class="setFontSize">
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary" let-rowData>
+          <div style="text-align:left">
+            <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+          </div>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </p-panel>
+</div>
+
+<p-dialog header="Info Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="500">
+  <div class="ui-g ui-fluid" *ngIf="info">
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="productname">ProductName</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="productname" [(ngModel)]="info.productname" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="arrayproductspecname">ArrayProductSpecName</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="arrayproductspecname" [(ngModel)]="info.arrayproductspecname" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="cfproductspecname">CfProductSpecName</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="cfproductspecname" [(ngModel)]="info.cfproductspecname" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="cellproductspecname">CellProductSpecName</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="cellproductspecname" [(ngModel)]="info.cellproductspecname" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="arraymodeltype">ArrayModelType</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="arraymodeltype" [(ngModel)]="info.arraymodeltype" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="cfmodeltype">CfModelType</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="cfmodeltype" [(ngModel)]="info.cfmodeltype" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="cellmodeltype">CellModelType</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="cellmodeltype" [(ngModel)]="info.cellmodeltype" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="cell_cfproductspecname">CellCfProductSpecName</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="cell_cfproductspecname" [(ngModel)]="info.cell_cfproductspecname" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="no">No</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="no" [(ngModel)]="info.no" type="number" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-6">
+        <label for="no">Flag</label>
+      </div>
+      <div class="ui-g-6">
+        <input pInputText id="flag" [(ngModel)]="info.flag" placeholder="选填"/>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-close" *ngIf="deleteButton" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>

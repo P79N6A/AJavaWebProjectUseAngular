@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleLegendMapper">
+
+	<select id="getList" resultType="ModuleLegendVO">
+		select 
+			DISTINCT OPERATIONDESC legendName,
+			TO_NUMBER(NO) NO from SC_OPER 
+		where factory = #{factoryname}
+		ORDER BY NO ASC
+	</select>
+
+</mapper>
+		
+

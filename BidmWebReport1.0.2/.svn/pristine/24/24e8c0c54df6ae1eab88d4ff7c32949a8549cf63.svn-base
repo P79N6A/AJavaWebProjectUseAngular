@@ -1,0 +1,87 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      CF 生产数据
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-5">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr>
+            <th rowspan="2">Item</th>
+            <th colspan="3">Cum</th>
+            <th colspan="3">Daily</th>
+            <th rowspan="2">Total Wip</th>
+          </tr>
+          <tr>
+            <th>Plan</th>
+            <th>Act</th>
+            <th>Bal</th>
+            <th>Plan</th>
+            <th>Act</th>
+            <th>Bal</th>
+          </tr>
+          <ng-container *ngFor="let plan of plans;let i = index">
+            <tr>
+              <th>{{plan.item}}</th>
+              <th>{{plan.plan_m}}</th>
+              <th>{{plan.act_m}}</th>
+              <th>{{plan.bal_m}}</th>
+              <th>{{plan.plan_d}}</th>
+              <th>{{plan.act_d}}</th>
+              <th>{{plan.bal_d}}</th>
+              <th rowspan="2" *ngIf="(i == 0)">{{plan.wip}}</th>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+      <div echarts style="height: 180px" [options]="stkRtoOption"></div>
+    </div>
+    <div class="ui-g-2" style="color: #F2F6FA;text-align: center;">
+      <h4 style="margin-top: 0px; margin-bottom: 40px">FCW CST占用情况</h4>
+      <div style="height: 20px">TFT Sorting</div>
+      <div style="height: 20px; color: yellow">{{tft_sorting}}</div>
+      <div style="height: 20px;margin-top: 10px">Cell TFT+CF</div>
+      <div style="height: 20px; color: yellow">{{cell_tft_cf}}</div>
+      <div style="height: 20px;margin-top: 10px">Develop</div>
+      <div style="height: 20px; color: yellow">{{develop}}</div>
+      <div style="height: 20px;margin-top: 10px">Empty</div>
+      <div style="height: 20px; color: yellow">{{empty}}</div>
+    </div>
+    <div class="ui-g-5">
+      <div echarts [options]="touRuOption" style="height: 133px"></div>
+      <div echarts [options]="chanChuOption" style="height: 133px"></div>
+    </div>
+    <div class="ui-g-12">
+      <div echarts [options]="wipMoveOption" style="height: 200px"></div>
+    </div>
+    <div class="ui-g-1" style="font-size: 12px;padding-top: 40px; color: whitesmoke; border: solid 1px #5694ce;border-left: none">
+      <div class="ui-g">
+        <div class="ui-g-12" style="padding-bottom: 0px; margin-bottom: 10px">
+          <p-radioButton id="bank" name="bank" value="TFT Bank" label="TFT Bank" (click)="onChange1()" [(ngModel)]="bankType"
+            inputId="bank1"></p-radioButton>
+        </div>
+        <div class="ui-g-12" style="padding-bottom: 0px">
+          <p-radioButton id="bank" name="bank" value="CF Bank" label="CF Bank" (click)="onChange1()" [(ngModel)]="bankType"
+            inputId="bank2"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11" style="padding: 0px;border: solid 1px #5694ce; border-left: none;border-right: none">
+      <div echarts style="height: 160px" [options]="bankOption"></div>
+    </div>
+    <div class="ui-g-12">
+      <div echarts [options]="cellInOption" style="height: 200px"></div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

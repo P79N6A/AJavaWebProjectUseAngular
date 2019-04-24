@@ -1,0 +1,162 @@
+package com.boe.idm.project.model.mybatis;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("SortBankVO")
+public class SortBankVO {
+	private String productname;
+	private String arrayproductspecname;
+	private String cfproductspecname;
+	private String cellproductspecname;
+	private String arraymodeltype;
+	private String cfmodeltype;
+	private String cellmodeltype;
+	private double tft;
+	private double cf;
+	private double pair;
+	private double tft_bank_normal_n;
+	private double tft_bank_normal_y;
+	private double tft_bank_hold_n;
+	private double tft_bank_hold_y;
+	private double tft_bank_en_n;
+	private double tft_bank_en_y;
+	private double cf_bank_normal_n;
+	private double cf_bank_normal_y;
+	private double cf_bank_hold_n;
+	private double cf_bank_hold_y;
+	private double cf_bank_en_n;
+	private double cf_bank_en_y;
+	public String getProductname() {
+		return productname;
+	}
+	public void setProductname(String productname) {
+		this.productname = productname;
+	}
+	public String getArrayproductspecname() {
+		return arrayproductspecname;
+	}
+	public void setArrayproductspecname(String arrayproductspecname) {
+		this.arrayproductspecname = arrayproductspecname;
+	}
+	public String getCfproductspecname() {
+		return cfproductspecname;
+	}
+	public void setCfproductspecname(String cfproductspecname) {
+		this.cfproductspecname = cfproductspecname;
+	}
+	public String getCellproductspecname() {
+		return cellproductspecname;
+	}
+	public void setCellproductspecname(String cellproductspecname) {
+		this.cellproductspecname = cellproductspecname;
+	}
+	public String getArraymodeltype() {
+		return arraymodeltype;
+	}
+	public void setArraymodeltype(String arraymodeltype) {
+		this.arraymodeltype = arraymodeltype;
+	}
+	public String getCfmodeltype() {
+		return cfmodeltype;
+	}
+	public void setCfmodeltype(String cfmodeltype) {
+		this.cfmodeltype = cfmodeltype;
+	}
+	public String getCellmodeltype() {
+		return cellmodeltype;
+	}
+	public void setCellmodeltype(String cellmodeltype) {
+		this.cellmodeltype = cellmodeltype;
+	}
+	public double getTft() {
+		return tft;
+	}
+	public void setTft(double tft) {
+		this.tft = tft;
+	}
+	public double getCf() {
+		return cf;
+	}
+	public void setCf(double cf) {
+		this.cf = cf;
+	}
+	public double getPair() {
+		return pair;
+	}
+	public void setPair(double pair) {
+		this.pair = pair;
+	}
+	public double getTft_bank_normal_n() {
+		return tft_bank_normal_n;
+	}
+	public void setTft_bank_normal_n(double tft_bank_normal_n) {
+		this.tft_bank_normal_n = tft_bank_normal_n;
+	}
+	public double getTft_bank_normal_y() {
+		return tft_bank_normal_y;
+	}
+	public void setTft_bank_normal_y(double tft_bank_normal_y) {
+		this.tft_bank_normal_y = tft_bank_normal_y;
+	}
+	public double getTft_bank_hold_n() {
+		return tft_bank_hold_n;
+	}
+	public void setTft_bank_hold_n(double tft_bank_hold_n) {
+		this.tft_bank_hold_n = tft_bank_hold_n;
+	}
+	public double getTft_bank_hold_y() {
+		return tft_bank_hold_y;
+	}
+	public void setTft_bank_hold_y(double tft_bank_hold_y) {
+		this.tft_bank_hold_y = tft_bank_hold_y;
+	}
+	public double getTft_bank_en_n() {
+		return tft_bank_en_n;
+	}
+	public void setTft_bank_en_n(double tft_bank_en_n) {
+		this.tft_bank_en_n = tft_bank_en_n;
+	}
+	public double getTft_bank_en_y() {
+		return tft_bank_en_y;
+	}
+	public void setTft_bank_en_y(double tft_bank_en_y) {
+		this.tft_bank_en_y = tft_bank_en_y;
+	}
+	public double getCf_bank_normal_n() {
+		return cf_bank_normal_n;
+	}
+	public void setCf_bank_normal_n(double cf_bank_normal_n) {
+		this.cf_bank_normal_n = cf_bank_normal_n;
+	}
+	public double getCf_bank_normal_y() {
+		return cf_bank_normal_y;
+	}
+	public void setCf_bank_normal_y(double cf_bank_normal_y) {
+		this.cf_bank_normal_y = cf_bank_normal_y;
+	}
+	public double getCf_bank_hold_n() {
+		return cf_bank_hold_n;
+	}
+	public void setCf_bank_hold_n(double cf_bank_hold_n) {
+		this.cf_bank_hold_n = cf_bank_hold_n;
+	}
+	public double getCf_bank_hold_y() {
+		return cf_bank_hold_y;
+	}
+	public void setCf_bank_hold_y(double cf_bank_hold_y) {
+		this.cf_bank_hold_y = cf_bank_hold_y;
+	}
+	public double getCf_bank_en_n() {
+		return cf_bank_en_n;
+	}
+	public void setCf_bank_en_n(double cf_bank_en_n) {
+		this.cf_bank_en_n = cf_bank_en_n;
+	}
+	public double getCf_bank_en_y() {
+		return cf_bank_en_y;
+	}
+	public void setCf_bank_en_y(double cf_bank_en_y) {
+		this.cf_bank_en_y = cf_bank_en_y;
+	}
+	
+}

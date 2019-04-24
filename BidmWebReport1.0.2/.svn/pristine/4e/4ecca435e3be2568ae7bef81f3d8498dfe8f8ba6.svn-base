@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ScProductInfoMapper">
+
+	<select id="getData" resultType="ScProductInfoVO">
+		select factory, productname, product,
+		model_type, cut_number, line,product_size from sc_product order by product
+	</select>
+
+	<delete id="deleteData" parameterType="ScProductInfoVO">
+		delete from sc_product where
+		factory = #{factory} and product = #{product}
+	</delete>
+
+	<insert id="insertData" parameterType="ScProductInfoVO">
+		INSERT INTO sc_product VALUES (#{factory}, #{product}, #{model_type,jdbcType=VARCHAR},
+		 #{cut_number,jdbcType=DOUBLE}, #{line,jdbcType=VARCHAR}, #{productname, jdbcType=VARCHAR},#{product_size,jdbcType=DOUBLE})
+	</insert>
+
+	<update id="updateData" parameterType="ScProductInfoVO">
+		update sc_product set  model_type = #{model_type,jdbcType=VARCHAR},
+		cut_number = #{cut_number,jdbcType=DOUBLE}, line = #{line,jdbcType=VARCHAR},productname = #{productname,jdbcType=VARCHAR},
+		product_size = #{product_size,jdbcType=DOUBLE}
+		where factory = #{factory} and product = #{product}
+	</update>
+
+</mapper>

@@ -1,0 +1,78 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      Array生产数据
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-5">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr style="border-top:1px solid #2c5ea8;border-bottom: 1px solid #2c5ea8">
+            <th colspan="5">Array投入产出</th>
+          </tr>
+          <tr style="background-color: #113354">
+            <th></th>
+            <th>Plan(M)</th>
+            <th>Act(D)</th>
+            <th>Act(M)</th>
+            <th>Demand(D)</th>
+          </tr>
+          <tr>
+            <th>投入</th>
+            <th>145000</th>
+            <th>4500(D)</th>
+            <th>55500(M)</th>
+            <th>差额/剩余天数(D)</th>
+          </tr>
+          <tr style="background-color: #113354">
+            <th>产出</th>
+            <th>145000</th>
+            <th>4500(D)</th>
+            <th>55500(M)</th>
+            <th>差额/剩余天数(D)</th>
+          </tr>
+          <tr style="border-bottom: 1px solid #2c5ea8">
+            <th>良率</th>
+            <th>98.90%</th>
+            <th>99.83%</th>
+            <th>99.91%</th>
+            <th></th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-7">
+      <div style="height: 200px" echarts [options]="touruChanchuOption"></div>
+    </div>
+    <div class="ui-g-12">
+      <div echarts style="height: 200px;" [options]="wipByOperOption"></div>
+    </div>
+    <div class="ui-g-1">
+      <div class="ui-g">
+        <div class="ui-g-12" style="text-align:center;font-size: 16px;color: white;">瓶颈设备</div>
+        <div class="ui-g-12">
+          <p-radioButton name="bumengroup" value="Multi" label="Multi" (click)="onChange()" [(ngModel)]="eqp" inputId="preopt1"></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton name="bumengroup" value="PVX" label="PVX" (click)="onChange()" [(ngModel)]="eqp" inputId="preopt2"></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton name="bumengroup" value="PHOTO" label="PHOTO" (click)="onChange()" [(ngModel)]="eqp" inputId="preopt3"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11">
+      <div echarts style="height: 200px" [options]="eqpActOption"></div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

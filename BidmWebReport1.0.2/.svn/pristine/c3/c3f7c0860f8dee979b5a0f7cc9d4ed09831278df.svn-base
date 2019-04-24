@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ProductionInfoMapper">
+
+	<select id="getData" resultType="ProductionInfoVO">
+		select productspecname,
+		arrayproductspecname, arraymodeltype,hour,item,qty,planqty,balqty, actplan from
+		SC_PRODUCTION_INFO_AR_VW where datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="queryData" resultType="ProductionInfoVO">
+		select productspecname,
+		arrayproductspecname, arraymodeltype,hour,item,qty,planqty,balqty, actplan from
+		SC_PRODUCTION_INFO_AR_VW where datename = #{dateValue}
+	</select>
+	
+	<select id="getDataCf" resultType="ProductionInfoVO">
+		select productname as productspecname,
+		cfproductspecname as arrayproductspecname,cfmodeltype as arraymodeltype,hour,item,qty,planqty,balqty, actplan from
+		SC_PRODUCTION_INFO_CF_VW where datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="queryDataCf" resultType="ProductionInfoVO">
+		select productname as productspecname,
+		cfproductspecname as arrayproductspecname,cfmodeltype as arraymodeltype,hour,item,qty,planqty,balqty, actplan from
+		SC_PRODUCTION_INFO_CF_VW where datename = #{dateValue}
+	</select>
+	
+	<select id="getDataM1" resultType="ProductionInfoModVO">
+		select line,
+		productname, fgcode,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_M1_VW where datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="queryDataM1" resultType="ProductionInfoModVO">
+		select line,
+		productname, fgcode,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_M1_VW where datename = #{dateValue}
+	</select>
+	
+	<select id="getDataM2" resultType="ProductionInfoModVO">
+		select line,
+		productname, fgcode,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_M2_VW where datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="queryDataM2" resultType="ProductionInfoModVO">
+		select line,
+		productname, fgcode,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_M2_VW where datename = #{dateValue}
+	</select>
+	
+	<select id="getDataCell" resultType="ProductionInfoCellVO">
+		select line,
+		productname, productspecname,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_CL_VW where datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="queryDataCell" resultType="ProductionInfoCellVO">
+		select line,
+		productname, productspecname,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_CL_VW where datename = #{dateValue}
+	</select>
+	
+	<select id="getDataCell2" resultType="ProductionInfoCellVO">
+		select line,
+		productname, productspecname,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_CL1_VW where datename =
+		to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="queryDataCell2" resultType="ProductionInfoCellVO">
+		select line,
+		productname, productspecname,model_type,hour,item,qty,planqty,balqty,actplan from
+		SC_PRODUCTION_INFO_CL1_VW where datename = #{dateValue}
+	</select>
+
+</mapper>

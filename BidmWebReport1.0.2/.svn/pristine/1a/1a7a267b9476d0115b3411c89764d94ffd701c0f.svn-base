@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleS2WorkCloseMapper">
+
+	<select id="getList" resultType="ModuleS2WorkCloseVO">
+
+	select factory,assigndate,assignqty,closedqty,round(closedratio,4) closedratio,round(destratio,4) destratio
+	from(
+		select factory,assigndate,assignqty,closedqty,closedqty/assignqty closedratio,destqty/qty destratio
+		from(
+			select factory,assigndate,sum(assignqty) assignqty,sum(closedqty) closedqty,sum(destqty) destqty,sum(qty) qty
+			from ( 
+    			select factory,assign1stday as assigndate,assignqty,closedqty,destqty,qty
+    			from SC_MODS2_WO_WIP_2_VW 
+    			where factory = #{factoryname}
+    			and BUTYPE in <foreach collection="buttypes" item="buttype" index="index" open="(" close=")" separator=",">'${buttype}'</foreach>
+    			and WO_GROUP in <foreach collection="worktypes" item="worktype" index="index" open="(" close=")" separator=",">'${worktype}'</foreach>
+   			 and WOTYPE in <foreach collection="lottypes" item="lottype" index="index" open="(" close=")" separator=",">'${lottype}'</foreach>
+    		) group by factory,assigndate order by assigndate asc  
+    	)
+	)
+	</select>
+	
+	<!-- 2.查询关闭率的方法 -->
+	<select id="getCloseRatio" resultType="ModuleS2CloseRatioVO">
+		select factory,closedqty/totalqty  closedRatio from(
+			select factory, sum(closedqty) closedqty,sum(totalqty) totalqty
+			 from SC_MODS2_WO_WIP_CLOSED_VW
+			where factory = #{factoryname}
+			and BUTYPE in <foreach collection="buttypes" item="buttype" index="index" open="(" close=")" separator=",">'${buttype}'</foreach>
+			and WO_GROUP in <foreach collection="worktypes" item="worktype" index="index" open="(" close=")" separator=",">'${worktype}'</foreach>
+			and WOTYPE in <foreach collection="lottypes" item="lottype" index="index" open="(" close=")" separator=",">'${lottype}'</foreach>
+			 group by factory) 
+	
+	</select>
+	
+	<!-- 3.查询关闭周期的方法 -->
+	<select id="getCloseCycle" resultType="ModuleS2ClosedCycleVO">
+		select factory,closedday/closedqty closeCycle from(
+			select factory,sum(CLOSEDDAY) closedday,sum(closedqty) closedqty from SC_MODS2_WO_WIP_CLOSEDCYCLE_VW
+			where factory = #{factoryname}
+			and BUTYPE in <foreach collection="buttypes" item="buttype" index="index" open="(" close=")" separator=",">'${buttype}'</foreach>
+			and WO_GROUP in <foreach collection="worktypes" item="worktype" index="index" open="(" close=")" separator=",">'${worktype}'</foreach>
+			and WOTYPE in <foreach collection="lottypes" item="lottype" index="index" open="(" close=")" separator=",">'${lottype}'</foreach>
+			group by factory
+			) AA
+	</select>
+
+</mapper>
+		
+

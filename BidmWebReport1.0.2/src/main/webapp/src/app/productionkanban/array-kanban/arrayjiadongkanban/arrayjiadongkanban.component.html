@@ -1,0 +1,423 @@
+<p-growl [(value)]="msgs" sticky="true"></p-growl>
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      Array设备稼动
+    </div>
+    <div>
+      <div style="float:right;padding: 0px 5%;margin-top: -5px;color: #F2F6FA">
+        请选择部门:
+        <p-dropdown [options]="department" id="arrayjiadongdropdown" [(ngModel)]="bumen" (onChange)="select($event.value)" class="shangyi"></p-dropdown>
+        &nbsp;&nbsp;请输入日期:
+        <p-calendar [(ngModel)]="dateName" dateFormat="yy/mm/dd" id="jiadongCalendar" placeholder="年/月/日"></p-calendar>
+        <p-button label="查询" (click)="query()"></p-button>
+        <p-button label="刷新" (click)="refresh()"></p-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g" *ngIf="PhotoTable">
+    <div class="ui-g-7" style="height:561px; padding: 6px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 7px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="PhotoJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStatePhoto">
+              <th height="23px" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="SputterTable">
+    <div class="ui-g-7" style="height:558px; padding: 6px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 7px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="SputterJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStateSputter">
+              <th height="30px" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="PecvdFGI">
+    <div class="ui-g-7" style="height:534px; padding: 6px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 5px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="PecvdFGIJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStatePecvdFGI;let i = index;">
+              <th style="color: #1FE9BA !important;" [ngStyle]="{'height': (i == 1 || i == 3 || i == 5) ? '17px' : '102px'}">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="PecvdMulti">
+    <div class="ui-g-7" style="height:534px; padding: 6px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 5px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="PecvdMultiJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStatePecvdMulti;let i = index;">
+              <th [ngStyle]="{'height': (i == 1 || i == 3 || i == 5) ? '17px' : '102px'}" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="PecvdPVX">
+    <div class="ui-g-7" style="height:627px; padding: 1px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 8px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="PecvdPVXJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStatePecvdPVX;let i = index;">
+              <th [ngStyle]="{'height': (i == 1 || i == 3 || i == 5 || i == 7) ? '16px' : '96px'}" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="EtchITO">
+    <div class="ui-g-7" style="height:559px; padding: 1px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 2px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="EtchITOJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStateEtchITO">
+              <th height="54px" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="Etch1SD">
+    <div class="ui-g-7" style="height:556px; padding: 1px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 2px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="Etch1SDJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStateEtch1SD;let i = index;">
+              <th [ngClass]="{setheight1: i==0, setheight2: (i==2 || i==4), setheight3: (i==1 || i==3)}" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="Etch2SD">
+    <div class="ui-g-7" style="height:548px; padding: 1px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 2px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="Etch2SDJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStateEtch2SD;let i = index;">
+              <th [ngClass]="{setheight4: (i==0 || i==2), setheight5: i==4, setheight6: (i==1 || i==3)}" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="EtchVIA">
+    <div class="ui-g-7" style="height:536px; padding: 2px 0 0 0" echarts [options]="jiadongOption"></div>
+    <div class="ui-g-5" style="padding: 1px 0 0 0">
+      <p style="color:#F2F6FA;text-align: center;margin: 0;font-size: 15px; font-weight: bold; margin-bottom: 7px">
+        设备状态明细</p>
+      <div>
+        <p-table id="EtchVIAJiaDongPtable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="2" class="noborder">RUN</th>
+              <th colspan="2" class="noborder">IDLE</th>
+              <th colspan="2" class="noborder">DOWN</th>
+              <th colspan="2" class="noborder">ETIME</th>
+              <th colspan="2" class="noborder">PM</th>
+              <th colspan="2" class="noborder">MAINT</th>
+              <th colspan="2" class="noborder">ETC</th>
+            </tr>
+            <tr *ngFor="let q of eqpStateEtchVIA;let i = index;">
+              <th [ngStyle]="{'height': i == 1 ? '31px' : '217px'}" style="color: #1FE9BA !important;">{{q.run}}</th>
+              <th style="color: #1FE9BA !important;">{{q.runratio}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idle}}</th>
+              <th style="color: #FFFF00 !important;">{{q.idleratio}}</th>
+              <th style="color: #FF0000 !important;">{{q.down}}</th>
+              <th style="color: #FF0000 !important;">{{q.downratio}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etime}}</th>
+              <th style="color: #CCC0DA !important;">{{q.etimeratio}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pm}}</th>
+              <th style="color: rgb(36, 180, 247) !important;">{{q.pmratio}}</th>
+              <th style="color: #FFC000 !important;">{{q.maint}}</th>
+              <th style="color: #FFC000 !important;">{{q.maintratio}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etc}}</th>
+              <th style="color: #FDE9D9 !important;">{{q.etcratio}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;比例(%)</span>
+        <div style="width: 10px; height: 10px; background: gray; float: right; margin-top: 3px"></div>
+        <span style="color: #F2F6FA; font-size: 12px; float: right">&nbsp;时间(小时)&nbsp;&nbsp;&nbsp;</span>
+        <div style="width: 10px; height: 10px; background: greenyellow; float: right; margin-top: 3px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

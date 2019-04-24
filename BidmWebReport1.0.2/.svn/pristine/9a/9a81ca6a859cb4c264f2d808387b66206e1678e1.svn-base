@@ -1,0 +1,65 @@
+package com.boe.idm.project.controller;
+
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.boe.idm.project.model.mybatis.ModuleWipPlanVO;
+import com.boe.idm.project.service.ModuleWipPlanService;
+
+@RestController
+@RequestMapping("/api")
+public class ModuleWipPlanController {
+	
+	@Autowired
+	private ModuleWipPlanService service;
+	
+	
+	//1.上传文件的方法
+	@RequestMapping(value="/ModuleWipspec/excelUpload",method=RequestMethod.GET)
+	public List<ModuleWipPlanVO> excelUpload(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="localPath",required=true) String localPath
+			) throws IOException{
+		return service.importExcel(localPath);
+	}
+	
+	//2.保存数据到数据库中的方法
+	@RequestMapping(value="/ModuleWipspec/excelImport",method=RequestMethod.PUT)
+	public int excelUpload(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody Map map
+			) throws IOException{
+		
+		List<ModuleWipPlanVO> moduleWipPlanVOlist = (List<ModuleWipPlanVO>) map.get("moduleWipPlanVOList");
+		 
+		return service.insertObjects(moduleWipPlanVOlist);
+	}
+	
+	//3.查询数据的方法
+	@RequestMapping(value="/ModuleWipspec/dataImport",method=RequestMethod.GET)
+	public List<ModuleWipPlanVO> queryOjbects(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="factory",required=true) String factoryname){
+		String factory = "";
+		if (factoryname.equals("Module")) {
+			factory = "Module";
+		}else if (factoryname.equals("S2")) {
+			factory = "S2Module";
+		}
+		
+		return service.queryObjects(factory);
+	}
+
+}

@@ -1,0 +1,39 @@
+<div class="ui-g">
+  <!-- intro/image area -->
+  <div class="ui-g-12">
+      <p-galleria [images]="images" panelWidth="800" panelHeight="500" [showCaption]="false" #galleria (onImageClicked)="click()"></p-galleria>
+  </div>
+  <!-- end intro/image area -->
+
+  <!-- panel area -->
+  <div class="ui-g-12">
+    <!-- panel1 -->
+    <div class="ui-g-12 ui-lg-8">
+        <p-panel>
+            <p-header>
+             Notice
+            </p-header>
+            Body Content
+            <br>
+            <br>
+            <br>
+            
+          </p-panel>
+    </div>
+    <!-- end panel1 -->
+    <div class="ui-g-12 ui-lg-4">
+        <p-panel>
+            <p-header>
+              NyInfo 
+            </p-header>
+            Body Content
+            <br>
+            <br>
+            <br>
+            
+          </p-panel>
+    </div>
+    <!-- end panel2 -->
+  </div>
+  <!-- end panel area -->
+</div>

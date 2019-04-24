@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { MdlBaobiaoRoutingModule } from './mdl-baobiao-routing.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    MdlBaobiaoRoutingModule
+  ],
+  declarations: []
+})
+export class MdlBaobiaoModule { }

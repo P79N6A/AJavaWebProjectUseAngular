@@ -1,0 +1,266 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:8%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      公司看板
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <p-table class="ui-g-12">
+      <ng-template pTemplate="header">
+        <tr style="height:10px">
+          <th rowspan="2">FAC</th>
+          <th rowspan="2">Item</th>
+          <th>Monthly</th>
+          <th colspan="3">Cum</th>
+          <th colspan="3">Daily</th>
+          <th rowspan="2">Wip</th>
+          <th rowspan="2">Bank</th>
+          <th rowspan="2" width="50%">Daily Trend</th>
+        </tr>
+        <tr>
+          <!-- <th>勇追</th> -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <textarea pInputTextArea  [(ngModel)]="monthlyModel" style="width:100%" (change)="updateRemark('FAC Item Monthly',12)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{monthlyModel}}
+                </ng-template>
+            </p-cellEditor>
+          </th>
+          <th>Plan</th>
+          <th>Act</th>
+          <th>Bal</th>
+          <th>Plan</th>
+          <th>Act</th>
+          <th>Bal</th>
+        </tr>
+        <tr style="height: 55px">
+          <th rowspan="2">Array</th>
+          <th>In</th>
+          <!-- <th>{{arrayInM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="arrayInM" style="width:100%" (change)="updateRemark('Array In',0)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{arrayInM}}
+                </ng-template>
+            </p-cellEditor>
+          </th>
+          <th *ngFor="let qty of arrayIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="2">{{arrayWip}}</th>
+          <th rowspan="2">{{arrayBank}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="arrayInOption"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th>Out</th>
+            <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+            <th pEditableColumn>
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="arrayOutM" style="width:100%" (change)="updateRemark('Array Out',1)"></textarea>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{arrayOutM}}
+                  </ng-template>
+              </p-cellEditor>
+            </th>
+          <th *ngFor="let qty of arrayOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="arrayOutOpton"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th rowspan="2">CF</th>
+          <th>In</th>
+          <!-- <th>{{cfInM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="cfInM" style="width:100%" (change)="updateRemark('CF In',2)"></textarea>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{cfInM}}
+                  </ng-template>
+              </p-cellEditor>
+            </th>
+
+          <th *ngFor="let qty of cfIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="2">{{cfWip}}</th>
+          <th rowspan="2">{{cfBank}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="cfInOption"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th>Out</th>
+          <!-- <th>{{cfOutM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="cfOutM" style="width:100%" (change)="updateRemark('CF Out',3)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{cfOutM}}
+                </ng-template>
+            </p-cellEditor>
+          </th>          
+          <th *ngFor="let qty of cfOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="cfOutOption"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th rowspan="2">Cell</th>
+          <th>In</th>
+          <!-- <th>{{cellInM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="cellInM" style="width:100%" (change)="updateRemark('Cell In',4)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{cellInM}}
+                </ng-template>
+            </p-cellEditor>
+          </th>           
+          <th *ngFor="let qty of cellIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="cellInOption"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th>Out</th>
+          <!-- <th>{{cellOutM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="cellOutM" style="width:100%" (change)="updateRemark('Cell Out',5)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{cellOutM}}
+                </ng-template>
+            </p-cellEditor>
+          </th>  
+          <th *ngFor="let qty of cellOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="cellOutOption"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th rowspan="2">MDL</th>
+          <th>In</th>
+          <!-- <th>{{mdlInM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="mdlInM" style="width:100%" (change)="updateRemark('Mdl In',6)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{mdlInM}}
+                </ng-template>
+            </p-cellEditor>
+          </th> 
+          <th *ngFor="let qty of mdlIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="2">{{mdlWip}}</th>
+          <th rowspan="2">{{mdlBank}}</th>
+          <th><div style="height:50px" *ngIf ="showEchart" echarts [options]="mdlInOption"></div></th>
+        </tr>
+        <tr style="height: 55px">
+          <th>Out</th>
+          <!-- <th>{{mdlOutM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="3" cols="5" [(ngModel)]="mdlOutM" style="width:100%" (change)="updateRemark('Mdl Out',7)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{mdlOutM}}
+                </ng-template>
+            </p-cellEditor>
+          </th> 
+          <th *ngFor="let qty of mdlOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <!-- <th rowspan="6">Issue</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn rowspan="6">
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="11" cols="5" [(ngModel)]="Issue" style="width:100%" (change)="updateRemark('Issue',11)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{Issue}}
+                </ng-template>
+            </p-cellEditor>
+          </th> 
+          
+        </tr>
+        <tr>
+          <th>TPC-Q</th>
+          <th rowspan="5">Out</th>
+          <!-- <th>{{tpc_qM}}</th> -->
+          <!-- remark  是可以进行编辑 的 (change)="updateRemark('Array In',0)" -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="1" cols="5" [(ngModel)]="tpc_qM" style="width:100%" (change)="updateRemark('tpc_qM',8)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{tpc_qM}}
+                </ng-template>
+            </p-cellEditor>
+          </th>
+          <th *ngFor="let qty of tpc_q" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>M1</th>
+          <!-- <th>{{m1M}}</th> -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="1" cols="5" [(ngModel)]="m1M" style="width:100%" (change)="updateRemark('m1M',9)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{m1M}}
+                </ng-template>
+            </p-cellEditor>
+          </th>
+          <th *ngFor="let qty of m1" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>M2-1</th>
+          <!-- <th>{{m2_1M}}</th> -->
+          <th pEditableColumn>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="1" cols="5" [(ngModel)]="m2_1M" style="width:100%" (change)="updateRemark('m2_1M',10)"></textarea>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{m2_1M}}
+                </ng-template>
+            </p-cellEditor>
+          </th>
+          <th *ngFor="let qty of m2_1" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>M2-2</th>
+          <th>{{m2_2M}}</th>
+          <th *ngFor="let qty of m2_2" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>OEM</th>
+          <th>{{oemM}}</th>
+          <th *ngFor="let qty of oem" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

@@ -1,0 +1,84 @@
+package com.boe.idm.project.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.boe.idm.project.model.mybatis.PanelBankVO;
+import com.boe.idm.project.model.mybatis.PanelBankkfVO;
+import com.boe.idm.project.service.PanelBankService;
+
+@RestController
+@RequestMapping("/api")
+public class PanelBankController {
+	@Autowired
+	private PanelBankService service;
+	
+	//1.查询 1条  表格数据的上面的   total 的数据
+	@RequestMapping(value="/panelbank/total1",method=RequestMethod.GET)
+	public List<PanelBankVO> queryObjects1(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="hourtime",required=true) String hourtime){
+		return service.queryObjects1(hourtime);
+	}
+	
+		
+	//2.查询 4条  表格数据的上面的 
+	@RequestMapping(value="/panelbank/bbb",method=RequestMethod.GET)
+	public List<PanelBankVO> queryObjects2(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="hourtime",required=true) String hourtime){
+		return service.queryObjects2(hourtime);
+	}
+		
+	//3.按照时间来进行查询 ：第一个页面的数据 :数据主体部分
+	@RequestMapping(value="/panelbank/maindata1",method=RequestMethod.GET)
+	public List<PanelBankVO> queryObjects3(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="hourtime",required=true) String hourtime){
+		return service.queryObjects3(hourtime);
+	}
+		
+	//4.查询 上面的两个数据
+	@RequestMapping(value="/panelbank/cstdata1",method=RequestMethod.GET)
+	public List<PanelBankVO> queryObjects4(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="hourtime",required=true) String hourtime){
+		return service.queryObjects4(hourtime);
+	}
+	
+	
+	
+	//5.查询 1条  表格数据的上面的   total 的数据
+		@RequestMapping(value="/panelbankkf/total2",method=RequestMethod.GET)
+		public List<PanelBankkfVO> queryObjects5(HttpServletRequest request,
+				HttpServletResponse response,
+				@RequestParam(value="hourtime",required=true) String hourtime){
+			return service.queryOjbects5(hourtime);
+		}
+		
+			
+		//6.查询 4条  表格数据的上面的 
+		@RequestMapping(value="/panelbankkf/bbb2",method=RequestMethod.GET)
+		public List<PanelBankkfVO> queryObjects6(HttpServletRequest request,
+				HttpServletResponse response,
+				@RequestParam(value="hourtime",required=true) String hourtime){
+			return service.queryOjbects6(hourtime);
+		}
+			
+		//7.按照时间来进行查询 ：第一个页面的数据 :数据主体部分
+		@RequestMapping(value="/panelbankkf/maindata2",method=RequestMethod.GET)
+		public List<PanelBankkfVO> queryObjects7(HttpServletRequest request,
+				HttpServletResponse response,
+				@RequestParam(value="hourtime",required=true) String hourtime){
+			return service.queryOjbects7(hourtime);
+		}
+
+}

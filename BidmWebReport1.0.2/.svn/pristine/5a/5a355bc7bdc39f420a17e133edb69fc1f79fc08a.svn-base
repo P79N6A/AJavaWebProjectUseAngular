@@ -1,0 +1,1259 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../common/service/api/api.service';
+import { ReportUiCommonService } from '../../report-ui/service/report-ui-common.service';
+import { FullscreenService } from '../../common/service/fullscreen.service';
+
+@Component({
+  selector: 'app-gskanban',
+  templateUrl: './gskanban.component.html',
+  styleUrls: ['./gskanban.component.css']
+})
+export class GskanbanComponent implements OnInit {
+
+  //定义四个图
+ chart_of_array; 
+ chart_of_cf;
+ chart_of_cell;
+ chart_of_mdl;
+
+ //定义四个wip的小图
+ chart_wip_array;
+ chart_wip_cf;
+ chart_wip_cell;
+ chart_wip_mdl;
+
+
+ //定义画图时候的需要的数据
+ xAxisData:string[] = []; // 放x轴的坐标的,需要动态获取
+
+ dataDailyIn:number[] = []; // In 的数量 实际的
+ dataDailyOut:number[] = []; // Out 的数量 实际的
+
+ dataPlanIn:number[] = []; // In 的数量 计划的
+ dataPlanOut:number[] = []; // OUt 的数量 计划的
+
+ dataSumIn:number[]= [90,95,96,93,91,98,95]; // In 的数量 当月累计的
+ dataSumOut:number[] = [90,97,90,96,98,94,93]; // Out 的数量 当月累计的
+
+ //左上角的in out 的数量的显示
+ dataSumInNumberAr:number = 0; // sumin 的数量
+ dataSumOutNumberAr:number = 0; // sumout 的数量
+
+ dataSumInNumberCf:number = 0; // sumin 的数量
+ dataSumOutNumberCf:number = 0; // sumout 的数量
+
+ dataSumInNumberCl:number = 0; // sumin 的数量
+ dataSumOutNumberCl:number = 0; // sumout 的数量
+
+ dataSumInNumberMdl:number = 0; // sumin 的数量
+ dataSumOutNumberMdl:number = 0; // sumout 的数量
+
+ 
+ //下面的四个小表
+ dataArrayWip :number [] = [];
+ dataCFWip : number [] = [];
+ dataCellWip : number [] = [];
+ dataMdlWip : number [] = [];
+
+ xAxisWipArray:string[] = [];
+ xAxisWipCf:string[] = [];
+ xAxisWipCell:string[] = [];
+ xAxisWipMdl:string[] = [];
+
+
+ //数组保存四个柱状图的操作
+ factorynames : string [] = ['ar','cf','cl','mod'];//这个地方因为 后两个的数据库里面还没有数据，所以暂时先这么写着
+ 
+ //定义保存上述数据的数组
+ dataArray : any[] = [this.dataDailyIn,this.dataDailyOut,this.dataPlanIn,this.dataPlanOut,this.dataSumIn,this.dataSumOut]; 
+
+
+ //右上角的时间
+ datecurrent : Date;
+ datecurrentstr:string = "";
+ constructor(
+   private apiService: ApiService,
+   private reportComnService: ReportUiCommonService,
+   private fullscreen: FullscreenService
+ ) { }
+
+ ngOnInit() {
+
+    this.xAxisData = [ '01','02','03','04','05','06','07','08','09','10',
+                        '11','12','13','14','15','16','17','18','19','20',
+                        '21','22','23','24','25','26','27','28']; // 放x轴的坐标的,需要动态获取
+
+    this.getXAisData();//获取月份信息 ，也就是x轴的内容
+
+    this.datecurrent = new Date();
+    let year = this.datecurrent.getFullYear();
+    let month = this.datecurrent.getMonth()+1;
+    this.datecurrentstr = year+"年"+month+"月";
+
+
+
+    //1.创建四个柱状图
+   const url_table = '/gs/showTable';
+   for(let i = 0; i < this.factorynames.length;i++){
+     //1.创建要传递的参数
+     const option = {
+        params:{
+         factoryname:this.factorynames[i]//最为参数传进来
+         }
+        };
+        this.apiService.get(url_table,option).subscribe(
+        (res)=>{
+             this.getDate(res);//获取数据
+            
+             if(i == 0){//当 是 0 的时候，画 array的
+                this.setEchartArray(this.xAxisData,this.dataArray); 
+                this.dataSumInNumberAr = this.dataSumIn[this.dataSumIn.length-1]; // 获取到最后一个数
+                this.dataSumOutNumberAr = this.dataSumOut[this.dataSumOut.length-1]; // 获取到最后一个数
+             }else if(i == 1){//当 是 1 的时候，画 cf的
+                this.setEchartCf(this.xAxisData,this.dataArray);
+                this.dataSumInNumberCf = this.dataSumIn[this.dataSumIn.length-1]; // 获取到最后一个数
+                this.dataSumOutNumberCf = this.dataSumOut[this.dataSumOut.length-1]; // 获取到最后一个数
+             }else if(i == 2){//当 是 2 的时候，画 cl的
+                this.setEchartCl(this.xAxisData,this.dataArray);
+                this.dataSumInNumberCl = this.dataSumIn[this.dataSumIn.length-1]; // 获取到最后一个数
+                this.dataSumOutNumberCl = this.dataSumOut[this.dataSumOut.length-1]; // 获取到最后一个数
+             }
+             else if(i == 3){//当 是 3 的时候，画 mdl的
+                this.setEchartMdl(this.xAxisData,this.dataArray);
+                this.dataSumInNumberMdl = this.dataSumIn[this.dataSumIn.length-1]; // 获取到最后一个数
+                this.dataSumOutNumberMdl = this.dataSumOut[this.dataSumOut.length-1]; // 获取到最后一个数
+             }
+           
+        } 
+         );
+    }
+
+    //2.创建四个wip图
+    const url_table_wip = '/gs/wipshowtable';
+    this.apiService.get(url_table_wip).subscribe(
+        (res)=>{
+            console.log(res);
+            this.getDateWip(res);
+            console.log(this.xAxisWipArray);
+            console.log(this.dataArrayWip);
+             //这下面是来画四个小Wip的
+            this.setWipArray(this.xAxisWipArray,this.dataArrayWip);
+            this.setWipCf(this.xAxisWipCf,this.dataCFWip);
+            this.setWipCell(this.xAxisWipCell,this.dataCellWip);
+            this.setWipMdl(this.xAxisWipMdl,this.dataMdlWip);
+        },
+        (error)=>{console.log(error)}
+    );
+
+    
+ }
+
+ //写一个获取数据的方法 : 四个分厂的柱状图
+ getDate(data){
+
+ //this.xAxisData = [] ; // 清空 x 坐标轴的记录
+ this.dataDailyIn = []; // In 的数量 实际的
+ this.dataDailyOut = []; // Out 的数量 实际的
+
+ this.dataPlanIn = []; // In 的数量 计划的
+ this.dataPlanOut= []; // OUt 的数量 计划的
+
+ this.dataSumIn= []; // In 的数量 当月累计的
+ this.dataSumOut = []; // Out 的数量 当月累计的
+
+   if(Array.isArray(data)){
+     for(const object of data){
+       for(const property in object){
+        //  if(property == 'datename'){
+        //    this.xAxisData.push(object[property]);
+        //  }
+         if(property == 'glassin'){
+           this.dataDailyIn.push(object[property]);
+         }
+         if(property == 'glassout'){
+           this.dataDailyOut.push(object[property]);
+         }
+         if(property == 'sumin'){
+            this.dataSumIn.push(object[property]);
+          }
+          if(property == 'sumout'){
+            this.dataSumOut.push(object[property]);
+          }
+       }
+     }
+   }
+   this.dataArray  = [this.dataDailyIn,this.dataDailyOut,this.dataPlanIn,this.dataPlanOut,this.dataSumIn,this.dataSumOut]; 
+ }
+
+ //写一个获取数据的方法：四个分厂的wip数量
+ getDateWip(data){
+    if(Array.isArray(data)){
+        for(const object of data){
+            const factory = object['factory'];
+            if(factory == 'ARRAY'){
+                this.xAxisWipArray.push(object['oper_code']);
+                this.dataArrayWip.push(parseInt(object['qty']));
+            }else if(factory == 'CF'){
+                this.xAxisWipCf.push(object['oper_code']);
+                this.dataCFWip.push(parseInt(object['qty']));
+            }else if(factory == 'CELL'){
+                this.xAxisWipCell.push(object['oper_code']);
+                this.dataCellWip.push(parseInt(object['qty']));
+            }else if(factory == 'MODULE'){
+                this.xAxisWipMdl.push(object['oper_code']);
+                this.dataMdlWip.push(parseInt(object['qty']));
+            }
+        }
+    }
+ }
+
+ //写一个获取月份日期的方法：直接把x轴写死了就
+ getXAisData(){
+     const today = new Date();
+     const year = today.getFullYear();
+     const month = today.getMonth()+1;
+     //如果月份是 1 3 5 7 8 10 12 则是31天
+      //如果月份是 4 6 9 11 则是30天
+       //如果月份是 2 则判断闰年从而确定是28 天还是 29 天
+     if(month == 1 ||month == 3 ||month == 5 ||month == 7 ||month == 8 ||month == 10 ||month == 12){
+        this.xAxisData.push('29');
+        this.xAxisData.push('30');
+        this.xAxisData.push('31');
+     }else if(month == 4 ||month == 6 ||month == 9 ||month == 11){
+        this.xAxisData.push('29');
+        this.xAxisData.push('30');
+     }else if(month == 2){
+         if((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)){
+            this.xAxisData.push('29');
+         }
+     }
+ }
+
+ //写一个画四个工厂In Out 柱状图的方法 array
+ setEchartArray(xAxisdata:string[],dataArray:any[]){
+  
+  this.chart_of_array={
+      
+       title:{
+         text:'Array',
+         x:330,
+         y:'25px',
+        textStyle:{
+            color:'rgba(253, 253, 253, 0.863)'
+        }
+        },
+    
+     tooltip: {
+       trigger: 'axis',
+       axisPointer: {
+         label:{
+          backgroundColor:'#123'
+         },
+           type: 'cross'
+       }
+   },
+   grid: {
+       right: '20%'
+   },
+//    legend: {
+//        top:-5,
+//        left:200,
+//        textStyle:{//设置图例文本的样式
+//         color:'rgba(253, 253, 253, 0.863)'
+//        },
+//        data:['Daily In','Daily Out','Plan In','Plan Out','Sum In','Sum Out'],
+      
+//    },
+   xAxis: [
+       {
+           type: 'category',
+           interval:0,
+           axisTick: {
+               alignWithLabel: true
+           },
+           axisLabel:{//设置坐标轴标签的样式
+            interval:0,
+            color:'rgba(253, 253, 253, 0.863)',
+           // fontSize:'1px'
+           },
+           axisLine:{//设置坐标轴的轴线的
+            lineStyle:{
+                color:'rgba(253, 253, 253, 0.863)',
+            }
+
+           },
+           data:xAxisdata
+       }
+   ],
+   yAxis: [
+       
+       {
+           type: 'value',
+          // name: '数量',
+           min: 0,
+           max: 8000,
+           
+           position: 'left',
+           axisLine: {//设置坐标轴样式
+               lineStyle: {
+                   color: 'rgba(253, 253, 253, 0.863)'
+               }
+           },
+           axisLabel: {
+               color:'rgba(253, 253, 253, 0.863)',
+               formatter: '{value}'
+           }
+       },
+         {
+           type: 'value',
+          // name: '百分比',
+           min: 0,
+          
+           //interval:20,
+           position: 'right',
+           axisLine: {
+               lineStyle: {
+                   color: 'rgba(253, 253, 253, 0.863)'
+               }
+           },
+           axisLabel: {
+               color:'rgba(253, 253, 253, 0.863)',
+               formatter: function (value) {
+                    return value/1000+'K';
+                 }
+           },
+           splitLine:{
+             show:false//关掉横着的格线
+           }
+       }
+   ],
+   series: [
+       {
+           name:'Daily In',
+           type:'bar',
+           barWidth:15,
+           yAxisIndex: 0,
+           itemStyle:{//设置第一个柱子的颜色
+             color:'rgb(20, 125, 185)'
+         },
+           barGap:'-90%',//设置前后重叠的操作
+           data:dataArray[0]
+       },
+       {
+           name:'Daily Out',
+           type:'bar',
+           barWidth:10,
+           yAxisIndex: 0,
+           itemStyle:{
+             color:'rgb(243, 245, 112)'
+         },
+           data:dataArray[1]
+       },
+       {
+        name:'Plan In',
+        type:'line',
+        yAxisIndex: 0,
+        lineStyle:{//设置线的样式
+            normal:{
+                type:'dotted'
+            }
+        },
+        itemStyle:{//设置线的颜色
+          color:'rgb(20, 125, 185)'
+      },
+        //barGap:'-90%',//设置前后重叠的操作
+        data:dataArray[2]
+    },
+    {
+        name:'Plan Out',
+        type:'line',
+        yAxisIndex: 0,
+        lineStyle:{//设置线的样式
+            normal:{
+                type:'dotted'
+            }
+        },
+        itemStyle:{
+          color:'rgb(243, 245, 112)'
+      },
+        data:dataArray[3]
+    },
+
+       {
+           name:'Sum In',
+           type:'line',
+           
+           symbol: 'circle',//这个地方设置的是圆形的
+           symbolSize:10,//设置大小
+           lineStyle:{//设置线的样式
+               normal:{
+                   color:'rgb(61, 183, 240)'
+               }
+           },
+           itemStyle:{
+             color:'rgb(61, 183, 240)'
+            },
+           
+           yAxisIndex: 1,
+           data:dataArray[4]
+       },
+       {
+           name:'Sum Out',
+           type:'line',
+           yAxisIndex: 1,
+           symbol:'circle',
+           symbolSize:10,
+           lineStyle:{//设置线的样式
+            normal:{
+                color:'rgb(243, 245, 112)'
+            }
+        },
+           itemStyle:{
+             color:'rgb(243, 245, 112)'
+         },
+     
+           data:dataArray[5]
+       }
+   ]
+   }
+ }
+  //写一个画四个工厂In Out 柱状图的方法 cf
+  setEchartCf(xAxisdata:string[],dataArray:any[]){
+  
+    this.chart_of_cf={
+        
+         title:{
+           text:'CF',
+           x:330,
+           y:'80px',
+          textStyle:{
+              color:'rgba(253, 253, 253, 0.863)'
+          }
+          },
+      
+       tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+          label:{
+            backgroundColor:'#123'
+           },
+             type: 'cross'
+         }
+     },
+     grid: {
+         right: '20%',
+          height:'40%',
+          top:'38%'
+     },
+     legend: {
+         top:'5%',
+         left:'13%',
+         textStyle:{//设置图例文本的样式
+          color:'rgba(253, 253, 253, 0.863)'
+         },
+         data:['Daily In','Daily Out','Plan In','Plan Out','Sum In','Sum Out'],
+        
+     },
+     xAxis: [
+         {
+             type: 'category',
+             interval:0,
+             axisTick: {
+                 alignWithLabel: true
+             },
+             axisLabel:{//设置坐标轴标签的样式
+              interval:0,
+              color:'rgba(253, 253, 253, 0.863)',
+             // fontSize:'1px'
+             },
+             axisLine:{//设置坐标轴的轴线的
+              lineStyle:{
+                  color:'rgba(253, 253, 253, 0.863)',
+              }
+  
+             },
+             data:xAxisdata
+         }
+     ],
+     yAxis: [
+         
+         {
+             type: 'value',
+            // name: '数量',
+             min: 0,
+             max: 8000,
+             
+             position: 'left',
+             axisLine: {//设置坐标轴样式
+                 lineStyle: {
+                     color: 'rgba(253, 253, 253, 0.863)'
+                 }
+             },
+             axisLabel: {
+                 color:'rgba(253, 253, 253, 0.863)',
+                 formatter: '{value}'
+             }
+         },
+           {
+             type: 'value',
+            // name: '百分比',
+             min: 0,
+            
+             //interval:20,
+             position: 'right',
+             axisLine: {
+                 lineStyle: {
+                     color: 'rgba(253, 253, 253, 0.863)'
+                 }
+             },
+             axisLabel: {
+                 color:'rgba(253, 253, 253, 0.863)',
+                 formatter: function (value) {
+                    return value/1000+'K';
+                 }
+             },
+             splitLine:{
+               show:false//关掉横着的格线
+             }
+         }
+     ],
+     series: [
+         {
+             name:'Daily In',
+             type:'bar',
+             barWidth:15,
+             yAxisIndex: 0,
+             itemStyle:{//设置第一个柱子的颜色
+               color:'rgb(20, 125, 185)'
+           },
+             barGap:'-90%',//设置前后重叠的操作
+             data:dataArray[0]
+         },
+         {
+             name:'Daily Out',
+             type:'bar',
+             barWidth:10,
+             yAxisIndex: 0,
+             itemStyle:{
+               color:'rgb(243, 245, 112)'
+           },
+             data:dataArray[1]
+         },
+         {
+          name:'Plan In',
+          type:'line',
+          yAxisIndex: 0,
+          lineStyle:{//设置线的样式
+              normal:{
+                  type:'dotted'
+              }
+          },
+          itemStyle:{//设置线的颜色
+            color:'rgb(20, 125, 185)'
+        },
+          //barGap:'-90%',//设置前后重叠的操作
+          data:dataArray[2]
+      },
+      {
+          name:'Plan Out',
+          type:'line',
+          yAxisIndex: 0,
+          lineStyle:{//设置线的样式
+              normal:{
+                  type:'dotted'
+              }
+          },
+          itemStyle:{
+            color:'rgb(243, 245, 112)'
+        },
+          data:dataArray[3]
+      },
+  
+         {
+             name:'Sum In',
+             type:'line',
+             
+             symbol: 'circle',//这个地方设置的是圆形的
+             symbolSize:10,//设置大小
+             lineStyle:{//设置线的样式
+                 normal:{
+                     color:'rgb(61, 183, 240)'
+                 }
+             },
+             itemStyle:{
+               color:'rgb(61, 183, 240)'
+              },
+             
+             yAxisIndex: 1,
+             data:dataArray[4]
+         },
+         {
+             name:'Sum Out',
+             type:'line',
+             yAxisIndex: 1,
+             symbol:'circle',
+             symbolSize:10,
+             lineStyle:{//设置线的样式
+              normal:{
+                  color:'rgb(243, 245, 112)'
+              }
+          },
+             itemStyle:{
+               color:'rgb(243, 245, 112)'
+           },
+       
+             data:dataArray[5]
+         }
+     ]
+     }
+   }
+ //写一个画四个工厂In Out 柱状图的方法 cl
+ setEchartCl(xAxisdata:string[],dataArray:any[]){
+  
+    this.chart_of_cell={
+        
+         title:{
+           text:'Cell',
+           x:330,
+           y:'25px',
+          textStyle:{
+              color:'rgba(253, 253, 253, 0.863)'
+          }
+          },
+      
+       tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+          label:{
+            backgroundColor:'#123'
+           },
+             type: 'cross'
+         }
+     },
+     grid: {
+         right: '20%'
+     },
+    //  legend: {
+    //      top:'bottom',
+    //      textStyle:{//设置图例文本的样式
+    //       color:'rgba(253, 253, 253, 0.863)'
+    //      },
+    //      data:['Daily In','Daily Out','Plan In','Plan Out','Sum In','Sum Out'],
+        
+    //  },
+     xAxis: [
+         {
+             type: 'category',
+             interval:0,
+             axisTick: {
+                 alignWithLabel: true
+             },
+             axisLabel:{//设置坐标轴标签的样式
+              interval:0,
+              color:'rgba(253, 253, 253, 0.863)',
+             // fontSize:'1px'
+             },
+             axisLine:{//设置坐标轴的轴线的
+              lineStyle:{
+                  color:'rgba(253, 253, 253, 0.863)',
+              }
+  
+             },
+             data:xAxisdata
+         }
+     ],
+     yAxis: [
+         
+         {
+             type: 'value',
+            // name: '数量',
+             min: 0,
+             max: 8000,
+             
+             position: 'left',
+             axisLine: {//设置坐标轴样式
+                 lineStyle: {
+                     color: 'rgba(253, 253, 253, 0.863)'
+                 }
+             },
+             axisLabel: {
+                 color:'rgba(253, 253, 253, 0.863)',
+                 formatter: '{value}'
+             }
+         },
+           {
+             type: 'value',
+            // name: '百分比',
+             min: 0,
+            
+             //interval:20,
+             position: 'right',
+             axisLine: {
+                 lineStyle: {
+                     color: 'rgba(253, 253, 253, 0.863)'
+                 }
+             },
+             axisLabel: {
+                 color:'rgba(253, 253, 253, 0.863)',
+                 formatter: function (value) {
+                    return value/1000+'K';
+                 }
+             },
+             splitLine:{
+               show:false//关掉横着的格线
+             }
+         }
+     ],
+     series: [
+         {
+             name:'Daily In',
+             type:'bar',
+             barWidth:15,
+             yAxisIndex: 0,
+             itemStyle:{//设置第一个柱子的颜色
+               color:'rgb(20, 125, 185)'
+           },
+             barGap:'-90%',//设置前后重叠的操作
+             data:dataArray[0]
+         },
+         {
+             name:'Daily Out',
+             type:'bar',
+             barWidth:10,
+             yAxisIndex: 0,
+             itemStyle:{
+               color:'rgb(243, 245, 112)'
+           },
+             data:dataArray[1]
+         },
+         {
+          name:'Plan In',
+          type:'line',
+          yAxisIndex: 0,
+          lineStyle:{//设置线的样式
+              normal:{
+                  type:'dotted'
+              }
+          },
+          itemStyle:{//设置线的颜色
+            color:'rgb(20, 125, 185)'
+        },
+          //barGap:'-90%',//设置前后重叠的操作
+          data:dataArray[2]
+      },
+      {
+          name:'Plan Out',
+          type:'line',
+          yAxisIndex: 0,
+          lineStyle:{//设置线的样式
+              normal:{
+                  type:'dotted'
+              }
+          },
+          itemStyle:{
+            color:'rgb(243, 245, 112)'
+        },
+          data:dataArray[3]
+      },
+  
+         {
+             name:'Sum In',
+             type:'line',
+             
+             symbol: 'circle',//这个地方设置的是圆形的
+             symbolSize:10,//设置大小
+             lineStyle:{//设置线的样式
+                 normal:{
+                     color:'rgb(61, 183, 240)'
+                 }
+             },
+             itemStyle:{
+               color:'rgb(61, 183, 240)'
+              },
+             
+             yAxisIndex: 1,
+             data:dataArray[4]
+         },
+         {
+             name:'Sum Out',
+             type:'line',
+             yAxisIndex: 1,
+             symbol:'circle',
+             symbolSize:10,
+             lineStyle:{//设置线的样式
+              normal:{
+                  color:'rgb(243, 245, 112)'
+              }
+          },
+             itemStyle:{
+               color:'rgb(243, 245, 112)'
+           },
+       
+             data:dataArray[5]
+         }
+     ]
+     }
+   }
+    //写一个画四个工厂In Out 柱状图的方法 array
+ setEchartMdl(xAxisdata:string[],dataArray:any[]){
+  
+    this.chart_of_mdl={
+        
+         title:{
+           text:'Mdl',
+           x:330,
+           y:'25px',
+          textStyle:{
+              color:'rgba(253, 253, 253, 0.863)'
+          }
+          },
+      
+       tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+          label:{
+            backgroundColor:'#123'
+           },
+             type: 'cross'
+         }
+     },
+     grid: {
+         right: '20%'
+     },
+    //  legend: {
+    //      top:'bottom',
+    //      textStyle:{//设置图例文本的样式
+    //       color:'rgba(253, 253, 253, 0.863)'
+    //      },
+    //      data:['Daily In','Daily Out','Plan In','Plan Out','Sum In','Sum Out'],
+        
+    //  },
+     xAxis: [
+         {
+             type: 'category',
+             interval:0,
+             axisTick: {
+                 alignWithLabel: true
+             },
+             axisLabel:{//设置坐标轴标签的样式
+              interval:0,
+              color:'rgba(253, 253, 253, 0.863)',
+             // fontSize:'1px'
+             },
+             axisLine:{//设置坐标轴的轴线的
+              lineStyle:{
+                  color:'rgba(253, 253, 253, 0.863)',
+              }
+  
+             },
+             data:xAxisdata
+         }
+     ],
+     yAxis: [
+         
+         {
+             type: 'value',
+            // name: '数量',
+             min: 0,
+             max: 8000,
+             
+             position: 'left',
+             axisLine: {//设置坐标轴样式
+                 lineStyle: {
+                     color: 'rgba(253, 253, 253, 0.863)'
+                 }
+             },
+             axisLabel: {
+                 color:'rgba(253, 253, 253, 0.863)',
+                 formatter: '{value}'
+             }
+         },
+           {
+             type: 'value',
+            // name: '百分比',
+             min: 0,
+            
+             //interval:20,
+             position: 'right',
+             axisLine: {
+                 lineStyle: {
+                     color: 'rgba(253, 253, 253, 0.863)'
+                 }
+             },
+             axisLabel: {
+                 color:'rgba(253, 253, 253, 0.863)',
+                 formatter: function (value) {
+                    return value/1000+'K';
+                 }
+             },
+             splitLine:{
+               show:false//关掉横着的格线
+             }
+         }
+     ],
+     series: [
+         {
+             name:'Daily In',
+             type:'bar',
+             barWidth:15,
+             yAxisIndex: 0,
+             itemStyle:{//设置第一个柱子的颜色
+               color:'rgb(20, 125, 185)'
+           },
+             barGap:'-90%',//设置前后重叠的操作
+             data:dataArray[0]
+         },
+         {
+             name:'Daily Out',
+             type:'bar',
+             barWidth:10,
+             yAxisIndex: 0,
+             itemStyle:{
+               color:'rgb(243, 245, 112)'
+           },
+             data:dataArray[1]
+         },
+         {
+          name:'Plan In',
+          type:'line',
+          yAxisIndex: 0,
+          lineStyle:{//设置线的样式
+              normal:{
+                  type:'dotted'
+              }
+          },
+          itemStyle:{//设置线的颜色
+            color:'rgb(20, 125, 185)'
+        },
+          //barGap:'-90%',//设置前后重叠的操作
+          data:dataArray[2]
+      },
+      {
+          name:'Plan Out',
+          type:'line',
+          yAxisIndex: 0,
+          lineStyle:{//设置线的样式
+              normal:{
+                  type:'dotted'
+              }
+          },
+          itemStyle:{
+            color:'rgb(243, 245, 112)'
+        },
+          data:dataArray[3]
+      },
+  
+         {
+             name:'Sum In',
+             type:'line',
+             
+             symbol: 'circle',//这个地方设置的是圆形的
+             symbolSize:10,//设置大小
+             lineStyle:{//设置线的样式
+                 normal:{
+                     color:'rgb(61, 183, 240)'
+                 }
+             },
+             itemStyle:{
+               color:'rgb(61, 183, 240)'
+              },
+             
+             yAxisIndex: 1,
+             data:dataArray[4]
+         },
+         {
+             name:'Sum Out',
+             type:'line',
+             yAxisIndex: 1,
+             symbol:'circle',
+             symbolSize:10,
+             lineStyle:{//设置线的样式
+              normal:{
+                  color:'rgb(243, 245, 112)'
+              }
+          },
+             itemStyle:{
+               color:'rgb(243, 245, 112)'
+           },
+       
+             data:dataArray[5]
+         }
+     ]
+     }
+   }
+ //写一个画四个工厂 Wip 的方法
+ setWipArray(myxAxis:string[],datawip:number[]){
+     this.chart_wip_array = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+       
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01],
+            splitLine:{//设置分割线
+                show:false
+            },
+            axisLabel:{//设置标签样式
+                show:false,
+                color:'rgb(241, 245, 247)'
+            },
+            axisLine:{//设置坐标轴线
+                show:false
+            },
+            axisTick:{//设置坐标轴刻度的
+                show:false
+            }
+        },
+        yAxis: {
+            type: 'category',
+            axisLabel:{//设置标签样式
+                color:'rgb(241, 245, 247)'
+            },
+            axisLine:{//设置坐标轴线
+                show:true
+            },
+            axisTick:{//设置坐标轴刻度的
+                show:true
+            },
+            data: myxAxis  // 在这里把参数传进来
+        },
+        series: [
+           
+            {
+                type: 'bar',
+                barWidth:14,
+                label:{//设置数字的现实位置
+                  normal:{
+                      show:true,
+                      position:'insideRight',
+                      color:'rgb(79, 185, 238)',
+                      //fontSize:10,
+                  }  
+                },
+                itemStyle:{
+                    borderColor:'rgb(79, 185, 238)',
+                    color:'rgba(79, 185, 238,0.1)'
+                },
+                data: datawip // 在这里把参数传递进来
+            }
+        ]
+     }
+ }
+ setWipCf(myxAxis:string[],datawip:number[]){
+    this.chart_wip_cf = {
+       tooltip: {
+           trigger: 'axis',
+           axisPointer: {
+               type: 'shadow'
+           }
+       },
+      
+       grid: {
+           left: '3%',
+           right: '4%',
+           bottom: '3%',
+           containLabel: true
+       },
+       xAxis: {
+           type: 'value',
+           boundaryGap: [0, 0.01],
+           splitLine:{//设置分割线
+               show:false
+           },
+           axisLabel:{//设置标签样式
+               show:false,
+               color:'rgb(241, 245, 247)'
+           },
+           axisLine:{//设置坐标轴线
+               show:false
+           },
+           axisTick:{//设置坐标轴刻度的
+               show:false
+           }
+       },
+       yAxis: {
+           type: 'category',
+           axisLabel:{//设置标签样式
+               color:'rgb(241, 245, 247)'
+           },
+           axisLine:{//设置坐标轴线
+               show:true
+           },
+           axisTick:{//设置坐标轴刻度的
+               show:true
+           },
+           data: myxAxis  // 在这里把参数传进来
+       },
+       series: [
+          
+           {
+              
+               type: 'bar',
+               barWidth:14,
+               label:{//设置数字的现实位置
+                 normal:{
+                     show:true,
+                     position:'insideRight',
+                     color:'rgb(79, 185, 238)'
+                 }  
+               },
+               itemStyle:{
+                   borderColor:'rgb(79, 185, 238)',
+                   color:'rgba(79, 185, 238,0.1)'
+               },
+               data: datawip // 在这里把参数传递进来
+           }
+       ]
+    }
+}
+setWipCell(myxAxis:string[],datawip:number[]){
+    this.chart_wip_cell = {
+       tooltip: {
+           trigger: 'axis',
+           axisPointer: {
+               type: 'shadow'
+           }
+       },
+      
+       grid: {
+           left: '3%',
+           right: '4%',
+           bottom: '3%',
+           containLabel: true
+       },
+       xAxis: {
+           type: 'value',
+           min:0,
+           max:8000,
+           boundaryGap: [0, 0.01],
+           splitLine:{//设置分割线
+               show:false
+           },
+           axisLabel:{//设置标签样式
+               show:false,
+               color:'rgb(241, 245, 247)'
+           },
+           axisLine:{//设置坐标轴线
+               show:false
+           },
+           axisTick:{//设置坐标轴刻度的
+               show:false
+           }
+       },
+       yAxis: {
+           type: 'category',
+           axisLabel:{//设置标签样式
+               color:'rgb(241, 245, 247)'
+           },
+           axisLine:{//设置坐标轴线
+               show:true
+           },
+           axisTick:{//设置坐标轴刻度的
+               show:true
+           },
+           data: myxAxis  // 在这里把参数传进来
+       },
+       series: [
+          
+           {
+              
+               type: 'bar',
+               barWidth:14,
+               label:{//设置数字的现实位置
+                 normal:{
+                     show:true,
+                     position:'right',
+                     color:'rgb(79, 185, 238)'
+                 }  
+               },
+               itemStyle:{
+                   borderColor:'rgb(79, 185, 238)',
+                   color:'rgba(79, 185, 238,0.1)'
+               },
+               data: datawip // 在这里把参数传递进来
+           }
+       ]
+    }
+}
+setWipMdl(myxAxis:string[],datawip:number[]){
+    this.chart_wip_mdl = {
+       tooltip: {
+           trigger: 'axis',
+           axisPointer: {
+               type: 'shadow'
+           }
+       },
+      
+       grid: {
+           left: '3%',
+           right: '4%',
+           bottom: '3%',
+           containLabel: true
+       },
+       xAxis: {
+           type: 'value',
+           min:0,
+           max:1000,
+           interval:100,
+           boundaryGap: [0, 0.01],
+           splitLine:{//设置分割线
+               show:false
+           },
+           axisLabel:{//设置标签样式
+               show:false,
+               color:'rgb(241, 245, 247)'
+           },
+           axisLine:{//设置坐标轴线
+               show:false
+           },
+           axisTick:{//设置坐标轴刻度的
+               show:false
+           }
+       },
+       yAxis: {
+           type: 'category',
+           axisLabel:{//设置标签样式
+               color:'rgb(241, 245, 247)'
+           },
+           axisLine:{//设置坐标轴线
+               show:true
+           },
+           axisTick:{//设置坐标轴刻度的
+               show:true
+           },
+           data: myxAxis  // 在这里把参数传进来
+       },
+       series: [
+          
+           {
+              
+               type: 'bar',
+               barWidth:10,
+               label:{//设置数字的现实位置
+                 normal:{
+                     show:true,
+                     position:'right',
+                     color:'rgb(79, 185, 238)'
+                 }  
+               },
+               itemStyle:{
+                   borderColor:'rgb(79, 185, 238)',
+                   color:'rgba(79, 185, 238,0.1)'
+               },
+               data: datawip // 在这里把参数传递进来
+           }
+       ]
+    }
+}
+
+}

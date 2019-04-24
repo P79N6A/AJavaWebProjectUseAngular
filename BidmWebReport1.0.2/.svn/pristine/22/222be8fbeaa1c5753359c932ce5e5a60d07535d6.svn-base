@@ -1,0 +1,269 @@
+package com.boe.idm.project.service.impl;
+
+import static org.junit.Assert.fail;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.boe.idm.project.mapper.primaryOracle.dev.Monitor8VOMapper;
+import com.boe.idm.project.model.mybatis.Monitor8VO;
+import com.boe.idm.project.model.mybatis.SpecVO;
+import com.boe.idm.project.service.Monitor8Service;
+
+@Service
+public class Monitor8ServiceImple implements Monitor8Service {
+	
+	@Value("${bidm.upload.file.directory}")
+	private String fileDirectory;
+	
+	@Autowired
+	private Monitor8VOMapper monitor8Mapper;
+	@Override
+	public List<Monitor8VO> queryForList(String factoryname,String datestr) throws Exception {
+		return monitor8Mapper.queryForList(factoryname, datestr);
+	}
+
+	@Override
+	public int specUpdate(Monitor8VO Monitor8VO) throws Exception {
+		return monitor8Mapper.specUpdate(Monitor8VO);
+	}
+
+	@Override
+	public int specDelete(List<Monitor8VO> Monitor8VOList) throws Exception {
+		int rslt = 0;
+		for(Monitor8VO monitor8vo:Monitor8VOList) {
+			rslt = monitor8Mapper.specDelete(monitor8vo);
+			if(rslt!=1) {
+				new Exception();
+				return 0;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int specInsert(Monitor8VO Monitor8VO) throws Exception {
+		return monitor8Mapper.specInsert(Monitor8VO);
+	}
+
+	@Override
+	public List<LinkedHashMap<String, Object>> alarmList(Map<String, Object> paraMap) throws Exception {
+		return monitor8Mapper.specAlarm(paraMap);
+	}
+
+	@Override
+	public List<LinkedHashMap<String, Object>> alarmFreshList(Map<String, Object> paraMap) throws Exception {
+		return monitor8Mapper.specFreshAlarm(paraMap);
+	}
+
+	@Override
+	public List<Monitor8VO> specInsert_excel(String fileName) throws Exception {
+		
+		List<Monitor8VO> monitor8VOList = new ArrayList<Monitor8VO>();
+
+		File excelFile = new File(this.fileDirectory.replaceAll("\\\\", "/") + "/" + fileName);
+		//System.out.println("IMPLE ==> LOCALPATH : "+this.fileDirectory.replaceAll("\\\\", "/") + "/" + fileName);
+		if(excelFile != null && excelFile.isFile()) { //判断文件是否存在
+			
+			//workbook 是 poi中的一个接口，用来读取excel文件的
+			Workbook wb = getWorkbok(excelFile);
+
+			if(wb != null) {  //判断文件是否是excel格式
+				Sheet sheet = wb.getSheetAt(0);
+				if(sheet != null) { // 判断第一个sheet是否有内容
+					DecimalFormat df = new DecimalFormat("0");
+
+					for (int i = sheet.getFirstRowNum()+1; i <= sheet.getLastRowNum();i++){
+						Row row = sheet.getRow(i);
+
+						if(row == null) {
+							continue;
+						}
+						Monitor8VO monitor8vo = new Monitor8VO();
+						//这个下面赋值的顺序需要和 excel表格中的数据顺序是一致的才ok
+						int firstCell = row.getFirstCellNum();
+						monitor8vo.setFACTORY(row.getCell(firstCell) != null ? String.valueOf(row.getCell(firstCell)).trim():null);
+						monitor8vo.setITEM(row.getCell(firstCell+1) != null ? String.valueOf(row.getCell(firstCell+1)).trim():null);
+						monitor8vo.setPRODUCTSPECNAME(row.getCell(firstCell+2) != null ? String.valueOf(row.getCell(firstCell+2)).trim():null);
+						monitor8vo.setMODELTYPE(row.getCell(firstCell+3) != null ? String.valueOf(row.getCell(firstCell+3)).trim():null);
+						monitor8vo.setHOURTIMEKEY(row.getCell(firstCell+4) != null ? String.valueOf(row.getCell(firstCell+4)).trim():null);
+						monitor8vo.setLINE(row.getCell(firstCell+5) != null ? String.valueOf(row.getCell(firstCell+5)).trim():null);
+						monitor8vo.setQty(row.getCell(firstCell+6) != null ? String.valueOf(row.getCell(firstCell+6)).trim():null);
+						
+						//当对象都  赋值完毕 ，把对象放入到  list中保存起来就ok
+						if(monitor8vo != null) {
+							monitor8VOList.add(monitor8vo);
+							//this.specMapper.saveOrUpdate(specVO);
+						}
+					}
+				}
+			}
+		}
+		return monitor8VOList;
+	}
+
+	@Override
+	public List<Monitor8VO> specInsert_excel_path(String localPath) throws Exception {
+			
+		List<Monitor8VO> monitor8VOList = new ArrayList<Monitor8VO>();
+		
+		File excelFile = new File(localPath.replaceAll("\\\\", "/")); // localpath 可以直接获得文件的完整路径，包括文件名称
+		
+		if(excelFile != null && excelFile.isFile()) { //判断文件是否存在
+			Workbook wb = getWorkbok(excelFile);
+
+			if(wb != null) {  //判断文件是否是excel格式
+				Sheet sheet = wb.getSheetAt(0);
+				if(sheet != null) { // 判断第一个sheet是否有内容
+					DecimalFormat df = new DecimalFormat("0");
+
+					for (int i = sheet.getFirstRowNum()+1; i <= sheet.getLastRowNum();i++){
+						Row row = sheet.getRow(i);
+
+						if(row == null) {
+							continue;
+						}
+						Monitor8VO monitor8vo = new Monitor8VO();
+						
+						//这是获取第一个格子的坐标位置，下面的属性的赋值，都是通过getCell方法，进行操作的
+						//这个下面赋值的顺序需要和 excel表格中的数据顺序是一致的才ok
+						int firstCell = row.getFirstCellNum();
+						monitor8vo.setFACTORY(row.getCell(firstCell) != null ? String.valueOf(row.getCell(firstCell)).trim():null);
+						
+						String datenamestr = String.valueOf(row.getCell(firstCell+1)).trim();
+						double datename=Double.parseDouble(datenamestr);
+						BigDecimal bd2=new BigDecimal(datename);
+						monitor8vo.setDATENAME(row.getCell(firstCell+1) != null ? bd2.toString():null);
+						
+						String hourtimekeystr = String.valueOf(row.getCell(firstCell+2)).trim();
+						double hourtimekey=Double.parseDouble(hourtimekeystr);
+						BigDecimal bd=new BigDecimal(hourtimekey);
+						monitor8vo.setHOURTIMEKEY(row.getCell(firstCell+2) != null ?  bd.toString():null);
+								
+						monitor8vo.setITEM(row.getCell(firstCell+3) != null ? String.valueOf(row.getCell(firstCell+3)).trim():null);
+						
+						monitor8vo.setPRODUCTSPECNAME(row.getCell(firstCell+4) != null ? String.valueOf(row.getCell(firstCell+4)).trim():null);
+						
+						monitor8vo.setMODELTYPE(row.getCell(firstCell+5) != null ? String.valueOf(row.getCell(firstCell+5)).trim():null);
+						
+						monitor8vo.setLINE(row.getCell(firstCell+6) != null ? String.valueOf(row.getCell(firstCell+6)).trim():null);
+						
+						monitor8vo.setQty(row.getCell(firstCell+7) != null ? String.valueOf(row.getCell(firstCell+7)).trim():null);
+						
+						if(monitor8vo != null) {
+							//System.out.println(monitor8vo.getHOURTIMEKEY());
+							monitor8VOList.add(monitor8vo);
+							//this.specMapper.saveOrUpdate(specVO);
+						}
+					}
+				}
+			}
+		}
+		return monitor8VOList;
+
+	}
+
+	//下面这是王数据库里面写入数据的操作：先把，已经存在的 factory和 datename 的数据删除掉，然后再把新的数据重新写入进去 
+	@Override
+	public int insert_ExcelImport(List<Monitor8VO> Monitor8VOList){
+		int flag = 0;
+		//用来保存需要插入到数据库中的对象的 集合
+		List<Monitor8VO> objects = new ArrayList<>();
+		//用来保存 需要删除的 数据的 factory 和 datename
+		List<Monitor8VO> deleteObjects = new ArrayList<>();
+		try {
+			for(Object obj:Monitor8VOList) {
+				HashMap monitor8 = (HashMap) obj;
+				//System.out.println(monitor8);
+				Monitor8VO monitor8vo_ = new Monitor8VO(); // 这个是要进行插入的对象
+				Monitor8VO deletemonitor8vo = new Monitor8VO();
+				
+				monitor8vo_.setFACTORY(monitor8.get("factory") !=null?monitor8.get("factory").toString():"");
+				monitor8vo_.setITEM(monitor8.get("item") !=null?monitor8.get("item").toString():"");
+				monitor8vo_.setPRODUCTSPECNAME(monitor8.get("productspecname") !=null?monitor8.get("productspecname").toString():"");
+				monitor8vo_.setMODELTYPE(monitor8.get("modeltype") !=null?monitor8.get("modeltype").toString():"");
+				monitor8vo_.setHOURTIMEKEY(monitor8.get("hourtimekey") !=null?monitor8.get("hourtimekey").toString():"");
+				monitor8vo_.setLINE(monitor8.get("line") !=null?monitor8.get("line").toString():"");
+				monitor8vo_.setQty(monitor8.get("qty") !=null?monitor8.get("qty").toString():"");
+				monitor8vo_.setDATENAME(monitor8.get("datename") !=null?monitor8.get("datename").toString():"");
+				monitor8vo_.setOwner("SG");
+				//保存起来 留着插入使用
+				objects.add(monitor8vo_);
+				//保存 要删除的对象:筛选只保留一种的操作
+				deletemonitor8vo.setFACTORY(monitor8vo_.getFACTORY());
+				deletemonitor8vo.setDATENAME(monitor8vo_.getDATENAME());
+				
+				if (deleteObjects.contains(deletemonitor8vo)) {
+					
+				}else{
+					deleteObjects.add(deletemonitor8vo);
+				}
+				//把这一条的数据 插入到数据库中去
+				//flag = this.monitor8Mapper.specInsert(monitor8vo_);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		//1.先删除 满足 条件的 数据信息
+		Iterator<Monitor8VO> iterator =  deleteObjects.iterator();
+		while (iterator.hasNext()) {
+			Monitor8VO monitor8vo = (Monitor8VO) iterator.next();
+			try {
+				monitor8Mapper.specDelete(monitor8vo);
+			} catch (Exception e) {
+				System.out.println("删除错误！");
+				e.printStackTrace();
+			}
+		}
+		//2.再进行插入操作
+		Iterator<Monitor8VO> iterator2 = 	objects.iterator();
+		while (iterator2.hasNext()) {
+			Monitor8VO monitor8vo = (Monitor8VO) iterator2.next();
+			try {
+				flag = monitor8Mapper.specInsert(monitor8vo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return flag;
+	}
+	
+	
+	  /**
+     * 判断Excel的版本,获取Workbook
+     * @param File
+     * @return Workbook
+     * @throws IOException
+     */
+    public Workbook getWorkbok(File file) throws IOException{
+    	String fileType = file.getName().substring(file.getName().lastIndexOf("."), file.getName().length());
+        Workbook wb = null;
+        FileInputStream in = new FileInputStream(file);
+        if(fileType.toUpperCase().endsWith("XLS")){     //Excel&nbsp;2003
+            wb = new HSSFWorkbook(in);
+        }else if(fileType.toUpperCase().endsWith("XLSX")){    // Excel 2007/2010
+            wb = new XSSFWorkbook(in);
+        }
+        return wb;
+    }
+
+}

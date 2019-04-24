@@ -1,0 +1,116 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:7%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      Array生产数据
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-5">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr style="border-top:1px solid #2c5ea8;border-bottom: 1px solid #2c5ea8">
+            <th colspan="5" style="font-weight:bold !important">Array投入产出</th>
+          </tr>
+          <tr style="background-color: #113354">
+            <th></th>
+            <th>Plan(M)</th>
+            <th>Act(D)</th>
+            <th>Act(M)</th>
+            <th>Demand(D)</th>
+          </tr>
+          <tr>
+            <th>投入</th>
+            <th pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" style="width: 100%" (keydown)="$event.keyCode === 13?updateRemark('planIn'): 0" [(ngModel)]="planIn">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{planIn}}
+                </ng-template>
+              </p-cellEditor>
+            </th>
+            <th *ngFor="let qty of tableIn">{{qty}}</th>
+          </tr>
+          <tr style="background-color: #113354">
+            <th>产出</th>
+            <th pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" style="width: 100%" (keydown)="$event.keyCode === 13?updateRemark('planOut'): 0" [(ngModel)]="planOut">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{planOut}}
+                </ng-template>
+              </p-cellEditor>
+            </th>
+            <th *ngFor="let qty of tableOut">{{qty}}</th>
+          </tr>
+          <tr style="border-bottom: 1px solid #2c5ea8">
+            <th>良率</th>
+            <th pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" style="width: 100%" (keydown)="$event.keyCode === 13?updateRemark('planYield'): 0" [(ngModel)]="planYield">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{planYield}}
+                </ng-template>
+              </p-cellEditor>
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-7">
+      <div style="height: 150px" echarts [options]="touruChanchuOption"></div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g">
+        <div class="ui-g-7" style="font-weight: bold;color: #F2F6FA;text-align: end; padding-right: 3%">Array WIP by
+          Oper</div>
+        <div class="ui-g-3" style="text-align:end;margin-top: 10px">
+          <label for="arrayProDataZ" style="color: #F2F6FA">产品类型:</label>
+          <p-dropdown [options]="department" id="arrayProDataZ" [(ngModel)]="productiontype" (onChange)="select($event.value)"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;" [options]="wipByOperOption"></div>
+    </div>
+    <div class="ui-g-1" style="height: 250px;;padding-top: 40px;border: solid 2px rgb(59, 90, 107); font-size: 12px; color: whitesmoke">
+      <div class="ui-g">
+        <div class="ui-g-12" style="text-align:center;font-size: 16px;color: white;">瓶颈设备</div>
+        <div class="ui-g-12">
+          <p-radioButton id="preopt" name="bumengroup" value="PHOTO" label="PHOTO" (click)="onChange()" [(ngModel)]="eqp"
+            inputId="preopt1"></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton id="preopt" name="bumengroup" value="PVX" label="PVX" (click)="onChange()" [(ngModel)]="eqp"
+            inputId="preopt2"></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton id="preopt" name="bumengroup" value="Sputter" label="Sputter" (click)="onChange()" [(ngModel)]="eqp"
+            inputId="preopt3"></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton id="preopt" name="bumengroup" value="FGI/Multi" label="FGI/Multi" (click)="onChange()"
+            [(ngModel)]="eqp" inputId="preopt4"></p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11" style="padding: 0px;border: solid 2px rgb(59, 90, 107); border-left: none">
+      <div echarts style="height: 245px" [options]="eqpActOption"></div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

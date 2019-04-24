@@ -1,0 +1,3 @@
+<p-dropdown [options]="items" [(ngModel)]="selectedItem" 
+    (onChange)="changed()" [placeholder]="placeholder"
+    [optionLabel]="label" [showClear]="true"></p-dropdown>

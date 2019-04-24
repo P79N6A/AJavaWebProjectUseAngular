@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BasicinfoArrayRoutingModule } from './basicinfo-array-routing.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    BasicinfoArrayRoutingModule
+  ],
+  declarations: []
+})
+export class BasicinfoArrayModule { }

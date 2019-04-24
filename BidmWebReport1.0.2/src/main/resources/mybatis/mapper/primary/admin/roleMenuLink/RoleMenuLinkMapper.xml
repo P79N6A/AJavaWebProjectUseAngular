@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.boe.idm.project.mapper.primary.admin.RoleMenuLinkMapper">
+	<select id="selectAllUser"
+		resultType="RoleMenuLink">
+		SELECT
+		roleid,menuid FROM rolemenulink order by roleid
+	</select>
+
+	<select id="selectRoleMenuLink" resultType="RoleMenuLink">
+		SELECT rl.roleid,ri.desc as roleDesc,rl.menuid,mi.desc as menuDesc FROM rolemenulink rl,menuinfo mi,roleinfo ri
+		where rl.roleid=ri.roleid and rl.menuid=mi.menuid
+		<if test="menuId != null and  menuId != ''">
+			and rl.menuid like #{menuId}
+		</if>
+		<if test="roleId != null and  roleId != ''">
+			and rl.roleId like #{roleId}
+		</if>
+		order by roleid
+	</select>
+	
+	<select id="selectRoleMenuLinkForDelete" resultType="RoleMenuLink">
+		SELECT rl.roleid,ri.desc as roleDesc,rl.menuid,mi.desc as menuDesc FROM rolemenulink rl,menuinfo mi,roleinfo ri
+		where rl.roleid=ri.roleid and rl.menuid=mi.menuid
+		<if test="menuId != null and  menuId != ''">
+			and rl.menuid = #{menuId}
+		</if>
+		<if test="roleId != null and  roleId != ''">
+			and rl.roleId = #{roleId}
+		</if>
+		order by roleid
+	</select>
+
+	<delete id="deleteRoleMenuLink" parameterType="RoleMenuLink">
+		Delete FROM rolemenulink where menuId = #{menuId} and roleid = #{roleId}
+	</delete>
+
+	<insert id="insertRoleMenuLink" parameterType="RoleMenuLink">
+		insert into rolemenulink(roleid,menuid)
+		values
+		(#{roleId},#{menuId})
+	</insert>
+	
+	<select id="getSignedMenu" resultType="com.boe.idm.project.model.mybatis.MenuInfo">
+		SELECT mi.* FROM rolemenulink rl,menuinfo mi
+		where  rl.menuid=mi.menuid
+		<if test="roleId != null and  roleId != ''">
+			and rl.roleId like #{roleId}
+		</if>
+		order by roleid
+	</select>
+</mapper>

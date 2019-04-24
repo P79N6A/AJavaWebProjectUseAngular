@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.KeyInRemarkMapper">
+
+	<!-- 1.插入一条数据的操作  -->
+	<insert id="insertOrUpdateRemark" parameterType="com.boe.idm.project.model.mybatis.KeyInRemarkVO">
+		<!-- 1.先查询一下有没有 已经存在的数据了，如果有，则执行更新操作，如果没有，则 执行插入操作  -->
+		<selectKey keyProperty="numbs" order="BEFORE"  resultType="Integer">
+			select count(*) as numbs from SC_KEYIN_REMARK
+			<where>
+				<if test="report == 'HourMonitor'">
+					datename = #{datename}
+				</if>
+			 	<if test="report != null and report.trim() != '' ">
+			 		 and report = #{report} 
+			 	</if>
+			 	<if test="item != null and item.trim() != '' ">
+			 		and item = #{item}
+			 	</if>
+			 	<if test="report == 'CF WIP MOVE'">
+			 		and line = #{line}
+			 	</if>
+			  
+			</where>
+			
+		</selectKey>
+		<!-- 2.如果已经存在记录了，则 执行的是更新的操作 -->
+		<if test="numbs != 0">
+			update SC_KEYIN_REMARK
+			set datename = #{datename},remark = #{remark},interfacetime = sysdate,productspecname = #{productspecname},line = #{line}
+			where 
+		    report = #{report}
+			and item = #{item}
+			<if test="report == 'CF WIP MOVE'">
+				and line = #{line}
+			</if>
+		</if>
+		<!-- 3.如果 没有存在记录，则直接执行插入操作 : 注意执行插入操作的时候，最后两个的属性 如果没有值，需要赋值一个空串的操作-->
+		<if test="numbs == 0">
+			insert into  SC_KEYIN_REMARK(datename,report,item,remark,interfacetime,productspecname,line)
+			values (#{datename},#{report},#{item},#{remark},sysdate,#{productspecname},#{line})
+		</if>
+	</insert>
+	
+	
+	<!-- 2.查询操作，获取 到某一天的 hourmonitor 中的 所有remark -->
+	<select id="queryRemarks" resultType="com.boe.idm.project.model.mybatis.KeyInRemarkVO">
+		select datename,report,item,remark,interfacetime,productspecname,line
+		from SC_KEYIN_REMARK
+		<where>
+			<if test="report == 'HourMonitor'">
+				datename = #{datename}
+			</if>
+			<if test="report != null and report.trim() != '' ">
+				and report = #{report}
+			</if>
+		  
+		</where>
+		
+	</select>
+
+</mapper>

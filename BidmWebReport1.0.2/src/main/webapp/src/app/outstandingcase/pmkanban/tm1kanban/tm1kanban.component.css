@@ -1,0 +1,78 @@
+.mybody{
+    background-image: url('assets/picture/sky1.jpg');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
+}
+.mybody1{
+    background-color: RGB(1,41,77)
+}
+.box{
+    color:white;
+	box-shadow: 0 0 3rem rgba(100,200,255,.5) inset;
+	background: rgba(0,0,0,.3); 	
+}
+.box .title{
+	height:5vh;
+	font-size:1.6rem;
+	font-weight:bold;
+	line-height: 5vh;
+	color: #C0FF3E;
+}
+.box .content{
+	font-size:1.5rem;
+	margin-left:2vw;
+}
+.box .number{
+	font-size:1.5rem;
+	color: yellow;
+}
+.blink{
+	-webkit-animation-timing-function:ease-in-out;
+	-webkit-animation-name:breathe;
+	-webkit-animation-duration:2700ms;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-direction:alternate;
+}
+@-webkit-keyframes breathe {
+	0% {
+	opacity:.5;
+
+}
+100% {
+	opacity:.9;
+
+}
+}
+.panel{
+	color:rgba(255,255,255,.9);
+	border: 2vh solid transparent;
+    background:rgba(0,0,0,.3);
+    box-shadow:  0 0 5rem rgb(0,110,150)
+}
+.panel1{
+	border: 1px solid rgba(22,78,137,1);
+	background: rgba(0,0,0,.3);
+	position: relative;
+}
+.panel1::after{
+	content: attr(data-corner);
+	display: block; position: absolute; top: 0; right: 0; 
+	width: 10rem; padding: 0 1rem; overflow: hidden; text-align: right; color: rgba(255,255,255,.9);
+	background: linear-gradient(45deg,transparent 0% , transparent 30%,  rgba(22,78,137,1) 30%,  rgba(22,78,137,1) 100%)
+}
+.circle{
+	border: 2px solid #ffffff;
+	width:80px;
+	height: 80px;
+	line-height: 40px;
+	text-align: center;
+	padding: 0em;
+	background:  rgba(0,0,0,.3); 
+	border-radius: 50%;
+}
+.myhr{
+	box-shadow:  0 0 5rem rgb(0,110,150);
+	background-color:#00b0f0;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	border:none;
+	height: 3px;
+}

@@ -1,0 +1,189 @@
+<div class="ui-g" *ngIf="isFirstPage">
+
+  <p-growl [(value)]="msgs" sticky="true"></p-growl>
+  
+  <!-- 1. 标题部分-->
+  <div class="ui-g-12" style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+      <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  
+      <!--1.工厂名称的现实 MODULE S2-->
+      <div class="ui-g-2" style="margin-left:6%;font-size: 1.2em;font-weight: bold;margin-top: -1px;color: #F2F6FA">
+          {{CurrentFactoryName}} 工单WIP
+      </div>
+      <!--2.查询条件：起止时间 :设置 内部的字体颜色的问题 class="time"-->
+      <div class="ui-g-4" style="color:#F2F6FA;margin-top:2%;margin-left:6%">
+          <div class="ui-g">
+              <label style="margin-top: 4px; margin-right: 10px">
+                  <strong>起始</strong>
+              </label>
+              <p-calendar id="s2Calendar" [(ngModel)]="startTime" showTime="true" hourFormat="24"  [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+              <div style="margin: 4px 10px 0px"><strong>-</strong></div>
+              <label style="margin-top: 4px; margin-right: 10px">
+                  <strong>终止</strong>
+              </label>
+              <p-calendar id="s2Calendar" [(ngModel)]="endTime" showTime="true" hourFormat="24"  [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+          </div>
+      </div>
+
+      <!--3.右边的 关闭率展示-->
+      <div class="ui-g-2" style="color:#F2F6FA;margin-left:0%;margin-top: 1.5%;text-align: right">
+          <strong>关闭率 : {{closeRatio}} %</strong>
+          <br />
+          <strong> 关闭周期 : {{closeUniverse}} 天</strong>
+          <!--8. 查询按钮-->
+          <!-- <p-inputSwitch [(ngModel)]="isClosedRatioShow" (onChange)="changeToSecondPageBySwitch($event)"></p-inputSwitch> -->
+      </div>
+
+       <!--4.工厂的切换按钮 -->
+       <div class="ui-g-2" style="margin-top:2%;margin-left:3%">
+              <button pButton label='Mod' (click)="changeToModuleFirst()"></button>
+              <button pButton label='S2&nbsp;&nbsp;' (click)="changeToS2First()"></button>
+              <button pButton label='关闭率' (click)="changeToSecondPage()"></button>
+      </div>
+  </div>
+
+  <!-- 2. 中间主体部分-->
+  <div class="ui-g-12" style="height:100%;background-image: url('assets/bg3_02.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+      <!--#1.一级界面查询条件的bar-->
+      <div class="ui-g">
+          <!--2.中间的条件选择框-->
+          <div class="ui-g-12">
+              <!-- 中间的第一行,也就是只有这一行-->
+              <div class="ui-g" style="color:#F2F6FA;margin-top:-2%">
+  
+                  <!--4.BU别  COG COF 的区分 这个使用多选分组-->
+                  <div class="ui-g-2" style="margin-left:3%">
+                      <strong>BU别&nbsp;:&nbsp;</strong>
+                      <p-checkbox name="BUGroup" value="COG" label="COG" [(ngModel)]="selectedBUTypes" inputId="G"></p-checkbox>
+                      &nbsp;&nbsp;
+                      <p-checkbox name="BUGroup" value="COF" label="COF" [(ngModel)]="selectedBUTypes" inputId="F"></p-checkbox>
+                  </div>
+                  <!--3.工单组区分 ： 这应该是一个单选下拉框 [style]="{'width':'150px'}"-->
+                  <div class="ui-g-2" style="margin-left:0%">
+                      <strong>工单组&nbsp;:&nbsp;</strong>
+                      <p-multiSelect [options]="WORKTYPE" [(ngModel)]="selectedWORKTYPES" editable="true" placeholder="Select WOTYPE"></p-multiSelect>
+                  </div>
+  
+                  <!--5. 工单类型多选下拉框-->
+                  <div class="ui-g-2" style="margin-left:0%">
+                      <strong>工单类型&nbsp;:&nbsp;</strong>
+                      <p-multiSelect [options]='LOTTYPE' [(ngModel)]='selectedLotTypes' [panelStyle]="{minWidth:'12em'}"
+                          scrollHeight='300px'></p-multiSelect>
+                  </div>
+                  <!--6.工单状态 多选下拉框 Completed、Created、Released-->
+                  <div class="ui-g-3" style="margin-left:0%">
+                      <strong>工单状态&nbsp;:&nbsp;</strong>
+                      <p-multiSelect [options]='WORKSTATE' [(ngModel)]='selectedState' [panelStyle]="{minWidth:'150px'}"
+                          scrollHeight='300px'></p-multiSelect>
+                  </div>
+  
+                  <!--7. 查询按钮-->
+                  <div class="ui-g-1" style="margin-left: 0%">
+                      <p-button label='查询' icon='fa fa-search' iconPos="left" (click)="searchFirst()"></p-button>
+                  </div>
+                  <!--8. 导出数据表的操作-->
+                  <div class="ui-g-1" style="margin-left:0%;margin-top:0%">
+                          <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="DownLoad" (click)="dt.exportCSV()" ></button>
+                  </div>
+              </div>
+              <!--4.工厂区分 ： MODULE S2MODULE-->
+              <!-- <div class="ui-g-2">
+                      <strong>工厂&nbsp;:&nbsp;</strong>
+                      <p-dropdown [options]="FACTORY" [(ngModel)]="selectedFactory" [style]="{'width':'150px'}" editable="true"
+                          placeholder="Select a factory"></p-dropdown>
+                  </div> -->
+          </div>
+      </div>
+  
+      <!--#2.一级界面的表格展示，动态的表格-->
+      <div class="ui-g" [ngClass]="{setTableFirst:true}">
+          <!-- if you use selection, you must set datakey -->
+          <p-table #dt id="currentwip" [columns]="cols" [value]="workInfo" >
+                 
+              <!-- <ng-template pTemplate="header" let-columns>
+                  <tr style="font-size:10px;color: white">
+                      <th *ngFor="let col of columns" class="touming1">
+                          {{col.header}}
+                      </th>
+                  </tr>
+              </ng-template> -->
+              <ng-template pTemplate="header">
+                  <tr style="color:#F2F6FA">										 		
+                      <th class="touming1" width="70px">Lot Type</th>
+                      <th class="touming1" width="200px">FG Code</th>
+                      <th class="touming1" width="120px">WorkOrder</th>
+                      <th class="touming1" width="100px">WO state</th>
+                      <th class="touming1" width="200px">绑定时间</th>
+                      <th class="touming1" >运行天数</th>
+                      <th class="touming1">Plan</th>
+                      <th class="touming1">Assign To WO</th>
+                      <th class="touming1">NOT Start</th>
+                      <th class="touming1">WIP</th>
+                      <th class="touming1">Shipped</th>
+                      <th class="touming1">FGMS NO RECEIPT</th>
+                      <th class="touming1">Scrap</th>
+                      <th class="touming1">REWORK QTY</th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr class="touming1" style="color:white">
+                      <td *ngFor="let col of columns;" >
+                          {{rowData[col.field]}}
+                      </td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+  </div>
+  
+  <!-- 3. 最后的背景图片-->
+  <div class="ui-g-12" style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  </div>
+</div>
+
+<div class="ui-g" *ngIf="isSecondPage">
+
+  <!-- 1. 标题部分-->
+  <div class="ui-g-12" style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+      <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  
+      <!--1.工厂的名称显示 MODULE S2-->
+      <div class="ui-g-2" style="margin-left:6%;font-size: 1.2em;font-weight: bold;margin-top: -1px;color: #F2F6FA">
+          <!-- <p-inputSwitch [(ngModel)]="witchFactory" (onChange)="changeFactoryFirst($event)"></p-inputSwitch> -->
+        {{CurrentFactoryName}} 工单WIP
+      </div>
+      <div class="ui-g-5"></div>
+       <!--3.右边的 关闭率展示-->
+       <div class="ui-g-2" style="color:#F2F6FA;margin-left:0%;margin-top: 1.8%;text-align: right">
+              <strong>关闭率 : {{closeRatio}} %</strong>
+              <br />
+              <strong> 关闭周期 : {{closeUniverse}} 天</strong>
+              <!--8. 查询按钮-->
+              <!-- <p-inputSwitch [(ngModel)]="isClosedRatioShow" (onChange)="changeToFirstPage()"></p-inputSwitch> -->
+          </div>
+      <!--2..工厂的切换按钮 -->
+      <div class="ui-g-2" style="margin-top:2%;margin-left:0%">
+          <button pButton label='Mod' (click)="changeToModuleSecond()"></button>
+          <button pButton label='S2&nbsp;&nbsp;' (click)="changeToS2Second()"></button>
+          <button pButton label='返回' (click)="changeToFirstPage()"></button>
+      </div>
+  
+     
+  </div>
+  <!-- 2. 柱状图 和被选中的 lottype-->
+  <div class="ui-g-12" style="height:100%;background-image: url('assets/bg3_02.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+     
+     
+          <!-- 1.这个是用来显示 柱状图的-->
+      <div class="ui-g-12" [ngClass]="{setEchart:true}">
+          <div echarts [options]="echartClosed" style="height:450px"></div>
+      </div>
+       <!-- 1.这个是用来显示 前面选中的 lottype的-->
+       <div class="ui-g-11" style="margin-left:5%;margin-top:0%;font-size: 1em;font-weight: bold;color: #F2F6FA">
+              {{selectLotTypesShow}}
+      </div>    
+  </div>
+  <!-- 3. 最后的背景图片-->
+  <div class="ui-g-12" style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  </div>
+</div>

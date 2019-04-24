@@ -1,0 +1,51 @@
+th {
+    font-weight: inherit !important;
+    padding: .625em 0em !important;
+    font-size: 1px !important;
+    border: 1px solid #455e9c !important;
+}
+
+td {
+    font-weight: inherit !important;
+    padding: 0.625em 0em !important;
+    font-size: 1px !important;
+    border: 1px solid #455e9c !important;
+    background-color: rgba(0,0,0,0.1)!important;
+    color: #F2F6FA !important;
+    text-align: center !important;
+}
+
+.touming {
+    background-color:rgba(0,0,0,0.1)!important;
+    color: #F2F6FA!important;
+}
+
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+}
+
+.header1 {
+    background-color: rgba(0,0,0,0.1)!important;
+    color: whitesmoke !important;
+    font-weight: bold !important;
+}
+
+.header2 {
+    background-color: #20506F !important;
+    color: #F2F6FA !important;
+}
+
+.header3 {
+    background-color: #20506F !important;
+    color: #F2F6FA !important;
+    font-weight: bold !important;
+}
+
+.clickable:hover {
+    background-color: #314879 !important;
+    cursor: pointer !important;
+}
+
+.alarm {
+    background-color: rgb(231, 130, 130) !important;
+}

@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-prowipdaily',
+  templateUrl: './prowipdaily.component.html',
+  styleUrls: ['./prowipdaily.component.css']
+})
+export class ProwipdailyComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

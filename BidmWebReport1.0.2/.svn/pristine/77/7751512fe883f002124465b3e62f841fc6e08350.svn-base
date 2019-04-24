@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.Monitor8VOMapper"> 
+	<select id="queryForList"  resultType="Monitor8VO">
+		select factory,hourtimekey,item,productspecname,modeltype,line,qty,datename 
+		from  SC_KEYIN_PLAN	
+		where factory = #{factoryname}
+			and datename = #{datestr}
+		order by modeltype asc,hourtimekey asc
+	</select>
+	
+	<update id="specUpdate" parameterType="Monitor8VO" >
+	<!-- 这个先不用，用到再说 -->
+		UPDATE  SC_KEYIN_PLAN
+		SET (productid,stepid,defectname,control1,alarmtype1,alarmreceivername1,alarmreceiverid1,control2,alarmtype2,alarmreceivername2,alarmreceiverid2) = (#{productid}, #{stepid}, #{defectname}, #{control1}, #{alarmtype1}, #{alarmreceivername1},#{alarmreceiverid1},#{control2},#{alarmtype2},#{alarmreceivername2},#{alarmreceiverid2})
+		WHERE productid = #{productid}
+		and stepid = #{stepid}
+		and defectname = #{defectname}
+	</update>
+	
+	<!-- 下面的是根据 factory 和 datename 两个属性进行 删除的操作 -->
+	<delete id="specDelete" parameterType="Monitor8VO">
+	
+	    Delete  FROM  SC_KEYIN_PLAN 
+	    WHERE factory = #{FACTORY}
+	    	and datename = #{DATENAME}
+	</delete>
+	<!-- 下面是插入数据的操作  -->
+	<insert id="specInsert" parameterType="Monitor8VO">
+		<selectKey keyProperty="numbs" order="BEFORE" resultType="Integer">
+			select count(*) as numbs from SC_KEYIN_PLAN
+			where factory = #{FACTORY}
+			and hourtimekey = #{HOURTIMEKEY}
+			and item = #{ITEM}
+			and productspecname = #{PRODUCTSPECNAME}
+			and modeltype = #{MODELTYPE}
+			and datename = #{DATENAME}
+		</selectKey>
+		<if test="numbs == 0">
+			INSERT INTO  SC_KEYIN_PLAN (FACTORY,ITEM,PRODUCTSPECNAME,MODELTYPE,HOURTIMEKEY,LINE,Qty,DATENAME,INTERFACETIME) 
+	    	VALUES  (#{FACTORY}, #{ITEM}, #{PRODUCTSPECNAME}, #{MODELTYPE}, #{HOURTIMEKEY}, #{LINE},#{Qty},#{DATENAME},sysdate)
+		</if>
+		<if test="numbs != 0">
+			update sc_keyin_plan
+			set qty = #{Qty},interfacetime = sysdate
+			where factory = #{FACTORY}
+			and hourtimekey = #{HOURTIMEKEY}
+			and item = #{ITEM}
+			and productspecname = #{PRODUCTSPECNAME}
+			and modeltype = #{MODELTYPE}
+			<if test="LINE != null and LINE.trim() != '' ">
+				and line = #{LINE}
+			</if>
+			and datename = #{DATENAME}
+		</if>
+	</insert>
+	<select id="specAlarm" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+	<!-- 这个先不用，用到再说 -->
+	   select caculatetime as CACULATETIME,actvalue as ACTVALUE,specvalue1 as SPECVALUE1,specvalue2 as SPECVALUE2
+		from alarm_info_list A 
+		where A.productspecname=#{productid}
+		AND A.processoperationname=#{stepid}
+		AND A.defectname=#{defectname}
+	</select>
+		
+
+</mapper>

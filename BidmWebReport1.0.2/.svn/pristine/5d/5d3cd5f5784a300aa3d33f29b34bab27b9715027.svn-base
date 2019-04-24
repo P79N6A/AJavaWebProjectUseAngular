@@ -1,0 +1,246 @@
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { ApiService } from '../../common/service/api/api.service';
+import { UserInfo } from '../model/UserInfo';
+import { BreadcrumbService } from '@breadcrumb/service/breadcrumb.service';
+import { TabService } from '../../../core/layout/retab/service/tab.service';
+import { RoleInfo } from '../model/RoleInfo';
+import { ConfirmationService } from 'primeng/api';
+import { Paginator } from 'primeng/primeng';
+@Component({
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
+})
+export class UserComponent implements OnInit {
+
+  userAccount:string = "";
+  userName:string = "";
+  userInfo:UserInfo = new UserInfo();
+  userInfoList:UserInfo[];
+  display:boolean;  
+  dialogUserInfo:UserInfo = new UserInfo();
+
+  allRole:RoleInfo[];
+  unAsignRoleList:RoleInfo[];
+  asignRoleList:RoleInfo[];
+  asignRoleList_:RoleInfo[];//cash asign menu for unpdate
+  userAccount_:string="";// cash select row
+    // tips
+    tip_:string='';
+ //page
+ @ViewChild('p') paginator:Paginator;
+ rows = 5;
+ totalRecords = 0;
+ rowsPerPageOptions = [5, 10, 15];
+ pageInfo = { pageRow: this.rows, startRow: 0 };
+
+  constructor(private service: ApiService,private confirmationService:ConfirmationService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private breadcrumbService: BreadcrumbService, public tService: TabService) {
+    this.breadcrumbService.setItems([
+      { label: 'Admin' },
+      { label: 'user' },
+    ]);
+
+   // this.tService.setItems('Admin-user');
+     }
+
+  ngOnInit() {
+    this.getUserInfo();
+  }
+
+  showDialog(){
+    this.display = !this.display;   
+  }
+  getUserInfo(){  
+    this.clearPickList();
+    this.getPageCount();
+    const options = {
+      params: {
+        userAccount:this.userAccount,
+        userName:this.userName,
+        pageRow: this.pageInfo['pageRow'],
+        startRow: this.pageInfo['startRow']
+      }
+    };
+    this.service.get('/userinfo/selectAllUser/',options).subscribe(
+      (res) => {
+        this.userInfoList = <UserInfo[]>res;
+        this.changeDetectorRef.detectChanges();
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+
+  updateUserInfo(obj){ 
+    let options = {
+      headers:this.service.getHeaders(),
+    }
+    this.service.put('/userinfo/update/updateUserInfo',obj,options).subscribe(
+      (res) => { 
+
+      },
+      (error) => {    
+      }
+    )    
+  }
+
+  addUserInfo(){ 
+    //alert("add userINfo");
+    if(this.dialogUserInfo.userAccount==null || this.dialogUserInfo.userAccount==""){
+      return;
+    }
+    this.dialogUserInfo.state=true;
+    let options = {
+      headers:this.service.getHeaders(),
+    }
+    this.service.post('/userinfo/insert/userInfo',this.dialogUserInfo,options).subscribe(
+      (res) => { 
+        //if(res == 1){
+          this.userInfoList.push(this.dialogUserInfo);          
+          this.dialogHide();
+          this.totalRecords = this.totalRecords + 1;
+          this.changeDetectorRef.detectChanges();
+        //}           
+      },
+      (error) => {    
+      }
+    ) 
+  }
+
+  dialogHide(){
+    this.dialogUserInfo = null;
+    this.dialogUserInfo = new UserInfo();
+  }
+
+   deleteData(obj) {
+    this.confirmationService.confirm({
+      message: '确定要删除用户 ' + obj.userName + ' 吗?',
+      accept: () => {
+        this.actionDelete(obj);
+      }
+    }); 
+  }
+
+  actionDelete(obj) {
+    const url = '/userinfo/delete/deleteUserInfo';
+    this.userInfo = obj;
+    const data = { body: this.userInfo };
+    this.service.delete(url, data).subscribe(
+      (res) => {
+        var index = this.userInfoList.indexOf(obj);
+        this.userInfoList.splice(index,1);
+        this.totalRecords = this.totalRecords - 1;
+        this.changeDetectorRef.detectChanges();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+ 
+  //init pick list
+  onRowSelect(event) {
+    this.userAccount_ = this.userInfo.userAccount;
+    this.getAllRole();    
+  }
+
+  getAllRole(){
+    this.service.get('/userrolelink/getRoleList_List/').subscribe(
+      (res) => {
+        this.allRole = <RoleInfo[]>res;
+
+        this.setPickList(this.userInfo.userAccount);
+       },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  setPickList(userAccount_){
+    //获取右侧列表
+    const options = {
+      params:{"userAccount":userAccount_}
+    };
+    this.service.get('/userrolelink/getAsignedRoleByUserId',options).subscribe(
+        (res) => {
+          this.asignRoleList = <RoleInfo[]>res;
+          this.asignRoleList_ = this.asignRoleList.slice();
+          //获取左侧列表
+           this.getUNAsignRoleList();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  getUNAsignRoleList(){
+    const array_ = new Array<string>();
+    this.asignRoleList.forEach((role)=>{
+       array_.push(role.roleId);
+    });
+ 
+    this.unAsignRoleList = this.allRole.filter(function(role){
+           return !array_.includes(role.roleId);
+      });
+       
+  }
+  
+  saveChange(){
+    if(this.userAccount_==""){
+      return;
+    }
+    const options = {
+      "asignRoleList_":this.asignRoleList_,"asignRole":this.asignRoleList,"userAccount":this.userAccount_
+   };
+     this.service.put('/userrolelink/update/saveChange',options).subscribe(
+     (res) => { 
+         if(<any>res == 0){
+           this.tip_ = "保存成功";
+           setTimeout(()=>{this.tip_=""},3000);
+         }
+     },
+     (error) => {    
+        this.tip_ = "保存失败，请刷新页面后重新提交";
+        setTimeout(()=>{this.tip_=""},3000);
+     }
+   ) 
+ }
+
+  clearPickList(){
+    this.asignRoleList=null;
+    this.unAsignRoleList=null;
+    this.userAccount_="";
+  }
+
+  getPageCount() {
+    const url = '/userinfo/getcount';
+    const options = {
+      params: {
+        userAccount:this.userAccount,
+        userName:this.userName,
+      }
+    };
+    this.service.get(url, options).subscribe(
+      (res) => {
+        this.totalRecords = res;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  paginate(event) {
+    this.pageInfo.pageRow = event['rows'];
+    this.pageInfo.startRow = event['first'];
+    this.search(event.page+1);
+    this.getUserInfo();
+  }
+
+  search(page){
+  }
+}

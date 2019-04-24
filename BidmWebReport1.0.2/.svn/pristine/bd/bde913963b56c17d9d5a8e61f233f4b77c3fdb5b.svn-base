@@ -1,0 +1,57 @@
+<div class="ui-g">
+  <div [class]="div1Class" [style.display]="div1Visible">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">区域一</span>
+          <!-- <button pButton class="btn-expand" [icon]="div1Icon" (click)="div1Click()"></button> -->
+        </div>
+      </p-header>
+      <div echarts [options]="chartOption"></div>
+    </p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div2Visible">
+      <p-panel header="区域二（多数据接口）">
+        <div echarts #multiCharts [options]="multiOption"></div>
+      </p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div3Visible">    
+    <p-panel header="区域三">
+      <p-accordion>
+        <p-accordionTab header="Header 1">Content 1</p-accordionTab>
+        <p-accordionTab header="Header 2">Content 2</p-accordionTab>
+        <p-accordionTab header="Header 3">Content 3</p-accordionTab>
+      </p-accordion>
+    </p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div4Visible">
+    <p-panel header="区域四">
+      <p-tabView>
+        <p-tabPanel header="Header 1">
+           Content 1
+        </p-tabPanel>
+        <p-tabPanel header="Header 2">
+          <input pInputText type="text">
+        </p-tabPanel>
+        <p-tabPanel header="Header 3">
+            Content 3
+        </p-tabPanel>
+    </p-tabView>
+    </p-panel>
+  </div>
+  <div class="ui-g-12" [style.display]="div5Visible">
+    <p-panel header="区域五"></p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div6Visible">
+    <p-panel header="区域六"></p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div7Visible">
+    <p-panel header="区域七"></p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div8Visible">
+      <p-panel header="区域八"></p-panel>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6" [style.display]="div9Visible">
+      <p-panel header="区域九"></p-panel>
+  </div>
+</div>

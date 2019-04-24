@@ -1,0 +1,24 @@
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+}
+
+input {
+    width: 100px;
+    text-align: center;
+}
+th {
+    font-size: 12px;
+    font-weight: inherit!important;
+    padding: 0.1em 0em!important;
+}
+
+.headerBlue {
+    background-color: #BDD7EE!important;
+    color: black!important;
+    border: 1px solid #9c9c9c!important;
+    font-weight: bold!important;
+}
+
+.setAlarm {
+  background-color: rgba(255, 0, 0, 0.603) !important;
+}

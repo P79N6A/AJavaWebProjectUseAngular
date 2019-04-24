@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.MdlRatioAMapper">
+
+	<select id="getDataM060mmt" resultType="MmtVO">
+		select datename, product,
+		product_size, check_in_code, cell_grade, a, t, q, a0, ac, al, an from
+		SC_KANBAN_MOD_A060_VW
+	</select>
+
+	<select id="getDataM069mmt" resultType="MmtVO">
+		select datename, product,
+		product_size, check_in_code, cell_grade, a, t, q, a0, ac, al, an from
+		SC_KANBAN_MOD_A069_VW
+	</select>
+
+	<select id="getDataM151mmt" resultType="MmtVO">
+		select datename, product,
+		product_size, check_in_code, cell_grade, a, t, q, a0, ac, al, an from
+		SC_KANBAN_MOD_A151_VW
+	</select>
+
+	<select id="getDataM060Qtop5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_Q060_VW
+	</select>
+	
+	<select id="getDataM060Qtop5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_Q060_P_VW
+	</select>
+	
+	<select id="getDataM069Qtop5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_Q069_VW
+	</select>
+	
+	<select id="getDataM069Qtop5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_Q069_P_VW
+	</select>
+	
+	<select id="getDataM151Qtop5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_Q151_VW
+	</select>
+	
+	<select id="getDataM151Qtop5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_Q151_P_VW
+	</select>
+	
+	
+	
+	
+	<select id="getDataM060A0top5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_A0060_VW
+	</select>
+	
+	<select id="getDataM060A0top5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_A0060_P_VW
+	</select>
+	
+	<select id="getDataM069A0top5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_A0069_VW
+	</select>
+	
+	<select id="getDataM069A0top5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_A0069_P_VW
+	</select>
+	
+	<select id="getDataM151A0top5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_A0151_VW
+	</select>
+	
+	<select id="getDataM151A0top5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_A0151_P_VW
+	</select>
+	
+	
+	
+	
+	<select id="getDataM060ALtop5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_AL060_VW
+	</select>
+	
+	<select id="getDataM060ALtop5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_AL060_P_VW
+	</select>
+	
+	<select id="getDataM069ALtop5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_AL069_VW
+	</select>
+	
+	<select id="getDataM069ALtop5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_AL069_P_VW
+	</select>
+	
+	<select id="getDataM151ALtop5" resultType="Qtop5VO">
+		select datename,code_desc,ratio from SC_KANBAN_MOD_AL151_VW
+	</select>
+	
+	<select id="getDataM151ALtop5P" resultType="Qtop5PVO">
+		select datename,product,code_desc,ratio from SC_KANBAN_MOD_AL151_P_VW
+	</select>
+
+</mapper>

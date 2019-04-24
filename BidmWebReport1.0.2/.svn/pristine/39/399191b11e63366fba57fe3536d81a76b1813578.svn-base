@@ -1,0 +1,78 @@
+<div class="ui-g">
+    <p-growl [(value)]="msgs"></p-growl>
+  <p-panel class="ui-g-12">
+    <p-header>
+        <h3 style="text-align: center ;padding:0%;margin:5px;">Array Move 滚动看板 -- {{selectedDate | date:'yyyy年MM月'}}</h3> 
+    </p-header>
+   
+    <div class="ui-panel-content">
+
+     <div class="ui-helper-clearfix">
+          <div style="float:right;padding-bottom: 5px">   
+               当前标准值 ：  <input id="standnum" type="text" [(ngModel)]="standerNum">   
+                &nbsp;                  
+                <p-dropdown [options]="productiontypes" [(ngModel)]="selectedType" (onChange)="clickType()"></p-dropdown>
+                &nbsp;
+                <p-radioButton name="lotORgls" value="glass" label="Glass" [(ngModel)]="ratiovalue" inputId="r1" (click)="clickRatio(1)"></p-radioButton> <!--click="clickRatio(1)"-->
+                &nbsp;
+                <p-radioButton name="lotORgls" value="panel" label="Lot" [(ngModel)]="ratiovalue" inputId="r2" (click)="clickRatio(2)"></p-radioButton>
+                &nbsp;
+                <p-calendar [(ngModel)]="selectedDate" [showIcon]='true' dateFormat="      yy-mm" (onSelect)="clickDate()"></p-calendar>
+                &nbsp;
+                <button pButton type="button" label="刷新" icon="fa fa-refresh" iconPos="left" (click)="refreshData()"></button>
+                &nbsp;
+                <button pButton type="button" label="导出" icon="fa fa-download" iconPos="left" (click)="exportExcel()"></button>  
+          </div>
+      </div> 
+     <!-- 
+    id="promovedaily"  [columns]="cols" [scrollable]="true" scrollHeight="600px"
+    -->
+    <p-table id="armovescroll" [value]="data" [columns]="cols"  [scrollable]="true" [style]="{width:'100%'}" >
+    
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns;let i = index" [ngClass]="{a1 : i == 1,a023 : i == 0 || i == 2 || i ==3,a4546 : i >3 && i &lt; 36,alast : col.header == 'Comment'}">
+        </colgroup>
+      </ng-template>
+    
+      <ng-template pTemplate="header" let-columns>
+        <!-- 表头 -->
+        <tr>
+          <th *ngFor="let col of columns" class="head1">{{col.header}}</th>
+        </tr>
+      </ng-template>
+    
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr id="mytr">
+          <!-- <td id="mytd" class="data1" *ngFor="let col of columns,let i = index" [ngClass]="{head1 : i == 0 || i == 1}" [ngStyle]="{'background-color':(i == 2 || i == 3) ? 'rgb(240, 231, 208)' : 'white'}">
+            {{rowData[col.field]}}
+          </td> -->
+         
+            <td class="head1">{{rowData.operation}}</td>
+            <td class="head1">{{rowData.description}}</td>
+            <td id="mytd" *ngFor="let qty of rowData.qtys;let i = index" class="data1" 
+                          [ngStyle]="{'background-color':(i == 0 || i == 1) ? 'rgb(240, 231, 208)' : 'white'}" 
+                          [ngClass]="{dataglasslt4800:ratiovalue == 'glass'&& qty &lt; standerNum && i > 1 && qty != '',
+                                      dtalotlt240:ratiovalue == 'panel'&& qty &lt; standerNum && i > 1 && qty != ''}">{{qty | handlezero : [i,nowdaysNum]}}</td>
+            <td pEditableColumn class="data1">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.comment" (change)="updateRemark(rowData)">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{rowData.comment}}
+                </ng-template>
+              </p-cellEditor>
+              <!-- {{rowData.comment}} -->
+            
+            </td>
+          
+        </tr>
+      </ng-template>
+    </p-table>
+
+  
+    </div>
+  </p-panel>
+
+</div>

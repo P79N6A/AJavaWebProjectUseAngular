@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CfMoveHourMapper"> 
+		<resultMap id="cfmovehourmap" type="CfMoveHourVO">
+			<result property="datename" column="datename" ></result>
+			<result property="productiontype" column="productiontype" ></result>
+			<result property="hour" column="hour" ></result>
+			<result property="opercode" column="oper_code" ></result>
+			<result property="operdesc" column="oper_desc" ></result>
+			<result property="eqpid" column="eqp_id" ></result>
+			<result property="product" column="product" ></result>
+			<result property="modeltype" column="modeltype" ></result>
+			<result property="actqty" column="qty" ></result>
+			<result property="planqty" column="plan" ></result>
+		</resultMap>
+		
+		<select id="queryObjectsByDatename" resultMap="cfmovehourmap">
+			select datename,
+					productiontype,
+					hour,
+					oper_code,
+					oper_desc,
+					eqp_id,
+   					product,
+   					modeltype,
+   					qty,
+   					plan
+			from SC_CF_REPORT_MOVE_VIEW
+			where datename = #{datename}
+			order by oper_code,eqp_id,product,hour
+		</select>
+		
+		<!-- *********下面是基础信息维护的方法********************************* -->
+		<!-- 2.查询所有对象 -->
+		<select id="queryAllObjects" resultType="CfMoveHourBasicinfoVO">
+			select rownum,factory,product,productname,modeltype,flag 
+			from sc_product_cf
+		</select>
+		<!-- 3.插入一个对象 -->
+		<insert id="insertOne">
+			insert into sc_product_cf(factory,product,productname,modeltype,flag)
+			values (#{factory},#{product},#{productname},#{modeltype},#{flag,jdbcType=VARCHAR})
+		</insert>
+		<!-- 4.更新一个对象 -->
+		<update id="updateOne">
+			update sc_product_cf set productname =  #{productname},modeltype = #{modeltype},flag = #{flag,jdbcType=VARCHAR}
+			where factory = #{factory} and product = #{product}
+		</update>
+		<!-- 5.删除一个对象 -->
+		<delete id="deleteOne">
+			delete from sc_product_cf
+			where factory = #{factory} and product = #{product} and productname = #{productname}
+				and modeltype = #{modeltype}
+				<if test="flag != null">
+					and flag = #{flag}
+				 </if>
+		
+		</delete>
+	</mapper>

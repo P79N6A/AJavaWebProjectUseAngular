@@ -1,0 +1,10 @@
+li.ui-galleria-panel {
+    width:100% !important;}
+
+img.ui-panel-images {
+    width:100vw !important;
+} 
+
+div.ui-galleria.ui-widget.ui-widget-content.ui-corner-all {
+    width:100% !important;
+}

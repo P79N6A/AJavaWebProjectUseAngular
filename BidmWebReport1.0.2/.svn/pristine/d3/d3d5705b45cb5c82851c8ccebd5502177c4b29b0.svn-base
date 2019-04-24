@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.HourMonitorMapper">
+
+	<select id="getToday" resultType="HourMonitorVO">
+		select hour,item,qty, planqty, balqty, actplan from SC_PRODUCTION_INFO_VW where datename = to_char(sysdate${dayControl},'yyyymmdd')
+	</select>
+	
+	<select id="getOneday" resultType="HourMonitorVO">
+		select hour,item,qty, planqty, balqty, actplan from SC_PRODUCTION_INFO_VW where datename = '${dateValue}'
+	</select>
+
+</mapper>

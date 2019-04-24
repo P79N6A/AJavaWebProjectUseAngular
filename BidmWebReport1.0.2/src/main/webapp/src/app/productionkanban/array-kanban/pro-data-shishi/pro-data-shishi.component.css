@@ -1,0 +1,30 @@
+th {
+  font-weight: initial !important;
+  padding: 0.3em 0.1em !important;
+  font-size: 12px !important;
+  border: 0px !important;
+  background-color: rgba(0,0,0,0)!important;
+  color: #F2F6FA !important;
+}
+
+.setTdStyle1 {
+  font-size: 12px !important;
+  padding: 0.3em 0.1em !important;
+  border: 0px !important;
+  text-align: center !important;
+  color: #F2F6FA !important;
+  background-color: #101B31 !important;
+}
+
+.setTdStyle2 {
+  font-size: 12px !important;
+  padding: 0.3em 0.1em !important;
+  border: 0px !important;
+  text-align: center !important;
+  color: #F2F6FA !important;
+  background-color: #153e66 !important;
+}
+
+#arrayProDataZ, #arrayProDataZ1 {
+  color: white;
+}

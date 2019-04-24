@@ -1,0 +1,11 @@
+.head{
+    font-size: 13px !important;
+    font-weight: 400px !important;
+    color: rgb(37, 37, 37) !important;
+    /* background-color: rgb(170, 198, 214) !important; */
+}
+.data{
+    font-size: 12px !important;
+    text-align: center !important;
+    padding: 0.45em 01em !important;
+}

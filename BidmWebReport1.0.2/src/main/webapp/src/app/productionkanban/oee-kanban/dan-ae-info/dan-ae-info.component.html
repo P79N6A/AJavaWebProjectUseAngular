@@ -1,0 +1,67 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:5%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      OEE单分厂AE信息
+    </div>
+  </div>
+  <div class="ui-g-12" style="padding:0px; margin-top: 40px;font-weight: bold;color: #6BB3D4;text-align: center; font-size: 18px">设备二级状态各工序对比</div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-6" style="padding-left: 3%">
+      <label for="firstState" style="color: #F2F6FA">First_State:</label>
+      <p-dropdown [options]="stateDpt" [style]="{'width': '200px'}" id="firstState" [(ngModel)]="firstState" (onChange)="filterSelect()"></p-dropdown>
+    </div>
+    <div class="ui-g-6">
+      <div style="float:right; padding-right: 6%">
+        <label for="oeeTimeType" style="color: #F2F6FA;padding-top: 3px">时间类型:</label>
+        <p-dropdown [options]="department" id="oeeTimeType" [(ngModel)]="timeType" (onChange)="select()"></p-dropdown>
+        &nbsp;&nbsp;
+        <label for="oeeAedateName" style="color: #F2F6FA;padding-top: 3px">日期:</label>
+        <input type="text" [(ngModel)]="dateName" pInputText oninput="if(value.length>4)value=value.slice(0,4)"
+          placeholder="2019" id="oeeAedateName" *ngIf="input1">
+        <input type="text" [(ngModel)]="dateName" pInputText oninput="if(value.length>6)value=value.slice(0,6)"
+          placeholder="2019Q1" id="oeeAedateName" *ngIf="input2">
+        <input type="text" [(ngModel)]="dateName" pInputText oninput="if(value.length>6)value=value.slice(0,6)"
+          placeholder="201901" id="oeeAedateName" *ngIf="input3">
+        <input type="text" [(ngModel)]="dateName" pInputText oninput="if(value.length>8)value=value.slice(0,8)"
+          placeholder="20190112" id="oeeAedateName" *ngIf="input4">&nbsp;&nbsp;
+        <p-button label="查询" (click)="query()" id="oeeaebt"></p-button>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <div echarts style="height: 250px;" [options]="oeeAeOption"></div>
+    </div>
+    <div class="ui-g-12" style="padding:0px;font-weight: bold;color: #6BB3D4;text-align: center; font-size: 18px">各工序AE损失TOP
+      5</div>
+    <div class="ui-g-6 ui-g-offset-6">
+      <div style="float:right; padding-right: 6%">
+        <label for="oeeTopTimeType" style="color: #F2F6FA;padding-top: 3px">时间类型:</label>
+        <p-dropdown [options]="departmentTop" id="oeeTopTimeType" [(ngModel)]="timeTopType" (onChange)="selectTop()"></p-dropdown>
+        &nbsp;&nbsp;
+        <label for="oeeTopAedateName" style="color: #F2F6FA;padding-top: 3px">日期:</label>
+        <input type="text" [(ngModel)]="dateTopName" pInputText oninput="if(value.length>4)value=value.slice(0,4)"
+          placeholder="2019" id="oeeTopAedateName" *ngIf="inputTop1">
+        <input type="text" [(ngModel)]="dateTopName" pInputText oninput="if(value.length>6)value=value.slice(0,6)"
+          placeholder="2019Q1" id="oeeTopAedateName" *ngIf="inputTop2">
+        <input type="text" [(ngModel)]="dateTopName" pInputText oninput="if(value.length>6)value=value.slice(0,6)"
+          placeholder="201901" id="oeeTopAedateName" *ngIf="inputTop3">
+        <input type="text" [(ngModel)]="dateTopName" pInputText oninput="if(value.length>8)value=value.slice(0,8)"
+          placeholder="20190112" id="oeeTopAedateName" *ngIf="inputTop4">&nbsp;&nbsp;
+        <p-button label="查询" (click)="queryTop()" id="oeeaebt"></p-button>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div echarts style="height: 250px;" [options]="oeeAeTop5Option"></div>
+    </div>
+  </div>
+</div>
+
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

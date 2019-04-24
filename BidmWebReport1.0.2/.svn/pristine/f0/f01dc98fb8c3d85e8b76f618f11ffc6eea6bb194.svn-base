@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { CellproductiondailyComponent } from './cellproductiondaily/cellproductiondaily.component';
+
+const routes: Routes = [
+   {
+    path: 'clprodaily',
+    component: CellproductiondailyComponent,
+    data: {
+      tabLabel: 'cell生产日报',
+      destroy: false
+    }
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class CellBaobiaoRoutingModule { }

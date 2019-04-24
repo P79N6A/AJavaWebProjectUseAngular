@@ -1,0 +1,20 @@
+export class CellMoveDailyObject{
+     productname = '';
+	   tftsb  = 0;
+	   cfsb  = 0;
+	   tftps  = 0;
+	   pitft  = 0;
+	   picf  = 0;
+	   pirtft  = 0;
+	   pircf  = 0;
+	   rubtft  = 0;
+	   rubcf  = 0;
+	   assy  = 0;
+	   cutsh  = 0;
+	   cutpnl  = 0;
+	   inline  = 0;
+	   retest  = 0;
+	   repair  = 0;
+	   sorter  = 0;
+	   packing  = 0;
+}

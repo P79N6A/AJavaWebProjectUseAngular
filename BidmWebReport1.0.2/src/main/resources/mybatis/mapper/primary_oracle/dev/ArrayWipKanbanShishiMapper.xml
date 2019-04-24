@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArrayWipKanbanShishiMapper"> 
+		
+		<select id="queryAllObjects" resultType="ArrayWipKanbanShishiVO"> 
+			select  productname, modeltype, productiontype, oper_code opercode, oper_desc operdesc, eqp_id eqpid,glsqty,lotqty
+			from SC_ARRAY_REPORT_WIP_VW
+			where  hourtimekey = to_char(sysdate,'yyyymmddHH24') 
+					and productiontype = #{productiontype}
+			order by oper_code
+		</select>
+
+	</mapper>

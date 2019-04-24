@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CstInfoPanelMapper">
+
+	<select id="getData" resultType="CstInfoPanelVO">
+		select * from SC_CST_PANEL_1_VW
+	</select>
+
+	<select id="queryData" parameterType="int" resultType="CstInfoPanelVO">
+		select *
+		from SC_CST_PANEL_1_DAY_VW where days between ${start} and ${end}
+	</select>
+
+	<select id="getTableData" resultType="CstInfoPanelTableVO">
+		select
+		cst_id,days,oper,machinename,lotid,productspec,producquantity,lotholdstate,
+		lotlasteventcomment,lotlasteventtime,lastcomment,lasteventtime from
+		SC_CST_PANEL_2_VW where durablespecname = '8${durablespecname}'
+		<if test="cstspec != 'TTL'">
+			and cstspec = #{cstspec}
+		</if>
+		and type = #{type}
+	</select>
+
+	<select id="queryTableData" resultType="CstInfoPanelTableVO">
+		select cst_id,days,oper,machinename,lotid,productspec,producquantity,lotholdstate,
+		lotlasteventcomment,lotlasteventtime,lastcomment,lasteventtime from
+		SC_CST_PANEL_2_VW where durablespecname =
+		'8${durablespecname}'
+		<if test="cstspec != 'TTL'">
+			and cstspec = #{cstspec}
+		</if>
+		and type = #{type} and
+		days between ${start} and ${end}
+	</select>
+
+</mapper>

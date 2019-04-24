@@ -1,0 +1,32 @@
+package com.boe.idm.project.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.h2.util.New;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.boe.idm.project.model.mybatis.CellDailyReportVO;
+import com.boe.idm.project.service.CellDailyReportService;
+
+@RestController
+@RequestMapping("/api")
+public class CellDailyReportController {
+	
+	@Autowired
+	private CellDailyReportService service;
+	
+	@RequestMapping(value="/celldaily/report",method=RequestMethod.GET)
+	public List<CellDailyReportVO> queryObjects(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="datename",required=true) String datename){
+		
+		return service.queryObjects(datename);
+	}
+
+}

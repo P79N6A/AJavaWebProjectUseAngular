@@ -1,0 +1,474 @@
+import { Component, OnInit } from '@angular/core';
+import { objectFirstPage, objectSecondPage } from './model/objects';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import { ApiService } from 'app/common/service/api/api.service';
+
+@Component({
+  selector: 'app-panelbank',
+  templateUrl: './panelbank.component.html',
+  styleUrls: ['./panelbank.component.css']
+})
+export class PanelbankComponent implements OnInit {
+
+  // 1.控制页面显示的
+  isFirstPage = true;
+  isSecondPage = false;
+
+  // 2.界面上的 pcs 和 pcl 的数据
+  pcsdata = '-';
+  pcldata = '-';
+
+  // 3.用来保存 total + 下面四行 数据 的数组
+  totalDatas: number[] = [];
+  tcpDatas: number[] = [];
+  mntDatas: number[] = [];
+  bdlsDatas: number[] = [];
+  tvDatas: number[] = [];
+
+  totalDatas2: number[] = [];
+  tcpDatas2: number[] = [];
+  mntDatas2: number[] = [];
+  bdlsDatas2: number[] = [];
+  tvDatas2: number[] = [];
+
+  // 这个是用来求 下面 四行的和的数组
+  mytotalDatas: number[] = [];
+  mytotalDatas2: number[] = [];
+  // 比较结果的 下标数组
+  comparedXiabiaos: number[] = [];
+  comparedXiabiaos2: number[] = [];
+
+  // 3.第一个界面的 col 和 data
+  cols1: any[] = [];
+  data1: objectFirstPage[] = [];
+
+  // 4.选择的日期
+  selectedDate: Date = new Date(); // 默认的就是当前的日期
+  selectedDate2: Date = new Date(); // 默认的就是当前的日期
+
+  // 3.第二个界面的 col 和 data
+  cols2: any[] = [];
+  data2: any[] = [];
+
+
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+    // 下面这个是使用管道 直接 进行 0 - 〉'' 的操作 ，这个还是简单的
+    this.cols1 = [
+      { field: 'name', header: 'name' },
+      { field: 'spec', header: 'spec' },
+      { field: 'type', header: 'type' },
+      { field: 'ttl', header: 'ttl' },
+      { field: 'pb4ttl', header: 'pb4ttl' },
+      { field: 'pb4p', header: 'pb4p' },
+      { field: 'pb4s', header: 'pb4s' },
+      { field: 'pb4q', header: 'pb4q' },
+      { field: 'pb4f', header: 'pb4f' },
+      { field: 'pb4n', header: 'pb4n' },
+      { field: 'ps2ttl', header: 'ps2ttl' },
+      { field: 'ps2p', header: 'ps2p' },
+      { field: 'ps2s', header: 'ps2s' },
+      { field: 'ps2q', header: 'ps2q' },
+      { field: 'ps2f', header: 'ps2f' },
+      { field: 'ps2n', header: 'ps2n' },
+      { field: 'pb4kt', header: 'pb4kt' },
+      { field: 'ps2kt', header: 'ps2kt' },
+      { field: 'edbb4', header: 'edbb4' },
+      { field: 'edbs2', header: 'edbs2' },
+      { field: 'edfb4', header: 'edfb4' },
+      { field: 'edfs2', header: 'edfs2' },
+    ];
+
+    this.cols2 = [
+      { field: 'name', header: 'name' },
+      { field: 'spec', header: 'spec' },
+      { field: 'type', header: 'type' },
+
+      { field: 'b4ttl', header: 'b4ttl' },
+      { field: 'b4p', header: 'b4p' },
+      { field: 'b4k', header: 'b4k' },
+      { field: 'b4g', header: 'b4g' },
+      { field: 'b4r', header: 'b4r' },
+      { field: 'b4s', header: 'b4s' },
+      { field: 'b4q', header: 'b4q' },
+      { field: 'b4f', header: 'b4f' },
+      { field: 'b4b', header: 'b4b' },
+      { field: 'b4d', header: 'b4d' },
+      { field: 'b4t', header: 'b4t' },
+      { field: 'b4x', header: 'b4x' },
+      { field: 'b4y', header: 'b4y' },
+      { field: 'b4l', header: 'b4l' },
+      { field: 'b4n', header: 'b4n' },
+
+      { field: 's2ttl', header: 's2ttl' },
+      { field: 's2p', header: 's2p' },
+      { field: 's2k', header: 's2k' },
+      { field: 's2g', header: 's2g' },
+      { field: 's2r', header: 's2r' },
+      { field: 's2s', header: 's2s' },
+      { field: 's2q', header: 's2q' },
+      { field: 's2f', header: 's2f' },
+      { field: 's2b', header: 's2b' },
+      { field: 's2d', header: 's2d' },
+      { field: 's2t', header: 's2t' },
+      { field: 's2x', header: 's2x' },
+      { field: 's2y', header: 's2y' },
+      { field: 's2l', header: 's2l' },
+      { field: 's2n', header: 's2n' },
+    ];
+
+    this.searchDataFirst(new Date());
+
+  }
+
+  // 1.创建 hourtimekey 参数的 方法 ：参数为 date类型的数据
+  getHourtimekey(date: Date): string {
+    let str = '';
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    str += year;
+    if (month < 10) {
+      str += '0' + month;
+    } else {
+      str += month + '';
+    }
+
+    if (day < 10) {
+      str += '0' + day;
+    } else {
+      str += day + '';
+    }
+
+    if (hour < 10) {
+      str += '0' + hour;
+    } else {
+      str += hour + '';
+    }
+    return str;
+  }
+
+  // 2.获取到上面 的 total 一行 和 下面四行 数据 的数组的 方法
+  getDataTotalAndOther(object: any): number[] {
+    const numbs: number[] = [];
+    // tslint:disable-next-line:forin
+    for (const prop in object) {
+      switch (prop) {
+        case 'ttl': numbs[0] = object[prop]; break;
+        case 'pb4ttl': numbs[1] = object[prop]; break;
+        case 'pb4p': numbs[2] = object[prop]; break;
+        case 'pb4s': numbs[3] = object[prop]; break;
+        case 'pb4q': numbs[4] = object[prop]; break;
+        case 'pb4f': numbs[5] = object[prop]; break;
+        case 'pb4n': numbs[6] = object[prop]; break;
+        case 'ps2ttl': numbs[7] = object[prop]; break;
+        case 'ps2p': numbs[8] = object[prop]; break;
+        case 'ps2s': numbs[9] = object[prop]; break;
+        case 'ps2q': numbs[10] = object[prop]; break;
+        case 'ps2f': numbs[11] = object[prop]; break;
+        case 'ps2n': numbs[12] = object[prop]; break;
+        case 'pb4kt': numbs[13] = object[prop]; break;
+        case 'ps2kt': numbs[14] = object[prop]; break;
+        case 'edbb4': numbs[15] = object[prop]; break;
+        case 'edbs2': numbs[16] = object[prop]; break;
+        case 'edfb4': numbs[17] = object[prop]; break;
+        case 'edfs2': numbs[18] = object[prop]; break;
+
+
+      }
+    }
+    return numbs;
+  }
+
+  // 3.求 四列的 和的操作
+  getmyTotalDatas(a: number[], b: number[], c: number[], d: number[]): number[] {
+    const numbersum: number[] = [];
+    const mylength = a.length;
+    for (let i = 0; i < mylength; i++) {
+      const mysumdata = a[i] + b[i] + c[i] + d[i];
+      numbersum.push(mysumdata);
+    }
+
+    return numbersum;
+  }
+
+  // 4.比较 直接读取到的total数组 与 计算得到的数组的 区别，并记录下标
+  comparedTotal(a: number[], b: number[]): number[] {
+    const xiabiaos: number[] = [];
+    const mylength = a.length;
+    for (let i = 0; i < mylength; i++) {
+      if (a[i] !== b[i]) {
+        xiabiaos.push(i);
+      }
+    }
+    return xiabiaos;
+  }
+
+
+  // 5.封装 ： 把所有的一级界面的查询封装为一个方法，则，直接使用这个方法进行查询即可
+  searchDataFirst(date: Date) {
+    const datestr = this.getHourtimekey(date);
+
+    // 1.获取 pcs 和 pcl 的数据
+    const url1 = '/panelbank/cstdata1';
+    const option1 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url1, option1).subscribe(
+      (res) => {
+        if (Array.isArray(res)) {
+          for (const object of res) {
+            if (object['name'] === 'PCS') {
+              this.pcsdata = object['spec'];
+            } else if (object['name'] === 'PCL') {
+              this.pcldata = object['spec'];
+            }
+          }
+
+        }
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 2.获取 total 的数据
+    const url2 = '/panelbank/total1';
+    const option2 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url2, option2).subscribe(
+      (res) => {
+        this.totalDatas = this.getDataTotalAndOther(res[0]);
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 3. 获取四行数据
+    const url3 = '/panelbank/bbb';
+    const option3 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url3, option3).subscribe(
+      (res) => {
+        if (Array.isArray(res)) {
+          for (const object of res) {
+            const name = object['name'];
+            if (name === 'TPC') {
+              this.tcpDatas = this.getDataTotalAndOther(object);
+            } else if (name === 'MNT') {
+              this.mntDatas = this.getDataTotalAndOther(object);
+            } else if (name === 'BDLS') {
+              this.bdlsDatas = this.getDataTotalAndOther(object);
+            } else if (name === 'TV') {
+              this.tvDatas = this.getDataTotalAndOther(object);
+            }
+          }
+        }
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 4.获取 主体数据 的方法
+    const url4 = '/panelbank/maindata1';
+    const option4 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url4, option4).subscribe(
+      (res) => {
+        this.data1 = <objectFirstPage[]>res;
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 5.计算查询出来的四行数据的和 并且进行比较的运算
+    setTimeout(() => {
+      this.mytotalDatas = this.getmyTotalDatas(this.tcpDatas, this.mntDatas, this.bdlsDatas, this.tvDatas);
+      this.comparedXiabiaos = this.comparedTotal(this.totalDatas, this.mytotalDatas);
+    }, 2000);
+  }
+
+  // 6. 点击 按钮进行的查询 : 按照的是选择的时间进行的
+  searchDataClick() {
+    this.searchDataFirst(this.selectedDate);
+  }
+
+  // 7.  导出excel表格的功能方法
+  exportExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('panelbanktable')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    // 这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile(excelBuffer, 'Panel_Bank');
+
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + '_export_' + this.getHourtimekey(this.selectedDate) + '.xls');
+  }
+
+  // 8.跳转到二级界面的方法
+  changeToSecondPage() {
+    this.isFirstPage = false;
+    this.isSecondPage = true;
+
+    this.searchDataSecond(new Date());
+  }
+
+  /********************这里是一级界面和 二级界面 方法的分界线********************* */
+
+  // 9.跳转到一级界面的方法
+  changeToFirstPage() {
+    this.isSecondPage = false;
+    this.isFirstPage = true;
+  }
+
+  // 2.获取到上面 的 total 一行 和 下面四行 数据 的数组的 方法
+  getDataTotalAndOther2(object: any): number[] {
+    const numbs: number[] = [];
+    // tslint:disable-next-line:forin
+    for (const prop in object) {
+      switch (prop) {
+        case 'b4ttl': numbs[0] = object[prop]; break;
+        case 'b4p': numbs[1] = object[prop]; break;
+        case 'b4k': numbs[2] = object[prop]; break;
+        case 'b4g': numbs[3] = object[prop]; break;
+        case 'b4r': numbs[4] = object[prop]; break;
+        case 'b4s': numbs[5] = object[prop]; break;
+        case 'b4q': numbs[6] = object[prop]; break;
+        case 'b4f': numbs[7] = object[prop]; break;
+        case 'b4b': numbs[8] = object[prop]; break;
+        case 'b4d': numbs[9] = object[prop]; break;
+        case 'b4t': numbs[10] = object[prop]; break;
+        case 'b4x': numbs[11] = object[prop]; break;
+        case 'b4y': numbs[12] = object[prop]; break;
+        case 'b4l': numbs[13] = object[prop]; break;
+        case 'b4n': numbs[14] = object[prop]; break;
+
+        case 's2ttl': numbs[15] = object[prop]; break;
+        case 's2p': numbs[16] = object[prop]; break;
+        case 's2k': numbs[17] = object[prop]; break;
+        case 's2g': numbs[18] = object[prop]; break;
+        case 's2r': numbs[19] = object[prop]; break;
+        case 's2s': numbs[20] = object[prop]; break;
+        case 's2q': numbs[21] = object[prop]; break;
+        case 's2f': numbs[22] = object[prop]; break;
+        case 's2b': numbs[23] = object[prop]; break;
+        case 's2d': numbs[24] = object[prop]; break;
+        case 's2t': numbs[25] = object[prop]; break;
+        case 's2x': numbs[26] = object[prop]; break;
+        case 's2y': numbs[27] = object[prop]; break;
+        case 's2l': numbs[28] = object[prop]; break;
+        case 's2n': numbs[29] = object[prop]; break;
+
+      }
+    }
+    return numbs;
+  }
+
+  // 3.进行查询的方法
+  searchDataSecond(date: Date) {
+    const datestr = this.getHourtimekey(date);
+
+
+    // 2.获取 total 的数据
+    const url2 = '/panelbankkf/total2';
+    const option2 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url2, option2).subscribe(
+      (res) => {
+        this.totalDatas2 = this.getDataTotalAndOther2(res[0]);
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 3. 获取四行数据
+    const url3 = '/panelbankkf/bbb2';
+    const option3 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url3, option3).subscribe(
+      (res) => {
+        if (Array.isArray(res)) {
+          for (const object of res) {
+            const name = object['name'];
+            if (name === 'TPC') {
+              this.tcpDatas2 = this.getDataTotalAndOther2(object);
+            } else if (name === 'MNT') {
+              this.mntDatas2 = this.getDataTotalAndOther2(object);
+            } else if (name === 'BDLS') {
+              this.bdlsDatas2 = this.getDataTotalAndOther2(object);
+            } else if (name === 'TV') {
+              this.tvDatas2 = this.getDataTotalAndOther2(object);
+            }
+          }
+        }
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 4.获取 主体数据 的方法
+    const url4 = '/panelbankkf/maindata2';
+    const option4 = {
+      params: {
+        hourtime: datestr
+      }
+    };
+    this.apiService.get(url4, option4).subscribe(
+      (res) => {
+        this.data2 = <objectSecondPage[]>res;
+      },
+      (error) => { console.log(error); }
+    );
+
+    // 5.计算查询出来的四行数据的和 并且进行比较的运算
+    setTimeout(() => {
+      this.mytotalDatas2 = this.getmyTotalDatas(this.tcpDatas2, this.mntDatas2, this.bdlsDatas2, this.tvDatas2);
+      this.comparedXiabiaos2 = this.comparedTotal(this.totalDatas2, this.mytotalDatas2);
+    }, 2000);
+  }
+
+  // 4.点击按钮进行查询的操作
+  searchDataClick2() {
+    this.searchDataSecond(this.selectedDate2);
+  }
+
+  // 7.  导出excel表格的功能方法
+  exportExcel2() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('panelbankkftable')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    // 这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile2(excelBuffer, 'Panel_Bank_kf');
+
+  }
+  saveAsExcelFile2(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + '_export_' + this.getHourtimekey(this.selectedDate2) + '.xls');
+  }
+
+
+  mouseclick(event) {
+    console.log(event);
+  }
+
+}

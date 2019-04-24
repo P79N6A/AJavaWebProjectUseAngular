@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ArOperBasicInfoMapper">
+
+	<select id="getData" resultType="ArOperBasicInfoVO">
+		select * from sc_oper_ar order by no
+	</select>
+
+	<delete id="deleteData" parameterType="ArOperBasicInfoVO">
+		delete from
+		sc_oper_ar
+		where oper_code = #{oper_code}
+	</delete>
+
+	<insert id="insertData" parameterType="ArOperBasicInfoVO">
+		INSERT INTO
+		sc_oper_ar
+		VALUES (#{factory,jdbcType = VARCHAR},
+		#{oper_code},
+		#{oper_desc, jdbcType = VARCHAR},
+		#{move, jdbcType = VARCHAR},
+		#{wip, jdbcType = VARCHAR},
+		#{no, jdbcType = INTEGER})
+	</insert>
+
+	<update id="updateData">
+		update sc_oper_ar
+		set
+		factory = #{arOperVO.factory,jdbcType = VARCHAR},
+		oper_code = #{arOperVO.oper_code},
+		oper_desc = #{arOperVO.oper_desc,jdbcType=VARCHAR},
+		move = #{arOperVO.move,jdbcType=VARCHAR}, 
+		wip = #{arOperVO.wip,jdbcType=VARCHAR},
+		no = #{arOperVO.no,jdbcType=INTEGER}
+		where
+		oper_code = #{arOperVO.oper_code}
+	</update>
+
+</mapper>

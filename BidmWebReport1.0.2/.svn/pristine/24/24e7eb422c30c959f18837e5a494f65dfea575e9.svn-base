@@ -1,0 +1,37 @@
+export class celldaily{
+    size = null;
+    //下面是 Daily 的属性
+    DPP = null;
+    DPA = null;
+    DPB = null;
+
+    DCUTPp = null;
+    DCUTPs = null;
+
+    DCUTAp = null;
+    DCUTAs = null;
+
+    DCUTBp = null;
+    DCUTBs = null;
+
+    DCELLPp = null;
+    DCELLPs = null;
+
+    DCELLAp = null;
+    DCELLAs = null;
+
+    DCELLB = null;
+
+    //下面是 Month 的 属性 
+    MPPq = null; // 全月的
+    MPPl = null; // 累计的
+    MPA = null;
+    MPB = null;
+
+    MCPQp = null; // 全月的
+
+
+
+
+
+}

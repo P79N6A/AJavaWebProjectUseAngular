@@ -1,0 +1,34 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ArrayjiadongkanbanComponent } from './arrayjiadongkanban/arrayjiadongkanban.component';
+import { ProDataZaohuiComponent } from './pro-data-zaohui/pro-data-zaohui.component';
+
+
+
+const routes: Routes = [
+
+  {
+    path: 'arrayjdkanban',
+    component: ArrayjiadongkanbanComponent,
+    data: {
+      tabLabel: 'Array稼动',
+      destroy: false
+    }
+  },
+  {
+    path: 'prodata_zaohui',
+    component: ProDataZaohuiComponent,
+    data: {
+      tabLabel: 'Array生产数据',
+      destroy: false
+    }
+  },
+
+
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ArrayKanbanRoutingModule { }

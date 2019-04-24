@@ -1,0 +1,22 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ArrayjiadongkanbanComponent } from './arrayjiadongkanban/arrayjiadongkanban.component';
+
+
+const routes: Routes = [
+
+  {
+    path: 'arrayjdkanban',
+    component: ArrayjiadongkanbanComponent,
+    data: {
+      tabLabel: 'Array稼动看板',
+      destroy: false
+    }
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ArrayKanbanRoutingModule { }

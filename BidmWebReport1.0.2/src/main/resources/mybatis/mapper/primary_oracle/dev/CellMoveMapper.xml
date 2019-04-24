@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellMoveMapper"> 
+		
+		<select id="getList" resultType="CellMoveVO"> 
+			select oper_code as oper_desc,
+			date_before_2 as date_before_3,
+			date_before_1 as date_before_2,
+			date_before_0 as date_before_1,
+			date_current 
+			from sc_cl_move1_vw
+		</select>
+		
+		<select id="getListBoth" resultType="CellMoveVO"> 
+			select oper_code as oper_desc,
+			date_before_2 as date_before_3,
+			date_before_1 as date_before_2,
+			date_before_0 as date_before_1,
+			date_current 
+			from sc_cl_move11_vw
+		</select>
+		
+		
+		<select id="getListPCL" resultType="CellMoveVO"> 
+			select oper_code as oper_desc,
+			date_before_2 as date_before_3,
+			date_before_1 as date_before_2,
+			date_before_0 as date_before_1,
+			date_current 
+			from sc_cl_move11_vw
+			where line = 'PCL'
+		</select>
+		
+		<select id="getListPCS" resultType="CellMoveVO"> 
+			select oper_code as oper_desc,
+			date_before_2 as date_before_3,
+			date_before_1 as date_before_2,
+			date_before_0 as date_before_1,
+			date_current 
+			from sc_cl_move11_vw
+			where line = 'PCS'
+		</select>
+
+	</mapper>

@@ -1,0 +1,31 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ProductionkanbanRoutingModule } from './productionkanban-routing.module';
+import { GskanbanComponent } from './gskanban/gskanban.component';
+import { ArrayjiadongkanbanComponent } from './arrayjiadongkanban/arrayjiadongkanban.component';
+import { ApiService } from '../common/service/api/api.service';
+import { ReportUiCommonService } from '../report-ui/service/report-ui-common.service';
+import { FormsModule } from '@angular/forms';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { GrowlModule } from 'primeng/growl';
+import { DropdownModule, ButtonModule, CalendarModule } from 'primeng/primeng';
+import { TableModule } from 'primeng/table';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    ProductionkanbanRoutingModule,
+    FormsModule,
+    NgxEchartsModule,
+    GrowlModule,
+    DropdownModule,
+    ButtonModule,
+    CalendarModule,
+    TableModule,
+
+  ],
+  declarations: [GskanbanComponent, ArrayjiadongkanbanComponent],
+  providers: [ApiService, ReportUiCommonService]
+})
+export class ProductionkanbanModule { }

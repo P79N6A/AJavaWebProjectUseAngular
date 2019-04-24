@@ -1,0 +1,93 @@
+.content{
+    width:100%;
+    height:100%;
+}
+
+:host ::ng-deep #app-pol-machine-status .ui-carousel,:host ::ng-deep #app-pol-machine-status .ui-widget{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+:host ::ng-deep #app-pol-machine-status .ui-carousel-header,:host ::ng-deep #app-pol-machine-status .ui-widget-header{
+    height:10%;
+    width:100%;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+:host ::ng-deep #app-pol-machine-status .ui-carousel-viewport{
+    height:85%;
+    width:100%;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+:host ::ng-deep #app-pol-machine-status .ui-carousel-items{
+    height:100%;
+    border:none;
+}
+
+:host ::ng-deep #app-pol-machine-status .ui-carousel-items>*{
+    height:100%;
+    float:left;
+    background-color:rgba(0,0,0,0);
+    border:none;
+}
+
+h3{
+    margin:0;
+    padding:0;
+}
+
+.legend{
+    width:100%;
+}
+
+.state-block{
+    width:5%;
+    float:left;
+}
+
+.state-block-font{
+    width:11%;
+    float:left;
+    color:#fff
+}
+
+.row{
+    width:100%;
+    height:13%;
+    padding-top:10px;
+    margin-bottom:8px;
+}
+
+.name{
+    width:10%;
+    float:left;
+}
+
+.DOWN>.status{
+    background-color:#ff0000
+}
+
+.ENG>.status{
+    background-color:#ff9900
+}
+
+.IDLE>.status{
+    background-color:#c2a9619d
+}
+
+.MAINT>.status{
+    background-color:#ffff00
+}
+
+.MCHG>.status{
+    background-color:#ee9d9da2
+}
+
+.RUN>.status{
+    background-color:#00ff00
+}

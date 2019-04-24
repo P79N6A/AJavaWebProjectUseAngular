@@ -1,0 +1,69 @@
+.pageContent{
+    height:100vh;
+    background-image: url(/assets/picture/watchboard/back.jpg);
+    background-size:100% 100%;
+}
+
+#title{
+    height:7vh;
+}
+
+#title > div{
+    height:100%;
+}
+
+#title > .left{
+    width:40%;
+    background-image:url(/assets/picture/watchboard/left.png);
+    background-size:100% 100%;
+    float:left;
+}
+
+#title > .middle{
+    width:20%;
+    text-align: center;
+    float:left;
+    margin:0;
+    padding:0;
+}
+
+#title p{
+    font-size: 2vw;
+    color:#fff;
+    margin:0;
+    padding:3% 0 0 0;
+}
+
+#title > .right{
+    width:40%;
+    background-image:url(/assets/picture/watchboard/right.png);
+    background-size:100% 100%;
+    float:left;
+}
+
+#middle *{
+    height:100%;
+}
+
+.vertical{
+    height:31vh;
+}
+
+.chartDiv{
+    background-image:url(/assets/picture/watchboard/border.png);
+    background-size:100% 100%;
+    width:100%;
+    height:100%;
+}
+
+#mleft{
+    padding:0 2.5px 0 0;
+}
+
+#mcenter{
+    padding:0 2.5px 0 2.5px;
+}
+
+#mright{
+    padding:0 0 0 2.5px;
+}

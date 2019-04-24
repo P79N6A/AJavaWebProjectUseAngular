@@ -1,0 +1,357 @@
+import { Component, OnInit, ChangeDetectorRef ,HostListener, ViewEncapsulation  } from '@angular/core';
+import { TabItem} from './tabItem'
+import { TabService } from './service/tab.service';
+import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
+import { BreadcrumbService } from '@breadcrumb/service/breadcrumb.service';
+import { MenuItem } from 'primeng/api';
+import { AppComponent } from 'app/app.component';
+import { environment } from '../../../environments/environment';
+import { FullscreenService } from 'app/common/service/fullscreen.service';
+import { AuthenticationService } from 'app/_services/authentication.service';
+@Component({
+    selector : 'retab',
+    templateUrl: './app.retab.component.html',
+    styleUrls: ['./app.retab.component.css'],
+    encapsulation: ViewEncapsulation.None
+})
+export class AppRetabComponent implements OnInit {
+    spItems: MenuItem[];
+    items: TabItem[] = new Array();
+    subscription: Subscription;
+    tabLayout:boolean = false;
+    leftDisabled:boolean = true;
+    rightDisabled:boolean = true;
+
+    topbarTopPadding = '36px';
+
+    constructor(public tService: TabService,private router: Router,private breadcrumbService: BreadcrumbService,private authenticationService:AuthenticationService,
+         private cdr: ChangeDetectorRef,public app: AppComponent, private fullscreen: FullscreenService) {
+           
+        // this.tabLayout =  environment.tabLayout; 
+        this.tabLayout = !app.isMobile(); 
+        if(this.tabLayout){
+            this.subscription = tService.itemsHandler.subscribe(response => {
+                //console.log('response : {} ',response);
+
+                this.items = response;
+                for(let i=0; i<this.items.length;i++){
+                    if(this.items[i].selected){
+                        this.changeRouter(i);
+                        break;
+                    }
+                }
+
+            setTimeout(() => {
+                this.reloadTooltip();
+                this.scrollto();
+            },100);
+        });
+        }
+        // this.topbarTopPadding = this.getPaddingTop(); 
+    }
+    ngAfterViewInit(){                                   
+        this.reloadTooltip();
+    }
+    reloadTooltip(){
+        let classretabHTML = document.getElementById('classretab');
+
+        if(classretabHTML != null){
+            let retabAHtml = classretabHTML.getElementsByTagName('a');
+            if (retabAHtml != null) {
+                let tabCnt: number = 0;
+                for (let i=0; i<retabAHtml.length; i++) {
+                    let role = retabAHtml[i].getAttribute('role');
+                    if (role != null && this.items[tabCnt] != null) {
+                        let attr = document.createAttribute('data-tooltip');
+                        attr.value = this.items[tabCnt].orgLabel;
+                        retabAHtml[i].setAttributeNode(attr);
+                        tabCnt++;
+                    }
+                }
+
+                if (environment.tabTooltip) {
+                    let style = document.createElement('style');
+                    document.head.appendChild(style);
+                    let sheet: CSSStyleSheet =  <CSSStyleSheet>(style.sheet);
+                    sheet.addRule(
+                        'body #classretab .ui-tabview .ui-tabview-nav > li.ui-state-default a:hover:after', 
+                        'display:block'
+                    );
+                    sheet.addRule(
+                        'body #classretab .ui-tabview .ui-tabview-nav > li.ui-state-default a:hover:before', 
+                        'display:block'
+                    );
+                }
+            }
+        }
+        this.cdr.detectChanges();
+    }
+    ngOnInit() {
+
+        this.spItems = [
+            
+            // {
+            //     label: 'Close Selected',
+            //     icon: 'fa fa-times',
+            //     style: {'font-size':'8px'},
+            //     command: (event) => { this.closeTabItem('select') }
+            // },
+            // {separator:true},
+            {
+                label: 'Close Other', 
+                icon: 'fa fa-check-square-o',
+                style: {'font-size':'8px'},
+                command: (event) => { this.closeTabItem('other') }
+            }
+        ]; 
+           
+    }
+    getPaddingTop() {
+        let topbar = document.getElementsByClassName("layout-topbar");
+        // debugger;
+        console.log('topbar' + topbar);
+        console.log('topbar[0]' + topbar[0]);
+        let topbarWidth = topbar[0].clientWidth;
+        
+        if (this.app.isHorizontal()) {
+            if(topbarWidth < 1008){
+                return '36px';
+            }
+            return '94px';
+        } else{
+            return '36px';
+        }
+
+    }
+    getWidth() {
+        let topbar = document.getElementsByClassName("layout-topbar");
+        let classretabObj = document.getElementById("classretab");
+        let topbarWidth = topbar[0].clientWidth;
+        let retabWidth = this.getRetabWidth();
+            
+        classretabObj.style.width = retabWidth+'px';
+            
+        if (this.app.isMobile()) return '100%';
+        
+        let layoutSidebar = document.getElementById("layoutSidebar");
+        
+        if (this.app.isHorizontal()) {
+            if(topbarWidth >= 1008){
+                layoutSidebar.style.top = '42px';
+            }else{
+                layoutSidebar.style.top = '0';
+            }
+            return '100%';
+        } else{
+            layoutSidebar.style.top = '42px';
+            if(this.app.isOverlay()){
+                // topbarWidth -= 20;
+                topbarWidth -= 60;    
+            } else {
+                topbarWidth -= 240;
+            }
+            
+            return topbarWidth+'px';
+        }
+        
+    }
+    getRetabWidth(){
+        let closeBtnWidth = 20;
+        let leftRightWidth = 21;
+        
+        let topbar = document.getElementsByClassName("layout-topbar");
+        let topbarWidth = topbar[0].clientWidth-20;
+        if (this.app.isMobile()) {
+            topbarWidth -= 10; 
+        } else if (this.app.isOverlay()) {
+            topbarWidth -= 60;
+        } else {
+            topbarWidth -= 240; 
+        }
+        return topbarWidth - closeBtnWidth - leftRightWidth*2;
+    }
+    getPaddingTopClear() {
+        if (this.app.isHorizontal()) {
+            return '94px';
+        } else{
+            return '48px';
+        }
+
+    }
+    closeTabItem(delType:string){
+        //console.log('delType: ',delType);
+        if(delType === 'select'){
+            this.tService.deleteItem(this.findSelectTab());
+        }else if(delType === 'other'){
+            this.tService.deleteItemOther(this.findSelectTab());
+        }else{
+            this.tService.deleteItemAll();
+        }
+    }
+    findSelectTab(){
+        let selectedIndex;
+        for(let i=0;i<this.items.length;i++){
+            let _tmpItem:TabItem =  this.items[i];
+            if(_tmpItem.selected ){
+                selectedIndex = i;
+                break;
+            }
+        }
+        return selectedIndex;
+    }
+    handleClose(event){
+        //console.log('close tab event {} ',event.index);
+        let _index = event.index;
+        this.tService.deleteItem(_index);
+    }
+    handleChange(event){
+        //console.log('handleChange tab event {} ',event);
+        this.changeRouter(event.index);
+    }
+    changeRouter(index){
+        let _item:TabItem = this.items[index];
+        this.router.navigateByUrl(_item.url);     
+        // this.breadcrumbService.setItems(_item.breadcrumb);
+        this.reloadTooltip();
+    }
+    scrollto(){
+        let classretabHTML =document.getElementById('classretab');
+
+        if(classretabHTML != null){
+            let ulAHtml = classretabHTML.getElementsByTagName('ul');
+            let lis = ulAHtml[0].getElementsByTagName('li');
+        
+            if(ulAHtml !=null){
+                let tabCnt:number = 0;
+                let isNew:boolean = false;
+                for(let i=0; i<this.items.length;i++){
+                    if(this.items[i].selected){
+                        tabCnt = i;
+                        break;
+                    }
+                }
+                let selectLi = lis[tabCnt];
+                let selectLiOffset = selectLi.offsetLeft;
+                if((ulAHtml[0].clientWidth-100) > selectLiOffset){
+                    ulAHtml[0].scrollTo(0,0);
+                }else{
+                    ulAHtml[0].scrollLeft=selectLiOffset;
+                }
+            }
+        }
+    }
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
+    // @HostListener('window:scroll', ['$event']) 
+    // onScrollEvent($event){
+    //     console.log($event);
+    // }
+    getLeftDisplay(){
+        let classretabObj = document.getElementById("classretab");
+        let a = classretabObj.style.width;
+            a = a.replace('px','');
+        let retabWidthWapper =+a;
+        let ul = classretabObj.getElementsByTagName('ul');
+        if(ul.length != 0){
+            let retabWidth = ul[0].scrollWidth;
+            if(retabWidth > retabWidthWapper){
+                if(ul[0].scrollLeft > 0){
+                    return 'inline-block';
+                }else{
+                    return 'none';            
+                }
+            }
+        }
+        return 'none';
+    }
+    getRightDisplay(){
+        let classretabObj = document.getElementById("classretab");
+        let a = classretabObj.style.width;
+            a = a.replace('px','');
+        let retabWidthWapper =+a;
+        let ul = classretabObj.getElementsByTagName('ul');
+        if(ul.length != 0){
+            let retabWidth = ul[0].scrollWidth;
+            if(retabWidth > retabWidthWapper){
+                let last = retabWidth -retabWidthWapper - ul[0].scrollLeft
+                if(last == 0 ){
+                    return 'none';
+                }else{
+                    return 'inline-block';
+                }
+            }
+        }
+        return 'none';
+    }
+    getLeftVisible(){
+        let classretabObj = document.getElementById("classretab");
+        let a = classretabObj.style.width;
+            a = a.replace('px','');
+        let retabWidthWapper =+a;
+        let ul = classretabObj.getElementsByTagName('ul');
+        if(ul.length != 0){
+            let retabWidth = ul[0].scrollWidth;
+            if(retabWidth > retabWidthWapper){
+                if(ul[0].scrollLeft > 0){
+                    return 'visible';
+                }else{
+                    return 'hidden';
+                }
+            }
+        }
+        return 'hidden';
+    }
+    getRightVisible(){
+        let classretabObj = document.getElementById("classretab");
+        let a = classretabObj.style.width;
+            a = a.replace('px','');
+        let retabWidthWapper =+a;
+        let ul = classretabObj.getElementsByTagName('ul');
+        if(ul.length != 0){
+            let retabWidth = ul[0].scrollWidth;
+            if(retabWidth > retabWidthWapper){
+                let last = retabWidth -retabWidthWapper - ul[0].scrollLeft
+                if(last == 0 ){
+                    return 'hidden';
+                }else{
+                    return 'visible';            
+                }
+            }
+        }
+        return 'hidden';
+    }
+    leftClick(){
+        let classretabHTML =document.getElementById('classretab');
+        let a = classretabHTML.style.width;
+            a = a.replace('px','');
+        let retabWidthWapper =+a;
+        let ulAHtml = classretabHTML.getElementsByTagName('ul');
+        if(ulAHtml !=null){
+            if(ulAHtml[0].scrollLeft-retabWidthWapper < 0){
+               ulAHtml[0].scrollTo(0,0);
+            }else{
+                ulAHtml[0].scrollTo(ulAHtml[0].scrollLeft-retabWidthWapper,0);
+            }
+        }
+    }
+    rightClick(){
+        let classretabHTML =document.getElementById('classretab');
+        let a = classretabHTML.style.width;
+            a = a.replace('px','');
+        let retabWidthWapper =+a;
+        let ulAHtml = classretabHTML.getElementsByTagName('ul');
+        if(ulAHtml !=null){
+            ulAHtml[0].scrollTo(ulAHtml[0].scrollLeft+retabWidthWapper,0);
+        }
+    }
+
+    fullscreenClick() {
+        this.fullscreen.onContentFullScreen();
+    }
+}
+
+

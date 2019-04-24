@@ -1,0 +1,214 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../common/service/api/api.service';
+import { Cfwipmoveobject } from './model/objects';
+import { ConfirmationService } from 'primeng/api';
+
+
+@Component({
+  selector: 'app-cfwipmove',
+  templateUrl: './cfwipmove.component.html',
+  styleUrls: ['./cfwipmove.component.css']
+})
+export class CfwipmoveComponent implements OnInit {
+
+
+  data : Cfwipmoveobject[] = [];
+
+  databackup : Cfwipmoveobject[] = []; // 这个是备份用的数据
+
+  linestates:any[] = [
+    {label:'other',value:''},
+    {label:'PH1',value:'PH1'},
+    {label:'PH2',value:'PH2'},
+  ];
+
+  linestates2:any[] = [
+    {label:'PH1',value:'PH1'},
+    {label:'PH2',value:'PH2'},
+  ];
+
+  editing : boolean = false;
+  rownumber : number = 0; // 控制 更新的 确认和 取消按钮显示 的
+
+  isadd : boolean = false;
+  newObject : Cfwipmoveobject = new Cfwipmoveobject(); //添加时候绑定的对象
+
+  constructor(private apiService : ApiService,
+    private confirmationService: ConfirmationService) { }
+
+  ngOnInit() {
+   this.queryAllData();
+  }
+
+//111 查询所有数据的方法
+queryAllData(){
+  const url = '/cfwipmove/querybasicinfo';
+  this.apiService.get(url).subscribe(
+    (res)=>{
+     
+      this.data = [];
+      this.databackup = [];
+      this.data = <Cfwipmoveobject[]>res;
+      //this.databackup = this.data; // 这样写是一个引用的形式，不太好
+     
+     // 如果数组的元素是对象，那么这样操作之后修改一个数组中的对象，另一个数组中的事不会被影响的,只有这种赋值的方式有效果
+     this.databackup = JSON.parse(JSON.stringify(this.data)) ; 
+      
+    },
+    (error)=>{console.log(error)}
+
+  );
+}
+
+  //1.添加新的对象的方法
+  insertOne(){
+    this.isadd = true;
+  }
+  //1.2.取消添加按钮
+  cancelAdd(){
+    this.newObject = new Cfwipmoveobject();
+    this.isadd = false;
+  }
+  //1.3.确认添加按钮
+  confirmAdd(){
+    if(this.newObject.productspecname == null || this.newObject.line == null ||
+       this.newObject.productspecname.trim() == "" || this.newObject.line.trim() == "" ){
+      alert("请完善必填项！");
+    }else{
+      if(this.newObject.factory == null || this.newObject.factory.trim() == ""){ // 这个可以空着
+        this.newObject.factory = 'CF';
+      }
+      this.newObject.factory = this.newObject.factory.trim();
+      this.newObject.productspecname = this.newObject.productspecname.trim(); // 这个可能会有空格的问题，需要处理一下
+      //console.log(this.newObject);
+
+      //判断该对象是否已经存在于当前的数据中
+      for(const object of this.data){
+        if(object.factory == this.newObject.factory 
+            && object.productspecname == this.newObject.productspecname
+            && object.line == this.newObject.line){
+              alert("该数据已经存在！");
+              return;
+        }
+      }
+      //如果经过了上面的循环，则证明 该数据没有存在，继续执行插入操作
+      const url = '/cfwipmove/insertone';
+      const option = {
+        params :{
+          factory : this.newObject.factory,
+          productspecname : this.newObject.productspecname,
+          line : this.newObject.line
+        }
+      };
+      this.apiService.get(url,option).subscribe(
+        (res)=>{
+          this.newObject = new Cfwipmoveobject();
+          this.isadd = false;
+          alert('添加数据成功！');
+          this.queryAllData();
+        },
+        (error)=>{console.log(error);},
+        
+      );
+
+    }
+    
+  }
+
+
+  //2.删除一个对象的方法
+  deleteData(rowData){
+    console.log(rowData);
+    this.confirmationService.confirm(
+      {
+        message: '确定删除此条数据?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+          const url = '/cfwipmove/deleteone';
+          const option = {
+             params :{
+                factory : rowData.factory,
+                productspecname : rowData.productspecname,
+                line : rowData.line
+               }
+          };
+          this.apiService.get(url,option).subscribe(
+            (res)=>{
+              alert("删除成功！");
+              this.queryAllData();
+            },
+            (error)=>{alert("删除数据失败！");console.log(error)}
+          );
+         
+        },
+        reject: () => {
+        }
+      }
+    );
+
+  }
+
+
+//3.更新数据的方法
+onRowEditInit(rowData:Cfwipmoveobject){
+ //  console.log(rowData); // 这个rowData对象是被修改过的对象
+   let rownum : number = rowData.rownum; // 用这个来获取唯一的标识
+   const objectbackup = this.databackup[rownum-1]; // 这个是原数据
+   //console.log(objectbackup);
+   if(rowData.factory.trim() == objectbackup.factory
+      && rowData.productspecname.trim() == objectbackup.productspecname
+      && rowData.line.trim() == objectbackup.line){ // 当两个对象的属性都一致的时候，说明没有变化
+        alert("数据无变化，无需更新！");
+   }else{ // 数据有变化的时候，更新按钮显示,rownumber保证了只有这一行的更新按钮会进行改变
+    this.editing = true;
+    this.rownumber = rownum;
+   }
+ 
+}
+//3.1 取消更新的操作
+onRowEditCancel(rowData:Cfwipmoveobject){
+  this.editing = false;
+  this.rownumber = 0;
+  //我需要把数据恢复成原来的样子
+  let rownum : number = rowData.rownum; // 用这个来获取唯一的标识
+  const objectbackup = this.databackup[rownum-1]; // 这个是原数据
+  this.data[rownum-1].factory = objectbackup.factory;
+  this.data[rownum-1].productspecname = objectbackup.productspecname;
+  this.data[rownum-1].line = objectbackup.line;
+
+}
+
+//3.2确认更新的操作
+onRowEditSave(rowData:Cfwipmoveobject){
+  let rownum : number = rowData.rownum; // 用这个来获取唯一的标识
+  const objectbackup = this.databackup[rownum-1]; // 这个是原数据
+
+  const url='/cfwipmove/updateone';
+  const option = {
+    params : {
+      factorynew : rowData.factory,
+      productspecnamenew : rowData.productspecname,
+      linenew : rowData.line,
+      factoryold : objectbackup.factory,
+      productspecnameold : objectbackup.productspecname,
+      lineold : objectbackup.line
+    }
+  };
+
+  this.apiService.get(url,option).subscribe(
+    (res)=>{
+      alert("更新成功！");
+      this.editing = false;
+      this.rownumber = 0;
+      this.queryAllData();
+    },
+    (error)=>{
+      alert("更新失败！");
+      console.log(error);
+    }
+  );
+}
+
+
+}

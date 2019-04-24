@@ -1,0 +1,58 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { GsproductComponent } from './gsproduct/gsproduct.component';
+import { FactoryproductComponent } from './factoryproduct/factoryproduct.component';
+import { SortbankComponent } from './sortbank/sortbank.component';
+import { CellproductiondailyComponent } from './cellproductiondaily/cellproductiondaily.component';
+import { PanelbankComponent } from './panelbank/panelbank.component';
+
+const routes: Routes = [
+  {
+    path:'gsproduct',
+    component:GsproductComponent,
+    data:{
+      tabLabel:'公司生产情况信息',
+      destroy:false
+    }
+  },
+  {
+    path:'factoryproduct',
+    component:FactoryproductComponent,
+    data:{
+      tabLabel:'各工厂生产情况信息',
+      destroy:false
+    }
+  },
+  {
+    path:'sortbank',
+    component:SortbankComponent,
+    data:{
+      tabLabel:'SortBank情况信息',
+      destroy:false
+    }
+  },
+  {
+    path:'cellproductiondaily',
+    component:CellproductiondailyComponent,
+    data:{
+      tabLabel:'cell生产日报',
+      destroy:false
+    }
+  },
+  {
+    path:'panelbank',
+    component:PanelbankComponent,
+    data:{
+      tabLabel:'Panel Bank',
+      destroy:false
+    }
+  },
+  
+
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class FixreportformsRoutingModule { }

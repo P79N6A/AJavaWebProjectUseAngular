@@ -1,0 +1,112 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-7" style="color:#F2F6FA; margin-left:8%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      公司看板
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <p-table class="ui-g-12">
+      <ng-template pTemplate="header">
+        <tr style="height:10px">
+          <th rowspan="2">FAC</th>
+          <th rowspan="2">Item</th>
+          <th>Monthly</th>
+          <th colspan="3">Cum</th>
+          <th colspan="3">Daily</th>
+          <th rowspan="2">Wip</th>
+          <th rowspan="2">Bank</th>
+          <th rowspan="2" width="50%">Daily Trend</th>
+        </tr>
+        <tr>
+          <th>勇追</th>
+          <th>Plan</th>
+          <th>Act</th>
+          <th>Bal</th>
+          <th>Plan</th>
+          <th>Act</th>
+          <th>Bal</th>
+        </tr>
+        <tr>
+          <th rowspan="2">Array</th>
+          <th>In</th>
+          <th *ngFor="let qty of arrayIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="2">{{arrayWip}}</th>
+          <th rowspan="2">{{arrayBank}}</th>
+          <th><div style="height:50px" echarts [options]="arrayInOption"></div></th>
+        </tr>
+        <tr>
+          <th>Out</th>
+          <th *ngFor="let qty of arrayOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" echarts [options]="arrayOutOpton"></div></th>
+        </tr>
+        <tr>
+          <th rowspan="2">CF</th>
+          <th>In</th>
+          <th *ngFor="let qty of cfIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="2">{{cfWip}}</th>
+          <th rowspan="2">{{cfBank}}</th>
+          <th><div style="height:50px" echarts [options]="cfInOption"></div></th>
+        </tr>
+        <tr>
+          <th>Out</th>
+          <th *ngFor="let qty of cfOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" echarts [options]="cfOutOption"></div></th>
+        </tr>
+        <tr>
+          <th rowspan="2">Cell</th>
+          <th>In</th>
+          <th *ngFor="let qty of cellIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" echarts [options]="cellInOption"></div></th>
+        </tr>
+        <tr>
+          <th>Out</th>
+          <th *ngFor="let qty of cellOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th><div style="height:50px" echarts [options]="cellOutOption"></div></th>
+        </tr>
+        <tr>
+          <th rowspan="2">MDL</th>
+          <th>In</th>
+          <th *ngFor="let qty of mdlIn" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="2">{{mdlWip}}</th>
+          <th rowspan="2">{{mdlBank}}</th>
+          <th><div style="height:50px" echarts [options]="mdlInOption"></div></th>
+        </tr>
+        <tr>
+          <th>Out</th>
+          <th *ngFor="let qty of mdlOut" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+          <th rowspan="6">Issue</th>
+        </tr>
+        <tr>
+          <th>TPC-Q</th>
+          <th rowspan="5">Out</th>
+          <th *ngFor="let qty of tpc_q" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>M1</th>
+          <th *ngFor="let qty of m1" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>M2-1</th>
+          <th *ngFor="let qty of m2_1" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>M2-2</th>
+          <th *ngFor="let qty of m2_2" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+        <tr>
+          <th>OEM</th>
+          <th *ngFor="let qty of oem" [ngClass]="{fushu: qty<0}">{{qty}}</th>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

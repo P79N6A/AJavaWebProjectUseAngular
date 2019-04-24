@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleWipMapper"> 
+		
+		<select id="getModuleList" resultType="ModuleWipVO"> 
+			select hourTimeKey,
+					fgCode,
+					checkInCode,
+					line,
+					productSize,
+					productType,
+					operationDesc,
+			     	gls_qty as glsQty,
+			     	pnl_qty as pnlQty
+			  from SC_MOD_WIP_VW 
+			  where hourtimekey = '${hourtimekey}'
+			  and line in <foreach collection="lines" item="line" index="index" open="(" close=")" separator=",">'${line}'</foreach>
+			  and checkincode in <foreach collection="checkincodes" item="checkincode" index="index" open="(" close=")" separator=",">'${checkincode}'</foreach>
+			  and  productsize in <foreach collection="productsizes" item="productsize" index="index" open="(" close=")" separator=",">'${productsize}'</foreach>
+		</select>
+		
+		<select id="getS2List" resultType="ModuleWipVO"> 
+			select hourTimeKey,
+					fgCode,
+					checkInCode,
+					line,
+					productSize,
+					productType,
+					operationDesc,
+			     	gls_qty as glsQty,
+			     	pnl_qty as pnlQty
+			  from SC_S2_WIP_VW 
+			  where hourtimekey = '${hourtimekey}'
+			  and line in <foreach collection="lines" item="line" index="index" open="(" close=")" separator=",">'${line}'</foreach>
+			  and checkincode in <foreach collection="checkincodes" item="checkincode" index="index" open="(" close=")" separator=",">'${checkincode}'</foreach>
+			  and productsize in <foreach collection="productsizes" item="productsize" index="index" open="(" close=")" separator=",">'${productsize}'</foreach>
+			  and producttype in <foreach collection="producttypes" item="producttype" index="index" open="(" close=")" separator=",">'${producttype}'</foreach>
+		</select>
+
+	</mapper>

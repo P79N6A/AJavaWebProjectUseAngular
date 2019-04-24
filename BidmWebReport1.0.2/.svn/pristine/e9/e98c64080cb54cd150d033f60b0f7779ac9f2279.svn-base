@@ -1,0 +1,54 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { FixreportformsRoutingModule } from './fixreportforms-routing.module';
+import { GsproductComponent } from './gsproduct/gsproduct.component';
+import { FactoryproductComponent } from './factoryproduct/factoryproduct.component';
+import { SortbankComponent } from './sortbank/sortbank.component';
+import { FormsModule } from '@angular/forms';
+import { DropdownModule, InputTextModule, SplitButtonModule, MultiSelectModule, CalendarModule, InputSwitchModule, FileUploadModule, PaginatorModule, TabViewModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from 'primeng/panel';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ChartModule } from 'primeng/chart';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { GrowlModule } from 'primeng/growl';
+import { ApiService } from '../common/service/api/api.service';
+import { PanelService } from '../boe/pages/echarts/panel.service';
+import { FileUploadService } from '../boe-ui/boe-list/service/file-upload.service';
+import { MessageService } from 'primeng/components/common/messageservice';
+
+import { StrFormatPipe } from './factoryproduct/pipe/str-format.pipe';
+import { CellproductiondailyComponent } from './cellproductiondaily/cellproductiondaily.component';
+import { ZeroConvertPipe } from './pipe/zero-convert.pipe';
+import { PanelbankComponent } from './panelbank/panelbank.component';
+import { MyzeropipePipe } from './panelbank/mypipe/myzeropipe.pipe';
+
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FixreportformsRoutingModule,
+    FormsModule,
+    DropdownModule,
+    ButtonModule,
+    PanelModule,
+    TableModule,
+    DialogModule,
+    InputTextModule,
+    ChartModule,
+    NgxEchartsModule,
+    SplitButtonModule,
+    MultiSelectModule, // 这个是多选下拉框的模块
+    CalendarModule, // 这个是写日期的
+    GrowlModule, // 消息弹窗
+    InputSwitchModule, // Module/S2 WIP 中用到的切换的按钮
+    FileUploadModule, // 文件导入的模块
+    PaginatorModule, // table 的翻页 模块
+    TabViewModule // 切换标签的模块
+  ],
+  declarations: [GsproductComponent, FactoryproductComponent, SortbankComponent,PanelbankComponent, StrFormatPipe, CellproductiondailyComponent,ZeroConvertPipe, MyzeropipePipe],
+  providers: [ApiService,PanelService,FileUploadService,MessageService]
+})
+export class FixreportformsModule { }

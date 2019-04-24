@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.BasicInfoTableMapper">
+
+	<select id="getData" resultType="BasicInfoTableVO">
+		select factory, oper_code,
+		oper_name, operation, operationdesc, no from sc_oper order by
+		to_number(no)
+	</select>
+
+	<delete id="deleteData" parameterType="BasicInfoTableVO">
+		delete from sc_oper where
+		factory = #{factory} and oper_code = #{oper_code} and oper_name =
+		#{oper_name}
+	</delete>
+
+	<insert id="insertData" parameterType="BasicInfoTableVO">
+		INSERT INTO sc_oper VALUES
+		(#{factory}, #{oper_code}, #{oper_name},
+		#{operation,jdbcType=VARCHAR}, #{operationdesc,jdbcType=VARCHAR},
+		#{no,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="updateData" parameterType="BasicInfoTableVO">
+		update sc_oper set factory
+		= #{factory}, oper_code = #{oper_code}, oper_name = #{oper_name},
+		operation = #{operation,jdbcType=VARCHAR}, operationdesc =
+		#{operationdesc,jdbcType=VARCHAR}, no = #{no,jdbcType=VARCHAR} where
+		factory = #{factory} and oper_code = #{oper_code} and oper_name =
+		#{oper_name}
+	</update>
+
+</mapper>

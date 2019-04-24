@@ -1,0 +1,71 @@
+<!--
+<div class="ui-g" >
+
+<div [ngClass]="{setBackground : true}">
+
+  <div> <h3 [ngClass]="{setTitle : true}">公司级展示看板</h3>  </div>
+
+  <div><h3 [ngClass]="{setTime : true}">{{datecurrentstr}}</h3></div>
+
+ {{datecurrentstr}} 2018年12月
+
+  四个 对应 的 In Out 的数据展示 
+  <div [ngClass]="{setInOutBorderAr:true}">
+    <div [ngClass]="{setText : true}">&nbsp;&nbsp;&nbsp;In : 1000 / {{dataSumInNumberAr}}</div>
+    <div [ngClass]="{setText : true}">Out : 1000 / {{dataSumOutNumberAr}}</div>
+  </div>
+  <div [ngClass]="{setInOutBorderCf:true}">
+    <div [ngClass]="{setText : true}">&nbsp;&nbsp;&nbsp;In : 1000 / {{dataSumInNumberCf}}</div>
+    <div [ngClass]="{setText : true}">Out : 1000 / {{dataSumOutNumberCf}}</div>
+  </div>
+  <div [ngClass]="{setInOutBorderCl:true}">
+    <div [ngClass]="{setText : true}">&nbsp;&nbsp;&nbsp;In : 1000 / {{dataSumInNumberCl}}</div>
+    <div [ngClass]="{setText : true}">Out : 1000 / {{dataSumOutNumberCl}}</div>
+  </div>
+  <div [ngClass]="{setInOutBorderMdl:true}">
+    <div [ngClass]="{setText : true}">&nbsp;&nbsp;&nbsp;In : 1000 / {{dataSumInNumberMdl}}</div>
+    <div [ngClass]="{setText : true}">Out : 1000 / {{dataSumOutNumberMdl}}</div>
+  </div>
+
+   四个 大柱状图
+  <div class="ui-g">
+  <div class="ui-g-12">
+    <div echarts [options]="chart_of_array" class="demo-chart" [ngClass]="{setEchartAr : false}" ></div>
+    <div echarts [options]="chart_of_cf" class="demo-chart" [ngClass]="{setEchartCf : false}"></div>
+    <div echarts [options]="chart_of_cell" class="demo-chart" [ngClass]="{setEchartCl : false}" ></div>
+    <div echarts [options]="chart_of_mdl" class="demo-chart" [ngClass]="{setEchartMdl : false}"></div>
+  </div>
+</div>
+ 四个 小柱状图 的 标题
+<div [ngClass]="{WipTitleAr : true}"><h3>ARRAY WIP</h3></div>
+<div [ngClass]="{WipTitleCf : true}"><h3>CF WIP</h3></div>
+<div [ngClass]="{WipTitleCl : true}"> <h3>CELL WIP</h3></div>
+<div [ngClass]="{WipTitleMdl : true}"><h3>MODULE WIP</h3></div>
+
+ 四个 小柱状图
+<div echarts [options]="chart_wip_array" class="demo-chart" [ngClass]="{setChartWipAr : true}"></div> 
+<div echarts [options]="chart_wip_cf" class="demo-chart" [ngClass]="{setChartWipCf : true}"></div> 
+<div echarts [options]="chart_wip_cell" class="demo-chart" [ngClass]="{setChartWipCl : true}"></div> 
+<div echarts [options]="chart_wip_mdl" class="demo-chart" [ngClass]="{setChartWipMdl : true}"></div> 
+
+</div>
+
+</div>
+-->
+
+
+<div class="ui-g" [ngClass]="{setBackground : true}">
+  
+  <!-- 设置标题 -->
+  <div class="ui-g-12"><h3 [ngClass]="{setTitle : true}">公司级展示看板</h3></div>
+  <!-- 设置月份 -->
+  <div [ngClass]="{setTime : true}"><h3 >{{datecurrentstr}}</h3></div>
+
+<!-- 四个大的柱状图 -->
+  <div class="ui-g-12">
+      <div class="ui-g-6"><div echarts [options]="chart_of_array" class="demo-chart" [ngClass]="{setEchartAr : true}" ></div></div>
+      <div class="ui-g-6"><div echarts [options]="chart_of_cf" class="demo-chart" [ngClass]="{setEchartCf : true}"></div></div>
+      <div class="ui-g-6"><div echarts [options]="chart_of_cell" class="demo-chart" [ngClass]="{setEchartCl : true}" ></div></div>
+      <div class="ui-g-6"><div echarts [options]="chart_of_mdl" class="demo-chart" [ngClass]="{setEchartMdl : true}"></div> </div>
+  </div>
+</div>

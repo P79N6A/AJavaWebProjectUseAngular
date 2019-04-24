@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CstInfoMapper">
+
+	<select id="getInit" resultType="CstInfoVO">
+		select
+		cst_spec,factory,type,full_ratio,pro,eng,dev,dum from SC_CST_1_VW
+	</select>
+
+	<select id="getInit1" resultType="CstInfoEmptyVO">
+		select
+		cst_spec,ttl,oneqp,move,instk,dirty,outstk,others from SC_CST_2_VW
+	</select>
+
+	<select id="getInit2" resultType="CstStockerInfoVO">
+		select
+		stocker,cst_spec,maxqty,currentqty,full_ratio from SC_CST_3_VW
+	</select>
+
+	<select id="getInit3" resultType="CstStockerInfoVO">
+		select
+		stocker,cst_spec,maxqty,currentqty,full_ratio from SC_CST_5_VW
+	</select>
+
+	<select id="getInit4" resultType="CstInfo4VO">
+		select
+		stocker,cst_spec,production,engdev,dummy,empty from SC_CST_4_VW
+	</select>
+
+	<select id="getQuery1" parameterType="int" resultType="CstInfoRatio">
+		select
+		cst_spec,factory,type,full_ratio,pro,eng,dev,dum from
+		SC_CST_1_DAYS_VW
+		where
+		days between ${start} and ${end}
+	</select>
+
+	<select id="getQuery2" parameterType="int" resultType="CstInfoEmptyVO">
+		select
+		cst_spec,ttl,oneqp,move,instk,dirty,outstk,others from
+		SC_CST_2_DAYS_VW where
+		days between ${start} and ${end}
+	</select>
+
+	<select id="toSecond1" resultType="CstInfoSecondVO">
+		select
+		cst_id,days,operation,eqp,lot_id,product,qty,holdstate,lot_comment,lot_time,cst_comment,cst_time
+		from SC_CST_1_1_VW
+		where factory = '${factory}' and type = '${type}'
+		and substr(cst_id,2,3) =
+		'${cst_spec}' and
+		productiontype in
+		<foreach collection="productiontypes" item="productiontype"
+			index="index" open="(" close=")" separator=",">'${productiontype}'</foreach>
+	</select>
+
+	<select id="toSecond2" resultType="CstInfoSecondVO">
+		select
+		cst_id,days,operation,eqp,lot_id,product,qty,holdstate,lot_comment,lot_time,cst_comment,cst_time
+		from SC_CST_1_1_VW where factory = '${factory}' and type = '${type}'
+		and substr(cst_id,2,3) = '${cst_spec}' and days between ${start} and
+		${end} and productiontype in
+		<foreach collection="productiontypes" item="productiontype"
+			index="index" open="(" close=")" separator=",">'${productiontype}'</foreach>
+	</select>
+
+	<select id="toSecond3" resultType="CstInfoSecondVO">
+		select
+		cst_id,days,operation,eqp,lot_id,product,qty,holdstate,lot_comment,lot_time,cst_comment,cst_time
+		from SC_CST_1_1_VW where substr(cst_id,2,3) = '${cst_spec}' and
+		durablecleanstate = 'Dirty' and durablestate = 'EMPTY'
+	</select>
+	
+	<select id="toSecond4" resultType="CstInfoSecondVO">
+		select
+		cst_id,days,operation,eqp,lot_id,product,qty,holdstate,lot_comment,lot_time,cst_comment,cst_time
+		from SC_CST_1_1_VW where substr(cst_id,2,3) = '${cst_spec}' and
+		durablecleanstate = 'Clean' and durablestate = 'EMPTY' and transferstate = '${transferstate}'
+	</select>
+	
+	<select id="toSecond5" resultType="CstInfoSecondVO">
+		select
+		cst_id,days,operation,eqp,lot_id,product,qty,holdstate,lot_comment,lot_time,cst_comment,cst_time
+		from SC_CST_1_1_VW where substr(cst_id,2,3) = '${cst_spec}' and
+		durablecleanstate = 'Dirty' and durablestate = 'EMPTY' and days between ${start} and ${end}
+	</select>
+	
+	<select id="toSecond6" resultType="CstInfoSecondVO">
+		select
+		cst_id,days,operation,eqp,lot_id,product,qty,holdstate,lot_comment,lot_time,cst_comment,cst_time
+		from SC_CST_1_1_VW where substr(cst_id,2,3) = '${cst_spec}' and
+		durablecleanstate = 'Clean' and durablestate = 'EMPTY' and transferstate = '${transferstate}'
+		and days between ${start} and ${end}
+	</select>
+
+</mapper>

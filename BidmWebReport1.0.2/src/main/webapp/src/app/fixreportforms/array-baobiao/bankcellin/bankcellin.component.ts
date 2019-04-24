@@ -1,0 +1,142 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'app/common/service/api/api.service';
+import { BankCellInRowItem, CellNameItem } from './model/BankCellInRowItem';
+
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+@Component({
+  selector: 'app-bankcellin',
+  templateUrl: './bankcellin.component.html',
+  styleUrls: ['./bankcellin.component.css']
+})
+export class BankcellinComponent implements OnInit {
+
+  sumtft_bank;
+  sumcf_bank;
+  sumcellpair;
+  sumcellin;
+  sumplan1;
+  sumplan2;
+  sumplan3;
+  sumplan4;
+  sumplan5;
+  sumbal1;
+  sumbal2;
+  sumbal3;
+  sumbal4;
+  sumbal5;
+
+  day1: Date;
+  day2: Date;
+  day3: Date;
+  day4: Date;
+  day5: Date;
+
+  tableData: Array<BankCellInRowItem> = [];
+
+  constructor(private apiService: ApiService) { }
+
+  ngOnInit() {
+
+    this.setDate();
+    this.apiService.getAll('/sc/arrpt/bankcellin').subscribe(
+      (res) => {
+        this.setTableData(res);
+      }
+    );
+  }
+
+  setDate() {
+
+
+    this.day1 = new Date();
+    this.day2 = new Date();
+    this.day3 = new Date();
+    this.day4 = new Date();
+    this.day5 = new Date();
+
+    const date = new Date();
+    if (date.getHours() <= 6) {
+      date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
+    }
+    this.day1.setTime(date.getTime());
+    this.day2.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+    this.day3.setTime(date.getTime() + 2 * 24 * 60 * 60 * 1000);
+    this.day4.setTime(date.getTime() + 3 * 24 * 60 * 60 * 1000);
+    this.day5.setTime(date.getTime() + 4 * 24 * 60 * 60 * 1000);
+
+  }
+
+  setTableData(data) {
+
+    this.sumtft_bank = 0;
+    this.sumcf_bank = 0;
+    this.sumcellpair = 0;
+    this.sumcellin = 0;
+    this.sumplan1 = 0;
+    this.sumplan2 = 0;
+    this.sumplan3 = 0;
+    this.sumplan4 = 0;
+    this.sumplan5 = 0;
+    this.sumbal1 = 0;
+    this.sumbal2 = 0;
+    this.sumbal3 = 0;
+    this.sumbal4 = 0;
+    this.sumbal5 = 0;
+
+    const arrayNameArray = [];
+    for (const obj of data) {
+      if (!arrayNameArray.includes(obj.arraymodeltype)) {
+        arrayNameArray.push(obj.arraymodeltype);
+      }
+      this.sumtft_bank += obj.tft_BANK;
+      this.sumcf_bank += obj.cf_BANK;
+      this.sumcellpair += obj.pair;
+      this.sumcellin += obj.cellin;
+      this.sumplan1 += obj.plan_1DAY;
+      this.sumplan2 += obj.plan_2DAY;
+      this.sumplan3 += obj.plan_3DAY;
+      this.sumplan4 += obj.plan_4DAY;
+      this.sumplan5 += obj.plan_5DAY;
+      this.sumbal1 += obj.bal_1DAY;
+      this.sumbal2 += obj.bal_2DAY;
+      this.sumbal3 += obj.bal_3DAY;
+      this.sumbal4 += obj.bal_4DAY;
+      this.sumbal5 += obj.bal_5DAY;
+    }
+
+    for (const ar of arrayNameArray) {
+      const newData = new BankCellInRowItem();
+      newData.arrayname = ar;
+      for (const obj of data) {
+        if (obj.arraymodeltype === ar) {
+          newData.cellpair += obj.pair;
+          newData.bal1 += obj.bal_1DAY;
+          newData.bal2 += obj.bal_2DAY;
+          newData.bal3 += obj.bal_3DAY;
+          newData.bal4 += obj.bal_4DAY;
+          newData.bal5 += obj.bal_5DAY;
+          newData.bycellname.push(new CellNameItem(obj.cellmodeltype, obj.tft_BANK, obj.cf_BANK,
+            obj.cellin, obj.plan_1DAY, obj.plan_2DAY, obj.plan_3DAY, obj.plan_4DAY, obj.plan_5DAY));
+        }
+      }
+      this.tableData.push(newData);
+    }
+  }
+
+
+  exportExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('bankcellin'));
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'Array Bank&Cell In计划');
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + '.xls');
+  }
+
+}

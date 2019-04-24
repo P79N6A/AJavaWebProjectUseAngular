@@ -1,0 +1,114 @@
+[
+    {
+        "stocker": "TFST01",
+        "cst_spec": "TFST01",
+        "maxqty": 77.0,
+        "currentqty": 45.0,
+        "full_ratio": "58.4%"
+    },
+    {
+        "stocker": "TFST01",
+        "cst_spec": "ACN",
+        "maxqty": 51.0,
+        "currentqty": 33.0,
+        "full_ratio": "18"
+    },
+    {
+        "stocker": "TFST01",
+        "cst_spec": "FCW",
+        "maxqty": 15.0,
+        "currentqty": 10.0,
+        "full_ratio": "5"
+    },
+    {
+        "stocker": "TFST01",
+        "cst_spec": "CCN",
+        "maxqty": 0.0,
+        "currentqty": 2.0,
+        "full_ratio": "-2"
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "TFST02",
+        "maxqty": 125.0,
+        "currentqty": 110.0,
+        "full_ratio": "88%"
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "ACN",
+        "maxqty": 81.0,
+        "currentqty": 96.0,
+        "full_ratio": "-15"
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "FCW",
+        "maxqty": 15.0,
+        "currentqty": 14.0,
+        "full_ratio": "1"
+    },
+    {
+        "stocker": "TFST02",
+        "cst_spec": "CCN",
+        "maxqty": 0.0,
+        "currentqty": 0.0,
+        "full_ratio": "0"
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "TFST03",
+        "maxqty": 107.0,
+        "currentqty": 63.0,
+        "full_ratio": "58.9%"
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "ACN",
+        "maxqty": 20.0,
+        "currentqty": 38.0,
+        "full_ratio": "-18"
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "FCW",
+        "maxqty": 33.0,
+        "currentqty": 25.0,
+        "full_ratio": "8"
+    },
+    {
+        "stocker": "TFST03",
+        "cst_spec": "CCN",
+        "maxqty": 10.0,
+        "currentqty": 0.0,
+        "full_ratio": "10"
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "TFST04",
+        "maxqty": 122.0,
+        "currentqty": 97.0,
+        "full_ratio": "79.5%"
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "ACN",
+        "maxqty": 0.0,
+        "currentqty": 1.0,
+        "full_ratio": "-1"
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "FCW",
+        "maxqty": 95.0,
+        "currentqty": 95.0,
+        "full_ratio": "0"
+    },
+    {
+        "stocker": "TFST04",
+        "cst_spec": "CCN",
+        "maxqty": 14.0,
+        "currentqty": 1.0,
+        "full_ratio": "13"
+    }
+]

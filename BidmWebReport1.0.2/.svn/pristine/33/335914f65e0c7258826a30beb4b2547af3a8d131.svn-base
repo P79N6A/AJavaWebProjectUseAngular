@@ -1,0 +1,6 @@
+#m060product,#m060size,#m060code,#m060grade,
+#m069product,#m069size,#m069code,#m069grade,
+#m151product,#m151size,#m151code,#m151grade,
+#m060top5pro, #m069top5pro, #m151top5pro {
+  color: white;
+}

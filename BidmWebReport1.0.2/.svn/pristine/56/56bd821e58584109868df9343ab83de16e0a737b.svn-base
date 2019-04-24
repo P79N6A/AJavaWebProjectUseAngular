@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CfMoveMapper"> 
+		
+		<select id="getList" resultType="CfMoveVO"> 
+			select oper_desc,date_before_3,date_before_2,date_before_1,date_current from sc_cf_move1_vw
+		</select>
+		
+		<select id="getListPH1" resultType="CfMoveVO"> 
+			select oper_desc,date_before_3,date_before_2,date_before_1,date_current from sc_cf_move11_vw
+			where line = 'PH1'
+		</select>
+		<select id="getListPH2" resultType="CfMoveVO"> 
+			select oper_desc,date_before_3,date_before_2,date_before_1,date_current from sc_cf_move11_vw
+			where line = 'PH2'
+		</select>
+		
+
+	</mapper>

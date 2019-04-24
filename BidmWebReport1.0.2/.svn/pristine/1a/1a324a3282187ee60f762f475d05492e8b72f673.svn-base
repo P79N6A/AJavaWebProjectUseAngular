@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.SortBankMapper">
+
+	<select id="getData" resultType="SortBankVO">
+
+		SELECT
+		productname,
+		arrayproductspecname,
+		cfproductspecname,
+		cellproductspecname,
+		arraymodeltype,
+		cfmodeltype,
+		cellmodeltype,
+		tft,
+		cf,
+		pair,
+		tft_bank_normal_n,
+		tft_bank_hold_n,
+		tft_bank_en_n,
+		cf_bank_normal_n,
+		cf_bank_hold_n,
+		cf_bank_en_n,
+		tft_bank_normal_y,
+		tft_bank_hold_y,
+		tft_bank_en_y,
+		cf_bank_normal_y,
+		cf_bank_hold_y,
+		cf_bank_en_y,
+		planqty_4,
+		planqty_24
+		FROM ( SELECT no,
+		productname,
+		arrayproductspecname,
+		cfproductspecname,
+		cellproductspecname,
+		arraymodeltype,
+		cfmodeltype,
+		cellmodeltype,
+		SUM (TFT) tft,
+		SUM (CF) cf,
+		SUM (PAIR) pair,
+		SUM
+		(TFT_BANK_NORMAL_N) tft_bank_normal_n,
+		SUM (TFT_BANK_HOLD_N)
+		tft_bank_hold_n,
+		SUM (TFT_BANK_EN_N) tft_bank_en_n,
+		SUM
+		(CF_BANK_NORMAL_N) cf_bank_normal_n,
+		SUM (CF_BANK_HOLD_N)
+		cf_bank_hold_n,
+		SUM (CF_BANK_EN_N) cf_bank_en_n,
+		SUM (TFT_BANK_NORMAL_Y)
+		tft_bank_normal_y,
+		SUM (TFT_BANK_HOLD_Y) tft_bank_hold_y,
+		SUM
+		(TFT_BANK_EN_Y) tft_bank_en_y,
+		SUM (CF_BANK_NORMAL_Y) cf_bank_normal_y,
+		SUM (CF_BANK_HOLD_Y) cf_bank_hold_y,
+		SUM (CF_BANK_EN_Y) cf_bank_en_y,
+		SUM (PLANQTY_4) planqty_4,
+		SUM (planqty_24) planqty_24
+		FROM (SELECT no,
+		PRODUCTNAME,
+		ARRAYPRODUCTSPECNAME,
+		CFPRODUCTSPECNAME,
+		CELLPRODUCTSPECNAME,
+		ARRAYMODELTYPE,
+		CFMODELTYPE,
+		CELLMODELTYPE,
+		TFT,
+		CF,
+		PAIR300,
+		PAIR,
+		TFT_BANK_NORMAL_N,
+		TFT_BANK_HOLD_N,
+		TFT_BANK_EN_N,
+		CF_BANK_NORMAL_N,
+		CF_BANK_HOLD_N,
+		CF_BANK_EN_N,
+		TFT_BANK_NORMAL_Y,
+		TFT_BANK_HOLD_Y,
+		TFT_BANK_EN_Y,
+		CF_BANK_NORMAL_Y,
+		CF_BANK_HOLD_Y,
+		CF_BANK_EN_Y,
+		0 AS PLANQTY_4,
+		0 planqty_24
+		FROM SC_SORT_BANE_VIEW
+		WHERE
+		hourtimekey = #{timekey}
+		UNION ALL
+		SELECT b.no,
+		b.productname,
+		b.ARRAYPRODUCTSPECNAME,
+		b.CFPRODUCTSPECNAME,
+		b.CELLPRODUCTSPECNAME,
+		b.ARRAYMODELTYPE,
+		b.CFMODELTYPE,
+		b.CELLMODELTYPE,
+		0 TFT,
+		0 CF,
+		0 PAIR300,
+		0
+		PAIR,
+		0 TFT_BANK_NORMAL_N,
+		0 TFT_BANK_HOLD_N,
+		0 TFT_BANK_EN_N,
+		0
+		CF_BANK_NORMAL_N,
+		0 CF_BANK_HOLD_N,
+		0 CF_BANK_EN_N,
+		0 TFT_BANK_NORMAL_Y,
+		0 TFT_BANK_HOLD_Y,
+		0 TFT_BANK_EN_Y,
+		0 CF_BANK_NORMAL_Y,
+		0 CF_BANK_HOLD_Y,
+		0 CF_BANK_EN_Y,
+		a.qty AS planqty_4,
+		0 planqty_24
+		FROM sc_keyin_plan a,
+		SC_SORT_BANK_SPEC b
+		WHERE a.factory = 'Cell'
+		AND a.item = 'In'
+		AND b.flag
+		= '是'
+		AND a.productspecname = B.CELLPRODUCTSPECNAME
+		AND TO_DATE
+		(a.hourtimekey, 'yyyymmddhh24') >
+		TO_DATE (#{timekey}, 'yyyymmddhh24')
+		AND TO_DATE (a.hourtimekey, 'yyyymmddhh24') &lt;=
+		TO_DATE (#{timekey},
+		'yyyymmddhh24') + 4 / 24
+		UNION ALL
+		SELECT b.no,
+		b.productname,
+		b.ARRAYPRODUCTSPECNAME,
+		b.CFPRODUCTSPECNAME,
+		b.CELLPRODUCTSPECNAME,
+		b.ARRAYMODELTYPE,
+		b.CFMODELTYPE,
+		b.CELLMODELTYPE,
+		0 TFT,
+		0 CF,
+		0 PAIR300,
+		0
+		PAIR,
+		0 TFT_BANK_NORMAL_N,
+		0 TFT_BANK_HOLD_N,
+		0 TFT_BANK_EN_N,
+		0
+		CF_BANK_NORMAL_N,
+		0 CF_BANK_HOLD_N,
+		0 CF_BANK_EN_N,
+		0 TFT_BANK_NORMAL_Y,
+		0 TFT_BANK_HOLD_Y,
+		0 TFT_BANK_EN_Y,
+		0 CF_BANK_NORMAL_Y,
+		0 CF_BANK_HOLD_Y,
+		0 CF_BANK_EN_Y,
+		0 planqty_4,
+		a.qty AS planqty_24
+		FROM sc_keyin_plan a,
+		SC_SORT_BANK_SPEC b
+		WHERE a.factory = 'Cell'
+		AND a.item = 'In'
+		AND b.flag
+		= '是'
+		AND a.productspecname = B.CELLPRODUCTSPECNAME
+		AND TO_DATE
+		(a.hourtimekey, 'yyyymmddhh24') >
+		TO_DATE (#{timekey}, 'yyyymmddhh24')
+		AND TO_DATE (a.hourtimekey, 'yyyymmddhh24') &lt;=
+		TO_DATE (#{timekey},
+		'yyyymmddhh24') + 1
+		UNION ALL
+		SELECT b.no,
+		b.productname,
+		b.ARRAYPRODUCTSPECNAME,
+		b.CFPRODUCTSPECNAME,
+		b.CELLPRODUCTSPECNAME,
+		b.ARRAYMODELTYPE,
+		b.CFMODELTYPE,
+		b.CELLMODELTYPE,
+		0 TFT,
+		0 CF,
+		0 PAIR300,
+		0
+		PAIR,
+		0 TFT_BANK_NORMAL_N,
+		0 TFT_BANK_HOLD_N,
+		0 TFT_BANK_EN_N,
+		0
+		CF_BANK_NORMAL_N,
+		0 CF_BANK_HOLD_N,
+		0 CF_BANK_EN_N,
+		0 TFT_BANK_NORMAL_Y,
+		0 TFT_BANK_HOLD_Y,
+		0 TFT_BANK_EN_Y,
+		0 CF_BANK_NORMAL_Y,
+		0 CF_BANK_HOLD_Y,
+		0 CF_BANK_EN_Y,
+		0 AS planqty_4,
+		0 AS planqty_24
+		FROM SC_SORT_BANK_SPEC b
+		WHERE b.flag = '是')
+		GROUP BY PRODUCTNAME,
+		ARRAYPRODUCTSPECNAME,
+		CFPRODUCTSPECNAME,
+		CELLPRODUCTSPECNAME,
+		ARRAYMODELTYPE,
+		CFMODELTYPE,
+		CELLMODELTYPE,
+		no
+		ORDER BY no)
+	</select>
+
+	<select id="getSumData" resultType="SortBankTftCfVO">
+		select
+		tft_bank_normal,tft_bank_hold,tft_bank_en,cf_bank_normal,cf_bank_hold,cf_bank_en
+		from SC_SORT_BANE_VIEW1 where hourtimekey = #{timekey}
+	</select>
+</mapper>

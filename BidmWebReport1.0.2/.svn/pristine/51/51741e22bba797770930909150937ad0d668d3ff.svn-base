@@ -1,0 +1,115 @@
+<div class="ui-g">
+        <p-confirmDialog></p-confirmDialog>
+    <div class="ui-g-12 ui-lg-12" style="border:1px solid lightgray; background-color:mintcream;height: 3.5em;">
+        <div class="ui-g-10 ui-lg-10">
+            <label>{{'admin.useraccount' | translate}}：</label>
+            <input type="text" [(ngModel)]="userAccount" pInputText>
+
+            <label>{{'admin.username' | translate}}：</label>
+            <input type="text" [(ngModel)]="userName" pInputText>
+        </div>
+        <p-button style="float: right;" icon="fa fa-search" label="{{'admin.query' | translate}}" [disabled]="false"
+            (onClick)="paginator.changePage(0);"></p-button>
+    </div>
+
+    <div class="ui-g-8">
+        <p-panel>
+            <p-header>
+                <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title">用户列表</span>
+                    <p-button style="float: right;" icon="fa fa-plus" label="{{'admin.add' | translate}}" [disabled]="false"
+                        (onClick)="showDialog()"></p-button>
+                </div>
+            </p-header>
+            <p-table [value]="userInfoList" selectionMode="single" [(selection)]="userInfo" dataKey="userAccount"
+                (onRowSelect)="onRowSelect($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{'admin.useraccount' | translate}}</th>
+                        <th>{{'admin.username' | translate}}</th>
+                        <th style="width: 5em">{{'admin.state' | translate}}</th>
+                        <th style="width: 5em">del</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-userInfo>
+                    <tr [pSelectableRow]="userInfo" #dtTr>
+                        <td [pEditableColumn]="userInfo" [pEditableColumnField]="'userAccount'">{{userInfo.userAccount}}</td>
+
+                        <td [pEditableColumn]="userInfo" [pEditableColumnField]="'label'">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input type="text" [(ngModel)]="userInfo.userName" (change)="updateUserInfo(userInfo)">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{userInfo.userName}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-inputSwitch [(ngModel)]="userInfo.state" (onChange)="updateUserInfo(userInfo)"></p-inputSwitch>
+                        </td>
+                        <td>
+                            <p-button (click)="deleteData(userInfo)" icon="fa fa-close" label=" "></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                        <p-paginator [alwaysShow]="false" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions"
+                            (onPageChange)="paginate($event)" #p></p-paginator>
+                    </ng-template>
+            </p-table>
+        </p-panel>
+    </div>
+    <div class="ui-g-12 ui-lg-4" *ngIf="userAccount_!=''">
+
+        <p-panel>
+            <p-header>
+                <div class="ui-helper-clearfix">
+                        <span class="ui-panel-title">绑定角色</span>
+                    <p-button style="float:right" icon="fa fa-check" label="{{'admin.save' | translate}}" (onClick)="saveChange()"></p-button>
+                    <p-message *ngIf="tip_!=''" severity="info" style="float:right;" text="{{tip_}}"></p-message>
+                </div>
+            </p-header>
+            <p-pickList [source]="unAsignRoleList" [target]="asignRoleList" [responsive]="true" [sourceStyle]="{'height':'300px'}"
+                [targetStyle]="{'height':'300px'}" sourceHeader="{{'admin.pick_available' | translate}}" targetHeader="{{'admin.pick_selected' | translate}}"
+                dragdrop="true" [showSourceControls]=false [showTargetControls]=false>
+                <ng-template let-role pTemplate="item">
+                    <div class="ui-helper-clearfix">
+                        <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{role.roleId}} {{role.desc==null
+                            ||
+                            role.desc==""?"":" ("+role.desc+")"}} </div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </p-panel>
+    </div>
+</div>
+
+<p-dialog header="Title" [(visible)]="display" [width]="600" [minWidth]="400" (onHide)="dialogHide()">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="menuId">{{'admin.useraccount' | translate}}:</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText [(ngModel)]="dialogUserInfo.userAccount">
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="userName">{{'admin.username' | translate}}:</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText [(ngModel)]="dialogUserInfo.userName">
+            </div>
+        </div>
+
+    </div>
+    <p-footer>
+        <div>
+            <!-- <p-button label="Delete"></p-button>                  -->
+            <p-button label="{{'admin.save' | translate}}" (onClick)="addUserInfo()"></p-button>
+        </div>
+    </p-footer>
+</p-dialog>

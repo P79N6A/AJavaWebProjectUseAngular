@@ -1,0 +1,733 @@
+webpackJsonp(["spec.module"],{
+
+/***/ "./src/app/spec/module/EchartSet.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EchartSet; });
+var EchartSet = /** @class */ (function () {
+    function EchartSet() {
+    }
+    return EchartSet;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/spec/module/spec.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return spec; });
+var spec = /** @class */ (function () {
+    function spec() {
+        this.Key = null;
+        this.productid = null;
+        this.stepid = null;
+        this.defectname = null;
+        this.control1 = null;
+        this.alarmtype1 = null;
+        this.alarmreceivername1 = null;
+        this.alarmreceiverid1 = null;
+        this.control2 = null;
+        this.alarmtype2 = null;
+        this.alarmreceivername2 = null;
+        this.alarmreceiverid2 = null;
+        this.freshtime = null;
+    }
+    return spec;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-import/spec-import.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-import/spec-import.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ui-g\"> \n    <p-growl [(value)]=\"msgs\"></p-growl>\n  <div class=\"ui-g-12\">     \n      <!-- <h3>Excel文件上传</h3>\n      <p-fileUpload mode=\"basic\" name=\"myfile[]\" url=\"./api/file/upload\" maxFileSize=\"1000000\" (onUpload)=\"onBasicUpload($event)\"></p-fileUpload>       -->\n      <p-tabView>\n        <p-tabPanel header=\"Excel导入\" leftIcon=\"pi pi-calendar\">\n                \n         <p-fileUpload mode=\"basic\" chooseLabel=\"选择文件\" name=\"myfile[]\" url=\"./api/file/upload\" accept=\".xls,.xlsx\" maxFileSize=\"1000000\" (onUpload)=\"onBasicUpload($event);\"></p-fileUpload>      \n         <div class=\"ui-g\">\n                <div class=\"ui-g-12\">\n\n                  <p-panel>\n                      <p-header>\n                          <div class=\"ui-helper-clearfix\">\n                              <span class=\"ui-panel-title\">Excel数据展示</span>\n                              <span style=\"float: right;\" *ngIf=\"showFlag\">是否保存到数据库？\n                                  <p-button   icon=\"fa fa-plus\" label=\"保存\" [disabled]=\"false\"\n                                  (onClick)=\"saveExcelImportInfo()\"></p-button>\n                                <p-button  icon=\"fa fa-plus\" label=\"取消\" [disabled]=\"false\"\n                                    (onClick)=\"cancel()\"></p-button>\n                                </span>\n                              \n                          </div>\n                      </p-header>\n\n                        \n                        <p-table #dt [columns]=\"cols\" [value]=\"pageData\" selectionMode=\"single\" [(selection)]=\"selectedData\"  >\n                                <ng-template pTemplate=\"header\" let-columns>\n                                  <tr>\n                                    <!-- <th rowspan=\"2\" style=\"width: 3.25em\">\n                                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>\n                                    </th> -->\n                                    <!-- 注意这个 表头的设定，通过rowspan 和 colspan 这两个属性的设置来实现 不同样式表头的设定，不过这种方式好像只能用静态的表头，不能使用动态的表头-->\n                                    <th rowspan=\"2\" style=\"width: 11%;\">Product ID</th>\n                                    <th rowspan=\"2\" style=\"width: 7%;\">Step ID</th>\n                                    <th rowspan=\"2\" style=\"width: 6%;\">Defect Name</th>\n                                    <th rowspan=\"2\" style=\"width: 6%;\">Control Line1</th>\n                                    <th rowspan=\"2\" style=\"width: 7%;\">报警方式1</th>\n                                    <th colspan=\"2\" style=\"width: 16%;\">知会人1</th>\n                                    <th rowspan=\"2\" style=\"width: 6%;\">Control Line2</th>\n                                    <th rowspan=\"2\" style=\"width: 6%;\">报警方式2</th>\n                                    <th colspan=\"2\" style=\"width: 30%;\">知会人2</th>\n                                    <th rowspan=\"2\" style=\"width: 7%;\">刷新频率(min)</th>\n                                  </tr>\n                                  <tr>\n                                    <th>姓名</th>\n                                    <th>工号</th>\n                                    <th>姓名</th>\n                                    <th>邮箱</th>\n                                    \n                                  </tr>\n                                </ng-template>\n                                <ng-template pTemplate=\"body\" let-rowData let-columns=\"columns\" >\n                                    <tr>   \n                                      <td *ngFor=\"let col of columns\">\n                                        {{rowData[col.field]}}\n                                      </td>\n                                    </tr>\n                                </ng-template>\n                                <ng-template pTemplate=\"summary\">\n                                    <p-paginator [rows]=\"rows\" [totalRecords]=\"totalRecords\" \n                                    (onPageChange)=\"paginate($event)\" #p [rowsPerPageOptions]=\"rowsPerPageOptions\"  pageLinkSize=\"5\"></p-paginator>\n                                </ng-template>\n                              </p-table>                       \n </p-panel>\n                </div>\n            </div>\n        </p-tabPanel>\n        <p-tabPanel header=\"导入模版下载\" leftIcon=\"pi pi-inbox\">\n          <button pButton type=\"button\" (click)=\"onFileDownload()\" label=\"Spec导入模版下载\" icon=\"fa fa-download icon-download\"></button>\n        \n          <div class=\"ui-g\">\n            <div class=\"ui-g-12\">\n        \n              <p-panel>\n                <p-header>\n                  <div class=\"ui-helper-clearfix\">\n                    <span class=\"ui-panel-title\">Excel数据展示</span>\n                    <button pButton type=\"button\" (click)=\"dtaa.exportCSV()\" label=\"Spec导出当前模板\" icon=\"fa fa-download icon-download\" style=\"float:right\"></button>\n                  </div>\n                </p-header>\n        \n        \n                <p-table #dtaa [columns]=\"cols\"  selectionMode=\"single\" [(selection)]=\"selectedData\">\n                  <ng-template pTemplate=\"header\" let-columns>\n                    <tr>\n                      <!-- <th rowspan=\"2\" style=\"width: 3.25em\">\n                                              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>\n                                            </th> -->\n                      <!-- 注意这个 表头的设定，通过rowspan 和 colspan 这两个属性的设置来实现 不同样式表头的设定，不过这种方式好像只能用静态的表头，不能使用动态的表头-->\n                      <th rowspan=\"2\" style=\"width: 11%;\">Product ID</th>\n                      <th rowspan=\"2\" style=\"width: 7%;\">Step ID</th>\n                      <th rowspan=\"2\" style=\"width: 6%;\">Defect Name</th>\n                      <th rowspan=\"2\" style=\"width: 6%;\">Control Line1</th>\n                      <th rowspan=\"2\" style=\"width: 7%;\">报警方式1</th>\n                      <th colspan=\"2\" style=\"width: 16%;\">知会人1</th>\n                      <th rowspan=\"2\" style=\"width: 6%;\">Control Line2</th>\n                      <th rowspan=\"2\" style=\"width: 6%;\">报警方式2</th>\n                      <th colspan=\"2\" style=\"width: 30%;\">知会人2</th>\n                      <th rowspan=\"2\" style=\"width: 7%;\">刷新频率(min)</th>\n                    </tr>\n                    <tr>\n                      <th>姓名</th>\n                      <th>工号</th>\n                      <th>姓名</th>\n                      <th>邮箱</th>\n        \n                    </tr>\n                  </ng-template>\n                  <!-- <ng-template pTemplate=\"body\" let-rowData let-columns=\"columns\">\n                    <tr>\n                      <td *ngFor=\"let col of columns\">\n                        {{rowData[col.field]}}\n                      </td>\n                    </tr>\n                  </ng-template> -->\n                  <!-- <ng-template pTemplate=\"summary\">\n                    <p-paginator [rows]=\"rows\" [totalRecords]=\"totalRecords\" (onPageChange)=\"paginate($event)\" #p\n                      [rowsPerPageOptions]=\"rowsPerPageOptions\" pageLinkSize=\"5\"></p-paginator>\n                  </ng-template> -->\n                </p-table>\n              </p-panel>\n            </div>\n          </div>\n        \n        </p-tabPanel>\n    </p-tabView>\n  </div>\n \n\n\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-import/spec-import.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpecImportComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_boe_ui_boe_list_service_file_upload_service__ = __webpack_require__("./src/app/boe-ui/boe-list/service/file-upload.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_core_layout_retab_service_tab_service__ = __webpack_require__("./src/core/layout/retab/service/tab.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_components_common_messageservice__ = __webpack_require__("./node_modules/primeng/components/common/messageservice.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_components_common_messageservice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_primeng_components_common_messageservice__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var SpecImportComponent = /** @class */ (function () {
+    function SpecImportComponent(apiService, tService, file, messageService) {
+        this.apiService = apiService;
+        this.tService = tService;
+        this.file = file;
+        this.messageService = messageService;
+        this.showFlag = false;
+        this.uploadedFiles = [];
+        //
+        this.rows = 10;
+        this.rowsPerPageOptions = [10, 50, 100];
+        this.pageInfo = { pageRow: this.rows, startRow: 0 };
+    }
+    //这个方法就是一个模板的方法，不知道为什么这样写，但是就是这样写
+    SpecImportComponent.prototype.onUpload = function (event) {
+        for (var _i = 0, _a = event.files; _i < _a.length; _i++) {
+            var file = _a[_i];
+            this.uploadedFiles.push(file);
+        }
+        this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
+    };
+    SpecImportComponent.prototype.ngOnInit = function () {
+        this.cols = [
+            { field: 'productid', header: '1' },
+            { field: 'stepid', header: '2' },
+            { field: 'defectname', header: '3' },
+            { field: 'control1', header: '4' },
+            { field: 'alarmtype1', header: '5' },
+            { field: 'alarmreceivername1', header: '6' },
+            { field: 'alarmreceiverid1', header: '7' },
+            { field: 'control2', header: '8' },
+            { field: 'alarmtype2', header: '9' },
+            { field: 'alarmreceivername2', header: '10' },
+            { field: 'alarmreceiverid2', header: '11' },
+            { field: 'freshtime', header: '12' }
+        ];
+    };
+    //下面这个是上传文件的方法：
+    SpecImportComponent.prototype.onBasicUpload = function (event) {
+        var _this = this;
+        console.log(event);
+        var response_ = JSON.parse(event.xhr.response);
+        //let fileName = response_.name;origFileName
+        //let fileName = response_.origFileName;
+        var localPath = response_.localPath;
+        var options = {
+            params: {
+                //fileName : fileName,
+                localPath: localPath
+            }
+        };
+        this.apiService.get('/alarmspec/excelUpload', options).subscribe(function (res) {
+            _this.data = res; // 返回的这个结果集是一条一条数据的数组
+            _this.totalRecords = _this.data.length;
+            //下面这一行实现的是一个翻页的功能，根据每一页行数显示对应行数表格的是数据信息
+            _this.pageData = _this.data.slice(_this.pageInfo.startRow, _this.pageInfo.startRow + _this.pageInfo.pageRow);
+            _this.showFlag = true;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    // onBasicUpload(event){
+    //   console.log(event);
+    //   const response_ = JSON.parse(event.xhr.response);
+    //   let fileName = response_.name;
+    //   const options = 
+    //   {
+    //       params:{
+    //           fileName : fileName
+    //       }
+    //   }
+    //   this.apiService.get('/alarmspec/excelUpload',options).subscribe(
+    //     (res)=>{
+    //           this.data = <spec[]>res; // 返回的这个结果集是一条一条数据的数组
+    //           this.totalRecords = this.data.length;
+    //           //下面这一行实现的是一个翻页的功能，根据每一页行数显示对应行数表格的是数据信息
+    //           this.pageData = this.data.slice(this.pageInfo.startRow,this.pageInfo.startRow + this.pageInfo.pageRow);
+    //           this.showFlag = true;
+    //        },
+    //     (error) => {
+    //         console.log(error);
+    //     }
+    //   );
+    // }
+    //保存数据的方式 ：
+    SpecImportComponent.prototype.saveExcelImportInfo = function () {
+        var _this = this;
+        var options = {
+            "specVOList": this.data // 传到服务端的参数就是 导入进来的数据
+        };
+        this.apiService.put('/alarmspec/excelImport', options).subscribe(function (res) {
+            _this.showFlag = false;
+            _this.addSingle('Data has been inserted into database');
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    SpecImportComponent.prototype.onFileDownload = function () {
+        window.location.href = this.file.getDownloadUrl() + "template/spec_tmp.xlsx";
+    };
+    SpecImportComponent.prototype.addSingle = function (msg) {
+        this.messageService.add({ severity: 'success', summary: 'save success', detail: msg });
+    };
+    SpecImportComponent.prototype.addMultiple = function () {
+        this.messageService.addAll([{ severity: 'success', summary: 'Service Message', detail: 'Via MessageService' },
+            { severity: 'info', summary: 'Info Message', detail: 'Via MessageService' }]);
+    };
+    SpecImportComponent.prototype.clear = function () {
+        this.messageService.clear();
+    };
+    //取消的操作： 数据清空，页面信息清空，保存或取消的按钮隐藏
+    SpecImportComponent.prototype.cancel = function () {
+        this.data = [];
+        this.pageData = [];
+        this.showFlag = false;
+    };
+    SpecImportComponent.prototype.paginate = function (event) {
+        this.pageInfo.pageRow = event['rows'];
+        this.pageInfo.startRow = event['first'];
+        this.search(event.page + 1);
+        this.pageData = this.data.slice(this.pageInfo.startRow, this.pageInfo.startRow + this.pageInfo.pageRow);
+    };
+    SpecImportComponent.prototype.search = function (page) {
+    };
+    SpecImportComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-spec-import',
+            template: __webpack_require__("./src/app/spec/spec-import/spec-import.component.html"),
+            styles: [__webpack_require__("./src/app/spec/spec-import/spec-import.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_common_service_api_api_service__["a" /* ApiService */],
+            __WEBPACK_IMPORTED_MODULE_2_core_layout_retab_service_tab_service__["a" /* TabService */],
+            __WEBPACK_IMPORTED_MODULE_1_app_boe_ui_boe_list_service_file_upload_service__["a" /* FileUploadService */],
+            __WEBPACK_IMPORTED_MODULE_4_primeng_components_common_messageservice__["MessageService"]])
+    ], SpecImportComponent);
+    return SpecImportComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpecRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__spec_table_spec_table_component__ = __webpack_require__("./src/app/spec/spec-table/spec-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__spec_import_spec_import_component__ = __webpack_require__("./src/app/spec/spec-import/spec-import.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var routes = [
+    {
+        path: 'specTable',
+        component: __WEBPACK_IMPORTED_MODULE_2__spec_table_spec_table_component__["a" /* SpecTableComponent */],
+        data: {
+            tabLabel: '监控'
+        }
+    },
+    {
+        path: 'specImport',
+        component: __WEBPACK_IMPORTED_MODULE_3__spec_import_spec_import_component__["a" /* SpecImportComponent */],
+        data: {
+            tabLabel: '导入spec'
+        }
+    }
+];
+var SpecRoutingModule = /** @class */ (function () {
+    function SpecRoutingModule() {
+    }
+    SpecRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
+        })
+    ], SpecRoutingModule);
+    return SpecRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-table/spec-table.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-table/spec-table.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n    <div class=\"ui-g-12\" style=\"align-content: center;text-align: center;\">\n      <div>\n        <p-panel>\n          <p-header>\n            <div class=\"ui-helper-clearfix\">\n                <!-- <span style=\"float: left;\">\n                    <button pButton type=\"button\" (click)=\"deleteSelectedData()\" label=\"Delete\"></button>\n                </span> -->\n              <span class=\"ui-panel-title\">用户Spec设置</span>\n              <span style=\"float: right;\">\n                  <button pButton type=\"button\" (click)=\"addData()\" label=\"新增Spec信息\"></button>\n                <!-- <button pButton type=\"button\" (click)=\"addData()\" label=\"新增Spec信息\"></button>\n                <button pButton type=\"button\" (click)=\"addList()\" label=\"批量导入Spec信息\"></button> -->\n              </span>\n            </div>\n          </p-header>\n          <div>\n            <p-table #dt [columns]=\"cols\" [value]=\"data\" selectionMode=\"single\" [(selection)]=\"selectedData\"  (onRowSelect)=\"onRowSelect($event)\">\n              <ng-template pTemplate=\"header\" let-columns>\n                <tr>\n                  <!-- <th rowspan=\"2\" style=\"width: 3.25em\">\n                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>\n                  </th> -->\n                  <th rowspan=\"2\" style=\"width: 11%;\">Product ID</th>\n                  <th rowspan=\"2\" style=\"width: 7%;\">Step ID</th>\n                  <th rowspan=\"2\" style=\"width: 6%;\">Defect Name</th>\n                  <th rowspan=\"2\" style=\"width: 6%;\">Control Line1</th>\n                  <th rowspan=\"2\" style=\"width: 7%;\">报警方式1</th>\n                  <th colspan=\"2\" style=\"width: 16%;\">知会人1</th>\n                  <th rowspan=\"2\" style=\"width: 6%;\">Control Line2</th>\n                  <th rowspan=\"2\" style=\"width: 6%;\">报警方式2</th>\n                  <th colspan=\"2\" style=\"width: 30%;\">知会人2</th>\n                  <th rowspan=\"2\" style=\"width: 7%;\">刷新频率(min)</th>\n                  <th rowspan=\"2\" style=\"width: 7%;\"></th>\n                  <th rowspan=\"2\" style=\"width: 7%;\"></th>\n                </tr>\n                <tr>\n                  <th>姓名</th>\n                  <th>工号</th>\n                  <th>姓名</th>\n                  <th>邮箱</th>\n                  \n                </tr>\n              </ng-template>\n              <ng-template pTemplate=\"body\" let-rowData let-columns=\"columns\" >\n                  <tr [pSelectableRow]=\"rowData\">   \n                    <!-- #dtTr ondblclick=\"ondblclick()\" -->\n                    <!-- <td>\n                      <p-tableCheckbox [value]=\"rowData\"></p-tableCheckbox>\n                    </td> -->\n                    <td *ngFor=\"let col of columns\">\n                      {{rowData[col.field]}}\n                    </td>\n                    <!-- <ng-container *ngFor=\"let col of columns; let len = count \" [ngSwitch]=\"col.field\"> -->\n                        <!-- <ng-container *ngSwitchCase=\"'productid'\">\n                          <td title=\"{{rowData[col.field]}}\">\n                            <a href=\"#\" (click)=\"openDetail(rowData)\">{{rowData[col.field]}}</a>\n                          </td>\n                        </ng-container> -->\n                        <!-- <ng-container *ngSwitchDefault> -->\n                            <!-- <td title=\"{{rowData[col.field]}}\">\n                                <a href=\"#\" (click)=\"openDetail(rowData)\">{{rowData[col.field]}}</a>\n                            </td> -->\n                          <!-- <td>\n                            {{rowData[col.field]}}\n                          </td> -->\n                        <!-- </ng-container> -->\n                    <!-- </ng-container> -->\n                    <td>\n                      <button pButton type=\"button\" (click)=\"openDetail(rowData)\" label=\"修改\"></button>\n                    </td>\n                    <td>\n                      <button pButton type=\"button\" (click)=\"deleteSelectedData(rowData)\" label=\"删除\"></button>\n                    </td>\n                  </tr>\n              </ng-template>\n            </p-table>\n          </div>\n        </p-panel>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div>\n        <div class=\"ui-g-12 ui-xl-6\">\n            <p-panel>\n              <p-header>\n                {{etitle}}\n              </p-header>\n              <div echarts [options]=\"chartOption\"></div>\n            </p-panel>\n          </div>\n        </div>\n    </div>\n\n  \n    <div class=\"ui-g-12\">\n      <p-dialog header=\"Dailog\" [(visible)]=\"modalVisible\" [modal]=\"true\" [responsive]=\"true\" [width]=\"560\">\n        <div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>Product ID</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.productid\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>Step ID</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.stepid\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>Defect Name</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.defectname\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>Control Line1</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.control1\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>报警方式1</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.alarmtype1\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>知会人 姓名</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.alarmreceivername1\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>知会人 工号</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.alarmreceiverid1\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>Control Line2</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.control2\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>报警方式2</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.alarmtype2\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>知会人 姓名</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.alarmreceivername2\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <label>知会人 邮件</label>\n              </div>\n              <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                  <input type=\"text\" pInputText [(ngModel)]=\"addspec.alarmreceiverid2\" />\n              </div>\n          </div>\n          <div class=\"ui-g-12\">\n            <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n              <label>刷新频率</label>\n            </div>\n            <div class=\"ui-g-12 ui-md-6 ui-lg-6\">\n                <input type=\"text\" pInputText [(ngModel)]=\"addspec.freshtime\" />\n            </div>\n        </div>\n        </div>\n        <p-footer>\n            <button type=\"button\" pButton (click)=\"save()\" label=\"save\"></button>\n            <button type=\"button\" pButton (click)=\"modalVisible=false\" label=\"cancel\" class=\"ui-button-secondary\"></button>\n          </p-footer>\n      </p-dialog>\n  </div>\n  </div>\n  "
+
+/***/ }),
+
+/***/ "./src/app/spec/spec-table/spec-table.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpecTableComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__module_spec__ = __webpack_require__("./src/app/spec/module/spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__breadcrumb_service_breadcrumb_service__ = __webpack_require__("./src/core/layout/breadcrumb/service/breadcrumb.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_core_layout_retab_service_tab_service__ = __webpack_require__("./src/core/layout/retab/service/tab.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_util__ = __webpack_require__("./node_modules/util/util.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__module_EchartSet__ = __webpack_require__("./src/app/spec/module/EchartSet.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_boe_ui_boe_list_service_file_upload_service__ = __webpack_require__("./src/app/boe-ui/boe-list/service/file-upload.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var SpecTableComponent = /** @class */ (function () {
+    function SpecTableComponent(apiService, breadcrumbService, tService, file) {
+        this.apiService = apiService;
+        this.breadcrumbService = breadcrumbService;
+        this.tService = tService;
+        this.file = file;
+        this.addspec = new __WEBPACK_IMPORTED_MODULE_2__module_spec__["a" /* spec */]();
+        //弹窗数据显示与数据module
+        this.modalVisible = false;
+        this.checkUpdate = false;
+        this.isDisplay = false;
+        this.isdelete = false;
+        this.setechart = new __WEBPACK_IMPORTED_MODULE_6__module_EchartSet__["a" /* EchartSet */]();
+        this.spec1 = new Array();
+        this.spec2 = new Array();
+        this.Actcolor = new Array();
+        this.DataColor = new Array();
+    }
+    SpecTableComponent.prototype.ngOnDestroy = function () {
+        this.interval.clearInterval();
+    };
+    SpecTableComponent.prototype.ngOnInit = function () {
+        this.setData();
+        this.cols = [
+            { field: 'productid', header: '1' },
+            { field: 'stepid', header: '2' },
+            { field: 'defectname', header: '3' },
+            { field: 'control1', header: '4' },
+            { field: 'alarmtype1', header: '5' },
+            { field: 'alarmreceivername1', header: '6' },
+            { field: 'alarmreceiverid1', header: '7' },
+            { field: 'control2', header: '8' },
+            { field: 'alarmtype2', header: '9' },
+            { field: 'alarmreceivername2', header: '10' },
+            { field: 'alarmreceiverid2', header: '11' },
+            { field: 'freshtime', header: '12' }
+        ];
+    };
+    SpecTableComponent.prototype.save = function () {
+        if (!this.checkUpdate) {
+            this.insert();
+        }
+        else {
+            this.update();
+        }
+    };
+    SpecTableComponent.prototype.update = function () {
+        var _this = this;
+        var url = '/alarmspec/update';
+        var data = this.addspec;
+        this.apiService.put(url, data).subscribe(function (res) {
+            _this.modalVisible = false;
+            _this.setData();
+            _this.addspec = new __WEBPACK_IMPORTED_MODULE_2__module_spec__["a" /* spec */]();
+        }, function (error) {
+            console.log(error);
+        });
+        this.checkUpdate = false;
+    };
+    // gridfunction;
+    SpecTableComponent.prototype.setData = function () {
+        var _this = this;
+        //spec数据导入
+        var url = '/alarmspec/list';
+        this.apiService.getAll(url).subscribe(function (res) {
+            _this.data = res;
+            console.log(_this.data);
+        });
+    };
+    SpecTableComponent.prototype.deleteSelectedData = function (obj) {
+        this.addspec = Object.assign({}, obj);
+        var arrayData = new Array();
+        arrayData.push(this.addspec);
+        this.actionDelete(arrayData);
+    };
+    SpecTableComponent.prototype.actionDelete = function (arrayData) {
+        var _this = this;
+        var url = '/alarmspec/delete';
+        var data1 = { body: arrayData };
+        this.apiService.delete(url, data1).subscribe(function (res) {
+            _this.setData();
+            _this.selectedData = null;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    SpecTableComponent.prototype.openDetail = function (obj) {
+        // object copy
+        this.addspec = Object.assign({}, obj);
+        this.modalVisible = true;
+        this.checkUpdate = true;
+        return false;
+    };
+    // dialog function
+    SpecTableComponent.prototype.addData = function () {
+        this.addspec = new __WEBPACK_IMPORTED_MODULE_2__module_spec__["a" /* spec */]();
+        this.modalVisible = true;
+        this.checkUpdate = false;
+    };
+    SpecTableComponent.prototype.insert = function () {
+        var _this = this;
+        var url = '/alarmspec/insert';
+        var data = this.addspec;
+        this.apiService.post(url, data).subscribe(function (res) {
+            _this.modalVisible = false;
+            _this.setData();
+            _this.addspec = new __WEBPACK_IMPORTED_MODULE_2__module_spec__["a" /* spec */]();
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    SpecTableComponent.prototype.onRowSelect = function (event) {
+        var _this = this;
+        var url1 = '/alarm/list';
+        var options = {
+            params: {
+                productid: event.data.productid,
+                stepid: event.data.stepid,
+                defectname: event.data.defectname
+            }
+        };
+        this.etitle = event.data.productid + '-' + event.data.stepid + '-' + event.data.defectname;
+        this.apiService.get(url1, options).subscribe(function (res) {
+            _this.echartdata = res;
+            _this.setEchart(_this.echartdata);
+        });
+        this.fresh(options);
+    };
+    ;
+    SpecTableComponent.prototype.fresh = function (options) {
+        var _this = this;
+        this.interval.clearInterval();
+        this.interval = setInterval(function () {
+            var url1 = '/alarm/fresh';
+            _this.apiService.get(url1, options).subscribe(function (res) {
+                _this.echartdata = res;
+                _this.setEchart(_this.echartdata);
+            });
+            console.log(1);
+        }, 15000);
+    };
+    // gettime(){
+    //   this.apiService.get('/freshtime').subscribe(
+    //     (res) => {
+    //       this.time =res;
+    //       console.log(res.data);
+    //     }
+    //   )
+    // };
+    // echart setting function
+    SpecTableComponent.prototype.setEchart = function (data) {
+        this.DataColor = [];
+        this.setechart = this.setSeriesOption(data);
+        this.function(this.setechart.actvalue, this.setechart.specvalue1, this.setechart.specvalue2);
+        this.DataColor = this.datacolor(this.setechart.actvalue, this.Actcolor);
+        this.spec1 = this.setechart.specvalue1;
+        this.spec2 = this.setechart.specvalue2;
+        console.log(this.Actcolor);
+        this.chartOption = {
+            tooltip: {
+                trigger: 'axis',
+            },
+            legend: {
+                data: ['实际数据', 'Spec1', 'Spec2']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: { show: true },
+                    dataView: { readOnly: false },
+                    magicType: { show: true, type: ['line'] },
+                    restore: { show: true },
+                    saveAsImage: { show: true }
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    name: '时间',
+                    boundaryGap: true,
+                    data: this.setechart.xAxis,
+                    axisLabel: {
+                        show: true,
+                        interval: 0,
+                        rotate: 45,
+                    },
+                }
+            ],
+            yAxis: [
+                {
+                    axisLabel: {
+                        formatter: '{value} %'
+                    },
+                }
+            ],
+            series: [
+                {
+                    color: "red",
+                    name: '实际数据',
+                    type: 'line',
+                    symbolSize: 8,
+                    symbol: 'circle',
+                    data: this.DataColor,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c} %'
+                            // formatter:'{c}'
+                        }
+                    },
+                    "textStyle": {
+                        "fontSize": 30
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: function (params) {
+                                return params.data.color;
+                            },
+                            lineStyle: {
+                                width: 3,
+                                type: 'solid',
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'Spec1',
+                    type: 'line',
+                    data: this.spec1,
+                    itemStyle: {
+                        normal: {
+                            lineStyle: {
+                                width: 2,
+                                type: 'dotted' //'dotted'虚线 'solid'实线                            }
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'Spec2',
+                    type: 'line',
+                    data: this.spec2,
+                    itemStyle: {
+                        normal: {
+                            lineStyle: {
+                                width: 2,
+                                type: 'dotted' //'dotted'虚线 'solid'实线                            }
+                            }
+                        }
+                    }
+                }
+            ]
+        };
+    };
+    SpecTableComponent.prototype.datacolor = function (value, color) {
+        var datacolorarray = new Array();
+        var DL = value.length;
+        var i = 0;
+        for (i; i < DL; i++) {
+            var datacolor = { value: value, color: color };
+            datacolor.value = value[i];
+            datacolor.color = color[i];
+            datacolorarray.push(datacolor);
+        }
+        return datacolorarray;
+    };
+    SpecTableComponent.prototype.function = function (data, spec1, spec2) {
+        var L = data.length;
+        var i = 0;
+        var index_color = data;
+        this.Actcolor = [];
+        for (i; i < L; i++) {
+            if (index_color[i] < spec1[i]) {
+                this.Actcolor.push('blue');
+            }
+            else if (index_color[i] > spec1[i] && index_color[i] < spec2[i]) {
+                this.Actcolor.push('#CC0099');
+            }
+            else if (index_color[i] > spec2[i]) {
+                this.Actcolor.push('red');
+            }
+        }
+    };
+    SpecTableComponent.prototype.setSeriesOption = function (obj) {
+        var seriesArray = new Array();
+        var echartSet = new __WEBPACK_IMPORTED_MODULE_6__module_EchartSet__["a" /* EchartSet */]();
+        var caculatetimeArray = new Array();
+        var specvalue1 = new Array();
+        var specvalue2 = new Array();
+        var actvalue = new Array();
+        if (Object(__WEBPACK_IMPORTED_MODULE_5_util__["isObject"])(obj)) {
+            echartSet.type = 'line';
+            var OL = obj.length;
+            var O = 0;
+            for (O; O < OL; O++) {
+                actvalue.push(obj[O].actvalue);
+                specvalue1.push(obj[O].specvalue1);
+                specvalue2.push(obj[O].specvalue2);
+                caculatetimeArray.push(obj[O].caculatetime);
+            }
+            echartSet.actvalue = actvalue;
+            echartSet.specvalue1 = specvalue1;
+            echartSet.specvalue2 = specvalue2;
+            echartSet.xAxis = caculatetimeArray;
+        }
+        // seriesArray.push(echartSet);
+        //  console.log(seriesArray);
+        return echartSet;
+    };
+    SpecTableComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-spec-table',
+            template: __webpack_require__("./src/app/spec/spec-table/spec-table.component.html"),
+            styles: [__webpack_require__("./src/app/spec/spec-table/spec-table.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__common_service_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_3__breadcrumb_service_breadcrumb_service__["a" /* BreadcrumbService */], __WEBPACK_IMPORTED_MODULE_4_core_layout_retab_service_tab_service__["a" /* TabService */], __WEBPACK_IMPORTED_MODULE_7_app_boe_ui_boe_list_service_file_upload_service__["a" /* FileUploadService */]])
+    ], SpecTableComponent);
+    return SpecTableComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/spec/spec.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpecModule", function() { return SpecModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__spec_routing_module__ = __webpack_require__("./src/app/spec/spec-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__spec_table_spec_table_component__ = __webpack_require__("./src/app/spec/spec-table/spec-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_dialog__ = __webpack_require__("./node_modules/primeng/dialog.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_dialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_primeng_dialog__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_primeng_table__ = __webpack_require__("./node_modules/primeng/table.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_primeng_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_primeng_table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_panel__ = __webpack_require__("./node_modules/primeng/panel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_panel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_panel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__boe_pages_echarts_panel_service__ = __webpack_require__("./src/app/boe/pages/echarts/panel.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__ = __webpack_require__("./node_modules/primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ngx_echarts__ = __webpack_require__("./node_modules/ngx-echarts/ngx-echarts.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_boe_ui_boe_list_service_file_upload_service__ = __webpack_require__("./src/app/boe-ui/boe-list/service/file-upload.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__spec_import_spec_import_component__ = __webpack_require__("./src/app/spec/spec-import/spec-import.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_primeng_components_common_messageservice__ = __webpack_require__("./node_modules/primeng/components/common/messageservice.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_primeng_components_common_messageservice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_primeng_components_common_messageservice__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_primeng_growl__ = __webpack_require__("./node_modules/primeng/growl.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_primeng_growl___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_primeng_growl__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var SpecModule = /** @class */ (function () {
+    function SpecModule() {
+    }
+    SpecModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_2__spec_routing_module__["a" /* SpecRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_4_primeng_dialog__["DialogModule"],
+                __WEBPACK_IMPORTED_MODULE_5_primeng_table__["TableModule"],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_panel__["PanelModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["ButtonModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["InputTextModule"],
+                __WEBPACK_IMPORTED_MODULE_10__angular_forms__["FormsModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["TabViewModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["PaginatorModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["ListboxModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["OverlayPanelModule"],
+                __WEBPACK_IMPORTED_MODULE_11_ngx_echarts__["a" /* NgxEchartsModule */],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["ChartModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_primeng__["FileUploadModule"],
+                __WEBPACK_IMPORTED_MODULE_15_primeng_growl__["GrowlModule"]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_3__spec_table_spec_table_component__["a" /* SpecTableComponent */], __WEBPACK_IMPORTED_MODULE_13__spec_import_spec_import_component__["a" /* SpecImportComponent */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_7__common_service_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_8__boe_pages_echarts_panel_service__["a" /* PanelService */], __WEBPACK_IMPORTED_MODULE_12_app_boe_ui_boe_list_service_file_upload_service__["a" /* FileUploadService */], __WEBPACK_IMPORTED_MODULE_14_primeng_components_common_messageservice__["MessageService"]]
+        })
+    ], SpecModule);
+    return SpecModule;
+}());
+
+
+
+/***/ })
+
+});
+//# sourceMappingURL=spec.module.chunk.js.map

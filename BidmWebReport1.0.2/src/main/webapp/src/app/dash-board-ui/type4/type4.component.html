@@ -1,0 +1,72 @@
+<p>
+  透明化展示
+</p>
+
+<div class="ui-g">
+  <div class="ui-g-12">
+      <div  style="border: 1px solid;">
+          <!-- area1-1 -->
+          <div  style="border: 1px solid;">
+            <div echarts [options]="chartOptionStackedLine" class="demo-chart"></div>
+          </div>
+          <!-- area1-2 -->
+          <div>
+            <!-- area1-2-1 -->
+            <div>
+              <div echarts [options]="chartOptionDoughnut" class="demo-chart"></div>
+            </div>
+            <!-- area1-2-2 -->
+            <div>
+              <div echarts [options]="chartOptionBar" class="demo-chart"></div>
+            </div>
+          </div>
+        </div>
+  </div>
+
+  <div class="ui-g-12">
+      <div class="ui-g-12">
+          <p-panel>
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <span class="ui-panel-title">各站点各型号数量</span>
+              </div>
+            </p-header>
+            <div class="ui-panel-content">
+              <!-- if you use selection, you must set datakey -->
+              <p-table [columns]="cols" [value]="data" selectionMode="single"[(selection)]="selectedData" (onRowSelect)="onRowSelect($event)">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData" [class]='test' #chartGride>
+                    <td *ngFor="let col of columns;">
+                      {{rowData[col.field]}}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-panel>
+        </div>
+    </div>
+    <div class="ui-g-12">
+       <p-panel>
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <span class="ui-panel-title">型号别WIP分布明细</span>
+          </div>
+        </p-header>
+        <!-- chart content -->
+        <!--<p-chart type="pie" [data]="dataChart" [responsive]="true" (refresh)="refresh()" #chart [style.display]="isDisplay ? '': 'none' "></p-chart>-->
+        <div echarts [options]="chartOption" class="demo-chart"></div>
+      </p-panel>
+    </div>
+  </div>
+
+
+
+<!-- end pannel area -->

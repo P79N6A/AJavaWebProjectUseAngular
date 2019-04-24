@@ -1,0 +1,122 @@
+<div class="ui-g">
+  <!-- <div class="ui-g-12">
+            <h3 class="first">Title MES UI - TYPE1</h3>
+            <hr>
+          </div> -->
+  <!-- search area -->
+  <div class="ui-g-12">
+    <!-- search option area -->
+    <div class="ui-g-12">
+      <!-- if you add the other option, change the class source -->
+      <!-- <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <label>Condition1</label>
+        <input type="text" pInputText />
+      </div> -->
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <label>chartKey</label>
+        <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" (onChange) = "onChangeDropBox()"></p-dropdown>
+      </div>
+    </div>
+  </div>
+  <!-- panel area -->
+  <div class="ui-g-12">
+    <!-- panel1 -->
+    <div class="ui-g-12 ui-lg-6">
+      <p-panel>
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <span class="ui-panel-title">Echart Pie Chart</span>
+          </div>
+        </p-header>
+        <!-- chart content -->
+        <div echarts theme="macarons" [options]="chartOption" class="demo-chart" (click)="echartClick(chartOption)"></div>
+      </p-panel>
+    </div>
+    <!-- end panel1 -->
+    <!-- panel2 -->
+    <div class="ui-g-12 ui-lg-6">
+      <p-panel>
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <span class="ui-panel-title">Prime Pie Chart</span>
+          </div>
+        </p-header>
+        <!-- chart content -->
+        <p-chart type="pie" [data]="dataChart" [responsive]="true" (refresh)="refresh()" #chart (click)="pchartClick(dataChart)"></p-chart>
+      </p-panel>
+    </div>
+    <!-- end panel2 -->
+
+  </div>
+  <!-- end panel are -->
+
+
+
+  <!-- dialog1 -->
+  <!-- <app-type1-modal [modalData]="modalData" [(modalVisible)]="modalVisible"></app-type1-modal> -->
+  <div class="ui-g-12">
+
+    <p-dialog header="Dailog" [(visible)]="modalVisible" [modal]="true" [responsive]="true" [width]="560">
+      <div class="ui-dialog-content">
+        <div class="ui-g-12">
+          <p-table [columns]="cols" [value]="data" selectionMode="single" [(selection)]="selectedData" dataKey="col1" (onRowSelect)="onRowSelect($event)">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr [pSelectableRow]="rowData" [class]='test' #chartGride>
+                <td *ngFor="let col of columns;">
+                  {{rowData[col.field]}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <!-- dialog content -->
+      <p-footer>
+        <!-- <button type="button" pButton icon="pi pi-check" (click)="save()" label="save"></button> -->
+        <div class="ui-helper-clearfix">
+          <span style="text-align: center;">
+            <button type="button" pButton icon="pi pi-close" (click)="modalVisible=false" label="cancel" class="ui-button-secondary"></button>
+          </span>
+        </div>
+      </p-footer>
+    </p-dialog>
+  </div>
+  <!-- end dialog1 -->
+
+  <!-- dialog1 -->
+  <!-- <app-type1-modal [modalData]="modalData" [(modalVisible)]="modalVisible"></app-type1-modal> -->
+  <div class="ui-g-12">
+
+    <p-dialog header="Dailog" [(visible)]="modalVisible1" [modal]="true" [responsive]="true" [width]="560">
+      <div class="ui-dialog-content">
+        <div class="ui-g-12">
+
+        </div>
+      </div>
+      <!-- dialog content -->
+      <p-footer>
+        <!-- <button type="button" pButton icon="pi pi-check" (click)="save()" label="save"></button> -->
+        <div class="ui-helper-clearfix">
+          <span style="text-align: center;">
+            <button type="button" pButton icon="pi pi-close" (click)="modalVisible1=false" label="cancel" class="ui-button-secondary"></button>
+          </span>
+        </div>
+      </p-footer>
+    </p-dialog>
+  </div>
+  <!-- end dialog1 -->
+
+  <div class="ui-g-12">
+    <p-panel header="changeTheme">
+      <div id="main" style="width:600px;height:400px;">
+      </div>
+    </p-panel>
+  </div>
+</div>

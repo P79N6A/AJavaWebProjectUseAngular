@@ -1,0 +1,26 @@
+import { Component, OnInit } from '@angular/core';
+import { Celldailydata } from './model/celldailyproduct';
+
+@Component({
+  selector: 'app-cellproductiondaily',
+  templateUrl: './cellproductiondaily.component.html',
+  styleUrls: ['./cellproductiondaily.component.css']
+})
+export class CellproductiondailyComponent implements OnInit {
+
+  //1.保存数据的数组
+  data:Celldailydata[]=[];
+
+  constructor() { }
+
+  ngOnInit() {
+
+    let cc = new Celldailydata();
+    cc.setSize('aaa7');
+    cc.setNumbs('20');
+    cc.setNumbs('');
+    cc.setNumbs('0');
+   
+   }
+
+}

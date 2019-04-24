@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-dan-ae-info',
+  templateUrl: './dan-ae-info.component.html',
+  styleUrls: ['./dan-ae-info.component.css']
+})
+export class DanAeInfoComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

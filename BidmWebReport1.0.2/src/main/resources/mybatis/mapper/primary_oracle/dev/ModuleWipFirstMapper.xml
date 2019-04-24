@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleWipFirstMapper"> 
+		
+		<select id="getList" resultType="ModuleWipFirstVO"> 
+		select  MONTH as month,
+   				DATENAME as datename,
+   				PRODUCTSIZE as productsize,
+   				wotype,
+   				OPERATIONDESC as operationdesc,
+   				TYPE as type,
+  				GLS_QTY as glassqty,
+   				PNL_QTY as panelqty
+   		from SC_MOD_WIP_1_VW 
+   		where type in <foreach collection="types" index="index" open="(" item="type" close=")" separator=",">'${type}'</foreach>
+   		
+		</select>
+		
+		<select id="getListProduct" resultType="ModuleWipFirstVO"> 
+		select  MONTH as month,
+   				DATENAME as datename,
+   				PRODUCTSIZE as productsize,
+   				wotype,
+   				OPERATIONDESC as operationdesc,
+   				TYPE as type,
+  				GLS_QTY as glassqty,
+   				PNL_QTY as panelqty
+   		from SC_MOD_WIP_1_VW 
+   		where type in <foreach collection="types" index="index" open="(" item="type" close=")" separator=",">'${type}'</foreach>
+   		and productsize in <foreach collection="productseizes" index="index" open="(" item="productsize" close=")" separator=",">'${productsize}'</foreach>
+   		and wotype in <foreach collection="checkincodes" index="index" open="(" item="wotype" close=")" separator=",">'${wotype}'</foreach>
+   		and lottype in <foreach collection="lottypes" index="index" open="(" item="lottype" close=")" separator=",">'${lottype}'</foreach>
+		</select>
+		
+		<select id="getListS2" resultType="ModuleWipFirstVO"> 
+		select  MONTH as month,
+   				DATENAME as datename,
+   				PRODUCTSIZE as productsize,
+   				wotype,
+   				OPERATIONDESC as operationdesc,
+   				TYPE as type,
+  				GLS_QTY as glassqty,
+   				PNL_QTY as panelqty
+   		from SC_S2_WIP_1_VW 
+   		where type in <foreach collection="types" index="index" open="(" item="type" close=")" separator=",">'${type}'</foreach>
+   		
+		</select>
+		
+		<select id="getListProductS2" resultType="ModuleWipFirstVO"> 
+		select  MONTH as month,
+   				DATENAME as datename,
+   				PRODUCTSIZE as productsize,
+   				wotype,
+   				OPERATIONDESC as operationdesc,
+   				TYPE as type,
+  				GLS_QTY as glassqty,
+   				PNL_QTY as panelqty
+   		from SC_S2_WIP_1_VW 
+   		where type in <foreach collection="types" index="index" open="(" item="type" close=")" separator=",">'${type}'</foreach>
+   		and productsize in <foreach collection="productseizes" index="index" open="(" item="productsize" close=")" separator=",">'${productsize}'</foreach>
+   		and wotype in <foreach collection="checkincodes" index="index" open="(" item="wotype" close=")" separator=",">'${wotype}'</foreach>
+		and lottype in <foreach collection="lottypes" index="index" open="(" item="lottype" close=")" separator=",">'${lottype}'</foreach>
+		</select>
+
+	</mapper>

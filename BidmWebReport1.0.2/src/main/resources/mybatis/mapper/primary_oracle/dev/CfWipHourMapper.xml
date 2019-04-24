@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CfWipHourMapper"> 
+		<!-- 1.根据时间进行查询 -->
+		<resultMap id="cfwiphour" type="CfWipHourVO">
+			<result property="hourtimekey" column="HOURTIMEKEY"></result>
+			<result property="productiontype" column="PRODUCTIONTYPE"></result>
+			<result property="productspecname" column="PRODUCTSPECNAME"></result>
+			<result property="modeltype" column="MODELTYPE"></result>
+			<result property="opercode" column="OPER_CODE"></result>
+			<result property="operdesc" column="OPER_DESC"></result>
+			<result property="qty" column="QTY"></result>
+		</resultMap>
+		<select id="queryAllData" resultMap="cfwiphour">
+			select  HOURTIMEKEY,
+					PRODUCTIONTYPE,
+   					PRODUCTSPECNAME,
+   					MODELTYPE,
+   					OPER_CODE,
+   					OPER_DESC,
+   					QTY
+			from SC_CF_REPORT_WIP_VIEW
+			where hourtimekey = #{hourtimekey}
+				and PRODUCTIONTYPE = #{productiontype}
+		</select>
+
+	</mapper>

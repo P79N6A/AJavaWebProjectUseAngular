@@ -1,0 +1,111 @@
+<div class="ui-g">
+  <p-panel>
+    <p-header>
+      <div class="ui-g-12">
+        <h3 style="text-align:center;margin: 0px 10px">产品信息维护表</h3>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+
+      <div style="text-align: right; margin-bottom: 5px">
+        请选择工厂:
+        <p-dropdown [options]="factorys" (onChange)="dtFilter($event.value)"></p-dropdown>
+      </div>
+
+      <p-table #dt [columns]="cols" [value]="infos" selectionMode="single" [(selection)]="selectedInfo" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="18">
+
+        <ng-template pTemplate="header" let-columns>
+          <tr class="setFontSize">
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData" class="setFontSize">
+            <td *ngFor="let col of columns" style="text-align:center">
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary" let-rowData>
+          <div style="text-align:left">
+            <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+          </div>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </p-panel>
+</div>
+
+<p-dialog header="Info Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="400">
+  <div class="ui-g ui-fluid" *ngIf="info">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="factory">Factory</label>
+      </div>
+      <div class="ui-g-8">
+        <input [disabled]="disabled" pInputText id="factory" [(ngModel)]="info.factory" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="product">Product</label>
+      </div>
+      <div class="ui-g-8">
+        <input [disabled]="disabled" pInputText id="product" [(ngModel)]="info.product" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="product">ProductName</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="productname" [(ngModel)]="info.productname" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="model_type">Model_type</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="model_type" [(ngModel)]="info.model_type" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="cut_number">Cut_number</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="cut_number" type="number" [(ngModel)]="info.cut_number" placeholder="选填(数字)"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="line">Line</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="line" [(ngModel)]="info.line" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="product_size">Product_size</label>
+      </div>
+      <div class="ui-g-8">
+        <input  pInputText id="product_size" [(ngModel)]="info.product_size" placeholder="必填"/>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-close" *ngIf="deleteButton" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>

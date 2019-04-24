@@ -1,0 +1,42 @@
+[
+    {
+        "cst_spec": "CCN",
+        "ttl": 60.0,
+        "oneqp": 23.0,
+        "move": 3.0,
+        "instk": 30.0,
+        "dirty": 4.0,
+        "outstk": 0.0,
+        "others": 0.0
+    },
+    {
+        "cst_spec": "MCW",
+        "ttl": 93.0,
+        "oneqp": 45.0,
+        "move": 1.0,
+        "instk": 47.0,
+        "dirty": 0.0,
+        "outstk": 0.0,
+        "others": 0.0
+    },
+    {
+        "cst_spec": "ACN",
+        "ttl": 40.0,
+        "oneqp": 19.0,
+        "move": 8.0,
+        "instk": 8.0,
+        "dirty": 3.0,
+        "outstk": 2.0,
+        "others": 0.0
+    },
+    {
+        "cst_spec": "FCW",
+        "ttl": 83.0,
+        "oneqp": 45.0,
+        "move": 8.0,
+        "instk": 18.0,
+        "dirty": 0.0,
+        "outstk": 3.0,
+        "others": 0.0
+    }
+]

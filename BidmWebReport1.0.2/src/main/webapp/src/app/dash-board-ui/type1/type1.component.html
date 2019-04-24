@@ -1,0 +1,71 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    
+    <div class="ui-g">
+      <!-- area1 -->
+      <div class="ui-g-12 ui-lg-8" style="border: 1px solid;">
+        <!-- area1-1 -->
+        <div class="ui-g-12" style="border: 1px solid;">
+          <div echarts [options]="chartOptionStackedLine" class="demo-chart"></div>
+        </div>
+        <!-- area1-2 -->
+        <div class="ui-g-12">
+          <!-- area1-2-1 -->
+          <div class="ui-g-12 ui-lg-6">
+            <div echarts [options]="chartOptionDoughnut" class="demo-chart"></div>
+          </div>
+          <!-- area1-2-2 -->
+          <div class="ui-g-12 ui-lg-6">
+            <div echarts [options]="chartOptionBar" class="demo-chart"></div>
+          </div>
+        </div>
+      </div>
+      <!-- end area1 -->
+      <!-- area2 -->
+      <div class="ui-g-12 ui-lg-4" style="border: 1px solid; ">
+        <!-- area2-1 -->
+        <div class="ui-g-12">
+          <div echarts [options]="chartOptionPie" class="demo-chart"></div>
+          <div echarts [options]="chartOptionStackedBar" class="demo-chart"></div>
+        </div>
+      </div>
+      <!-- end area2 -->
+    </div>
+    
+  </div>
+
+  <!-- pannel area -->
+  <div class="ui-g-12">
+      <div class="ui-g-12">
+          <p-panel>
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <span class="ui-panel-title">Detail</span>
+              </div>
+            </p-header>
+            <div class="ui-panel-content">
+              <!-- if you use selection, you must set datakey -->
+              <p-table [columns]="cols" [value]="data" dataKey="col1">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData" [class]='test' #chartGride>
+                    <td *ngFor="let col of columns;">
+                      {{rowData[col.field]}}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-panel>
+        </div>
+  </div>
+  <!-- end pannel area -->
+
+  
+</div>

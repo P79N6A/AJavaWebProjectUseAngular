@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.boe.idm.project.mapper.primaryOracle.dev.KeyinArrayProDataZMapper">
+
+	<insert id="insert" parameterType="KeyinArProDataZVO">
+
+		<selectKey keyProperty="numbs" order="BEFORE" resultType="Integer">
+			select count(*) as numbs from SC_KEYIN_REMARK where
+			report=#{newRemark.report} and item = #{newRemark.item}
+		</selectKey>
+
+		<if test="numbs != 0">
+			update SC_KEYIN_REMARK
+			set datename = #{newRemark.datename},
+			remark = #{newRemark.remark,jdbcType=VARCHAR},
+			interfacetime = sysdate 
+			where report = #{newRemark.report} and item = #{newRemark.item}
+		</if>
+		<!-- 3.如果 没有存在记录，则直接执行插入操作 : 注意执行插入操作的时候，最后两个的属性 如果没有值，需要赋值一个空串的操作 -->
+		<if test="numbs == 0">
+			INSERT INTO sc_keyin_remark
+			(datename, report, item,
+			remark,interfacetime,productspecname,line)
+			VALUES (
+			#{newRemark.datename},
+			#{newRemark.report},
+			#{newRemark.item},
+			#{newRemark.remark,jdbcType=VARCHAR},
+			sysdate,
+			'','')
+		</if>
+
+	</insert>
+	
+	<select id="getData" resultType="KeyinArProDataZVO">
+		select datename, report, item, remark from SC_KEYIN_REMARK where report = #{report}
+	</select>
+
+
+
+</mapper>

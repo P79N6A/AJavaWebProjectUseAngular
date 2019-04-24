@@ -1,0 +1,70 @@
+import { Component, OnInit } from '@angular/core';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import { ApiService } from '../../common/service/api/api.service';
+import { CfMovePlanOjbect } from './model/objects';
+
+@Component({
+  selector: 'app-cfmoveplan',
+  templateUrl: './cfmoveplan.component.html',
+  styleUrls: ['./cfmoveplan.component.css']
+})
+export class CfmoveplanComponent implements OnInit {
+
+
+  //读取数据时 显示在 界面上的 数据 数组
+  data : CfMovePlanOjbect [] = [];
+
+  constructor(private apiService : ApiService) { }
+
+  ngOnInit() {
+  }
+
+
+
+
+
+  //
+    //1.上传文件的方法：
+onBasicUpload(event){
+  const response_ = JSON.parse(event.xhr.response);
+  let localPath = response_.localPath;
+  const options = {
+    params:{
+      localPath : localPath
+    }
+  }
+  this.apiService.get('/importplancfmove/excelUpload',options).subscribe(
+  (res)=>{
+      this.data = <CfMovePlanOjbect[]>res; // 返回的这个结果集是一条一条数据的数组
+      console.log(this.data);
+      //this.totalRecords = this.data.length;
+      //下面这一行实现的是一个翻页的功能，根据每一页行数显示对应行数表格的是数据信息
+     // this.pageData = this.data.slice(this.pageInfo.startRow,this.pageInfo.startRow + this.pageInfo.pageRow);
+      //this.showFlag = true;
+   },
+  (error) => {
+    console.log(error);
+  }
+  );
+  }
+
+
+   // 10.导出excel
+   exportExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(document.getElementById('cfmove')); // 将这个表格转换成一个 sheet
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    // 这里类型如果不正确，下载出来的可能是类似xml文件的东西或者是类似二进制的东西等
+    this.saveAsExcelFile(excelBuffer, 'Cf_Move_Plan 模板');
+
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, fileName + '.xls');
+  }
+
+
+}

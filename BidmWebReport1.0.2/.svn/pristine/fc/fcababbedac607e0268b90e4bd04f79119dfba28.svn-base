@@ -1,0 +1,54 @@
+package com.boe.idm.project.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.boe.idm.project.mapper.primaryOracle.dev.PanelBankMapper;
+import com.boe.idm.project.model.mybatis.PanelBankVO;
+import com.boe.idm.project.model.mybatis.PanelBankkfVO;
+import com.boe.idm.project.service.PanelBankService;
+
+@Service
+public class PanelBankServiceImple implements PanelBankService {
+	
+	@Autowired
+	private PanelBankMapper panelBankMapper;
+
+	@Override
+	public List<PanelBankVO> queryObjects1(String hourtime) {
+		return panelBankMapper.queryObjects1(hourtime);
+	}
+
+	@Override
+	public List<PanelBankVO> queryObjects2(String hourtime) {
+		return panelBankMapper.queryObjects2(hourtime);
+	}
+
+	@Override
+	public List<PanelBankVO> queryObjects3(String hourtime) {
+		return panelBankMapper.queryObjects3(hourtime);
+	}
+
+	@Override
+	public List<PanelBankVO> queryObjects4(String hourtime) {
+		return panelBankMapper.queryObjects4(hourtime);
+	}
+
+	@Override
+	public List<PanelBankkfVO> queryOjbects5(String hourtime) {
+		return panelBankMapper.queryOjbects5(hourtime);
+	}
+
+	@Override
+	public List<PanelBankkfVO> queryOjbects6(String hourtime) {
+		return panelBankMapper.queryOjbects6(hourtime);
+	}
+
+	@Override
+	public List<PanelBankkfVO> queryOjbects7(String hourtime) {
+		return panelBankMapper.queryOjbects7(hourtime);
+	}
+
+}

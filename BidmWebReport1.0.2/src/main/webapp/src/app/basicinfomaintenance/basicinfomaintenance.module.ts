@@ -1,0 +1,26 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BasicinfomaintenanceRoutingModule } from './basicinfomaintenance-routing.module';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from 'primeng/panel';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule, InputTextModule } from 'primeng/primeng';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    BasicinfomaintenanceRoutingModule,
+    ButtonModule, // 按钮模块
+    PanelModule, // p-panle模块
+    TableModule, // 表格模块
+    DialogModule, // 弹出对话框模块
+    DropdownModule, // 下拉框模块
+    InputTextModule, // 输入模块的吧
+    FormsModule // 数据绑定需要用到的模块
+  ],
+  declarations: []
+})
+export class BasicinfomaintenanceModule { }

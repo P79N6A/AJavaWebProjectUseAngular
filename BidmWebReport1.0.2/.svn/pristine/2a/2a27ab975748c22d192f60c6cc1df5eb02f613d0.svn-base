@@ -1,0 +1,24 @@
+.header1{
+    font-size: 12px !important;
+    text-align: center !important;
+    padding: 0.2em 0.2em !important;
+    background-color: rgb(222, 252, 242) !important;
+}
+
+.header2{
+    font-size: 12px !important;
+    text-align: center !important;
+    padding: 0.2em 0.2em !important;
+}
+
+
+
+.dataBlue{
+    /* background-color: rgb(89, 207, 228) !important; */
+    color: rgb(53, 36, 207) !important;
+    
+}
+
+#datacell:hover{
+    background-color: rgb(136, 243, 243) !important;
+}

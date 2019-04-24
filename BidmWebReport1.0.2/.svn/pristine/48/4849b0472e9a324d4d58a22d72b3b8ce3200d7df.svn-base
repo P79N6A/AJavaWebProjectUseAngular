@@ -1,0 +1,101 @@
+<div class="ui-g">
+
+
+  <div class="ui-g-12">
+    <h3 class="first">Title REPORT UI - TYPE2</h3>
+    <hr>
+  </div>
+ <!-- search area -->
+ <div class="ui-g-12">
+    <!-- search option area -->
+    <div class="ui-g-12 ui-lg-12" style="border:1px solid lightgray; background-color:mintcream;">
+      <!-- if you add the other option, change the class source -->
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <label>Condition1</label>
+        <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition2</h3> -->
+        <label>Condition2</label>
+        <p-dropdown [options]="option2" [(ngModel)]="selectedOption2" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition3</h3> -->
+        <label>Condition3</label>
+        <p-dropdown [options]="option3" [(ngModel)]="selectedOption3" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition4</h3> -->
+        <label>Condition4</label>
+        <p-dropdown [options]="option4" [(ngModel)]="selectedOption4" placeholder="not connect"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-2">
+        <!-- <h3 class="first">Condition4</h3> -->
+        <button pButton type="button" (click)="onSearch()" label="Search"></button>
+      </div>
+    </div>
+  </div>
+  <!-- end search area -->
+
+  <!-- prime chart area -->
+  <div class="ui-g-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">Prime Line Chart</span>
+        </div>
+      </p-header>
+      <!-- chart content -->
+      <p-chart type="line" [data]="dataChart" (onDataSelect)="selectData($event)"></p-chart>
+
+    </p-panel>
+  </div>
+  <!-- end prime chart area -->
+
+  <!-- echart chart area -->
+  <div class="ui-g-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">Echart Lin Chart</span>
+        </div>
+      </p-header>
+      <!-- chart content -->
+      <div echarts [options]="chartOption" class="demo-chart"></div>
+
+    </p-panel>
+  </div>
+  <!-- end echart chart area -->
+
+  <!-- data gride area -->
+  <div class="ui-g-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <span class="ui-panel-title">Detail</span>
+        </div>
+      </p-header>
+      <div class="ui-panel-content">
+        <!-- if you use selection, you must set datakey -->
+        <p-table [columns]="cols" [value]="data" dataKey="col1">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData" [class]='test' #chartGride>
+              <td *ngFor="let col of columns;">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-panel>
+  </div>
+  <!-- end data gride area -->
+
+</div>

@@ -1,0 +1,172 @@
+[
+  {
+    "cst_spec": "MCW",
+    "ttl": 58.0,
+    "oneqp": 8.0,
+    "move": 0.0,
+    "instk": 50.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 6.0
+  },
+  {
+    "cst_spec": "FCW",
+    "ttl": 96.0,
+    "oneqp": 35.0,
+    "move": 2.0,
+    "instk": 56.0,
+    "dirty": 0.0,
+    "outstk": 1.0,
+    "others": 29.0
+  },
+  {
+    "cst_spec": "ACN",
+    "ttl": 1.0,
+    "oneqp": 0.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 1.0,
+    "outstk": 0.0,
+    "others": 43.0
+  },
+  {
+    "cst_spec": "CCN",
+    "ttl": 18.0,
+    "oneqp": 4.0,
+    "move": 1.0,
+    "instk": 11.0,
+    "dirty": 2.0,
+    "outstk": 0.0,
+    "others": 89.0
+  },
+  {
+    "cst_spec": "CCN",
+    "ttl": 1.0,
+    "oneqp": 0.0,
+    "move": 1.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 106.0
+  },
+  {
+    "cst_spec": "CCN",
+    "ttl": 1.0,
+    "oneqp": 1.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 106.0
+  },
+  {
+    "cst_spec": "MCW",
+    "ttl": 1.0,
+    "oneqp": 0.0,
+    "move": 1.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 63.0
+  },
+  {
+    "cst_spec": "FCW",
+    "ttl": 1.0,
+    "oneqp": 0.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 124.0
+  },
+  {
+    "cst_spec": "ACN",
+    "ttl": 3.0,
+    "oneqp": 3.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 41.0
+  },
+  {
+    "cst_spec": "ACN",
+    "ttl": 37.0,
+    "oneqp": 22.0,
+    "move": 7.0,
+    "instk": 5.0,
+    "dirty": 3.0,
+    "outstk": 0.0,
+    "others": 7.0
+  },
+  {
+    "cst_spec": "MCW",
+    "ttl": 5.0,
+    "oneqp": 0.0,
+    "move": 5.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 59.0
+  },
+  {
+    "cst_spec": "FCW",
+    "ttl": 17.0,
+    "oneqp": 16.0,
+    "move": 0.0,
+    "instk": 1.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 108.0
+  },
+  {
+    "cst_spec": "ACN",
+    "ttl": 2.0,
+    "oneqp": 1.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 1.0,
+    "others": 42.0
+  },
+  {
+    "cst_spec": "FCW",
+    "ttl": 1.0,
+    "oneqp": 0.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 124.0
+  },
+  {
+    "cst_spec": "CCN",
+    "ttl": 85.0,
+    "oneqp": 38.0,
+    "move": 5.0,
+    "instk": 31.0,
+    "dirty": 11.0,
+    "outstk": 0.0,
+    "others": 22.0
+  },
+  {
+    "cst_spec": "FCW",
+    "ttl": 1.0,
+    "oneqp": 1.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 124.0
+  },
+  {
+    "cst_spec": "CCN",
+    "ttl": 1.0,
+    "oneqp": 1.0,
+    "move": 0.0,
+    "instk": 0.0,
+    "dirty": 0.0,
+    "outstk": 0.0,
+    "others": 106.0
+  }
+]

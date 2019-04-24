@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primary.admin.MenuInfoMapper">
+	<select id="selectAllMenu" resultType="com.boe.idm.project.model.mybatis.MenuInfo">
+		SELECT * FROM menuinfo mi
+		<if test="menuId != null and  menuId != ''">
+			where menuid like #{menuId}
+		</if>
+		 order by mi.sort
+	</select>
+	
+	<select id="getAllAvalidMenu" resultType="com.boe.idm.project.model.mybatis.MenuInfo">
+		SELECT * FROM menuinfo mi where mi.state=true  order by mi.sort
+	</select>
+	
+	<select id="getUserMenu" resultType="MenuInfo">	 
+		 select mi.* from  menuinfo mi where mi.state=true and mi.menuid in
+( select rl.menuid from 
+userrolelink ul , roleinfo ri ,rolemenulink rl
+where ul.useraccount=#{userAccount}
+ and ul.roleid=ri.roleid and ri.state=true and ul.roleid = rl.roleid )  order by sort
+
+	</select>
+	
+	<select id="getMenyByRole" resultType="MenuInfo">
+		select distinct mi.* from menuinfo mi,
+		rolemenulink rl,roleinfo ri where 1=1
+		<if test="roleId != null and  roleId != ''">
+		  and rl.roleid= #{roleId}
+		 </if>
+		 and rl.roleid = ri.roleid and ri.state=true  and rl.menuid = mi.menuid and mi.state=true order by sort
+	</select>
+	
+	<select id="getMenuInfoListByMenuId" resultType="MenuInfo">
+		select * from menuinfo mi where mi.state=true
+		<if test="menuId != null and  menuId != ''">
+			and menuid like #{menuId}
+		</if>
+		 
+		  order by mi.sort
+	</select>
+	
+	<update id="updateMenuInfo" parameterType="MenuInfo">
+		update menuinfo 
+		set icon=#{icon},sort=#{sort},routerlink=#{routerlink},parentid=#{parentId},desc=#{desc},
+		    isleaf=#{isLeaf},updateuser=#{updateUser},updatetime=#{updateTime},state=#{state} 		
+		 where menuid = #{menuId};
+	</update>
+
+	<insert id="saveOrUpdate" parameterType="MenuInfo">
+		<selectKey keyProperty="count" resultType="int"
+			order="BEFORE">
+			select count(*) as count from menuinfo where menuid = #{menuId}
+		</selectKey>
+		<if test="count > 0">
+			update menuinfo
+			set icon=#{icon},sort=#{sort},routerlink=#{routerlink},parentid=#{parentId},desc=#{desc}
+			    ,isleaf=#{isLeaf},updateuser=#{createUser},updatetime=#{createTime},state=#{state}
+			where menuId = #{menuId};
+		</if>
+		<if test="count==0">
+			insert into menuinfo(menuid,icon,routerlink,parentid,sort,isleaf,desc,state,createuser,createtime)
+			values
+			(#{menuId},#{icon},#{routerlink},#{parentId},#{sort},#{isLeaf},#{desc},#{state},#{createUser},#{createTime})
+		</if>
+	</insert>
+	
+	<delete id="deleteMenuInfo" parameterType="MenuInfo">
+		delete menuinfo 
+		 where menuid = #{menuId};
+	</delete>
+	
+	<select id="pagenate" parameterType="hashmap" resultType="com.boe.idm.project.model.mybatis.MenuInfo">
+		SELECT * FROM menuinfo mi
+		<if test="menuId != null and  menuId != ''">
+			where menuid like #{menuId}
+		</if>
+		order by mi.sort
+		LIMIT #{startRow},#{pageRow}	 
+	</select>
+	
+	<select id="getTotCount" resultType="int">
+			select count(*) from menuinfo mi
+			<if test="menuId != null and  menuId != ''">
+			where menuid like #{menuId}
+			</if>
+	</select>
+	
+	<select id="getFavoriteMenuByuser" resultType="MenuInfo">
+		select mi.* from  menuinfo mi where mi.isleaf='Y' and mi.state=true and mi.menuid in(
+		select fm.menuid from favoritemenu fm where fm.useraccount=#{userAccount} and fm.menuid in 
+		( select rl.menuid from 
+		userrolelink ul , roleinfo ri ,rolemenulink rl
+		where ul.useraccount=#{userAccount} and ul.roleid=ri.roleid 
+		and ri.state=true and ul.roleid = rl.roleid )
+		) order by sort
+	</select>
+	
+	<select id="getMenuByUser_FavoriteMenu" resultType="MenuInfo">	 
+		 select mi.* from  menuinfo mi where mi.isleaf='Y' and mi.state=true and mi.menuid in
+( select rl.menuid from 
+userrolelink ul , roleinfo ri ,rolemenulink rl
+where ul.useraccount=#{userAccount}
+ and ul.roleid=ri.roleid and ri.state=true and ul.roleid = rl.roleid )  order by sort
+
+	</select>
+	
+	<select id="getTop6MenuByuser" resultType="MenuInfo">	 
+		 select  mi.* from menuinfo mi where mi.isleaf='Y' and mi.menuid in(
+			select mci.menuid from menu_click_info mci  
+			where mci.useraccount =#{userAccount} and mci.menuid in
+			( select rl.menuid from 
+					userrolelink ul , roleinfo ri ,rolemenulink rl
+					where ul.useraccount=#{userAccount} and ul.roleid=ri.roleid 
+					and ri.state=true and ul.roleid = rl.roleid )
+					order by clicktime desc
+			LIMIT 0,6)
+		 
+	</select>
+	
+	<delete id="deleteFavoriteMenuk" parameterType="com.boe.idm.project.model.mybatis.FavoriteMenu">
+		Delete FROM favoritemenu where useraccount = #{userAccount} and menuid = #{menuId}
+	</delete>
+
+	<insert id="insertFavoriteMenu" parameterType="com.boe.idm.project.model.mybatis.FavoriteMenu">
+		insert into favoritemenu(userAccount,menuid)
+		values
+		(#{userAccount},#{menuId})
+	</insert>
+</mapper>

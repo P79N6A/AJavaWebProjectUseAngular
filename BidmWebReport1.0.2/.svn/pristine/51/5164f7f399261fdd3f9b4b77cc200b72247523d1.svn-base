@@ -1,0 +1,23 @@
+package com.boe.idm.project.mapper.primaryOracle.dev;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.boe.idm.project.model.mybatis.ProductNameInfo;
+
+@Mapper
+public interface ProductNameInfoMapper {
+	//1.查询所有的数据信息
+	public List<ProductNameInfo> queryAll();
+	//2.根据工厂名称查询
+	public List<ProductNameInfo> queryByName(@Param("factoryname") String factoryname);
+	
+	//3.插入一个新的对象
+	public int insertOne(ProductNameInfo productNameInfo);
+	
+	//4.删除一个对象
+	public int delteteOne(ProductNameInfo productNameInfo);
+
+}

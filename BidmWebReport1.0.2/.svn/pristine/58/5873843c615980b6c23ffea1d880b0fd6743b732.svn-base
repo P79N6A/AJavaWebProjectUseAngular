@@ -1,0 +1,280 @@
+<div class="ui-g">
+  <!-- <div class="ui-g-12">
+      <h3 class="first">Title MES UI - TYPE1</h3>
+      <hr>
+    </div> -->
+  <!-- search area -->
+  <div class="ui-g-12" style="border: 1px solid #c8c8c8;">
+    <!-- search option area -->
+    <div class="ui-g-12" style="padding: 10 px">
+      <!-- if you add the other option, change the class source -->
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+
+        <label for="search" style="margin-right: 10%">
+          <strong>Search : </strong>
+        </label>
+        <input type="text" pInputText style="width: 70%" [(ngModel)]="
+        searchWord" />
+
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <label for="search" style="margin-right: 10%">
+          <strong>header : </strong>
+        </label>
+        <p-dropdown [options]="option1" [(ngModel)]="selectedOption1" [style]="{'width': '70%'}" (onChange)="onChangedOption()"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <div class="ui-g">
+          <label for="search" style="margin-right: 10%">
+            <strong>date : </strong>
+          </label>
+          <p-calendar [(ngModel)]="searchDate" [showIcon]="true" dateFormat="yy.mm.dd"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        <button pButton type="button" (click)="onSearch()" label="Search" style="width: 30%" icon="fa fa-search icon-search"></button>
+      </div>
+    </div>
+    <!-- end search option area -->
+    <!-- search button area -->
+  </div>
+  <!-- end search area -->
+
+  <!-- data gride area -->
+  <div class="ui-g-12">
+    <div>
+      <!-- if you use selection, you must set datakey -->
+      <p-table #dt [columns]="cols" [value]="data" [(selection)]="selectedData" dataKey="col1" (sortFunction)="customSort($event)"
+        [customSort]="true">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix">
+            <span style="float: left;">
+              <button type="button" pButton label="Delete" (click)="deleteSelectedData()"></button>
+            </span>
+            <span style="float: right;">
+              <button type="button" pButton label="ADD" (click)="addData()"></button>
+              <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="forntExcelDown" (click)="forntExcelDown()"></button>
+              <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="excelDown" (click)="excelDown()"></button>
+            </span>
+            <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="" style="float:right"></button> -->
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3.25em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <ng-container *ngFor="let col of columns; " [ngSwitch]="col.field">
+
+              <ng-container *ngSwitchCase="'col4'">
+                <th [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </ng-container>
+              <ng-container *ngSwitchCase="'col5'">
+                <th [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <th>
+                  {{col.header}}
+                </th>
+              </ng-container>
+            </ng-container>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+          <tr [pSelectableRow]="rowData" #dtTr ondblclick="ondblclick()">
+            <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <ng-container *ngFor="let col of columns; let len = count " [ngSwitch]="col.field">
+              <ng-container *ngSwitchCase="'col1'">
+                <td title="{{rowData[col.field]}}">
+                  <a href="#" (click)="openDetail(rowData)">{{rowData[col.field]}}</a>
+                </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'col2'">
+                <td style="background-color: royalblue">
+                  {{rowData[col.field]}}
+                </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'col3'">
+                <td style="color: red">
+                  {{rowData[col.field] }}
+                </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'col8'">
+                <td class="tooltip">
+                  <a href="#" (click)="openDetail(rowData)" >{{rowData[col.field] | decimalPrecision: '2' : 'trunc' }}</a>
+                  <span class="tooltiptext">{{rowData[col.field]}}</span>
+                </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'col9'">
+                <td title="{{rowData[col.field]}}">
+                  {{rowData[col.field] | decimalPrecision: '1' : 'ceil'}}
+                </td>
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+                <td>{{rowData[col.field] }}</td>
+              </ng-container>
+
+            </ng-container>
+            <!-- <td *ngFor="let col of columns;" [ngSwitch]="col.field">
+              <ng-container *ngSwitchCase="'col1'">
+                <a href="#" (click)="openDetail(rowData)">{{rowData[col.field]}}</a>
+              </ng-container>
+              <ng-container *ngSwitchCase="'col2'">
+                  <a href="#" (click)="openDetail(rowData)">{{rowData[col.field]}}</a>
+                </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{rowData[col.field]}}
+              </ng-container>
+            </td> -->
+            <td>
+              <button pButton type="button" (click)="deleteData(rowData)" label="Delete"></button>
+            </td>
+          </tr>
+
+        </ng-template>
+      </p-table>
+      <br>
+      <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="paginate($event)"></p-paginator>
+
+    </div>
+  </div>
+  <!-- end data gride area -->
+
+  <!-- dialog -->
+  <!-- <app-type1-modal [modalData]="modalData" [(modalVisible)]="modalVisible"></app-type1-modal> -->
+  <div class="ui-g-12">
+
+    <p-dialog header="Dailog" [(visible)]="modalVisible" [modal]="true" [responsive]="true" [width]="560">
+      <div class="ui-dialog-content">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col1</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col1" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col2</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col2" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col3</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col3" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col4</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col4" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col5</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col5" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col6</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col6" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col7</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col7" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col8</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col8" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">col9</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <input type="number" pInputText [(ngModel)]="modalData.col9" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <label for="">inputSwitch</label>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <p-inputSwitch onLabel="Check" offLabel="Uncheck" [(ngModel)]="inputSwitchChecked"></p-inputSwitch>
+          </div>
+        </div>
+
+      </div>
+
+
+      <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="save()" label="save"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="modalVisible=false" label="cancel" class="ui-button-secondary"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+</div>
+<hr>
+<p-fileUpload name="myfile[]" url="/api/file/upload"></p-fileUpload>
+<hr>
+
+<div class="ui-g">
+<!-- search area -->
+<div class="ui-g-12" style="border: 1px solid #c8c8c8;">
+  <!-- search option area -->
+  <div class="ui-g-12" style="padding: 10 px">
+    <!-- if you add the other option, change the class source -->
+    <div class="ui-g-12 ui-md-6 ui-lg-6">
+
+      <label for="fileName" style="margin-right: 10%">
+        <strong>FileName : </strong>
+      </label>
+      <input type="text" pInputText style="width: 70%" [(ngModel)]="
+      fileName" />
+    </div>
+ 
+    <div class="ui-g-12 ui-md-6 ui-lg-6">
+      <button pButton type="button" (click)="onFileDownload()" label="DOWNLOAD" style="width: 30%" icon="fa fa-download icon-download"></button>
+    </div>
+  </div>
+  <!-- end search option area -->
+  <!-- search button area -->
+</div>
+<!-- end search area -->
+
+  
+</div>

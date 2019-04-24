@@ -1,0 +1,98 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12" [ngStyle]="{'padding': '0px'}">
+    <p-header>
+      <div class="ui-g-12">
+        <h2 style="text-align:center;margin: 0px 10px">Array Bank&Cell In计划</h2>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+      <div class="ui-helper-clearfix">
+        <div style="float:right;padding-bottom: 5px">
+          <p-button label="导出" (click)="exportExcel()" icon="fa fa-download" iconPos="left"></p-button>
+        </div>
+      </div>
+
+      <p-table id="bankcellin">
+        <ng-template pTemplate="header">
+          <tr height="35px">
+            <th colspan="5" width="40%" class="setTitle">Array、CF尺寸别Bank</th>
+            <th class="setTitle"></th>
+            <th colspan="2" class="setTitle">{{day1 | date: 'MM月dd日'}}</th>
+            <th colspan="2" class="setTitle">{{day2 | date: 'MM月dd日'}}</th>
+            <th colspan="2" class="setTitle">{{day3 | date: 'MM月dd日'}}</th>
+            <th colspan="2" class="setTitle">{{day4 | date: 'MM月dd日'}}</th>
+            <th colspan="2" class="setTitle">{{day5 | date: 'MM月dd日'}}</th>
+          </tr>
+          <tr>
+            <th style="color: #0070C0;font-weight: bold !important">Array Name</th>
+            <th style="color: #0070C0;font-weight: bold !important">Cell Name</th>
+            <th style="color: #0070C0;font-weight: bold !important">TFT Bank</th>
+            <th style="color: #0070C0;font-weight: bold !important">CF Bank</th>
+            <th style="color: #0070C0;font-weight: bold !important">Cell可投入</th>
+            <th style="color: #0070C0;font-weight: bold !important">Cell In</th>
+            <th style="color: white;font-weight: bold ; background-color: #00B0F0">Plan</th>
+            <th>Bal</th>
+            <th style="color: white;font-weight: bold ; background-color: #00B0F0">Plan</th>
+            <th>Bal</th>
+            <th style="color: white;font-weight: bold ; background-color: #00B0F0">Plan</th>
+            <th>Bal</th>
+            <th style="color: white;font-weight: bold ; background-color: #00B0F0">Plan</th>
+            <th>Bal</th>
+            <th style="color: white;font-weight: bold ; background-color: #00B0F0">Plan</th>
+            <th>Bal</th>
+          </tr>
+          <tr>
+            <th colspan="2" style="color: black">Total</th>
+            <th>{{sumtft_bank | toZeroPipe}}</th>
+            <th>{{sumcf_bank | toZeroPipe}}</th>
+            <th>{{sumcellpair | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumcellin > 0? '#92D050':''}">{{sumcellin | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumplan1 > 0? '#92D050':''}">{{sumplan1 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumbal1 < 0? '#FFFF00':''}">{{sumbal1 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumplan2 > 0? '#92D050':''}">{{sumplan2 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumbal2 < 0? '#FFFF00':''}">{{sumbal2 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumplan3 > 0? '#92D050':''}">{{sumplan3 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumbal3 < 0? '#FFFF00':''}">{{sumbal3 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumplan4 > 0? '#92D050':''}">{{sumplan4 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumbal4 < 0? '#FFFF00':''}">{{sumbal4 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumplan5 > 0? '#92D050':''}">{{sumplan5 | toZeroPipe}}</th>
+            <th [ngStyle]="{'background-color': sumbal5 < 0? '#FFFF00':''}">{{sumbal5 | toZeroPipe}}</th>
+          </tr>
+          <ng-container *ngFor="let item of tableData">
+            <tr>
+              <th [attr.rowspan]="item.bycellname.length" style="color: black">{{item.arrayname | toZeroPipe}}</th>
+              <th>{{item.bycellname[0].cellname  | toZeroPipe}}</th>
+              <th>{{item.bycellname[0].tftbank  | toZeroPipe}}</th>
+              <th>{{item.bycellname[0].cfbank  | toZeroPipe}}</th>
+              <th [attr.rowspan]="item.bycellname.length">{{item.cellpair  | toZeroPipe}}</th>
+              <th [ngStyle]="{'background-color': item.bycellname[0].cellin > 0? '#92D050':''}">{{item.bycellname[0].cellin  | toZeroPipe}}</th>
+              <th [ngStyle]="{'background-color': item.bycellname[0].plan1 > 0? '#92D050':''}">{{item.bycellname[0].plan1  | toZeroPipe}}</th>
+              <th [attr.rowspan]="item.bycellname.length" [ngStyle]="{'background-color': item.bal1 < 0? '#FFFF00':''}">{{item.bal1  | toZeroPipe}}</th>
+              <th [ngStyle]="{'background-color': item.bycellname[0].plan2 > 0? '#92D050':''}">{{item.bycellname[0].plan2  | toZeroPipe}}</th>
+              <th [attr.rowspan]="item.bycellname.length" [ngStyle]="{'background-color': item.bal2 < 0? '#FFFF00':''}">{{item.bal2 | toZeroPipe}}</th>
+              <th [ngStyle]="{'background-color': item.bycellname[0].plan3 > 0? '#92D050':''}">{{item.bycellname[0].plan3 | toZeroPipe}}</th>
+              <th [attr.rowspan]="item.bycellname.length" [ngStyle]="{'background-color': item.bal3 < 0? '#FFFF00':''}">{{item.bal3 | toZeroPipe}}</th>
+              <th [ngStyle]="{'background-color': item.bycellname[0].plan4 > 0? '#92D050':''}">{{item.bycellname[0].plan4 | toZeroPipe}}</th>
+              <th [attr.rowspan]="item.bycellname.length" [ngStyle]="{'background-color': item.bal4 < 0? '#FFFF00':''}">{{item.bal4 | toZeroPipe}}</th>
+              <th [ngStyle]="{'background-color': item.bycellname[0].plan5 > 0? '#92D050':''}">{{item.bycellname[0].plan5 | toZeroPipe}}</th>
+              <th [attr.rowspan]="item.bycellname.length" [ngStyle]="{'background-color': item.bal5 < 0? '#FFFF00':''}">{{item.bal5 | toZeroPipe}}</th>
+            </tr>
+            <ng-container *ngFor="let itemprop of item.bycellname; let i = index">
+              <tr *ngIf="i != 0">
+                <th>{{itemprop.cellname | toZeroPipe}}</th>
+                <th>{{itemprop.tftbank | toZeroPipe}}</th>
+                <th>{{itemprop.cfbank | toZeroPipe}}</th>
+                <th [ngStyle]="{'background-color': itemprop.cellin > 0? '#92D050':''}">{{itemprop.cellin | toZeroPipe}}</th>
+                <th [ngStyle]="{'background-color': itemprop.plan1 > 0? '#92D050':''}">{{itemprop.plan1 | toZeroPipe}}</th>
+                <th [ngStyle]="{'background-color': itemprop.plan2 > 0? '#92D050':''}">{{itemprop.plan2 | toZeroPipe}}</th>
+                <th [ngStyle]="{'background-color': itemprop.plan3 > 0? '#92D050':''}">{{itemprop.plan3 | toZeroPipe}}</th>
+                <th [ngStyle]="{'background-color': itemprop.plan4 > 0? '#92D050':''}">{{itemprop.plan4 | toZeroPipe}}</th>
+                <th [ngStyle]="{'background-color': itemprop.plan5 > 0? '#92D050':''}">{{itemprop.plan5 | toZeroPipe}}</th>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-panel>
+</div>

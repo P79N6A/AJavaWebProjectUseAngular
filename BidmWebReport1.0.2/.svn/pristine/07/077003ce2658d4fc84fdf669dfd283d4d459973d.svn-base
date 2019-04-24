@@ -1,0 +1,5 @@
+export class UserInfo{
+    userAccount:string;
+    userName:string;    
+    state:boolean;
+}

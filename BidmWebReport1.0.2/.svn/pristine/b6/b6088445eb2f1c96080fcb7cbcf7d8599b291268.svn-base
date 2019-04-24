@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.OeeAeInfoMapper">
+
+	<select id="getData" resultType="OeeAeInfoVO">
+		select datename,oper,first_state,second_state,ratio from
+		sc_kanban_oee_state_y_vw where datename =
+		<if test="date != 1 and date != 2">
+			to_char(sysdate, 'yyyy')
+		</if>
+
+		<if test="date == 1 or date == 2">
+
+			<if test="hour &gt; 6">
+				to_char(sysdate-1, 'yyyy')
+			</if>
+
+			<if test="hour &lt;= 6">
+				to_char(sysdate-2, 'yyyy')
+			</if>
+
+		</if>
+	</select>
+
+	<select id="queryData" resultType="OeeAeInfoVO">
+		select datename,oper,first_state,second_state,ratio from
+		<if test="dateType == 'year'">
+			sc_kanban_oee_state_y_vw
+		</if>
+		<if test="dateType == 'quarter'">
+			sc_kanban_oee_state_q_vw
+		</if>
+		<if test="dateType == 'month'">
+			sc_kanban_oee_state_m_vw
+		</if>
+		<if test="dateType == 'day'">
+			sc_kanban_oee_state_d_vw
+		</if>
+		where datename = #{dateValue}
+	</select>
+	
+	<select id="getDataTop5" resultType="OeeAeTop5VO">
+		select datename,oper,second_state,ratio from
+		sc_kanban_oee_top5_y_vw where datename =
+		<if test="date != 1 and date != 2">
+			to_char(sysdate, 'yyyy')
+		</if>
+
+		<if test="date == 1 or date == 2">
+
+			<if test="hour &gt; 6">
+				to_char(sysdate-1, 'yyyy')
+			</if>
+
+			<if test="hour &lt;= 6">
+				to_char(sysdate-2, 'yyyy')
+			</if>
+
+		</if>
+	</select>
+
+	<select id="queryDataTop5" resultType="OeeAeTop5VO">
+		select datename,oper,second_state,ratio from
+		<if test="dateType == 'year'">
+			sc_kanban_oee_top5_y_vw
+		</if>
+		<if test="dateType == 'quarter'">
+			sc_kanban_oee_top5_q_vw
+		</if>
+		<if test="dateType == 'month'">
+			sc_kanban_oee_top5_m_vw
+		</if>
+		<if test="dateType == 'day'">
+			sc_kanban_oee_top5_d_vw
+		</if>
+		where datename = #{dateValue}
+	</select>
+
+
+</mapper>

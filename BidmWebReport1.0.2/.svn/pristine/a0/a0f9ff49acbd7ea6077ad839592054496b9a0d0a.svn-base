@@ -1,0 +1,103 @@
+<div class="ui-g">
+  <p-panel>
+    <p-header>
+      <div class="ui-g-12">
+        <h3 style="text-align:center;margin: 0px 10px">工序信息维护界面</h3>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+      
+      <div style="text-align: right; margin-bottom: 5px">
+        请选择工厂:
+        <p-dropdown [options]="factorys" (onChange)="dtFilter($event.value)"></p-dropdown>
+      </div>
+
+      <p-table #dt [columns]="cols" [value]="infos" selectionMode="single" [(selection)]="selectedInfo" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="18">
+
+        <ng-template pTemplate="header" let-columns>
+          <tr class="setFontSize">
+            <th *ngFor="let col of columns; let i = index;" [ngStyle]="{'width': (i==0 || i==1 || i==3 || i==4 || i==5) ? '14%' : ''}">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData" class="setFontSize">
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary" let-rowData>
+          <div style="text-align:left">
+            <button type="button" pButton icon="fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+          </div>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </p-panel>
+</div>
+
+<p-dialog header="Info Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="400">
+  <div class="ui-g ui-fluid" *ngIf="info">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="factory">Factory</label>
+      </div>
+      <div class="ui-g-8">
+        <input [disabled]="disabled" pInputText id="factory" [(ngModel)]="info.factory" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="oper_code">Oper_code</label>
+      </div>
+      <div class="ui-g-8">
+        <input [disabled]="disabled" pInputText id="oper_code" [(ngModel)]="info.oper_code" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="oper_name">Oper_name</label>
+      </div>
+      <div class="ui-g-8">
+        <input [disabled]="disabled" pInputText id="oper_name" [(ngModel)]="info.oper_name" placeholder="必填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="operation">Operation</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="operation" [(ngModel)]="info.operation" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="operationdesc">Operationdesc</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="operationdesc" [(ngModel)]="info.operationdesc" placeholder="选填"/>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="no">No</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="no" type="number" [(ngModel)]="info.no" placeholder="选填(数字)"/>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-close" *ngIf="deleteButton" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>

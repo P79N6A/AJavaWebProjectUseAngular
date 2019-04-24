@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+	<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.CellWipMapper"> 
+		
+		<select id="getList" resultType="CellWipVO"> 
+			select OPERATIONDESC as oper_desc,
+				DATE_BEFORE_2_gls as date_before_2,
+				DATE_BEFORE_1_gls as date_before_1,
+				DATE_BEFORE_0_gls as date_before_0,
+				DATE_CURRENT_gls as date_current,
+				DATE_MOVE as date_move,
+				DATE_CURRENT as date_move_current
+			from sc_cl_wip1_vw
+		</select>
+		
+		<select id="getListBoth" resultType="CellWipVO"> 
+			select OPERATIONDESC as oper_desc,
+				DATE_BEFORE_2_gls as date_before_2,
+				DATE_BEFORE_1_gls as date_before_1,
+				DATE_BEFORE_0_gls as date_before_0,
+				DATE_CURRENT_gls as date_current,
+				DATE_MOVE as date_move,
+				DATE_CURRENT as date_move_current
+			from sc_cl_wip11_vw
+		</select>
+		<select id="getListPCL" resultType="CellWipVO"> 
+			select OPERATIONDESC as oper_desc,
+				DATE_BEFORE_2_gls as date_before_2,
+				DATE_BEFORE_1_gls as date_before_1,
+				DATE_BEFORE_0_gls as date_before_0,
+				DATE_CURRENT_gls as date_current,
+				DATE_MOVE as date_move,
+				DATE_CURRENT as date_move_current
+			from sc_cl_wip11_vw
+			where line = 'PCL'
+		</select>
+		<select id="getListPCS" resultType="CellWipVO"> 
+			select OPERATIONDESC as oper_desc,
+				DATE_BEFORE_2_gls as date_before_2,
+				DATE_BEFORE_1_gls as date_before_1,
+				DATE_BEFORE_0_gls as date_before_0,
+				DATE_CURRENT_gls as date_current,
+				DATE_MOVE as date_move,
+				DATE_CURRENT as date_move_current
+			from sc_cl_wip11_vw
+			where line = 'PCS'
+		</select>
+
+	</mapper>

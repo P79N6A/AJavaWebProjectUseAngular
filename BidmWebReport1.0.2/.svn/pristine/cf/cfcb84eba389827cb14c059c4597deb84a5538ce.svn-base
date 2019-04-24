@@ -1,0 +1,727 @@
+<p-growl [(value)]="msgs" sticky="true"></p-growl>
+<div class="ui-g">
+  <p-panel>
+    <p-header>
+      <div class="ui-g-12">
+        <h2 style="text-align:center;margin: 0px 10px">各工厂生产情况详情</h2>
+      </div>
+    </p-header>
+    <div class="ui-panel-content">
+      <div class="ui-helper-clearfix">
+        <div style="float:right;padding: 5px 20px">
+          请输入日期：
+          <p-calendar [(ngModel)]="dateName" dateFormat="yy/mm/dd" id="hourMonitorCalendar" placeholder="年/月/日"></p-calendar>
+          <p-button label="查询" (click)="query()"></p-button>
+          <p-button label="刷新" (click)="refresh()"></p-button>
+          <p-button label="导出" (click)="exportTable()"></p-button>
+        </div>
+      </div>
+
+      <p-table id="hourmonitor">
+        <ng-template pTemplate="caption" id="hourmonitor">
+          Monitor by Hour-{{nowDay}}
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th width="3%" class="header1 blue">Fac</th>
+            <th colspan="2" width="8%" class="header1 blue">Operation</th>
+            <th class="header1 blue" *ngFor="let time of timekey; let i = index" [ngStyle]="{'width':i == 24 ? '4%':''}" [ngClass]="{setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{time}}</th>
+            <th width="6%" class="header1 blue">Remark</th>
+          </tr>
+
+          <!-- Array In -->
+          <tr>
+            <th rowspan="11" class="header1 green">Array</th>
+            <th rowspan="3" class="header1 green">In</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of ArrayInPlan; let i = index" class="green" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="3">
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="ArrayInRemark" style="width:100%" (change)="updateRemark('Array In',0)"></textarea>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ArrayInRemark}}
+                  </ng-template>
+              </p-cellEditor>
+            </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of ArrayInAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of ArrayInBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Array Mov -->
+          <tr>
+            <th rowspan="4" class="header1 green">Mov</th>
+            <th class="header1 green">PECVD</th>
+            <th *ngFor="let qty of ArrayMovPecvd;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="4">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="ArrayMovRemark" style="width:100%" (change)="updateRemark('Array Mov',1)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ArrayMovRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Sputter</th>
+            <th *ngFor="let qty of ArrayMovSputter;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Photo</th>
+            <th *ngFor="let qty of ArrayMovPhoto;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Etch</th>
+            <th *ngFor="let qty of ArrayMovEtch;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Array Out -->
+          <tr>
+            <th rowspan="3" class="header1 green">Out</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of ArrayOutPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="4">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="ArrayOutRemark" style="width:100%" (change)="updateRemark('Array Out',2)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ArrayOutRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of ArrayOutAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of ArrayOutBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Array WIP -->
+          <tr>
+            <th colspan="2" class="header1 green">WIP</th>
+            <th *ngFor="let qty of ArrayWip;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+          </tr>
+
+          <!-- CF In -->
+          <tr>
+            <th rowspan="14" class="header1 yellow">CF</th>
+            <th rowspan="3" class="header1 yellow">In</th>
+            <th class="header1 yellow">Plan</th>
+            <th *ngFor="let qty of CfInPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="yellow">{{qty}}</th>
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="3">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="CFInRemark" style="width:100%" (change)="updateRemark('CF In',3)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CFInRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Act</th>
+            <th *ngFor="let qty of CfInAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Bal</th>
+            <th *ngFor="let qty of CfInBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- CF Mov -->
+          <tr>
+            <th rowspan="7" class="header1 yellow">Mov</th>
+            <th class="header1 yellow">ITO</th>
+            <th *ngFor="let qty of CfMovIto;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="7">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="8" cols="10" [(ngModel)]="CFMovRemark" style="width:100%;height: 100%;" (change)="updateRemark('CF Mov',4)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CFMovRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">BM</th>
+            <th *ngFor="let qty of CfMovBm;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">R</th>
+            <th *ngFor="let qty of CfMovR;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">G</th>
+            <th *ngFor="let qty of CfMovG;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">B</th>
+            <th *ngFor="let qty of CfMovB;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">OC</th>
+            <th *ngFor="let qty of CfMovOc;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">PS</th>
+            <th *ngFor="let qty of CfMovPs;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- CF Out -->
+          <tr>
+            <th rowspan="3" class="header1 yellow">Out</th>
+            <th class="header1 yellow">Plan</th>
+            <th *ngFor="let qty of CfOutPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="yellow">{{qty}}</th>
+
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="4">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="CFOutRemark" style="width:100%" (change)="updateRemark('CF Out',5)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CFOutRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Act</th>
+            <th *ngFor="let qty of CfOutAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Bal</th>
+            <th *ngFor="let qty of CfOutBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- CF WIP -->
+          <tr>
+            <th colspan="2" class="header1 yellow">WIP</th>
+            <th *ngFor="let qty of CfWip;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="yellow">{{qty}}</th>
+          </tr>
+
+          <!-- Cell In -->
+          <tr>
+            <th rowspan="18" class="header1 green">Cell</th>
+            <th rowspan="3" class="header1 green">In</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of CellInPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="4">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="CellInMovRemark" style="width:100%" (change)="updateRemark('Cell In&Mov',6)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CellInMovRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of CellInAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of CellInBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Cell Mov -->
+          <tr>
+            <th class="header1 green">Mov</th>
+            <th class="header1 green">Rub</th>
+            <th *ngFor="let qty of CellMov;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Cell Assy -->
+          <tr>
+            <th rowspan="3" class="header1 green">Assy</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of CellAssyPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+     
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="3">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="CellAssyRemark" style="width:100%" (change)="updateRemark('Cell Assy',7)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CellAssyRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of CellAssyAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of CellAssyBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Cell Cut -->
+          <tr>
+            <th rowspan="3" class="header1 green">Cut</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of CellCutPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+          
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="3">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="CellCutRemark" style="width:100%" (change)="updateRemark('Cell Cut',8)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CellCutRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of CellCutAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of CellCutBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Cell Out -->
+          <tr>
+            <th rowspan="3" class="header1 green">Out</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of CellOutPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+            
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="3">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="CellOutRemark" style="width:100%" (change)="updateRemark('Cell Out',9)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{CellOutRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of CellOutAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of CellOutBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Cell 120K -->
+          <tr>
+            <th rowspan="3" class="header1 green">120K</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of Cell120KPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+           
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="5">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="5" cols="10" [(ngModel)]="Cell120kWIPRemark" style="width:100%" (change)="updateRemark('Cell 120k&Wip',10)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{Cell120kWIPRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of Cell120KAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of Cell120KBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- Cell WIP -->
+          <tr>
+            <th rowspan="2" class="header1 green">WIP</th>
+            <th class="header1 green">Assy</th>
+            <th *ngFor="let qty of CellWipAssy;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Cut</th>
+            <th *ngFor="let qty of CellWipCut;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+          </tr>
+
+          <!-- STK Bank -->
+          <tr>
+            <th rowspan="12" class="header1 yellow">STK</th>
+            <th rowspan="4" class="header1 yellow">Bank</th>
+            <th class="header1 yellow">TFT</th>
+            <th *ngFor="let qty of StkBankTft;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="12">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="14" cols="10" [(ngModel)]="STKRemark" style="width:100%" (change)="updateRemark('STK',11)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{STKRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">CF</th>
+            <th *ngFor="let qty of StkBankCf;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Sort量</th>
+            <th *ngFor="let qty of StkBankSort;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">待Sort</th>
+            <th *ngFor="let qty of StkBankSortWait;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+
+          <!-- STK Mov -->
+          <tr>
+            <th rowspan="2" class="header1 yellow">Mov</th>
+            <th class="header1 yellow">CellIn</th>
+            <th *ngFor="let qty of StkMovCellIn;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Sort</th>
+            <th *ngFor="let qty of StkMovSort;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- STK STK -->
+          <tr>
+            <th rowspan="6" class="header1 yellow">STK</th>
+            <th class="header1 yellow">ABuff</th>
+            <th *ngFor="let qty of StkStkABuff;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">CBuff</th>
+            <th *ngFor="let qty of StkStkCBuff;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">T1</th>
+            <th *ngFor="let qty of StkStkT1;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">T2</th>
+            <th *ngFor="let qty of StkStkT2;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">T3</th>
+            <th *ngFor="let qty of StkStkT3;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">T4</th>
+            <th *ngFor="let qty of StkStkT4;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M1 In -->
+          <tr>
+            <th rowspan="13" class="header1 green">M1</th>
+            <th rowspan="3" class="header1 green">In</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of M1InPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+       
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="5">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="5" cols="10" [(ngModel)]="M1InMovRemark" style="width:100%" (change)="updateRemark('M1 In&Mov',12)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{M1InMovRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of M1InAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of M1InBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!--  M1 Mov -->
+          <tr>
+            <th class="header1 green" rowspan="2">Mov</th>
+            <th class="header1 green">MMT</th>
+            <th *ngFor="let qty of M1MovMmt;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Assy</th>
+            <th *ngFor="let qty of M1MovAssy;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M1 Packing -->
+          <tr>
+            <th rowspan="3" class="header1 green">Packing</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of M1PackingPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+            
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="5">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="5" cols="10" [(ngModel)]="M1PackingBankRemark" style="width:100%" (change)="updateRemark('M1 Packing&Bank',13)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{M1PackingBankRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of M1PackingAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of M1PackingBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+
+          <!-- M1 Bank -->
+          <tr>
+            <th rowspan="2" class="header1 green">Bank</th>
+            <th class="header1 green">PCS</th>
+            <th *ngFor="let qty of M1BankPcs;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty | strFormat: 'k'}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">PCL</th>
+            <th *ngFor="let qty of M1BankPcl;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty | strFormat: 'k'}}</th>
+          </tr>
+
+          <!-- M1 WIP -->
+          <tr>
+            <th rowspan="3" class="header1 green">WIP</th>
+            <th class="header1 green">M01</th>
+            <th *ngFor="let qty of M1WipM01;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+            
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="3">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="4" cols="10" [(ngModel)]="M1WIPRemark" style="width:100%" (change)="updateRemark('M1 WIP',14)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{M1WIPRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">M02</th>
+            <th *ngFor="let qty of M1WipM02;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">M06</th>
+            <th *ngFor="let qty of M1WipM06;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+
+          <!-- 2Cut In -->
+          <tr>
+            <th rowspan="7" class="header1 yellow">2Cut</th>
+            <th rowspan="3" class="header1 yellow">In</th>
+            <th class="header1 yellow">Plan</th>
+            <th *ngFor="let qty of Cut2InPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="yellow">{{qty}}</th>
+            
+             <!-- remark  是可以进行编辑 的-->
+             <th pEditableColumn rowspan="7">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="8" cols="10" [(ngModel)]="TwoCutRemark" style="width:100%" (change)="updateRemark('2Cut',15)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{TwoCutRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Act</th>
+            <th *ngFor="let qty of Cut2InAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Bal</th>
+            <th *ngFor="let qty of Cut2InBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- 2Cut Out -->
+          <tr>
+            <th rowspan="3" class="header1 yellow">Out</th>
+            <th class="header1 yellow">Plan</th>
+            <th *ngFor="let qty of Cut2OutPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="yellow">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Act</th>
+            <th *ngFor="let qty of Cut2OutAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 yellow">Bal</th>
+            <th *ngFor="let qty of Cut2OutBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- 2Cut WIP -->
+          <tr>
+            <th colspan="2" class="header1 yellow">WIP</th>
+            <th *ngFor="let qty of Cut2Wip;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="yellow">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COG In -->
+          <tr>
+            <th rowspan="9" class="header1 green">M2<br>COG</th>
+            <th rowspan="3" class="header1 green">In</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of M2CogInPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+            
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="9">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="10" cols="10" [(ngModel)]="M2COGRemark" style="width:100%" (change)="updateRemark('M2 COG',16)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{M2COGRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of M2CogInAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of M2CogInBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COG Mov -->
+          <tr>
+            <th class="header1 green" rowspan="2">Mov</th>
+            <th class="header1 green">MMT</th>
+            <th *ngFor="let qty of M2CogMovMmt;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Assy</th>
+            <th *ngFor="let qty of M2CogMovAssy;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COG WIP -->
+          <tr>
+            <th rowspan="3" class="header1 green">WIP</th>
+            <th class="header1 green">M21</th>
+            <th *ngFor="let qty of M2CogWipM21;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">M22</th>
+            <th *ngFor="let qty of M2CogWipM22;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">M26</th>
+            <th *ngFor="let qty of M2CogWipM26;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COG Bank -->
+          <tr>
+            <th colspan="2" class="header1 green">Bank</th>
+            <th *ngFor="let qty of M2CogBank;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COF In -->
+          <tr>
+            <th rowspan="9" class="header1 green">M2<br>COF</th>
+            <th rowspan="3" class="header1 green">In</th>
+            <th class="header1 green">Plan</th>
+            <th *ngFor="let qty of M2CofInPlan;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+           
+            <!-- remark  是可以进行编辑 的-->
+            <th pEditableColumn rowspan="9">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <textarea pInputTextArea rows="10" cols="10" [(ngModel)]="M2COFRemark" style="width:100%" (change)="updateRemark('M2 COF',17)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{M2COFRemark}}
+                    </ng-template>
+                </p-cellEditor>
+              </th>
+          </tr>
+          <tr>
+            <th class="header1 green">Act</th>
+            <th *ngFor="let qty of M2CofInAct;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Bal</th>
+            <th *ngFor="let qty of M2CofInBal;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COF MNT -->
+          <tr>
+            <th class="header1 green" rowspan="2">Mov</th>
+            <th class="header1 green">MMT</th>
+            <th *ngFor="let qty of M2CofMovMmt;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">Assy</th>
+            <th *ngFor="let qty of M2CofMovAssy;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COF WIP -->
+          <tr>
+            <th rowspan="3" class="header1 green">WIP</th>
+            <th class="header1 green">M21</th>
+            <th *ngFor="let qty of M2CofWipM21;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">M22</th>
+            <th *ngFor="let qty of M2CofWipM22;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+          <tr>
+            <th class="header1 green">M26</th>
+            <th *ngFor="let qty of M2CofWipM26;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}">{{qty}}</th>
+          </tr>
+
+          <!-- M2 COF Bank -->
+          <tr>
+            <th colspan="2" class="header1 green">Bank</th>
+            <th *ngFor="let qty of M2CofBank;let i = index" [ngClass]="{jiachu: i == 24 && qty !== '-',setRightBorder: i==3 || i==7 || i==11 || i==15 || i==19}" class="green">{{qty}}</th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-panel>
+</div>

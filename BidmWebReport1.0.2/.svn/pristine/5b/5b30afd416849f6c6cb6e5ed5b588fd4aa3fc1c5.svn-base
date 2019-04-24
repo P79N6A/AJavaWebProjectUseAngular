@@ -1,0 +1,165 @@
+<div class="ui-g" style="height:100vh;">
+  <div class="ui-g-12" style="height:20vh;background-image: url('assets/picture/background/b4/bg3_01.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+    <h2 style="color:#F2F6FA;margin-top: 1.5vh;text-align: center">线体WIP分布</h2>
+    <div style="width:23%;text-align:center">
+      <h3 style="color: #F2F6FA;margin-top: 2vh;">{{title_yiji}}</h3>
+    </div>
+  </div>
+  <!-- echart chart1 area 在这里画了array_wip的图-->
+  <div class="ui-g-12" style="height:70vh;background-image: url('assets/picture/background/b4/bg3_02.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+    <div *ngIf="wipTableIsShow">
+      <!-- 下面是右上角的切换的按钮 -->
+      <!-- <div style="position: absolute;top:26%;right:7%;color: #F2F6FA"> -->
+        <!-- <button pButton label='AR' (click)="changeToArrayWip()"></button> -->
+        <!-- <button pButton label='CF' (click)="changeToCfWip()"></button>
+        <button pButton label='CL' (click)="changeToCellWip()"></button> -->
+        <!-- <button pButton label='当前' (click)="showCurrentWip()"></button> -->
+      <!-- </div> -->
+      <!-- 下面是右上角的 每日 wip的总数的展示 -->
+      <div style="position:absolute;right:5%;color: #F2F6FA;font-weight: bold">
+        <div *ngFor="let sumnum of data_date_before_sum_str">{{sumnum}}</div>
+      </div>
+      <!-- 下面是 array  cf cell 的基本的柱状图-->
+      <div echarts [options]="chartOption_wip" class="demo-chart" [ngStyle]="{'height':'590px'}" [ngClass]="{setCFOption:isCfPH,setCellOption:isCellBoth}" (chartClick)="onClickChart($event)"></div>  
+    </div>
+
+    <div [ngClass]="{setCFPH1Option:isCfPH}">
+      <!-- 下面是 cf PH1 的柱状图-->
+      <div *ngIf="isCfPH" echarts [options]="chartOption_wip_cf_PH1" class="demo-chart" [ngStyle]="{'height':'251px'}" ></div>
+    </div>
+      <!-- 下面是 cf PH2 的柱状图-->
+      <div *ngIf="isCfPH"echarts [options]="chartOption_wip_cf_PH2" class="demo-chart" [ngStyle]="{'height':'420px'}" [ngClass]="{setCFPH2Option:isCfPH}"></div>
+
+       <!-- 下面是 cell 可以进行筛选 的柱状图-->
+       <div *ngIf="isCellBoth" echarts [options]="chartOption_wip_cl_both" class="demo-chart" [ngStyle]="{'height':'450px'}" [ngClass]="{setCellBothOption:isCellBoth}"></div>
+       
+        <!-- 多选下拉框 cell 的下拉框 PCS	PCL -->
+        <div *ngIf="isCellBoth" [ngClass]="{setClSearch:true}">
+            <strong>请选择 : &nbsp;&nbsp;</strong>
+            <p-multiSelect [options]="LineName" [(ngModel)]="selectedNames" [panelStyle]="{minWidth:'10em'}"
+                scrollHeight="200px">
+                <!-- 上面这个地方是设置被选中的内容-->
+                <ng-template let-values pTemplate="selectedItems">
+                    <div *ngFor="let val of values" class="ui-multiselected-item-token ui-corner-all">
+                        <span>{{val}}</span>
+                    </div>
+                    <span *ngIf="!value || value.length === 0" class="ui-multiselected-empty-token ui-corner-all">Code</span>
+                </ng-template>
+                <!--下面这个地方是现实下拉列表的内容-->
+                <ng-template let-linename pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{linename.value}}</div>
+                </ng-template>
+            </p-multiSelect>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button pButton icon='fa fa-search' iconPos='left' label='Search' (click)="searchCell()"></button>
+        </div>
+        <!-- 多选下拉框 多选下拉框 cell 的下拉框 PCS	PCL  end -->
+    <!-- end echart chart1 area -->
+
+    <!-- data gride of current wip 一级视图 -->
+    <div *ngIf="CurrentWipTableIsShow" #mytable style="margin-bottom: 1%">
+
+      <!-- <div style="position: absolute;top:16%;right:7%;color: #F2F6FA">
+        <button style="position: absolute;top:16%;right:7%;color: #F2F6FA" pButton (click)="closeTable()" label="返回"></button>
+      </div> -->
+
+      <div style="margin-left: 66px;margin-right: 58px;">
+        <button style="right:-95%;color: #F2F6FA" pButton (click)="closeTable()" label="返回"></button>
+        <p-table [columns]="data_array_current_cols" [value]="data_array_current" [scrollable]="true" [frozenColumns]="fronzecols"
+          frozenWidth="120px" scrollHeight="381px" dataKey="Key" #chartGride>
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" style="width:120px">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns class="noborder">
+            <tr>
+              <th *ngFor="let col of columns" [ngClass]="{setTableHeader : true}" id="operation" class="touming1"
+                (click)="toThirdTable($event)">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns;" class="touming1">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- end data gride area -->
+    </div>
+    <div *ngIf="CurrentWipTableIsShowCL" #mytable style="margin-bottom: 1%">
+
+      <div style="position: absolute;top:26%;right:7%;color: #F2F6FA">
+        <button pButton (click)="closeTable()" label="返回"></button>
+      </div>
+
+      <div style="margin-left: 66px;margin-right: 58px;">
+        <p-table [columns]="data_array_current_cols" [value]="data_array_current" [scrollable]="true" scrollHeight="404px"
+          dataKey="Key" #chartGride>
+          <ng-template pTemplate="header" let-columns class="noborder">
+            <tr>
+              <th *ngFor="let col of columns" [ngClass]="{setTableHeader : true}" id="operation" class="touming1"
+                (click)="toThirdTable($event)">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns;" class="touming1">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- end data gride area -->
+    </div>
+    <!-- data gride of current wip end -->
+
+    <!-- data gride area 二级视图-->
+    <div style="margin-left: 5%;margin-right: 5%;" *ngIf="CurrentWipStationTableIsShow" #mytable>
+      <!-- <div style="position: absolute;top:26%;right:7%;color: #F2F6FA">
+        <button pButton type="button" (click)="closeTableSecond()" label="返回"></button>
+      </div> -->
+      <div class="ui-panel-content">
+        <!-- if you use selection, you must set datakey -->
+        <button pButton style="right:-95%;color: #F2F6FA" type="button" (click)="closeTableSecond()" label="返回"></button>
+        <p-table #chartGride [autoLayout]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th [attr.colspan]="lengthhead" class="touming title">{{clickName}}</th>
+            </tr>
+            <tr>
+              <th [attr.rowspan]="rowSpan" class="touming font">{{timestrOnSecondTable}}</th>
+            </tr>
+            <tr>
+              <th class="touming font">{{thirdName}}</th>
+              <th *ngFor="let eqpid of eqp_id" class="touming font2">{{eqpid}}</th>
+            </tr>
+            <tr *ngIf="thirdStateIsShow">
+              <th class="touming font">状态</th>
+              <th *ngFor="let eqpstate of eqp_state" class="touming font2">{{eqpstate}}</th>
+            </tr>
+            <tr>
+              <th [attr.rowspan]="modeltypeNumber" class="touming font">型号</th>
+            </tr>
+            <tr *ngFor="let modeltypewip of stationWipMessage">
+              <!-- {{modeltypewip.glassqtys}} -->
+              <th class="touming font">{{modeltypewip.modeltype}}</th>
+              <th *ngFor="let wipnumber of modeltypewip.glassqtys" class="touming">{{wipnumber}}</th>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <!-- end data gride area -->
+  </div>
+  <div class="ui-g-12" style="height:10vh;background-image: url('assets/picture/background/b4/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>
+</div>

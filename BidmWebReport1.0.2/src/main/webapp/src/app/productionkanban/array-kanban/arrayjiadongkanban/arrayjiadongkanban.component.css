@@ -1,0 +1,48 @@
+th {
+    font-weight: initial !important;
+    padding: 0em 0em !important;
+    font-size: 12px !important;
+    border: 1px solid #455e9c !important;
+    background-color: rgba(0,0,0,0)!important;
+    color: #F2F6FA !important;
+  }
+  
+  .noborder {
+    border-left: 0px !important;
+    border-top: 0px!important;
+    border-right: 0px!important;
+  }
+  .rowspan4 {
+      height: 32px!important;
+  }
+  
+  .rowspan1 {
+      height: 8px!important;
+  }
+  
+  .setheight1 {
+    height: 161px;
+  }
+  
+  .setheight2 {
+    height: 138px;
+  }
+  
+  .setheight3 {
+    height: 23px;
+  }
+  .setheight4 {
+    height: 150px;
+  }
+  
+  .setheight5 {
+    height: 125px;
+  }
+  
+  .setheight6 {
+    height: 25px;
+  }
+  
+  #arrayjiadongdropdown {
+    text-align: center;
+  }

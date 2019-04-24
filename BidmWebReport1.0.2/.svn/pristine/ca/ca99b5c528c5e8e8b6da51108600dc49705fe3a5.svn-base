@@ -1,0 +1,132 @@
+<button pButton type="button" icon="fa fa-expand" style="margin-bottom:10px" (click)="onFullThis(fullScreenTarget)"
+  label="全屏"></button>
+<div #fullScreenTarget class="ui-g" style="background-image: url('assets/picture/sky1.jpg');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <h1 style="text-align: center;height: 65px;line-height: 65px; width:100%;margin-top: 0px;background-image: url('assets/picture/title.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;color: aliceblue">TM1实时生产看板</h1>
+
+  <div class="ui-g-12">
+
+    <!--Letf Start-->
+    <div class="ui-g-12 ui-lg-5 panel" style="height: 44vh;border-image: url('assets/picture/border.png') 5% round;color: aliceblue;padding:0px;">
+      <div class="ui-g-12 ui-lg-6" style="height:20vh" echarts [options]="snsInOption" (chartInit)="onSnsInChartInit($event)"></div>
+      <div class="ui-g-12 ui-lg-6" style="height: 20vh;color: aliceblue;">
+        <div class="ui-g-12 box" style="height:100%;color: aliceblue">
+          <span class="title">Sensor 投入</span>
+          <hr />
+          <div class="ui-g-12 ui-g-nopad" style="text-align: left;">
+            <span class="content">计划</span>
+            <span class="number">{{snsPlanIn}}</span>
+            <br />
+            <span class="content">实际</span>
+            <span style="font-size:4vh;color: yellow;" countUp [endVal]="snsActInEnd" [startVal]="snsActInStart"
+              duration="3" [countUp]="options"></span>
+          </div>
+          <!-- <div class="ui-g-5">
+            <div class="circle" style="height:80px">
+              达成率<br>
+              <span style="color: yellow;" countUp [endVal]="snsInrateEnd" [startVal]="snsInrateStart" duration="3"
+                [countUp]="options1" [decimals]='2'></span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="ui-g-12 ui-lg-6" style="height:20vh" echarts [options]="snsOutOption" (chartInit)="onSnsOutChartInit($event)"></div>
+      <div class="ui-g-12 ui-lg-6" style="height: 20vh;color: aliceblue;">
+        <div class="ui-g-12 box" style="height:100%;color: aliceblue">
+          <span class="title">Sensor 产出</span>
+          <hr />
+          <div class="ui-g-12 ui-g-nopad" style="text-align: left;">
+            <span class="content">计划</span>
+            <span class="number">{{snsPlanOut}}</span>
+            <br />
+            <span class="content">实际</span>
+            <span style="font-size:4vh;color: yellow;" countUp [endVal]="snsActOutEnd" [startVal]="snsActOutStart"
+              duration="3" [countUp]="options"></span>
+          </div>
+         <!--  <div class="ui-g-4">
+            <div style="height:80px;margin-top: 10px">
+              达成率<br>
+              <span style="color: yellow;font-size: 1.6rem;" countUp [endVal]="snsOutrateEnd" [startVal]="snsOutrateStart"
+                duration="3" [countUp]="options1" [decimals]='2'></span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!--Left End-->
+
+    <!--Middle Start-->
+    <div class="ui-g-12 ui-lg-2" style="height: 45vh;color: aliceblue">
+      <div style="height:15vh;margin-bottom: 5vh">
+        <div style="text-align: center;font-size:1.6rem;">Sensor 综合良率</div>
+        <div style="text-align: center;font-size:1.6rem;color: yellow;">{{snsYield}}%</div>
+        <br />
+        <div style="text-align: center;font-size:1.6rem;">LAM 综合良率</div>
+        <div style="text-align: center;font-size:1.6rem;color: yellow;">{{lamYield}}%</div>
+      </div>
+
+      <hr class="myhr" />
+      <div style="text-align: center;font-size:1.6rem;">工单结单率</div>
+      <div style="height: 25vh;" echarts [options]="woRateOption" (chartInit)="woRateChartInit($event)"></div>
+    </div>
+    <!--Middle End-->
+
+    <!--Left Start-->
+    <div class="ui-g-12 ui-lg-5 panel" style="height: 44vh;border-image: url('assets/picture/border.png') 5% round;color: aliceblue;padding: 0px;">
+      <!-- <div style="height: 22.5vh;" echarts [options]="snsWeekYieldOption" (chartInit)="onsnsWeekYieldChartInit($event)"></div>
+      <div style="height: 22.5vh;" echarts [options]="lamWeekYieldOption" (chartInit)="onlamWeekYieldChartInit($event)"></div> -->
+      <!--  <div style="height:22.5vh" echarts [options]="optionliq"></div> -->
+      <div class="ui-g-12 ui-lg-6" style="height: 20vh;color: aliceblue;">
+        <div class="ui-g-12 box" style="height:100%">
+          <span class="title">LAM 投入</span>
+          <hr />
+          <div class="ui-g-12 ui-g-nopad" style="text-align: left;">
+            <span class="content">计划</span>
+            <span class="number">{{lamPlanIn}}</span>
+            <br />
+            <span class="content">实际</span>
+            <span style="font-size:4vh;color: yellow;" countUp [endVal]="lamActInEnd" [startVal]="lamActInStart"
+              duration="3" [countUp]="options"></span>
+          </div>
+          <!-- <div class="ui-g-5">
+            <div class="circle" style="height:80px">
+              达成率<br>
+              <span style="color: yellow;" countUp [endVal]="LamInrateEnd" [startVal]="LamInrateStart" duration="3"
+                [countUp]="options1" [decimals]='2'></span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="ui-g-12 ui-lg-6" style="height:20vh" echarts [options]="lamInOption" (chartInit)="onLamInChartInit($event)"></div>
+      <div class="ui-g-12 ui-lg-6" style="height: 20vh;color: aliceblue;">
+        <div class="ui-g-12 box" style="height:100%">
+          <span class="title">LAM 产出</span>
+          <hr />
+          <div class="ui-g-12 ui-g-nopad" style="text-align: left;">
+            <span class="content">计划</span>
+            <span class="number">{{ lamPlanOut }}</span>
+            <br />
+            <span class="content">实际</span>
+            <span style="font-size:4vh;color: yellow;" countUp [endVal]="lamActOutEnd" [startVal]="lamActOutStart"
+              duration="3" [countUp]="options"></span>
+          </div>
+          <!-- <div class="ui-g-5">
+            <div class="circle" style="height:80px">
+              达成率<br>
+              <span style="color: yellow;" countUp [endVal]="LamOutrateEnd" [startVal]="LamOutrateStart" duration="3"
+                [countUp]="options1" [decimals]='2'></span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="ui-g-12 ui-lg-6" style="height:20vh" echarts [options]="lamOutOption" (chartInit)="onLamOutChartInit($event)"></div>
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-12  panel" style="border-image: url('assets/picture/border.png') 5% round;color: aliceblue">
+      <div class="ui-g-5" style="height:40vh;" echarts [options]="chartOptionLeft" (chartInit)="onSnsWipChartInit($event)"></div>
+      <div class="ui-g-2" style="height:40vh;" echarts [options]="chartOptionMiddle" (chartInit)="onBankChartInit($event)"></div>
+      <div class="ui-g-5" style="height:40vh;" echarts [options]="chartOptionRight" (chartInit)="onLamWipChartInit($event)"></div>
+    </div>
+  </div>
+
+</div>

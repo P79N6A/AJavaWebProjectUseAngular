@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.admin.ORoleInfoMapper">
+	
+	<resultMap type="com.boe.idm.project.model.mybatis.RoleInfo" id="RoleInfo_">
+         <result property="desc" column="desc_" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+    
+	<select id="selectAllRole" parameterType="hashmap" resultMap="RoleInfo_">
+		SELECT * from(
+		SELECT row_.*,rownum rownum_
+		FROM(
+			SELECT * FROM sc_a_roleinfo
+			<if test="roleId != null and  roleId != ''">
+				where roleid like #{roleId}
+			</if>
+			order by roleId) row_
+		where rownum &lt;=(#{pageRow}+#{startRow})
+		)
+		WHERE rownum_ &gt;#{startRow}
+	</select>
+	
+	<select id="selectRoleInfo" resultMap="RoleInfo_">
+		SELECT * FROM sc_a_roleinfo order by roleid
+	</select>
+	
+	<select id="selectAvailableRole" resultMap="RoleInfo_">
+		SELECT * FROM sc_a_roleinfo where state='1' order by roleid
+	</select>
+	
+	<update id="updateRoleInfo" parameterType="com.boe.idm.project.model.mybatis.RoleInfo">
+		update sc_a_roleinfo 
+		set desc_=#{desc,jdbcType=VARCHAR},updatetime=#{updateTime},updateUser=#{updateUser,jdbcType=VARCHAR},state=#{state}	
+		 where roleid = #{roleId}
+	</update>
+	
+	<insert id="saveOrUpdate" parameterType="com.boe.idm.project.model.mybatis.RoleInfo">
+ 		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+			    select count(*) as count  from sc_a_roleinfo where roleid = #{roleId}
+			  </selectKey>
+			  <if test="count > 0">
+			    update sc_a_roleinfo 
+				set state=#{state},desc_ =#{desc,jdbcType=VARCHAR},updateuser=#{createUser,jdbcType=VARCHAR},updatetime=#{createTime}	 
+				 where roleid = #{roleId}
+			  </if>
+			  <if test="count==0">
+			    insert into sc_a_roleinfo(state,roleid,desc_,createuser,createtime) values (#{state},#{roleId},#{desc,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{createTime})
+			  </if>
+	</insert>
+	
+	<delete id="deleteRoleInfo" parameterType="com.boe.idm.project.model.mybatis.RoleInfo">
+		delete sc_a_roleinfo where roleid = #{roleId} and roleid != 'admin'
+	</delete>
+	
+	<select id="getAsignedRoleByUserId" resultMap="RoleInfo_">
+		select ri.* from sc_a_roleinfo ri,sc_a_userrolelink ur where ri.roleid=ur.roleid and ur.useraccount=#{userAccount} and ri.state='1'
+	</select>
+	
+	<select id="getTotCount" resultType="int">
+		select count(*) from sc_a_roleinfo 
+		<if test="roleId != null and  roleId != ''">
+			where roleid like #{roleId}
+		</if>
+
+	</select> 
+	
+</mapper>

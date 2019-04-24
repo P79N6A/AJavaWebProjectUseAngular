@@ -1,0 +1,84 @@
+<div style="height:178px;background-image: url('assets/bg3_01.png');background-repeat:no-repeat; 
+background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g-12">
+    <h2 style="color:#F2F6FA;margin-top: 15px;text-align: center">BOEDT数据透明化平台</h2>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-6" style="color:#F2F6FA; margin-left:8%;font-size: 1.2em;font-weight: bold;margin-top: -15px">
+      不良 Top5
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 3%;height:100%;background-image: url('assets/bg3_02.png');
+background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+  <div class="ui-g">
+    <div class="ui-g-4" style="padding: 0px;font-size: 12px">
+      <div class="ui-g">
+        <div class="ui-g-12" style="font-weight: bold;font-size: 14px;color: #F2F6FA;text-align: center">M060 A0 Top5</div>
+        <div class="ui-g-6" style="padding: 0px">
+          <label for="m060A0top5pro" style="color: #F2F6FA">Product:</label>
+          <p-dropdown [options]="m060A0top5dptPro" [style]="{'width':'150px', 'text-align': 'center'}" id="m060A0top5pro"
+            [(ngModel)]="m060A0top5pro" (onChange)="m060A0top5select()"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;padding-top: 5px" [options]="m060A0top5Option"></div>
+    </div>
+    <div class="ui-g-4" style="padding: 0px;font-size: 12px">
+      <div class="ui-g">
+        <div class="ui-g-12" style="font-weight: bold;font-size: 14px;color: #F2F6FA;text-align: center">M069 A0 Top5</div>
+        <div class="ui-g-6" style="padding: 0px">
+          <label for="m069A0top5pro" style="color: #F2F6FA">Product:</label>
+          <p-dropdown [options]="m069A0top5dptPro" [style]="{'width':'150px', 'text-align': 'center'}" id="m069A0top5pro"
+            [(ngModel)]="m069A0top5pro" (onChange)="m069A0top5select()"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;padding-top: 5px" [options]="m069A0top5Option"></div>
+    </div>
+    <div class="ui-g-4" style="padding: 0px;font-size: 12px">
+      <div class="ui-g">
+        <div class="ui-g-12" style="font-weight: bold;font-size: 14px;color: #F2F6FA;text-align: center">M151 A0 Top5</div>
+        <div class="ui-g-6" style="padding: 0px">
+          <label for="m151A0top5pro" style="color: #F2F6FA">Product:</label>
+          <p-dropdown [options]="m151A0top5dptPro" [style]="{'width':'150px', 'text-align': 'center'}" id="m151A0top5pro"
+            [(ngModel)]="m151A0top5pro" (onChange)="m151A0top5select()"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;padding-top: 5px" [options]="m151A0top5Option"></div>
+    </div>
+    <div class="ui-g-4" style="margin-top: 20px;padding: 0px;font-size: 12px">
+      <div class="ui-g">
+        <div class="ui-g-12" style="font-weight: bold;font-size: 14px;color: #F2F6FA;text-align: center">M060 AL Top5</div>
+        <div class="ui-g-6" style="padding: 0px">
+          <label for="m060ALtop5pro" style="color: #F2F6FA">Product:</label>
+          <p-dropdown [options]="m060ALtop5dptPro" [style]="{'width':'150px', 'text-align': 'center'}" id="m060ALtop5pro"
+            [(ngModel)]="m060ALtop5pro" (onChange)="m060ALtop5select()"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;padding-top: 5px" [options]="m060ALtop5Option"></div>
+    </div>
+    <div class="ui-g-4" style="margin-top: 20px;padding: 0px;font-size: 12px">
+      <div class="ui-g">
+        <div class="ui-g-12" style="font-weight: bold;font-size: 14px;color: #F2F6FA;text-align: center">M069 AL Top5</div>
+        <div class="ui-g-6" style="padding: 0px">
+          <label for="m069ALtop5pro" style="color: #F2F6FA">Product:</label>
+          <p-dropdown [options]="m069ALtop5dptPro" [style]="{'width':'150px', 'text-align': 'center'}" id="m069ALtop5pro"
+            [(ngModel)]="m069ALtop5pro" (onChange)="m069ALtop5select()"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;padding-top: 5px" [options]="m069ALtop5Option"></div>
+    </div>
+    <div class="ui-g-4" style="margin-top: 20px;padding: 0px;font-size: 12px">
+      <div class="ui-g">
+        <div class="ui-g-12" style="font-weight: bold;font-size: 14px;color: #F2F6FA;text-align: center">M151 AL Top5</div>
+        <div class="ui-g-6" style="padding: 0px">
+          <label for="m151ALtop5pro" style="color: #F2F6FA">Product:</label>
+          <p-dropdown [options]="m151ALtop5dptPro" [style]="{'width':'150px', 'text-align': 'center'}" id="m151ALtop5pro"
+            [(ngModel)]="m151ALtop5pro" (onChange)="m151ALtop5select()"></p-dropdown>
+        </div>
+      </div>
+      <div echarts style="height: 200px;padding-top: 5px" [options]="m151ALtop5Option"></div>
+    </div>
+  </div>
+</div>
+<div style="height:45px;background-image: url('assets/bg3_03.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>

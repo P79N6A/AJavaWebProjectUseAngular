@@ -1,0 +1,652 @@
+webpackJsonp(["basicinfomaintenance.module"],{
+
+/***/ "./src/app/basicinfomaintenance/basicinfomaintenance-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicinfomaintenanceRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__processinfomaintenance_processinfomaintenance_component__ = __webpack_require__("./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__productmodelinfomaintenance_productmodelinfomaintenance_component__ = __webpack_require__("./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__productmodelrelationinfomaintenance_productmodelrelationinfomaintenance_component__ = __webpack_require__("./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var routes = [
+    {
+        path: 'processinfo',
+        component: __WEBPACK_IMPORTED_MODULE_2__processinfomaintenance_processinfomaintenance_component__["a" /* ProcessinfomaintenanceComponent */],
+        data: {
+            tabLabel: '工序信息维护',
+            destroy: false
+        }
+    },
+    {
+        path: 'productmodel',
+        component: __WEBPACK_IMPORTED_MODULE_3__productmodelinfomaintenance_productmodelinfomaintenance_component__["a" /* ProductmodelinfomaintenanceComponent */],
+        data: {
+            tabLabel: '产品型号维护',
+            destroy: false
+        }
+    },
+    {
+        path: 'productmodelrelation',
+        component: __WEBPACK_IMPORTED_MODULE_4__productmodelrelationinfomaintenance_productmodelrelationinfomaintenance_component__["a" /* ProductmodelrelationinfomaintenanceComponent */],
+        data: {
+            tabLabel: '产品型号对应关系',
+            destroy: false
+        }
+    },
+];
+var BasicinfomaintenanceRoutingModule = /** @class */ (function () {
+    function BasicinfomaintenanceRoutingModule() {
+    }
+    BasicinfomaintenanceRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["RouterModule"]]
+        })
+    ], BasicinfomaintenanceRoutingModule);
+    return BasicinfomaintenanceRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/basicinfomaintenance.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BasicinfomaintenanceModule", function() { return BasicinfomaintenanceModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basicinfomaintenance_routing_module__ = __webpack_require__("./src/app/basicinfomaintenance/basicinfomaintenance-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__processinfomaintenance_processinfomaintenance_component__ = __webpack_require__("./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__productmodelinfomaintenance_productmodelinfomaintenance_component__ = __webpack_require__("./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__productmodelrelationinfomaintenance_productmodelrelationinfomaintenance_component__ = __webpack_require__("./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_button__ = __webpack_require__("./node_modules/primeng/button.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_button___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_button__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_primeng_panel__ = __webpack_require__("./node_modules/primeng/panel.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_primeng_panel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_primeng_panel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_primeng_table__ = __webpack_require__("./node_modules/primeng/table.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_primeng_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_primeng_table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_primeng_dialog__ = __webpack_require__("./node_modules/primeng/dialog.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_primeng_dialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_primeng_dialog__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_primeng_primeng__ = __webpack_require__("./node_modules/primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+var BasicinfomaintenanceModule = /** @class */ (function () {
+    function BasicinfomaintenanceModule() {
+    }
+    BasicinfomaintenanceModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_2__basicinfomaintenance_routing_module__["a" /* BasicinfomaintenanceRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_6_primeng_button__["ButtonModule"],
+                __WEBPACK_IMPORTED_MODULE_7_primeng_panel__["PanelModule"],
+                __WEBPACK_IMPORTED_MODULE_8_primeng_table__["TableModule"],
+                __WEBPACK_IMPORTED_MODULE_9_primeng_dialog__["DialogModule"],
+                __WEBPACK_IMPORTED_MODULE_10_primeng_primeng__["DropdownModule"],
+                __WEBPACK_IMPORTED_MODULE_10_primeng_primeng__["InputTextModule"],
+                __WEBPACK_IMPORTED_MODULE_11__angular_forms__["FormsModule"] // 数据绑定需要用到的模块
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_3__processinfomaintenance_processinfomaintenance_component__["a" /* ProcessinfomaintenanceComponent */], __WEBPACK_IMPORTED_MODULE_4__productmodelinfomaintenance_productmodelinfomaintenance_component__["a" /* ProductmodelinfomaintenanceComponent */], __WEBPACK_IMPORTED_MODULE_5__productmodelrelationinfomaintenance_productmodelrelationinfomaintenance_component__["a" /* ProductmodelrelationinfomaintenanceComponent */]]
+        })
+    ], BasicinfomaintenanceModule);
+    return BasicinfomaintenanceModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/processinfomaintenance/model/BasicInfoItem.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicInfoItem; });
+var BasicInfoItem = /** @class */ (function () {
+    function BasicInfoItem() {
+        this.factory = null;
+        this.oper_code = null;
+        this.oper_name = null;
+        this.operation = null;
+        this.operationdesc = null;
+        this.no = null;
+    }
+    return BasicInfoItem;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{\r\n    -webkit-appearance: none !important;\r\n  }\r\n  \r\n  .setFontSize {\r\n    text-align : center !important;\r\n    font-size: 12px !important;\r\n  }\r\n  \r\n  td {\r\n    padding: 0.4em 0.875em !important;\r\n  }"
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ui-g\">\n  <p-panel>\n    <p-header>\n      <div class=\"ui-g-12\">\n        <h3 style=\"text-align:center;margin: 0px 10px\">工序信息维护界面</h3>\n      </div>\n    </p-header>\n    <div class=\"ui-panel-content\">\n      \n      <div style=\"text-align: right; margin-bottom: 5px\">\n        请选择工厂:\n        <p-dropdown [options]=\"factorys\" (onChange)=\"dtFilter($event.value)\"></p-dropdown>\n      </div>\n\n      <p-table #dt [columns]=\"cols\" [value]=\"infos\" selectionMode=\"single\" [(selection)]=\"selectedInfo\" (onRowSelect)=\"onRowSelect($event)\"\n        [paginator]=\"true\" [rows]=\"18\">\n\n        <ng-template pTemplate=\"header\" let-columns>\n          <tr class=\"setFontSize\">\n            <th *ngFor=\"let col of columns; let i = index;\" [ngStyle]=\"{'width': (i==0 || i==1 || i==3 || i==4 || i==5) ? '14%' : ''}\">\n              {{col.header}}\n            </th>\n          </tr>\n        </ng-template>\n\n        <ng-template pTemplate=\"body\" let-rowData let-columns=\"columns\">\n          <tr [pSelectableRow]=\"rowData\" class=\"setFontSize\">\n            <td *ngFor=\"let col of columns\">\n              {{rowData[col.field]}}\n            </td>\n          </tr>\n        </ng-template>\n\n        <ng-template pTemplate=\"summary\" let-rowData>\n          <div style=\"text-align:left\">\n            <button type=\"button\" pButton icon=\"fa-plus\" (click)=\"showDialogToAdd()\" label=\"Add\"></button>\n          </div>\n        </ng-template>\n\n      </p-table>\n    </div>\n  </p-panel>\n</div>\n\n<p-dialog header=\"Info Details\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\"\n  [width]=\"400\">\n  <div class=\"ui-g ui-fluid\" *ngIf=\"info\">\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"factory\">Factory</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input [disabled]=\"disabled\" pInputText id=\"factory\" [(ngModel)]=\"info.factory\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"oper_code\">Oper_code</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input [disabled]=\"disabled\" pInputText id=\"oper_code\" [(ngModel)]=\"info.oper_code\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"oper_name\">Oper_name</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input [disabled]=\"disabled\" pInputText id=\"oper_name\" [(ngModel)]=\"info.oper_name\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"operation\">Operation</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"operation\" [(ngModel)]=\"info.operation\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"operationdesc\">Operationdesc</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"operationdesc\" [(ngModel)]=\"info.operationdesc\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"no\">No</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"no\" type=\"number\" [(ngModel)]=\"info.no\" placeholder=\"选填(数字)\"/>\n      </div>\n    </div>\n  </div>\n  <p-footer>\n    <div class=\"ui-dialog-buttonpane ui-helper-clearfix\">\n      <button type=\"button\" pButton icon=\"fa fa-close\" *ngIf=\"deleteButton\" (click)=\"delete()\" label=\"Delete\"></button>\n      <button type=\"button\" pButton icon=\"fa fa-check\" (click)=\"save()\" label=\"Save\"></button>\n    </div>\n  </p-footer>\n</p-dialog>"
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProcessinfomaintenanceComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_BasicInfoItem__ = __webpack_require__("./src/app/basicinfomaintenance/processinfomaintenance/model/BasicInfoItem.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ProcessinfomaintenanceComponent = /** @class */ (function () {
+    function ProcessinfomaintenanceComponent(apiService) {
+        this.apiService = apiService;
+        this.info = new __WEBPACK_IMPORTED_MODULE_1__model_BasicInfoItem__["a" /* BasicInfoItem */](); // 对话框中数据
+        this.value = null;
+    }
+    ProcessinfomaintenanceComponent.prototype.ngOnInit = function () {
+        this.init();
+        this.cols = [
+            { field: 'factory', header: 'Factory' },
+            { field: 'oper_code', header: 'Oper Code' },
+            { field: 'oper_name', header: 'Oper Name' },
+            { field: 'operation', header: 'Operation' },
+            { field: 'operationdesc', header: 'Operation Desc' },
+            { field: 'no', header: 'No' }
+        ];
+        this.factorys = [
+            { label: '所有工厂', value: null },
+            { label: 'ARRAY', value: 'ARRAY' },
+            { label: 'CF', value: 'CF' },
+            { label: 'CELL', value: 'CELL' },
+            { label: 'MODULE', value: 'MODULE' },
+            { label: 'S2MODULE', value: 'S2MODULE' }
+        ];
+    };
+    ProcessinfomaintenanceComponent.prototype.init = function () {
+        var _this = this;
+        this.apiService.getAll('/sc/basic/list').subscribe(function (res) {
+            _this.infos = res; // 类型断言
+            _this.backupinfos = res;
+        });
+    };
+    ProcessinfomaintenanceComponent.prototype.initAndFilter = function (data) {
+        var _this = this;
+        this.apiService.getAll('/sc/basic/list').subscribe(function (res) {
+            _this.backupinfos = res;
+            if (data !== null) {
+                _this.infos = _this.backupinfos.filter(function (item) {
+                    return (item.factory === data);
+                });
+            }
+            else {
+                _this.infos = _this.backupinfos;
+            }
+        });
+    };
+    ProcessinfomaintenanceComponent.prototype.dtFilter = function (data) {
+        this.value = data;
+        this.infos = this.backupinfos;
+        if (data != null) {
+            this.infos = this.infos.filter(function (item) {
+                return (item.factory === data);
+            });
+        }
+    };
+    ProcessinfomaintenanceComponent.prototype.showDialogToAdd = function () {
+        this.deleteButton = false;
+        this.disabled = false;
+        this.newInfo = true;
+        this.info = new __WEBPACK_IMPORTED_MODULE_1__model_BasicInfoItem__["a" /* BasicInfoItem */]();
+        this.displayDialog = true;
+    };
+    ProcessinfomaintenanceComponent.prototype.onRowSelect = function (event) {
+        this.deleteButton = true;
+        this.disabled = true;
+        this.newInfo = false;
+        this.info = this.cloneInfo(event.data);
+        this.displayDialog = true;
+    };
+    ProcessinfomaintenanceComponent.prototype.cloneInfo = function (i) {
+        var info = new __WEBPACK_IMPORTED_MODULE_1__model_BasicInfoItem__["a" /* BasicInfoItem */]();
+        // tslint:disable-next-line:forin
+        for (var prop in i) {
+            info[prop] = i[prop];
+        }
+        return info;
+    };
+    ProcessinfomaintenanceComponent.prototype.save = function () {
+        var _this = this;
+        // 如果是新数据就执行插入操作，否则执行更新操作
+        if (this.newInfo) {
+            this.apiService.post('/sc/basic/insert', this.info).subscribe(function (res) {
+                _this.initAndFilter(_this.value);
+            }, function (err) {
+                alert('插入数据失败,请重试！');
+            });
+            this.displayDialog = false;
+        }
+        else {
+            this.apiService.put('/sc/basic/update', this.info).subscribe(function (res) {
+                _this.initAndFilter(_this.value);
+            });
+            this.displayDialog = false;
+        }
+    };
+    ProcessinfomaintenanceComponent.prototype.delete = function () {
+        var _this = this;
+        var deleteConfirm = confirm('确定删除当前的数据吗?');
+        if (deleteConfirm) {
+            var data = { body: this.selectedInfo };
+            this.apiService.delete('/sc/basic/delete', data).subscribe(function (res) {
+                _this.initAndFilter(_this.value);
+            }, function (err) {
+                console.log(err);
+            });
+            this.displayDialog = false;
+        }
+    };
+    ProcessinfomaintenanceComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-processinfomaintenance',
+            template: __webpack_require__("./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.html"),
+            styles: [__webpack_require__("./src/app/basicinfomaintenance/processinfomaintenance/processinfomaintenance.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__["a" /* ApiService */]])
+    ], ProcessinfomaintenanceComponent);
+    return ProcessinfomaintenanceComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelinfomaintenance/model/ScProductInfoItem.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScProductInfoItem; });
+var ScProductInfoItem = /** @class */ (function () {
+    function ScProductInfoItem() {
+        this.factory = null;
+        this.product = null;
+        this.model_type = null;
+        this.cut_number = null;
+        this.line = null;
+        this.productname = null;
+        this.product_size = null;
+    }
+    return ScProductInfoItem;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{\r\n    -webkit-appearance: none !important;\r\n  }\r\n  \r\n  .setFontSize {\r\n    text-align: center !important;\r\n    font-size: 12px !important;\r\n  }\r\n  \r\n  td {\r\n    padding: 0.4em 0.875em !important;\r\n  }\r\n  "
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ui-g\">\n  <p-panel>\n    <p-header>\n      <div class=\"ui-g-12\">\n        <h3 style=\"text-align:center;margin: 0px 10px\">产品型号信息维护界面</h3>\n      </div>\n    </p-header>\n    <div class=\"ui-panel-content\">\n\n      <div style=\"text-align: right; margin-bottom: 5px\">\n        请选择工厂:\n        <p-dropdown [options]=\"factorys\" (onChange)=\"dtFilter($event.value)\"></p-dropdown>\n      </div>\n\n      <p-table #dt [columns]=\"cols\" [value]=\"infos\" selectionMode=\"single\" [(selection)]=\"selectedInfo\" (onRowSelect)=\"onRowSelect($event)\"\n        [paginator]=\"true\" [rows]=\"18\">\n\n        <ng-template pTemplate=\"header\" let-columns>\n          <tr class=\"setFontSize\">\n            <th *ngFor=\"let col of columns\">\n              {{col.header}}\n            </th>\n          </tr>\n        </ng-template>\n\n        <ng-template pTemplate=\"body\" let-rowData let-columns=\"columns\">\n          <tr [pSelectableRow]=\"rowData\" class=\"setFontSize\">\n            <td *ngFor=\"let col of columns\" style=\"text-align:center\">\n              {{rowData[col.field]}}\n            </td>\n          </tr>\n        </ng-template>\n\n        <ng-template pTemplate=\"summary\" let-rowData>\n          <div style=\"text-align:left\">\n            <button type=\"button\" pButton icon=\"fa-plus\" (click)=\"showDialogToAdd()\" label=\"Add\"></button>\n          </div>\n        </ng-template>\n\n      </p-table>\n    </div>\n  </p-panel>\n</div>\n\n<p-dialog header=\"Info Details\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\"\n  [width]=\"400\">\n  <div class=\"ui-g ui-fluid\" *ngIf=\"info\">\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"factory\">Factory</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input [disabled]=\"disabled\" pInputText id=\"factory\" [(ngModel)]=\"info.factory\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"product\">Product</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input [disabled]=\"disabled\" pInputText id=\"product\" [(ngModel)]=\"info.product\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"product\">ProductName</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"productname\" [(ngModel)]=\"info.productname\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"model_type\">Model_type</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"model_type\" [(ngModel)]=\"info.model_type\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"cut_number\">Cut_number</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"cut_number\" type=\"number\" [(ngModel)]=\"info.cut_number\" placeholder=\"选填(数字)\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"line\">Line</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input pInputText id=\"line\" [(ngModel)]=\"info.line\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-4\">\n        <label for=\"product_size\">Product_size</label>\n      </div>\n      <div class=\"ui-g-8\">\n        <input  pInputText id=\"product_size\" [(ngModel)]=\"info.product_size\" placeholder=\"必填\"/>\n      </div>\n    </div>\n  </div>\n  <p-footer>\n    <div class=\"ui-dialog-buttonpane ui-helper-clearfix\">\n      <button type=\"button\" pButton icon=\"fa fa-close\" *ngIf=\"deleteButton\" (click)=\"delete()\" label=\"Delete\"></button>\n      <button type=\"button\" pButton icon=\"fa fa-check\" (click)=\"save()\" label=\"Save\"></button>\n    </div>\n  </p-footer>\n</p-dialog>"
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductmodelinfomaintenanceComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_ScProductInfoItem__ = __webpack_require__("./src/app/basicinfomaintenance/productmodelinfomaintenance/model/ScProductInfoItem.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ProductmodelinfomaintenanceComponent = /** @class */ (function () {
+    function ProductmodelinfomaintenanceComponent(apiService) {
+        this.apiService = apiService;
+        this.info = new __WEBPACK_IMPORTED_MODULE_1__model_ScProductInfoItem__["a" /* ScProductInfoItem */](); // 对话框中数据
+        this.value = null;
+    }
+    ProductmodelinfomaintenanceComponent.prototype.ngOnInit = function () {
+        this.init();
+        this.cols = [
+            { field: 'factory', header: 'Factory' },
+            { field: 'product', header: 'Product' },
+            { field: 'productname', header: 'Product Name' },
+            { field: 'model_type', header: 'Model type' },
+            { field: 'cut_number', header: 'Cut number' },
+            { field: 'line', header: 'Line' },
+            { field: 'product_size', header: 'Product size' },
+        ];
+        this.factorys = [
+            { label: '所有工厂', value: null },
+            { label: 'ARRAY', value: 'ARRAY' },
+            { label: 'CF', value: 'CF' },
+            { label: 'CELL', value: 'CELL' },
+            { label: 'MODULE', value: 'MODULE' }
+        ];
+    };
+    ProductmodelinfomaintenanceComponent.prototype.init = function () {
+        var _this = this;
+        this.apiService.getAll('/sc/scproduct/list').subscribe(function (res) {
+            _this.infos = res; // 类型断言
+            _this.backupinfos = res;
+        });
+    };
+    ProductmodelinfomaintenanceComponent.prototype.showDialogToAdd = function () {
+        this.deleteButton = false;
+        this.disabled = false;
+        this.newInfo = true;
+        this.info = new __WEBPACK_IMPORTED_MODULE_1__model_ScProductInfoItem__["a" /* ScProductInfoItem */]();
+        this.displayDialog = true;
+    };
+    ProductmodelinfomaintenanceComponent.prototype.initAndFilter = function (data) {
+        var _this = this;
+        this.apiService.getAll('/sc/scproduct/list').subscribe(function (res) {
+            _this.backupinfos = res;
+            if (data !== null) {
+                _this.infos = _this.backupinfos.filter(function (item) {
+                    return (item.factory === data);
+                });
+            }
+            else {
+                _this.infos = _this.backupinfos;
+            }
+        });
+    };
+    ProductmodelinfomaintenanceComponent.prototype.dtFilter = function (data) {
+        this.value = data;
+        this.infos = this.backupinfos;
+        if (data != null) {
+            this.infos = this.infos.filter(function (item) {
+                return (item.factory === data);
+            });
+        }
+    };
+    ProductmodelinfomaintenanceComponent.prototype.onRowSelect = function (event) {
+        this.deleteButton = true;
+        this.disabled = true;
+        this.newInfo = false;
+        this.info = this.cloneInfo(event.data);
+        this.displayDialog = true;
+    };
+    ProductmodelinfomaintenanceComponent.prototype.cloneInfo = function (i) {
+        var info = new __WEBPACK_IMPORTED_MODULE_1__model_ScProductInfoItem__["a" /* ScProductInfoItem */]();
+        // tslint:disable-next-line:forin
+        for (var prop in i) {
+            info[prop] = i[prop];
+        }
+        return info;
+    };
+    ProductmodelinfomaintenanceComponent.prototype.save = function () {
+        var _this = this;
+        // 如果是新数据就执行插入操作，否则执行更新操作
+        if (this.newInfo) {
+            this.apiService.post('/sc/scproduct/insert', this.info).subscribe(function (res) {
+                _this.initAndFilter(_this.value);
+            }, function (err) {
+                alert('插入数据失败,请重试！');
+            });
+            this.displayDialog = false;
+        }
+        else {
+            this.apiService.put('/sc/scproduct/update', this.info).subscribe(function (res) {
+                _this.initAndFilter(_this.value);
+            });
+            this.displayDialog = false;
+        }
+    };
+    ProductmodelinfomaintenanceComponent.prototype.delete = function () {
+        var _this = this;
+        var deleteConfirm = confirm('确定删除当前的数据吗?');
+        if (deleteConfirm) {
+            var data = { body: this.selectedInfo };
+            this.apiService.delete('/sc/scproduct/delete', data).subscribe(function (res) {
+                _this.initAndFilter(_this.value);
+            }, function (err) {
+                console.log(err);
+            });
+            this.displayDialog = false;
+        }
+    };
+    ProductmodelinfomaintenanceComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-productmodelinfomaintenance',
+            template: __webpack_require__("./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.html"),
+            styles: [__webpack_require__("./src/app/basicinfomaintenance/productmodelinfomaintenance/productmodelinfomaintenance.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__["a" /* ApiService */]])
+    ], ProductmodelinfomaintenanceComponent);
+    return ProductmodelinfomaintenanceComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/model/SortBankInfoItem.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SortBankInfoItem; });
+var SortBankInfoItem = /** @class */ (function () {
+    function SortBankInfoItem() {
+        this.productname = null;
+        this.arrayproductspecname = null;
+        this.cfproductspecname = null;
+        this.cellproductspecname = null;
+        this.arraymodeltype = null;
+        this.cfmodeltype = null;
+        this.cellmodeltype = null;
+        this.cell_cfproductspecname = null;
+        this.no = null;
+        this.flag = null;
+    }
+    return SortBankInfoItem;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{\r\n    -webkit-appearance: none !important;\r\n  }\r\n  \r\n  .setFontSize {\r\n    text-align: center !important;\r\n    font-size: 12px !important;\r\n  }\r\n  \r\n  td {\r\n    padding: 0.4em 0.875em !important;\r\n  }\r\n  "
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ui-g\">\n  <p-panel class=\"ui-g-12\">\n    <p-header>\n      <div class=\"ui-g-12\">\n        <h3 style=\"text-align:center;margin: 0px 10px\">产品型号对应关系信息维护界面</h3>\n      </div>\n    </p-header>\n    <div class=\"ui-panel-content\">\n\n      <p-table #dt [columns]=\"cols\" [value]=\"infos\" selectionMode=\"single\" [(selection)]=\"selectedInfo\" (onRowSelect)=\"onRowSelect($event)\"\n        [paginator]=\"true\" [rows]=\"18\" [autoLayout] = \"true\">\n\n        <ng-template pTemplate=\"header\" let-columns>\n          <tr class=\"setFontSize\">\n            <th *ngFor=\"let col of columns\">\n              {{col.header}}\n            </th>\n          </tr>\n        </ng-template>\n\n        <ng-template pTemplate=\"body\" let-rowData let-columns=\"columns\">\n          <tr [pSelectableRow]=\"rowData\" class=\"setFontSize\">\n            <td *ngFor=\"let col of columns\">\n              {{rowData[col.field]}}\n            </td>\n          </tr>\n        </ng-template>\n\n        <ng-template pTemplate=\"summary\" let-rowData>\n          <div style=\"text-align:left\">\n            <button type=\"button\" pButton icon=\"fa-plus\" (click)=\"showDialogToAdd()\" label=\"Add\"></button>\n          </div>\n        </ng-template>\n\n      </p-table>\n    </div>\n  </p-panel>\n</div>\n\n<p-dialog header=\"Info Details\" [(visible)]=\"displayDialog\" [responsive]=\"true\" showEffect=\"fade\" [modal]=\"true\"\n  [width]=\"500\">\n  <div class=\"ui-g ui-fluid\" *ngIf=\"info\">\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"productname\">ProductName</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"productname\" [(ngModel)]=\"info.productname\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"arrayproductspecname\">ArrayProductSpecName</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"arrayproductspecname\" [(ngModel)]=\"info.arrayproductspecname\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"cfproductspecname\">CfProductSpecName</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"cfproductspecname\" [(ngModel)]=\"info.cfproductspecname\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"cellproductspecname\">CellProductSpecName</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"cellproductspecname\" [(ngModel)]=\"info.cellproductspecname\" placeholder=\"必填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"arraymodeltype\">ArrayModelType</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"arraymodeltype\" [(ngModel)]=\"info.arraymodeltype\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"cfmodeltype\">CfModelType</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"cfmodeltype\" [(ngModel)]=\"info.cfmodeltype\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"cellmodeltype\">CellModelType</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"cellmodeltype\" [(ngModel)]=\"info.cellmodeltype\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"cell_cfproductspecname\">CellCfProductSpecName</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"cell_cfproductspecname\" [(ngModel)]=\"info.cell_cfproductspecname\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"no\">No</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"no\" [(ngModel)]=\"info.no\" type=\"number\" placeholder=\"选填\"/>\n      </div>\n    </div>\n    <div class=\"ui-g-12\">\n      <div class=\"ui-g-6\">\n        <label for=\"no\">Flag</label>\n      </div>\n      <div class=\"ui-g-6\">\n        <input pInputText id=\"flag\" [(ngModel)]=\"info.flag\" placeholder=\"选填\"/>\n      </div>\n    </div>\n  </div>\n  <p-footer>\n    <div class=\"ui-dialog-buttonpane ui-helper-clearfix\">\n      <button type=\"button\" pButton icon=\"fa fa-close\" *ngIf=\"deleteButton\" (click)=\"delete()\" label=\"Delete\"></button>\n      <button type=\"button\" pButton icon=\"fa fa-check\" (click)=\"save()\" label=\"Save\"></button>\n    </div>\n  </p-footer>\n</p-dialog>"
+
+/***/ }),
+
+/***/ "./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductmodelrelationinfomaintenanceComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_SortBankInfoItem__ = __webpack_require__("./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/model/SortBankInfoItem.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__ = __webpack_require__("./src/app/common/service/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ProductmodelrelationinfomaintenanceComponent = /** @class */ (function () {
+    function ProductmodelrelationinfomaintenanceComponent(apiService) {
+        this.apiService = apiService;
+        this.info = new __WEBPACK_IMPORTED_MODULE_1__model_SortBankInfoItem__["a" /* SortBankInfoItem */](); // 对话框中数据
+    }
+    ProductmodelrelationinfomaintenanceComponent.prototype.ngOnInit = function () {
+        this.init();
+        this.cols = [
+            { field: 'productname', header: 'Product Name' },
+            { field: 'arrayproductspecname', header: 'Array Product' },
+            { field: 'cfproductspecname', header: 'Cf Product' },
+            { field: 'cellproductspecname', header: 'Cell Product' },
+            { field: 'cell_cfproductspecname', header: 'CellCf Product' },
+            { field: 'arraymodeltype', header: 'Array Modeltype' },
+            { field: 'cfmodeltype', header: 'Cf Modeltype' },
+            { field: 'cellmodeltype', header: 'Cell Modeltype' },
+            { field: 'no', header: 'No' },
+            { field: 'flag', header: 'Flag' }
+        ];
+    };
+    ProductmodelrelationinfomaintenanceComponent.prototype.init = function () {
+        var _this = this;
+        this.apiService.getAll('/sc/sortBankBasicInfo/list').subscribe(function (res) {
+            _this.infos = res; // 类型断言
+        });
+    };
+    ProductmodelrelationinfomaintenanceComponent.prototype.showDialogToAdd = function () {
+        this.deleteButton = false;
+        this.newInfo = true;
+        this.info = new __WEBPACK_IMPORTED_MODULE_1__model_SortBankInfoItem__["a" /* SortBankInfoItem */]();
+        this.displayDialog = true;
+    };
+    ProductmodelrelationinfomaintenanceComponent.prototype.onRowSelect = function (event) {
+        this.deleteButton = true;
+        this.newInfo = false;
+        this.info = this.cloneInfo(event.data);
+        this.option = {
+            params: {
+                deleteKey: this.info.cellproductspecname
+            }
+        };
+        this.displayDialog = true;
+    };
+    ProductmodelrelationinfomaintenanceComponent.prototype.cloneInfo = function (i) {
+        var info = new __WEBPACK_IMPORTED_MODULE_1__model_SortBankInfoItem__["a" /* SortBankInfoItem */]();
+        // tslint:disable-next-line:forin
+        for (var prop in i) {
+            info[prop] = i[prop];
+        }
+        return info;
+    };
+    ProductmodelrelationinfomaintenanceComponent.prototype.save = function () {
+        var _this = this;
+        if (this.info.cell_cfproductspecname != null) {
+            // 如果是新数据就执行插入操作，否则执行更新操作
+            if (this.newInfo) {
+                this.apiService.post('/sc/sortBankBasicInfo/insert', this.info).subscribe(function (res) {
+                    _this.init();
+                }, function (err) {
+                    alert('插入数据失败,请重试！');
+                });
+                this.displayDialog = false;
+            }
+            else {
+                this.apiService.putBoth('/sc/sortBankBasicInfo/update', this.info, this.option).subscribe(function (res) {
+                    _this.init();
+                });
+                this.displayDialog = false;
+            }
+        }
+        else {
+            alert("请把必填项填完！");
+        }
+    };
+    ProductmodelrelationinfomaintenanceComponent.prototype.delete = function () {
+        var _this = this;
+        var deleteConfirm = confirm('确定删除当前的数据吗?');
+        if (deleteConfirm) {
+            var data = { body: this.selectedInfo };
+            this.apiService.delete('/sc/sortBankBasicInfo/delete', data).subscribe(function (res) {
+                _this.init();
+            }, function (err) {
+                alert('删除数据失败，请重试！');
+            });
+            this.displayDialog = false;
+        }
+    };
+    ProductmodelrelationinfomaintenanceComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-productmodelrelationinfomaintenance',
+            template: __webpack_require__("./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.html"),
+            styles: [__webpack_require__("./src/app/basicinfomaintenance/productmodelrelationinfomaintenance/productmodelrelationinfomaintenance.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__common_service_api_api_service__["a" /* ApiService */]])
+    ], ProductmodelrelationinfomaintenanceComponent);
+    return ProductmodelrelationinfomaintenanceComponent;
+}());
+
+
+
+/***/ })
+
+});
+//# sourceMappingURL=basicinfomaintenance.module.chunk.js.map

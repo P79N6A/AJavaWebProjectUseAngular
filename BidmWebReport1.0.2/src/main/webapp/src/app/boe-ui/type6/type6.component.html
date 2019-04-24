@@ -1,0 +1,48 @@
+<div>
+  <div class="ui-g-12" style="margin-top:2%;"> 
+      <div>
+          <p-panel>
+          <label for="search" >
+            <strong>date : </strong>
+          </label>
+          <p-calendar [(ngModel)]="searchDate" [showIcon]="true" dateFormat="yy.mm.dd"></p-calendar>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="search" >
+              <strong>产品尺寸 : </strong>
+          </label>
+          <p-dropdown  placeholder="ALL"></p-dropdown>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="search" >
+              <strong>产品型号 :</strong>
+          </label>
+          <p-dropdown placeholder="ALL"></p-dropdown>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button pButton type="button" (click)="initGridValue(searchDate)">查询</button>
+        </p-panel>
+        </div>     
+  </div>
+
+  <div class="ui-g-12" style="align-content: center;text-align: center;">
+  <p-table [value]="gridValues">
+  <ng-template pTemplate="body" let-data>
+    <tr *ngFor="let header of data.header.items">
+      <td *ngFor="let item of header" 
+      [attr.rowspan]="item.rowspan" [attr.colspan]="item.colspan"
+      [ngStyle]="{'background-color': data.header.backgroundColor}">
+        <strong>{{item.header}}</strong>
+      </td>
+    </tr>
+    <tr *ngFor="let value of data.values.items">
+      <td *ngFor="let item of value" 
+      [attr.rowspan]="item.rowspan" [attr.colspan]="item.colspan" >  
+      <label *ngIf="!item.editable">{{item.value}}</label>  
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+</div>
+  
+</div>
+    
+
+

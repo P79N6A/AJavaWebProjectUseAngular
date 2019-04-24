@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boe.idm.project.mapper.primaryOracle.dev.ModuleDaChengRatioMapper">
+
+<!-- 1.查询的方法 -->
+<resultMap id="res" type="ModuleDaChengRatioVO">
+	<result property="type" column="TYPE" ></result>
+	<result property="item" column="ITEM" ></result>
+	<result property="planm" column="PLAN_M" ></result>
+	<result property="planmc" column="PLAN_CUM_M" ></result>
+	<result property="plandc" column="PLAN_CUM_D" ></result>
+	<result property="pland" column="PLAN_D" ></result>
+	<result property="actc" column="ACT_CUM" ></result>
+	<result property="actd" column="ACT_D" ></result>
+	<result property="catchupm" column="CATCH" ></result>
+	<result property="balm" column="BAL_M" ></result>
+	<result property="balmc" column="BAL_CUM_M" ></result>
+	<result property="baldc" column="BAL_CUM_D" ></result>
+	<result property="bald" column="BAL_D" ></result>
+	<result property="ratiom" column="RATIO_M" ></result>
+	<result property="ratiomc" column="RATIO_CUM_M" ></result>
+	<result property="ratiodc" column="RATIO_CUM_D" ></result>
+	<result property="ratio" column="RATIO_D" ></result>
+</resultMap>
+
+<select id="queryObjects" resultMap="res">
+
+select * from SC_REPORT_MOD_INOUT_VW
+</select>
+
+<!-- 2.查询当前remark是否存在  : 查询当前的remark-->
+<select id="queryRemark" resultType="KeyInRemarkVO">
+	select * from Sc_Keyin_Remark
+	where report = 'B4ModuleDachengRatio'
+</select>
+
+<!-- 2.remark写入数据库  :-->
+<insert id="insertRemark">
+	<selectKey keyProperty="numbs" order="BEFORE" resultType="int">
+		select count(*) from Sc_Keyin_Remark
+		where report = 'B4ModuleDachengRatio' and item = #{item}
+	</selectKey>
+	<if test="numbs == 0">
+		insert into Sc_Keyin_Remark(datename,report,item,remark,interfacetime)
+		values (to_char(sysdate,'yyyy/mm/dd'),'B4ModuleDachengRatio',#{item},#{remark},sysdate)
+	</if>
+	<if test="numbs != 0">
+		update Sc_Keyin_Remark set remark = #{remark},interfacetime = sysdate
+		where report = 'B4ModuleDachengRatio' and item = #{item}
+	</if>
+	
+</insert>
+
+<!-- 3.删除数据的方法 :没用到 -->
+<delete id="deleteRemark">
+	delete from Sc_Keyin_Remark
+	where report = 'B4ModuleDachengRatio'
+		and item = #{item}
+</delete>
+
+<!-- 4.更新对象的方法  ： 没用到-->
+<update id="updateRemark">
+	update Sc_Keyin_Remark set remark = #{remark},interfacetime = sysdate
+	where report = 'B4ModuleDachengRatio' and item = #{item}
+</update>
+
+
+<!-- 5.向数据库中写入计划 -->
+<insert id="insertPlan" parameterType="java.util.List">
+insert into sc_keyin_plan(factory,datename,item,qty,owner,interfacetime)
+select aaa.* from (
+	<foreach collection="datas" item="moduleplan" index="index"  separator="union all">
+		(
+		select 
+			#{moduleplan.factory,jdbcType=VARCHAR},
+			#{moduleplan.datename,jdbcType=VARCHAR},
+			#{moduleplan.item,jdbcType=VARCHAR},
+			#{moduleplan.qty,jdbcType=VARCHAR},
+			#{moduleplan.owner,jdbcType=VARCHAR},
+			sysdate
+		from dual
+		)
+	</foreach>
+	)aaa
+</insert>
+</mapper>

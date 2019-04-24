@@ -1,0 +1,152 @@
+<div class="ui-g pageContent">
+  <div class="ui-g-12" id="titleDiv">
+    <h2>检查岗透明化展示</h2>
+  </div>
+  <div class="ui-g-12" id="contentDiv">
+    <div class="ui-g-12">
+      <div class="ui-lg-6 ui-g-12" style="height:50vh;padding:1vw;">
+        <div class="chartDiv" id="qualityPieChart" echarts theme="macarons" [options]="qualityPieOption" [loading]="isQualityPieLoading"
+          (chartClick)="pieClick($event,'quality')"></div>
+      </div>
+      <div class="ui-lg-6 ui-g-12" style="height:50vh;padding:1vw;">
+        <div class="chartDiv" id="quantityPieChart" echarts theme="macarons" [options]="quantityPieOption" [loading]="isQuantityPieLoading"
+          (chartClick)="pieClick($event,'quantity')"></div>
+      </div>
+    </div>
+    <div class='ui-g-12' style="border-top:2px solid #5e6e7c;">
+      <p-toolbar>
+        <div class="ui-toolbar-group-left">
+          星别：
+          <p-dropdown [options]="searchStars" [(ngModel)]="searchStar" (onChange)="initDetail()"></p-dropdown>&nbsp;&nbsp; 科室：
+          <p-dropdown [options]="searchGroups" [(ngModel)]="searchGroup" (onChange)="updateSearchShifts()"></p-dropdown>&nbsp;&nbsp; 班别：
+          <p-dropdown [options]="searchShifts" [(ngModel)]="searchShift" (onChange)="updateSearchWorkShifts()"></p-dropdown>&nbsp;&nbsp; 组别：
+          <p-dropdown [options]="searchWorkShifts" [(ngModel)]="searchWorkShift" (onChange)="initDetail()"></p-dropdown>&nbsp;&nbsp;|
+        </div>
+        <div class="ui-toolbar-group-right">
+          <p-button label="查询" icon="fa fa-search" (onClick)="initDetail()"></p-button>
+        </div>
+      </p-toolbar>
+      <p-tabView id="tabView">
+        <p-tabPanel header="产能数据">
+          <div class="ui-g">
+
+            <div class="ui-g-12" id="topQty" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  From:
+                  <p-calendar [showIcon]="true" [(ngModel)]="qualityTopStart" [minDate]="thirtyDaysAgo" [maxDate]="today"></p-calendar>&nbsp;&nbsp;&nbsp; To:
+                  <p-calendar [showIcon]="true" [(ngModel)]="qualityTopEnd" [minDate]="qualityTopStart" [maxDate]="today"></p-calendar>
+                </div>
+                <div class="ui-toolbar-group-right">
+                  <p-button label="" icon="fa fa-search" (onClick)="setFiViTopOption()"></p-button>
+                </div>
+              </p-toolbar>
+              <div class="ui-lg-6 ui-g-12" style="height:36vh;" echarts theme="shine" [options]="fiTopOption" [loading]="isFiTopChartLoading"></div>
+              <div class="ui-lg-6 ui-g-12" style="height:36vh;" echarts theme="shine" [options]="viTopOption" [loading]="isViTopChartLoading"></div>
+            </div>
+
+            <div class="ui-g-12" id="" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  From:
+                  <p-calendar [showIcon]="true" [(ngModel)]="productCapacityStart" [minDate]="thirtyDaysAgo" [maxDate]="today"></p-calendar>&nbsp;&nbsp;&nbsp; To:
+                  <p-calendar [showIcon]="true" [(ngModel)]="productCapacityEnd" [minDate]="productCapacityStart" [maxDate]="today"></p-calendar>
+                </div>
+                <div class="ui-toolbar-group-right">
+                  <p-button label="" icon="fa fa-search" (onClick)="setProductCapacityOption()"></p-button>
+                </div>
+              </p-toolbar>
+              <div class="ui-lg-6 ui-g-12" style="height:50vh;" echarts theme="shine" [options]="fiProductCapacityOption" [loading]="isFiProductCapacityLoading"></div>
+              <div class="ui-lg-6 ui-g-12" style="height:50vh;" echarts theme="shine" [options]="viProductCapacityOption" [loading]="isViProductCapacityLoading"></div>
+            </div>
+
+            <div class="ui-g-12" id="" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  请选择日期:
+                  <p-calendar [showIcon]="true" [(ngModel)]="hourCapacitySearchTime" [minDate]="thirtyDaysAgo" [maxDate]="yesterday"></p-calendar>&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="ui-toolbar-group-right">
+                  <p-button label="" icon="fa fa-search" (onClick)="setHourCapacityOption()"></p-button>
+                </div>
+              </p-toolbar>
+              <div class="ui-lg-6 ui-g-12" style="height:40vh;" echarts theme="shine" [options]="fiHourCapacityOption" [loading]="isFiHourCapacityLoading"></div>
+              <div class="ui-lg-6 ui-g-12" style="height:40vh;" echarts theme="shine" [options]="viHourCapacityOption" [loading]="isViHourCapacityLoading"></div>
+            </div>
+
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="品质数据">
+          <div class="ui-g">
+
+            <div class="ui-g-5" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  From:
+                  <p-calendar [showIcon]="true" [(ngModel)]="defectPictureStart" [minDate]="thirtyDaysAgo" [maxDate]="today"></p-calendar>&nbsp;&nbsp;&nbsp; To:
+                  <p-calendar [showIcon]="true" [(ngModel)]="defectPictureEnd" [minDate]="defectPictureStart" [maxDate]="today"></p-calendar>
+                </div>
+                <div class="ui-toolbar-group-right">
+                  <p-button label="" icon="fa fa-search" (onClick)="setDefectPictureOption()"></p-button>
+                </div>
+              </p-toolbar>
+              <div class="ui-g-12" style="height:50vh;" echarts theme="shine" [options]="defectPictureOption" [loading]="isDefectPictureLoading"></div>
+            </div>
+            <div class="ui-g-7" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  From:
+                  <p-calendar [showIcon]="true" [(ngModel)]="defectProductStart" [minDate]="thirtyDaysAgo" [maxDate]="today"></p-calendar>&nbsp;&nbsp;&nbsp; To:
+                  <p-calendar [showIcon]="true" [(ngModel)]="defectProductEnd" [minDate]="defectProductStart" [maxDate]="today"></p-calendar>
+                </div>
+                <div class="ui-toolbar-group-right">
+                  <p-button label="" icon="fa fa-search" (onClick)="setDefectProductOption()"></p-button>
+                </div>
+              </p-toolbar>
+              <div class="ui-g-12" style="height:50vh;" echarts theme="shine" [options]="defectProductOption" [loading]="isDefectProductLoading"></div>
+            </div>
+
+            <div class="ui-g-12">
+              <div class="ui-g-6" style="border:2px solid rgba(0, 0, 0, 0.315);">
+                <p-toolbar [style]="{'height':'6vh','margin':0}">
+                  <div class="ui-toolbar-group-left">
+                    From:
+                    <p-calendar [showIcon]="true" [(ngModel)]="defectQtyStart" [minDate]="thirtyDaysAgo" [maxDate]="today"></p-calendar>&nbsp;&nbsp;&nbsp; To:
+                    <p-calendar [showIcon]="true" [(ngModel)]="defectQtyEnd" [minDate]="defectQtyStart" [maxDate]="today"></p-calendar>
+                  </div>
+                  <div class="ui-toolbar-group-right">
+                    <p-button label="" icon="fa fa-search" (onClick)="setDefectQtyOption()"></p-button>
+                  </div>
+                </p-toolbar>
+                <div class="ui-g-12" style="height:40vh;" echarts theme="shine" [options]="defectQtyOption" [loading]="isDefectQtyLoading"></div>
+              </div>
+
+              <div class="ui-g-6" style="border:2px solid rgba(0, 0, 0, 0.315);height:100%;"echarts theme="shine" [options]="ppmOption" [loading]="isPpmLoading"></div>
+            </div>
+
+            <div class="ui-g-6" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  请选择产品:
+                  <p-dropdown [options]="lotNgProductList" [(ngModel)]="lotNgProduc" (onChange)="setLotNgOption()"></p-dropdown>
+                </div>
+              </p-toolbar>
+              <div class="ui-g-12" style="height:50vh;" echarts theme="shine" [options]="lotNgOption" [loading]="isLotNgLoading"></div>
+            </div>
+
+            <div class="ui-g-6" style="border:2px solid rgba(0, 0, 0, 0.315);">
+              <p-toolbar [style]="{'height':'6vh','margin':0}">
+                <div class="ui-toolbar-group-left">
+                  请选择不良:
+                  <p-dropdown [options]="rtPictureList" [(ngModel)]="rtPicture" (onChange)="setRtPictureOption()"></p-dropdown>
+                </div>
+              </p-toolbar>
+              <div class="ui-g-12" style="height:50vh;" echarts theme="shine" [options]="rtPictureOption" [loading]="isRtPictureLoading"></div>
+            </div>
+
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>

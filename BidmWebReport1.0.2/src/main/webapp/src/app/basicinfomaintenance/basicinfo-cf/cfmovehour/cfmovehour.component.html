@@ -1,0 +1,116 @@
+<div class="ui-g">
+  <p-panel class="ui-g-12">
+    <p-header >
+      <h3 style="text-align: center;margin: 0">CF MOVE 小时段基础信息维护表</h3>
+    </p-header>
+    <div class="ui-panel-content">
+      <p-table [value]="data" [paginator]="true" [rows]="14">
+        <ng-template pTemplate="header">
+          <tr>
+            <th width="80px">No.</th>
+            <th width="80px">Factory</th>
+            <th>Product</th>
+            <th>ProductName</th>
+            <th>ModelType</th>
+            <th>Flag</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowdata > 
+          <tr class="data">
+            <td>{{rowdata.rownum}}</td>
+            <td>{{rowdata.factory}}</td>
+            <td>{{rowdata.product}}</td>
+            <!-- <td>{{rowdata.productname}}</td> -->
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input type="text" pInputText [(ngModel)]="rowdata.productname">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowdata.productname}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <!-- <td>{{rowdata.modeltype}}</td> -->
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input type="text" pInputText [(ngModel)]="rowdata.modeltype">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowdata.modeltype}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <!-- <td>{{rowdata.flag}}</td> -->
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input type="text" pInputText [(ngModel)]="rowdata.flag">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowdata.flag}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td style="text-align:center;padding: 3px 0">
+              <button *ngIf="!isediting || rowindex != rowdata.rownum"  pButton type="button" label="更新" icon="fa fa-pencil" iconPos="left" class="ui-button-info" (click)="updateone(rowdata)"></button>
+              <button *ngIf="isediting && rowindex == rowdata.rownum"   pButton type="button" label="确认" icon="fa fa-check" iconPos="left" class="ui-button-success" (click)="confirmupdate(rowdata)"></button>
+              <button *ngIf="isediting && rowindex == rowdata.rownum"   pButton type="button" label="取消" icon="fa fa-times" iconPos="left" class="ui-button-danger" (click)="cancelupdate(rowdata)"></button>
+            </td>
+            <td style="padding:3px 3px">
+              <button pButton type="button" label="删除" icon="fa fa-close" iconPos="left" class="ui-button-danger" (click)="deleteOne(rowdata)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <button pButton type="button" label="Add" icon="fa fa-plus" iconPos="left" (click)="addOne()"></button>
+    </div>
+  </p-panel>
+</div>
+
+<!--1.下面是一个 添加时候弹出来的对话框-->
+<p-dialog header="Info Details" [(visible)]="isadd" [width]='400'>
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label>Factory:</label> </div>
+      <div class="ui-g-8">
+        <input type="text" pInputText [(ngModel)]="newObject.factory" placeholder="必填">
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4"><label>Product:</label></div>
+      <div class="ui-g-8">
+        <input type="text" pInputText [(ngModel)]="newObject.product" placeholder="必填">
+      </div>
+    </div>
+    <div class="ui-g-12">
+        <div class="ui-g-4"><label>ProductName:</label></div>
+        <div class="ui-g-8">
+          <input type="text" pInputText [(ngModel)]="newObject.productname" placeholder="必填">
+        </div>
+    </div>
+    <div class="ui-g-12">
+        <div class="ui-g-4"><label>ModelType:</label></div>
+        <div class="ui-g-8">
+          <input type="text" pInputText [(ngModel)]="newObject.modeltype" placeholder="必填">
+        </div>
+    </div>
+    <div class="ui-g-12">
+        <div class="ui-g-4"><label>Flag:</label></div>
+        <div class="ui-g-8">
+          <input type="text" pInputText [(ngModel)]="newObject.flag" placeholder="选填">
+        </div>
+      </div>
+  </div>
+
+  <p-footer>
+      <p-button type="button" label="Save" icon="fa fa-check" (click)="confirmAdd()"></p-button> <!-- 确定添加的方法-->
+      <p-button type="button" label="Cancel" icon="fa fa-close" (click)="cancelAdd()"></p-button> <!-- 取消添加的方法-->
+  </p-footer>
+</p-dialog>
+
+<!--2.删除的二次确认弹窗-->
+<p-confirmDialog></p-confirmDialog>
